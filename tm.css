@@ -1,0 +1,35 @@
+svg {
+  background-color: #FFF;
+  outline-color: #000;
+  outline-style: solid;
+  outline-width: thin;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.node {
+  stroke: #000;
+  stroke-width: 1.5px;
+  fill: #fff;
+}
+
+.node .selected {
+  stroke: blue;
+}
+
+.link {
+  stroke: #999;
+}
+
+.brush .extent {
+  fill-opacity: .1;
+  shape-rendering: crispEdges;
+}
+
+.hidden {
+  opacity: 0;
+}

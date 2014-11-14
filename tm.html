@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>A Simple Turing Machine Editor</title>
+<link href="tm.css" rel="stylesheet" type="text/css">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="tmdisplay.js"></script>
+<script src="machine.js"></script>
+<script> 
+var width = 1260,
+    height = 700;
+var graph = {
+  "nodes": [{
+    "x": 300,
+    "y": 300
+  },
+  {
+    "x": 200,
+    "y": 200
+  }],
+  "links": [{
+    "source": 0,
+    "target": 1
+  }]
+};
+var currX = 100;
+var machine = buildMachine(graph);
+var gui;
+
+function buildGUI() {
+  gui = setupGUI(width, height, ".gui", machine);
+}
+
+function addNode() {
+  machine.addNode({
+      "x": currX,
+      "y": 100
+    });
+  gui.updateGraph(machine);
+  currX += 100;
+  if(currX > width) currX = 100;
+}
+
+function deleteSelected() {
+  var selected = gui.getSelected();
+  selected.forEach(function(d) { machine.deleteNode(d); });
+  gui.updateGraph(machine);
+}
+</script>
+<body onLoad="buildGUI()">
+<div class="menu">
+  <button type="button" onClick="addNode()">Add New State</button>
+  <button type="button" onClick="deleteSelected()">Delete Selected</button>
+</div>
+<div class="gui"></div>
+</body>
+</html>
