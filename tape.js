@@ -41,7 +41,7 @@ function Tape (start_string, start_position) {
         tape = tape + BLANK;
       }
     },
-    toString() {
+    toString: function toString() {
       return tape;
     }
   };
