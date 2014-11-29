@@ -11,6 +11,49 @@ svg {
   user-select: none;
 }
 
+path.double {
+  stroke: #999;
+}
+
+path {
+  stroke: #000;
+  stroke-width: 4px;
+  cursor: default;
+}
+
+text {
+	text-anchor: middle;
+	pointer-events: none;
+  dominant-baseline: middle;
+  alignment-baseline: middle;
+  stroke-width: 0px;
+  fill: #000;
+}
+
+.fileInput {
+  display: none;
+}
+
+circle.inner {
+  opacity: 0;
+}
+
+.accept circle.inner {
+  opacity: 1;
+}
+
+.accept circle.outer {
+  fill: #0f0;
+}
+
+.reject circle.inner {
+  opacity: 1;
+}
+
+.reject circle.outer {
+  fill: #f00;
+}
+
 .node {
   stroke: #000;
   stroke-width: 1.5px;
