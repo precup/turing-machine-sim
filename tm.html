@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="utf-8">
 <title>A Simple Turing Machine Editor</title>
-<link href="tm.css" rel="stylesheet" type="text/css">
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="tmdisplay.js"></script>
-<script src="machine.js"></script>
+<link href="./A Simple Turing Machine Editor_files/tm.css" rel="stylesheet" type="text/css">
+<script src="./A Simple Turing Machine Editor_files/d3.v3.min.js"></script>
+<script src="./A Simple Turing Machine Editor_files/tmdisplay.js"></script>
+<script src="./A Simple Turing Machine Editor_files/machine.js"></script>
+<script src="./A Simple Turing Machine Editor_files/download.js"></script>
 <script> 
 var width = 1260,
     height = 700;
@@ -45,12 +46,53 @@ function deleteSelected() {
   selected.forEach(function(d) { machine.deleteNode(d); });
   gui.updateGraph(machine);
 }
+
+function load(json) {
+  machine.setData(JSON.parse(json));
+  gui.updateGraph(machine);
+}
+
+function loadString() {
+  var json = prompt("Please enter the JSON for a Turing Machine:");
+  if(json != null)
+    load(json);
+}
+
+function loadFile() {
+  var files = document.getElementById("fileInput").files;
+  if(files.length < 1) return;
+  var file = files[0];
+  var reader = new FileReader();
+
+  reader.onload = function(e) {
+    load(reader.result);
+  }
+
+  reader.readAsText(file);
+}
+
+function openFileInput() {
+  if (window.File) {
+    document.getElementById("fileInput").click();
+  } else {
+    alert("Sorry, your browser doesn't support the File API. Please load from a string instead.");
+  }
+}
 </script>
-<body onLoad="buildGUI()">
+</head><body onload="buildGUI()">
 <div class="menu">
-  <button type="button" onClick="addNode()">Add New State</button>
-  <button type="button" onClick="deleteSelected()">Delete Selected</button>
+  <button type="button" onclick="addNode()">Add New State</button>
+  <button type="button" onclick="deleteSelected()">Delete Selected</button>
+  <button type="button" onclick="downloadAsJson(machine.getSaveData(), 'tm.json')">Download as JSON</button>
+  <!--
+  TODO: This currently isn't working. The issue appears to be that stylesheets aren't taken into account, 
+  but I'm not sure how to fix that. document.styleSheets doesn't seem to be scraping the css properly.
+  <button type="button" onclick="downloadAsPng(d3.select('svg'))">Download as PNG</button>
+  -->
+  <input class="fileInput" id="fileInput" type="file" onchange="loadFile();">
+  <button type="button" onclick="openFileInput()">Load from JSON file</button>
+  <button type="button" onclick="loadString()">Load from JSON string</button>
 </div>
 <div class="gui"></div>
-</body>
-</html>
+
+</body></html>
