@@ -89,11 +89,11 @@ var setupGUI = function (width, height, element, machine) {
   var lineFunction = function(data) {
     if(data[0].x == data[1].x && data[0].y == data[1].y) {
       return curvedLineFunction([
-        data[0],
-        { x: data[0].x - 50, y: data[0].y + 30 },
-        { x: data[0].x - 70, y: data[0].y },
-        { x: data[0].x - 50, y: data[0].y - 30 },
-        data[1]
+        { x: data[0].x, y: data[0].y },
+        { x: data[0].x + 50, y: data[0].y - 40 },
+        { x: data[0].x + 70, y: data[0].y },
+        { x: data[0].x + 50, y: data[0].y + 40 },
+        { x: data[0].x, y: data[0].y },
       ]);
     } else {
       return straightLineFunction(data);
@@ -105,9 +105,13 @@ var setupGUI = function (width, height, element, machine) {
   function _update() {
     graph = machine.getData();
     
-    /*startLine.attr("d", function(d) { 
-        return lineFunction(mouseData)})
-      .classed("hidden", typeof myVar === 'undefined');*/
+    startLine.attr("d", function(d) { 
+        if(graph.start == null) return "";
+        return lineFunction([
+          { x: graph.start.x - 60, y: graph.start.y },
+          { x: graph.start.x, y: graph.start.y }
+        ])})
+      .classed("hidden", graph.start == null);
     
     var links = link.selectAll("path")
       .data(graph.links, function(d) { return d.source.index + " " + d.target.index; });
@@ -142,6 +146,8 @@ var setupGUI = function (width, height, element, machine) {
     nodeGroup.append("text");
           
     nodes.classed("selected", function(d) { return d.selected; })
+      .classed("accept", function(d) { return d.accept; })
+      .classed("reject", function(d) { return d.reject; })
       .select("circle.inner")
       .attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; });
@@ -228,6 +234,14 @@ var setupGUI = function (width, height, element, machine) {
             { x: d.source.x, y: d.source.y },
             { x: d.target.x, y: d.target.y }
           ])});
+    
+    startLine.attr("d", function(d) { 
+        if(graph.start == null) return "";
+        return lineFunction([
+          { x: graph.start.x - 60, y: graph.start.y },
+          { x: graph.start.x, y: graph.start.y }
+        ])})
+      .classed("hidden", graph.start == null);
   }
 
   function keydown() {
