@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="utf-8">
 <title>A Simple Turing Machine Editor</title>
-<link href="./A Simple Turing Machine Editor_files/tm.css" rel="stylesheet" type="text/css">
-<script src="./A Simple Turing Machine Editor_files/d3.v3.min.js"></script>
-<script src="./A Simple Turing Machine Editor_files/tmdisplay.js"></script>
-<script src="./A Simple Turing Machine Editor_files/machine.js"></script>
-<script src="./A Simple Turing Machine Editor_files/download.js"></script>
+<link href="tm.css" rel="stylesheet" type="text/css">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="tmdisplay.js"></script>
+<script src="machine.js"></script>
+<script src="download.js"></script>
 <script> 
 var width = 1260,
     height = 700;
@@ -71,6 +71,16 @@ function loadFile() {
   reader.readAsText(file);
 }
 
+function setState(accept, reject) {
+  machine.setState(accept, reject);
+  gui.updateGraph(machine);
+}
+
+function setStart() {
+  machine.setStart();
+  gui.updateGraph(machine);
+}
+
 function openFileInput() {
   if (window.File) {
     document.getElementById("fileInput").click();
@@ -83,6 +93,10 @@ function openFileInput() {
 <div class="menu">
   <button type="button" onclick="addNode()">Add New State</button>
   <button type="button" onclick="deleteSelected()">Delete Selected</button>
+  <button type="button" onclick="setState(true, false)">Set as Accepting</button>
+  <button type="button" onclick="setState(false, true)">Set as Rejecting</button>
+  <button type="button" onclick="setState(false, false)">Set as Neither</button>
+  <button type="button" onclick="setStart()">Set as Start</button>
   <button type="button" onclick="downloadAsJson(machine.getSaveData(), 'tm.json')">Download as JSON</button>
   <!--
   TODO: This currently isn't working. The issue appears to be that stylesheets aren't taken into account, 
