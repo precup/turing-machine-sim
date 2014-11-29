@@ -11,6 +11,17 @@ var buildMachine = function (dataArg) {
   
   var machine = {
     data: dataArg,
+    setState: function (accept, reject) {
+      machine.data.nodes.filter(function(d) { return d.selected; })
+        .forEach(function(d) {
+          d.reject = reject;
+          d.accept = accept;
+        });
+    },
+    setStart: function () {
+      var allSelected = machine.data.nodes.filter(function(d) { return d.selected; });
+      machine.data.start = allSelected.length == 0 ? null : allSelected[0];
+    },
     findNode: function (index) {
       for(var i = 0; i < machine.data.nodes.length; i++) {
         if(machine.data.nodes[i].index == index) {
@@ -33,6 +44,7 @@ var buildMachine = function (dataArg) {
         d.source = machine.data.nodes[machine.findNode(d.source)]; 
         d.target = machine.data.nodes[machine.findNode(d.target)]; 
       });
+      machine.data.start = machine.data.nodes[machine.findNode(machine.data.start)];
       nodeNum = 0;
       machine.data.nodes.forEach(function (d) { 
         nodeNum = Math.max(nodeNum, d.index + 1);
@@ -44,6 +56,7 @@ var buildMachine = function (dataArg) {
         link.source = link.source.index;
         link.target = link.target.index;
       });
+      saveData.start = saveData.start.index;
       return saveData;
     },
     getData: function() {
