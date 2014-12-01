@@ -20,11 +20,11 @@ function Emulator(graph, input) {
   function getTransitions(node) { // returns the transitions with the node as the source
     var transitions = {};
     machine.links.forEach(function findTransitions(element, index, array) {
-      if(element.source === node) {
+      if(element.source.index.toString() === node) { // A little convoluted, but should work
         element.transitions.forEach(function addTransitions(elem, idx, arr) {
           var move = {
             character: elem.toChar,
-            node: element.target,
+            node: element.target.index.toString(),
             direction: elem.direction
           }
           transitions[elem.fromChar] = move;
@@ -38,10 +38,8 @@ function Emulator(graph, input) {
     if (terminated) return false;
 
     var currentChar = tape.read();
-    // console.log(currentChar);
+
     var transitions = getTransitions(currentNode.toString());
-    // console.log(transitions);
-    // console.log(machine);
 
     var move = transitions[currentChar];
     if(move === undefined) {

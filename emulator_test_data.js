@@ -42,6 +42,7 @@ var test1 = {
 }
 
 var graph1 = {
+  start: 0,
   nodes: [{
     x: 0,
     y: 0
