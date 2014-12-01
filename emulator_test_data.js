@@ -9,7 +9,7 @@
 
 function testHarness(graph, tests) {
   Object.keys(tests).forEach(function runTest(element, index, array) {
-    var em = new Emulator(graph, element, 0);
+    var em = new Emulator(graph, element);
     em.run();
     console.log(element);
     console.log("Result: ", em.getTape(), " Expected: ", tests[element].result);

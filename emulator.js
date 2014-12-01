@@ -7,11 +7,12 @@ BLANK = "☐";
  * with key as the “fromChar” and value as a JS object with “fromChar”, 
  * “direction” and “target” (node).
  */
-function Emulator(graph, input, startingNode) {
+function Emulator(graph, input) {
   var machine = graph;
-  var currentNode = startingNode; // TODO: How to get starting state?
+  var currentNode = graph.start;
   var tape = new Tape(input, 0);
   var terminated = false;
+  var accepted = false;
   
   // Collects all links for the node specified, returns a 
   // map with each key as a valid transition from the
@@ -52,15 +53,23 @@ function Emulator(graph, input, startingNode) {
     tape.write(move.character);
     currentNode = move.node;
     move.direction === true ? tape.moveRight() : tape.moveLeft();
+    if(currentNode.accept || currentNode.reject) {
+      accepted = currentNode.accept;
+      return false;
+    }
     return true;
   }
 
   return {
     run: function run() { // TODO: A limit should be set on the number of iterations
       while(_step()) {}
+      return accepted;
     },
     step: function step() { // returns false if the machine has terminated
       return _step();
+    },
+    getAccepted: function getAccepted() {
+      return accepted;
     },
     getTape: function getTape() {
       return tape.toString();

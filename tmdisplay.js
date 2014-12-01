@@ -1,5 +1,5 @@
 var setupGUI = function (width, height, element, machine) {
-  var nodeRadius = 30, innerRadius = 24, shiftKey, ctrlKey, linkStart, mouseData;
+  var nodeRadius = 30, innerRadius = 24, shiftKey, ctrlKey, linkStart, mouseData, BIDIRECTIONAL_OFFSET = 8;
     
   d3.select("body")
       .on("keydown.brush", keydown)
@@ -11,39 +11,10 @@ var setupGUI = function (width, height, element, machine) {
       .attr("width", width)
       .attr("height", height);
       
-  svg.append('svg:defs').append('svg:marker')
-      .attr('id', 'end-arrow')
-      .attr('viewBox', '0 -50 100 100')
-      .attr('refX', 36)
-      .attr('markerWidth', 30)
-      .attr('markerHeight', 30)
-      .attr('orient', 'auto')
-    .append('svg:path')
-      .attr('d', 'M 0,-5 L 10,0 L 0,5 z')
-      .attr('fill', 'black');
-      
-  svg.append('svg:defs').append('svg:marker')
-      .attr('id', 'light-arrow')
-      .attr('viewBox', '0 -50 100 100')
-      .attr('refX', 36)
-      .attr('markerWidth', 30)
-      .attr('markerHeight', 30)
-      .attr('orient', 'auto')
-    .append('svg:path')
-      .classed("double", true)
-      .attr('d', 'M 0,-5 L 10,0 L 0,5 z')
-      .attr('fill', '#999');
-      
-  svg.append('svg:defs').append('svg:marker')
-      .attr('id', 'mouse-arrow')
-      .attr('viewBox', '0 -50 100 100')
-      .attr('refX', 13)
-      .attr('markerWidth', 30)
-      .attr('markerHeight', 30)
-      .attr('orient', 'auto')
-    .append('svg:path')
-      .attr('d', 'M 0,-5 L 10,0 L 0,5 z')
-      .attr('fill', 'black');
+  buildMarker('end-arrow', 36, 'black');
+  buildMarker('light-arrow', 36, '#999')
+    .classed("double", true);
+  buildMarker('mouse-arrow', 13, 'black');
 
   var link = svg.append("g")
       .attr("class", "link");
@@ -54,6 +25,9 @@ var setupGUI = function (width, height, element, machine) {
           })
         .attr("fill", "none")
         .classed('double', machine.areLinked(linkStart, linkStart));
+  var mouseBiLine = svg.append("path").classed("hidden", true)
+        .style('marker-end', 'url(#end-arrow)')
+        .attr("fill", "none");
   
   var startLine = svg.append("path").classed("hidden", true)
         .style('marker-end', 'url(#end-arrow)')
@@ -120,11 +94,15 @@ var setupGUI = function (width, height, element, machine) {
         .style('marker-end', 'url(#end-arrow)')
         .attr("fill", "none");
         
-    links.attr("d", function(d) { 
-        return lineFunction([
-          { x: d.source.x, y: d.source.y },
-          { x: d.target.x, y: d.target.y }
-        ])})
+    links.attr("d", function(d) {
+        var startPoint = { x: d.source.x, y: d.source.y };
+        var endPoint = { x: d.target.x, y: d.target.y };
+        if(d.target.index != d.source.index && machine.areLinked(d.target.index, d.source.index)) {
+          startPoint = offsetPoint(startPoint, d.source, d.target, BIDIRECTIONAL_OFFSET);
+          endPoint = offsetPoint(endPoint, d.source, d.target, BIDIRECTIONAL_OFFSET);
+        }
+        return lineFunction([startPoint, endPoint]);
+      })
         
     links.exit().remove();
 
@@ -186,22 +164,41 @@ var setupGUI = function (width, height, element, machine) {
           }
         }
       })
-      .on("mousemove", function(d) {
+      .on("mouseover", function(d) {
         if(!mouseLine.classed("hidden")) {
-        mouseData[1].x = d.x;
-        mouseData[1].y = d.y;
-        mouseLine.attr("d", lineFunction(mouseData))
-        .style('marker-end', function() { 
-          return machine.areLinked(linkStart, d.index) ? 'url(#light-arrow)' : 'url(#end-arrow)';
-          })
-          .classed('double', machine.areLinked(linkStart, d.index));
+          mouseData[1].x = d.x;
+          mouseData[1].y = d.y;
+          var startPoint = mouseData[0];
+          var endPoint = mouseData[1];
+          if(linkStart != d.index && machine.areLinked(d.index, linkStart)) {
+            var biStartPoint = offsetPoint(endPoint, d, graph.nodes[machine.findNode(linkStart)], BIDIRECTIONAL_OFFSET);
+            var biEndPoint = offsetPoint(startPoint, d, graph.nodes[machine.findNode(linkStart)], BIDIRECTIONAL_OFFSET);
+            link.selectAll("path").filter(function (link) { 
+              return link.target.index == linkStart && link.source.index == d.index;
+            }).classed("hidden edge", true);
+            mouseBiLine.classed("hidden", false)
+              .attr("d", lineFunction([biStartPoint, biEndPoint]));
+            startPoint = offsetPoint(startPoint, graph.nodes[machine.findNode(linkStart)], d, BIDIRECTIONAL_OFFSET);
+            endPoint = offsetPoint(endPoint, graph.nodes[machine.findNode(linkStart)], d, BIDIRECTIONAL_OFFSET);
+          }
+          mouseLine.attr("d", lineFunction([startPoint, endPoint]))
+            .style('marker-end', function() { 
+              return machine.areLinked(linkStart, d.index) ? 'url(#light-arrow)' : 'url(#end-arrow)';
+            })
+            .classed('double', machine.areLinked(linkStart, d.index));
         }
+      })
+      .on("mouseout", function(d) {
+        mouseBiLine.classed("hidden", true);
+        link.selectAll("path").filter(function (link) { 
+          return link.target.index == linkStart && link.source.index == d.index;
+        }).classed("hidden edge", false);
       })
       .on("mouseup", function(d) {
         if(ctrlKey && !mouseLine.classed("hidden")) {
-        mouseLine.classed("hidden", true);
-        machine.toggleLink(linkStart, d.index);
-        _update();
+          mouseLine.classed("hidden", true);
+          machine.toggleLink(linkStart, d.index);
+          _update();
         }
       })
       .call(d3.behavior.drag()
@@ -221,19 +218,16 @@ var setupGUI = function (width, height, element, machine) {
         .attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return d.y; })
 
-    link.selectAll("path").filter(function(d) { return d.source.selected; })
+    link.selectAll("path").filter(function(d) { return d.source.selected || d.target.selected; })
         .attr("d", function(d) { 
-          return lineFunction([
-            { x: d.source.x, y: d.source.y },
-            { x: d.target.x, y: d.target.y }
-          ])});
-
-    link.selectAll("path").filter(function(d) { return d.target.selected; })
-        .attr("d", function(d) { 
-          return lineFunction([
-            { x: d.source.x, y: d.source.y },
-            { x: d.target.x, y: d.target.y }
-          ])});
+          var startPoint = { x: d.source.x, y: d.source.y };
+          var endPoint = { x: d.target.x, y: d.target.y };
+          if(d.target.index != d.source.index && machine.areLinked(d.target.index, d.source.index)) {
+            startPoint = offsetPoint(startPoint, d.source, d.target, BIDIRECTIONAL_OFFSET);
+            endPoint = offsetPoint(endPoint, d.source, d.target, BIDIRECTIONAL_OFFSET);
+          }
+          return lineFunction([startPoint, endPoint]);
+        });
     
     startLine.attr("d", function(d) { 
         if(graph.start == null) return "";
@@ -252,7 +246,11 @@ var setupGUI = function (width, height, element, machine) {
   function keyup() {
     shiftKey = d3.event.shiftKey || d3.event.metaKey;
     ctrlKey = d3.event.ctrlKey;
-    if (!ctrlKey)  mouseLine.classed("hidden", true);
+    if (!ctrlKey) {
+      mouseLine.classed("hidden", true);
+      mouseBiLine.classed("hidden", true);
+      link.selectAll("path.edge").classed("hidden edge", false);
+    }
   }
   
   function buildBrush() {
@@ -281,6 +279,28 @@ var setupGUI = function (width, height, element, machine) {
 
     brush.select(".background").style("cursor", "auto");
     return brush;
+  }
+  
+  function buildMarker(id, refX, fill) {
+    return svg.append('svg:defs').append('svg:marker')
+        .attr('id', id)
+        .attr('viewBox', '0 -50 100 100')
+        .attr('refX', refX)
+        .attr('markerWidth', 30)
+        .attr('markerHeight', 30)
+        .attr('orient', 'auto')
+      .append('svg:path')
+        .attr('d', 'M 0,-5 L 10,0 L 0,5 z')
+        .attr('fill', fill);
+  }
+  
+  function offsetPoint(point, orig, perp, distance) {
+    var angle = Math.atan2(orig.y - perp.y, orig.x - perp.x);
+    var rotatedAngle = angle + Math.PI / 2;
+    return {
+      x: point.x + Math.cos(rotatedAngle) * distance,
+      y: point.y + Math.sin(rotatedAngle) * distance
+    };
   }
   
   return {
