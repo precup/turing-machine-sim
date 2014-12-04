@@ -272,11 +272,12 @@ var setupGUI = function (width, height, element, machine, sidePanel, updateSelec
           return lineFunction([startPoint, endPoint]);
         });
         
+    var linkd;
     transitions.selectAll("text").filter(function(d) { return d.source.selected || d.target.selected; })
       .attr("x", function(d) { return getTextPos(d.source, d.target, {width:60,height:60}).x; })
       .attr("y", function(d) { return getTextPos(d.source, d.target, {width:60,height:60}).y; })
       .selectAll("tspan")
-      .attr("x", function(d, i2, i1) { return getTextPos(graph.links[i1].source, graph.links[i1].target, {width:60,height:60}).x; });
+      .attr("x", function(d, i2, i1) { return d3.select(this.parentNode).attr("x"); });
     
     startLine.attr("d", function(d) { 
         if(graph.start == null) return "";
