@@ -1,4 +1,4 @@
-var setupGUI = function (width, height, element, machine) {
+var setupGUI = function (width, height, element, machine, sidePanel, updateSelected) {
   var nodeRadius = 30, innerRadius = 24, shiftKey, ctrlKey, linkStart, mouseData, BIDIRECTIONAL_OFFSET = 8;
     
   d3.select("body")
@@ -49,6 +49,9 @@ var setupGUI = function (width, height, element, machine) {
 
   var node = svg.append("g")
       .attr("class", "node");
+      
+  var transitions = svg.append("g")
+      .attr("class", "transitions");
 
   var graph = machine.getData();
   
@@ -77,6 +80,7 @@ var setupGUI = function (width, height, element, machine) {
   _update();
 
   function _update() {
+    sidePanel.update(machine);
     graph = machine.getData();
     
     startLine.attr("d", function(d) { 
@@ -86,6 +90,28 @@ var setupGUI = function (width, height, element, machine) {
           { x: graph.start.x, y: graph.start.y }
         ])})
       .classed("hidden", graph.start == null);
+      
+    var transitionGroup = transitions.selectAll("text")
+      .data(graph.links, function(d) { return d.source.index + " " + d.target.index; });
+      
+    transitionGroup.enter().append("text");
+    
+    transitionGroup.attr("x", function(d) { return (d.source.x + d.target.x) / 2; })
+      .attr("y", function(d) { return (d.source.y + d.target.y) / 2; });
+    
+    var tspans = transitionGroup.selectAll("tspan").data(function(d) { return d.transitions; });
+    
+    tspans.enter().append("tspan");
+    
+    tspans.text(function(d) { 
+        return d.fromChar + " → " + d.toChar + ", " + (d.direction ? "R" : "L");
+      })
+      .attr("x", function(d, i2, i1) { return (graph.links[i1].source.x + graph.links[i1].target.x) / 2; })
+      .attr("dy", 20);
+    
+    tspans.exit().remove();
+    
+    transitionGroup.exit().remove();
     
     var links = link.selectAll("path")
       .data(graph.links, function(d) { return d.source.index + " " + d.target.index; });
@@ -141,7 +167,7 @@ var setupGUI = function (width, height, element, machine) {
           
     nodes.exit().remove();
   }
-  
+    
   function applyNodeListeners(d) {
     d.on("mousedown", function(d) {
         if(ctrlKey) {
@@ -161,6 +187,7 @@ var setupGUI = function (width, height, element, machine) {
           if (!d.selected) {
             if (!shiftKey) node.selectAll("g").classed("selected", function(p) { return p.selected = d === p; });
             else d3.select(this.parentNode).classed("selected", d.selected = true);
+            updateSelected(node.selectAll("g").filter(function(d) { return d.selected; }));
           }
         }
       })
@@ -228,6 +255,12 @@ var setupGUI = function (width, height, element, machine) {
           }
           return lineFunction([startPoint, endPoint]);
         });
+   
+    transitions.selectAll("text").filter(function(d) { return d.source.selected || d.target.selected; })
+      .attr("x", function(d) { return (d.source.x + d.target.x) / 2; })
+      .attr("y", function(d) { return (d.source.y + d.target.y) / 2; })
+      .selectAll("tspan")
+      .attr("x", function(d, i2, i1) { return (graph.links[i1].source.x + graph.links[i1].target.x) / 2; });
     
     startLine.attr("d", function(d) { 
         if(graph.start == null) return "";
@@ -271,6 +304,7 @@ var setupGUI = function (width, height, element, machine) {
                   (extent[0][0] <= d.x && d.x < extent[1][0]
                   && extent[0][1] <= d.y && d.y < extent[1][1]);
             });
+            updateSelected(node.selectAll("g").filter(function(d) { return d.selected; }));
           })
           .on("brushend", function() {
             d3.event.target.clear();
@@ -314,6 +348,9 @@ var setupGUI = function (width, height, element, machine) {
         if(d.selected) selected.push(d.index);
       });
       return selected;
+    },  
+    selectedChanged: function () {
+      updateSelected(node.selectAll("g").filter(function(d) { return d.selected; }));
     }
   }
 }
