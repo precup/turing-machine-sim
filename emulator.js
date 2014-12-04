@@ -9,7 +9,7 @@ BLANK = "☐";
  */
 function Emulator(graph, input) {
   var machine = graph;
-  var currentNode = graph.start;
+  var currentNode = graph.start.index.toString();
   var tape = new Tape(input, 0);
   var terminated = false;
   var accepted = false;
@@ -51,8 +51,9 @@ function Emulator(graph, input) {
     tape.write(move.character);
     currentNode = move.node;
     move.direction === true ? tape.moveRight() : tape.moveLeft();
-    if(currentNode.accept || currentNode.reject) {
-      accepted = currentNode.accept;
+    var actualNode = machine.nodes.filter(function (node) { return node.index == currentNode;})[0];
+    if(actualNode.accept || actualNode.reject) {
+      accepted = actualNode.accept;
       return false;
     }
     return true;
