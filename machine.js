@@ -1,5 +1,6 @@
 var buildMachine = function (dataArg) {
   var nodeNum = 0;
+  dataArg.start = null;
   dataArg.nodes.forEach(function (d) { 
     d.index = nodeNum++; 
     d.name = "n" + d.index;
@@ -7,6 +8,11 @@ var buildMachine = function (dataArg) {
   dataArg.links.forEach(function (d) { 
     d.source = dataArg.nodes[d.source]; 
     d.target = dataArg.nodes[d.target]; 
+    d.transitions = [
+      { fromChar: "1", toChar: "0", direction: true },
+      { fromChar: "1", toChar: "0", direction: true },
+      { fromChar: "0", toChar: "0", direction: true }
+    ];
   });
   
   var machine = {
@@ -63,9 +69,18 @@ var buildMachine = function (dataArg) {
       return machine.data;
     },
     addNode: function(node) {
+      node.transitions = [];
       node.index = nodeNum++;
       node.name = "n" + node.index;
       machine.data.nodes.push(node);
+    },
+    addLink: function(startNode, endNode) {
+        var link = {
+          source: machine.data.nodes[machine.findNode(startNode)],
+          target: machine.data.nodes[machine.findNode(endNode)],
+          transitions: []
+        };
+        machine.data.links.push(link);
     },
     toggleLink: function(startNode, endNode) {
       if(machine.areLinked(startNode, endNode)) {
@@ -76,11 +91,7 @@ var buildMachine = function (dataArg) {
           }
         }
       } else {
-        var link = {
-          source: machine.data.nodes[machine.findNode(startNode)],
-          target: machine.data.nodes[machine.findNode(endNode)]
-        };
-        machine.data.links.push(link);
+        this.addLink(startNode, endNode);
       }
     },
     deleteNode: function(num) {
