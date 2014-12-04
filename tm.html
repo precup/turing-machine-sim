@@ -66,7 +66,6 @@ function loadString() {
 }
 
 function updateSelected(selected) {
-  console.log("aids");
   var str = "Selected states:";
   var accepting = true, rejecting = true, neither = true;
   selected.each(function(d) { 
@@ -82,7 +81,6 @@ function updateSelected(selected) {
   } else {
     str = str.substring(0, str.length - 1);
   }
-  console.log(accepting + " " + rejecting + " " + neither);
   d3.select(".acceptButton").classed("marked", accepting);
   d3.select(".rejectButton").classed("marked", rejecting);
   d3.select(".neitherButton").classed("marked", neither);
@@ -149,7 +147,6 @@ function changeEdge() {
 function openEdge(edge) {
   editedEdge = edge;
   if(typeof edge !== 'string') {
-    console.log(JSON.stringify(edge));
     d3.select(".fromName").node().innerHTML = edge.fromNode;
     d3.select(".fromChar").node().value = edge.fromChar;
     d3.select(".toChar").node().value = edge.toChar;
@@ -163,6 +160,14 @@ function openEdge(edge) {
     d3.select(".toName").node().value = "";
   }
   openModal(".edgeEntry");
+}
+
+function runTest() {
+  var testCase = d3.select(".testCase").node().value;
+  var em = new Emulator(machine.getData(), testCase);
+  var result = em.run() ? "Accepted" : "Rejected";
+  result = em.getTape() + ", " + result;
+  d3.select(".testResult").node().innerHTML = result;
 }
 
 function openModal(type) {
@@ -187,6 +192,7 @@ function openModal(type) {
   <input class="fileInput" id="fileInput" type="file" onchange="loadFile();">
   <button type="button" onclick="openModal('.json')">Load</button>
   <button type="button" onclick="downloadAsJson(machine.getSaveData(), 'tm.json')">Download as JSON</button>
+  <button type="button" onclick="openModal('.testing')">Run test</button>
 </div>
 <div class="gui"></div>
 <div class="sidePanel"></div>
@@ -217,6 +223,12 @@ function openModal(type) {
     <button type="button" onclick="closeModal('.json')">Cancel</button>
     <button type="button" onclick="openFileInput()">Load from File</button>
     <button type="button" onclick="loadString()">Load from JSON string</button>
+  </div>
+  <div class="testing popup">
+    Test case: <input type="text" class="testCase" size="25">
+    <button type="button" onclick="runTest()">Run</button><br /><br />
+    Result: <div class="testResult"></div><br />
+    <button type="button" onclick="closeModal('.testing')">Close</button>
   </div>
 </div>
 </body></html>

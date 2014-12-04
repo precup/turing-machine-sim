@@ -132,7 +132,6 @@ var buildMachine = function (dataArg) {
       var link = machine.data.links.filter(function (link) {
         return link.source.name == node && link.target.name == transition.toNode;
       });
-      console.log(JSON.stringify(link));
       if(link.length == 0) {
         machine.toggleLink(machine.data.nodes.filter(function (node) { return node.name == transition.fromNode; })[0].index,
                    machine.data.nodes.filter(function (node) { return node.name == transition.toNode; })[0].index);

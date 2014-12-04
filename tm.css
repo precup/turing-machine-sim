@@ -81,6 +81,14 @@ circle.inner {
   margin-top: -50px;
 }
 
+.testing {
+  display: none;
+  width: 400px;
+  height: 150px;
+  margin-left: -200px;
+  margin-top: -75px;
+}
+
 .edgeEntry {
   display: none;
   width: 300px;
