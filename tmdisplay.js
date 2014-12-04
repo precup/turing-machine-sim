@@ -78,6 +78,22 @@ var setupGUI = function (width, height, element, machine, sidePanel, updateSelec
   }
       
   _update();
+  
+  function getTextPos(source, target, bbox) {
+    var midpoint = { x : (source.x + target.x) / 2, y : (source.y + target.y) / 2 };
+    var theta = Math.atan2(target.y - source.y, target.x - source.x);
+    var dist = Math.sqrt(Math.pow(bbox.height / 2, 2) + Math.pow(bbox.width / 2, 2));
+    var q = Math.cos(Math.atan2(bbox.height / 2, bbox.width / 2) - theta);
+    q = Math.min(q, Math.cos(Math.atan2(bbox.height / 2, -bbox.width / 2) - theta));
+    q = Math.min(q, Math.cos(Math.atan2(-bbox.height / 2, bbox.width / 2) - theta));
+    q = Math.min(q, Math.cos(Math.atan2(-bbox.height / 2, -bbox.width / 2) - theta));
+    q *= dist;
+    q -= 5;
+    return {
+      x: midpoint.x + Math.cos(theta + Math.PI / 2) * q,
+      y: midpoint.y - bbox.height / 2 + Math.sin(theta + Math.PI / 2) * q
+    };
+  }
 
   function _update() {
     sidePanel.update(machine);
@@ -96,8 +112,8 @@ var setupGUI = function (width, height, element, machine, sidePanel, updateSelec
       
     transitionGroup.enter().append("text");
     
-    transitionGroup.attr("x", function(d) { return (d.source.x + d.target.x) / 2; })
-      .attr("y", function(d) { return (d.source.y + d.target.y) / 2; });
+    transitionGroup.attr("x", function(d) { return getTextPos(d.source, d.target, {width:60,height:60}).x; })
+      .attr("y", function(d) { return getTextPos(d.source, d.target, {width:60,height:60}).y; });
     
     var tspans = transitionGroup.selectAll("tspan").data(function(d) { return d.transitions; });
     
@@ -106,7 +122,7 @@ var setupGUI = function (width, height, element, machine, sidePanel, updateSelec
     tspans.text(function(d) { 
         return d.fromChar + " → " + d.toChar + ", " + (d.direction ? "R" : "L");
       })
-      .attr("x", function(d, i2, i1) { return (graph.links[i1].source.x + graph.links[i1].target.x) / 2; })
+      .attr("x", function(d, i2, i1) { return getTextPos(graph.links[i1].source, graph.links[i1].target, {width:60,height:60}).x; })
       .attr("dy", 20);
     
     tspans.exit().remove();
@@ -255,12 +271,12 @@ var setupGUI = function (width, height, element, machine, sidePanel, updateSelec
           }
           return lineFunction([startPoint, endPoint]);
         });
-   
+        
     transitions.selectAll("text").filter(function(d) { return d.source.selected || d.target.selected; })
-      .attr("x", function(d) { return (d.source.x + d.target.x) / 2; })
-      .attr("y", function(d) { return (d.source.y + d.target.y) / 2; })
+      .attr("x", function(d) { return getTextPos(d.source, d.target, {width:60,height:60}).x; })
+      .attr("y", function(d) { return getTextPos(d.source, d.target, {width:60,height:60}).y; })
       .selectAll("tspan")
-      .attr("x", function(d, i2, i1) { return (graph.links[i1].source.x + graph.links[i1].target.x) / 2; });
+      .attr("x", function(d, i2, i1) { return getTextPos(graph.links[i1].source, graph.links[i1].target, {width:60,height:60}).x; });
     
     startLine.attr("d", function(d) { 
         if(graph.start == null) return "";
