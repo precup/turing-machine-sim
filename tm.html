@@ -131,12 +131,12 @@ function openModal(type) {
 </script>
 </head><body onload="buildGUI()">
 <div class="menu">
-  <button type="button" onclick="addNode()">Add New State</button>
-  <p id="selectedText">Selected states:</p>
-  <button type="button" class="acceptButton" onclick="setState(true, false)">Set as Accepting</button>
-  <button type="button" class="rejectButton" onclick="setState(false, true)">Set as Rejecting</button>
-  <button type="button" class="neitherButton" onclick="setState(false, false)">Set as Neither</button>
-  <button type="button" onclick="setStart()">Set as Start</button>
+  <button type="button" onclick="addNode()">+ Add New State</button>
+  <span id="selectedText">Selected states:</span>
+  <button type="button" class="acceptButton" onclick="setState(true, false)">&#x2713; Accepting</button>
+  <button type="button" class="rejectButton" onclick="setState(false, true)">&#x2717; Rejecting</button>
+  <button type="button" class="neitherButton" onclick="setState(false, false)">&#x25cb; Neither</button>
+  <button type="button" onclick="setStart()">&#x2192; Set as Start</button>
   <button type="button" onclick="deleteSelected()">Delete Selected</button>
   <!--
   TODO: This currently isn't working. The issue appears to be that stylesheets aren't taken into account, 
