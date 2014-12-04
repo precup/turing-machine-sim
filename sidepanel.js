@@ -12,7 +12,7 @@ function buildSidePanel(element) {
       .classed("edgeDiv", true)
       .append("button")
       .text("+")
-      .attr("onclick", "d3.select('.edgeEntry').style('display', 'inline')");
+      .attr("onclick", function (d) { return "openEdge(\"" + d.name + "\")";});
       
     divs.select("div.nameDiv")
       .text(function (d) { return d.name; });
@@ -30,16 +30,20 @@ function buildSidePanel(element) {
               transitions.push(transition);
             });
           });
+        console.log(JSON.stringify(transitions));
         return transitions;
       });
     
     var edgeDivEnter = edgeDiv.enter()
       .append("div")
-      .classed("transitionDiv", true);
+      .classed("transitionDiv", true)
+      .each(function(d) { console.log(JSON.stringify(d));});
       
-    edgeDivEnter.append("button").text(function(d) { 
-        return d.fromChar + " -> " + d.toChar + ", " + (d.direction ? "R" : "L");
-      }).attr("onclick", "d3.select('.edgeEntry').style('display', 'inline')");
+    edgeDivEnter.append("button");
+    
+    edgeDiv.select("button").text(function(d) { 
+        return d.fromChar + " -> " + d.toChar + ", " + (d.direction ? "R" : "L") + ", " + d.toNode;
+      }).attr("onclick", function(d) { return "openEdge(" + JSON.stringify(d) + ")";});
     
     edgeDiv.exit().remove();
     
