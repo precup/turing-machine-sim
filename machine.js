@@ -50,7 +50,7 @@ var buildMachine = function (dataArg) {
         d.source = machine.data.nodes[machine.findNode(d.source)]; 
         d.target = machine.data.nodes[machine.findNode(d.target)]; 
       });
-      machine.data.start = machine.data.nodes[machine.findNode(machine.data.start)];
+      machine.data.start = machine.data.start == -1 ? null : machine.data.nodes[machine.findNode(machine.data.start)];
       nodeNum = 0;
       machine.data.nodes.forEach(function (d) { 
         nodeNum = Math.max(nodeNum, d.index + 1);
@@ -62,7 +62,7 @@ var buildMachine = function (dataArg) {
         link.source = link.source.index;
         link.target = link.target.index;
       });
-      saveData.start = saveData.start.index;
+      saveData.start = saveData.start != null ? saveData.start.index : -1;
       return saveData;
     },
     getData: function() {
@@ -81,6 +81,13 @@ var buildMachine = function (dataArg) {
           transitions: []
         };
         machine.data.links.push(link);
+        openEdge({
+          fromChar: BLANK,
+          toChar: BLANK,
+          fromNode: link.source.name,
+          toNode: link.target.name,
+          direction: true
+        });
     },
     toggleLink: function(startNode, endNode) {
       if(machine.areLinked(startNode, endNode)) {
@@ -107,6 +114,33 @@ var buildMachine = function (dataArg) {
           i--;
         }
       }
+    },
+    removeTransition: function(node, transition) {
+      var link = machine.data.links.filter(function (link) {
+        return link.source.name == node && link.target.name == transition.toNode;
+      });
+      var i;
+      for(i = 0; i < link[0].transitions.length; i++){
+        if(link[0].transitions[i].fromChar == transition.fromChar) break;
+      }
+      link[0].transitions.splice(i, 1);
+      if(link[0].transitions.length == 0) 
+        machine.toggleLink(machine.data.nodes.filter(function (node) { return node.name == transition.fromNode; })[0].index,
+                           machine.data.nodes.filter(function (node) { return node.name == transition.toNode; })[0].index);
+    },
+    addTransition: function(node, transition) {
+      var link = machine.data.links.filter(function (link) {
+        return link.source.name == node && link.target.name == transition.toNode;
+      });
+      console.log(JSON.stringify(link));
+      if(link.length == 0) {
+        machine.toggleLink(machine.data.nodes.filter(function (node) { return node.name == transition.fromNode; })[0].index,
+                   machine.data.nodes.filter(function (node) { return node.name == transition.toNode; })[0].index);
+        link = machine.data.links.filter(function (link) {
+            return link.source.name == node && link.target.name == transition.toNode;
+          });
+      }
+      link[0].transitions.push(transition);
     }
   }
   
