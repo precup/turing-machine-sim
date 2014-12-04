@@ -11,7 +11,8 @@ function buildSidePanel(element) {
     newDivs.append("div")
       .classed("edgeDiv", true)
       .append("button")
-      .text("+");
+      .text("+")
+      .attr("onclick", "d3.select('.edgeEntry').style('display', 'inline')");
       
     divs.select("div.nameDiv")
       .text(function (d) { return d.name; });
@@ -38,7 +39,7 @@ function buildSidePanel(element) {
       
     edgeDivEnter.append("button").text(function(d) { 
         return d.fromChar + " -> " + d.toChar + ", " + (d.direction ? "R" : "L");
-      });
+      }).attr("onclick", "d3.select('.edgeEntry').style('display', 'inline')");
     
     edgeDiv.exit().remove();
     
