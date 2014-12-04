@@ -120,6 +120,14 @@ function openFileInput() {
     alert("Sorry, your browser doesn't support the File API. Please load from a string instead.");
   }
 }
+function closeModal(type) {
+  d3.select(type).style('display', 'none');
+  d3.select('.overlay').style('display', 'none');
+}
+function openModal(type) {
+  d3.select(type).style('display', 'inline');
+  d3.select('.overlay').style('display', 'inline');
+}
 </script>
 </head><body onload="buildGUI()">
 <div class="menu">
@@ -136,23 +144,24 @@ function openFileInput() {
   <button type="button" onclick="downloadAsPng(d3.select('svg'))">Download as PNG</button>
   -->
   <input class="fileInput" id="fileInput" type="file" onchange="loadFile();">
-  <button type="button" onclick="d3.select('.json').style('display', 'inline')">Load</button>
+  <button type="button" onclick="openModal('.json')">Load</button>
   <button type="button" onclick="downloadAsJson(machine.getSaveData(), 'tm.json')">Download as JSON</button>
 </div>
 <div class="gui"></div>
 <div class="sidePanel"></div>
-<div class="edgeEntry popup">Transition for q2<br />
-On input <input type="text" size="1"><br />
-Write <input type="text" size="1"><br />
-Move tape head <input type="text" size="1"><br />
-Transition to <input type="text" size="1"><br />
-<button type="button" onclick="d3.select('.edgeEntry').style('display', 'none')">Cancel</button>
-<button type="button" onclick="">Change</button>
+  <div class="overlay">
+  <div class="edgeEntry popup">Transition for q2<br />
+    On input <input type="text" size="1"><br />
+    Write <input type="text" size="1"><br />
+    Move tape head <input type="text" size="1"><br />
+    Transition to <input type="text" size="1"><br />
+    <button type="button" onclick="closeModal('.edgeEntry')">Cancel</button>
+    <button type="button" onclick="">Change</button>
+  </div>
+  <div class="json popup">
+    <button type="button" onclick="closeModal('.json')">Cancel</button>
+    <button type="button" onclick="openFileInput()">Load from File</button>
+    <button type="button" onclick="loadString()">Load from JSON string</button>
+  </div>
 </div>
-<div class="json popup">
-<button type="button" onclick="d3.select('.json').style('display', 'none')">Cancel</button>
-<button type="button" onclick="openFileInput()">Load from File</button>
-<button type="button" onclick="loadString()">Load from JSON string</button>
-</div>
-
 </body></html>
