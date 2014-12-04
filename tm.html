@@ -191,11 +191,25 @@ function openModal(type) {
 <div class="gui"></div>
 <div class="sidePanel"></div>
   <div class="overlay">
-  <div class="edgeEntry popup">Transition for <div class="fromName">q2</div><br />
-    On input <input type="text" class="fromChar" size="1"><br />
-    Write <input type="text" class="toChar" size="1"><br />
-    Move tape head <input class="direction" type="text" size="1"><br />
-    Transition to <input class="toName" type="text" size="1"><br />
+  <div class="edgeEntry popup">Transition for <span class="fromName">q2</span><br />
+    <table>
+      <tr>
+        <td>On input</td>
+        <td><input type="text" class="fromChar" size="1"></td>
+      </tr>
+      <tr>
+        <td>Write</td>
+        <td><input type="text" class="toChar" size="1"></td>
+      </tr>
+      <tr>
+        <td>Move tape head</td>
+        <td><input type="text" class="direction" size="1"></td>
+      </tr>
+      <tr>
+        <td>Transition to</td>
+        <td><input type="text" class="toName" size="1"></td>
+      </tr>
+    </table>
     <button type="button" onclick="closeModal('.edgeEntry')">Cancel</button>
     <button type="button" onclick="changeEdge()">Change</button>
   </div>
