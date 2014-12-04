@@ -30,14 +30,12 @@ function buildSidePanel(element) {
               transitions.push(transition);
             });
           });
-        console.log(JSON.stringify(transitions));
         return transitions;
       });
     
     var edgeDivEnter = edgeDiv.enter()
       .append("div")
-      .classed("transitionDiv", true)
-      .each(function(d) { console.log(JSON.stringify(d));});
+      .classed("transitionDiv", true);
       
     edgeDivEnter.append("button");
     
