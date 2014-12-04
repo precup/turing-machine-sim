@@ -12,7 +12,8 @@
 <script src="emulator_test_data.js"></script>
 <script> 
 var width = 1260,
-    height = 700;
+    height = 700,
+    editedEdge;
 var graph = {
   "nodes": [{
     "x": 300,
@@ -124,6 +125,46 @@ function closeModal(type) {
   d3.select(type).style('display', 'none');
   d3.select('.overlay').style('display', 'none');
 }
+
+function changeEdge() {
+  var edge = editedEdge;
+  var transition = {
+    toNode: d3.select(".toName").node().value,
+    direction: d3.select(".direction").node().value.toUpperCase() == "R",
+    toChar: d3.select(".toChar").node().value,
+    fromChar: d3.select(".fromChar").node().value
+  };
+  if(typeof edge !== 'string') {
+    transition.fromNode = edge.fromNode;
+    machine.removeTransition(edge.fromNode, edge);
+    machine.addTransition(edge.fromNode, transition);
+  } else {
+    transition.fromNode = edge;
+    machine.addTransition(edge, transition);
+  }
+  closeModal(".edgeEntry");
+  gui.updateGraph(machine);
+}
+
+function openEdge(edge) {
+  editedEdge = edge;
+  if(typeof edge !== 'string') {
+    console.log(JSON.stringify(edge));
+    d3.select(".fromName").node().innerHTML = edge.fromNode;
+    d3.select(".fromChar").node().value = edge.fromChar;
+    d3.select(".toChar").node().value = edge.toChar;
+    d3.select(".direction").node().value = edge.direction ? "R" : "L";
+    d3.select(".toName").node().value = edge.toNode;
+  } else {
+    d3.select(".fromName").node().innerHTML = edge;
+    d3.select(".fromChar").node().value = "";
+    d3.select(".toChar").node().value = "";
+    d3.select(".direction").node().value = "";
+    d3.select(".toName").node().value = "";
+  }
+  openModal(".edgeEntry");
+}
+
 function openModal(type) {
   d3.select(type).style('display', 'inline');
   d3.select('.overlay').style('display', 'inline');
@@ -150,13 +191,13 @@ function openModal(type) {
 <div class="gui"></div>
 <div class="sidePanel"></div>
   <div class="overlay">
-  <div class="edgeEntry popup">Transition for q2<br />
-    On input <input type="text" size="1"><br />
-    Write <input type="text" size="1"><br />
-    Move tape head <input type="text" size="1"><br />
-    Transition to <input type="text" size="1"><br />
+  <div class="edgeEntry popup">Transition for <div class="fromName">q2</div><br />
+    On input <input type="text" class="fromChar" size="1"><br />
+    Write <input type="text" class="toChar" size="1"><br />
+    Move tape head <input class="direction" type="text" size="1"><br />
+    Transition to <input class="toName" type="text" size="1"><br />
     <button type="button" onclick="closeModal('.edgeEntry')">Cancel</button>
-    <button type="button" onclick="">Change</button>
+    <button type="button" onclick="changeEdge()">Change</button>
   </div>
   <div class="json popup">
     <button type="button" onclick="closeModal('.json')">Cancel</button>
