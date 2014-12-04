@@ -58,6 +58,7 @@ function load(json) {
 }
 
 function loadString() {
+  d3.select('.json').style('display', 'none');
   var json = prompt("Please enter the JSON for a Turing Machine:");
   if(json != null)
     load(json);
@@ -112,6 +113,7 @@ function setStart() {
 }
 
 function openFileInput() {
+  d3.select('.json').style('display', 'none');
   if (window.File) {
     document.getElementById("fileInput").click();
   } else {
@@ -134,11 +136,23 @@ function openFileInput() {
   <button type="button" onclick="downloadAsPng(d3.select('svg'))">Download as PNG</button>
   -->
   <input class="fileInput" id="fileInput" type="file" onchange="loadFile();">
-  <button type="button" onclick="openFileInput()">Load</button>
-  <!--<button type="button" onclick="loadString()">Load from JSON string</button>-->
+  <button type="button" onclick="d3.select('.json').style('display', 'inline')">Load</button>
   <button type="button" onclick="downloadAsJson(machine.getSaveData(), 'tm.json')">Download as JSON</button>
 </div>
 <div class="gui"></div>
 <div class="sidePanel"></div>
+<div class="edgeEntry popup">Transition for q2<br />
+On input <input type="text" size="1"><br />
+Write <input type="text" size="1"><br />
+Move tape head <input type="text" size="1"><br />
+Transition to <input type="text" size="1"><br />
+<button type="button" onclick="d3.select('.edgeEntry').style('display', 'none')">Cancel</button>
+<button type="button" onclick="">Change</button>
+</div>
+<div class="json popup">
+<button type="button" onclick="d3.select('.json').style('display', 'none')">Cancel</button>
+<button type="button" onclick="openFileInput()">Load from File</button>
+<button type="button" onclick="loadString()">Load from JSON string</button>
+</div>
 
 </body></html>
