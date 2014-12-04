@@ -2,10 +2,14 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="utf-8">
 <title>A Simple Turing Machine Editor</title>
 <link href="tm.css" rel="stylesheet" type="text/css">
+<script src="emulator.js"></script>
+<script src="tape.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="tmdisplay.js"></script>
 <script src="machine.js"></script>
 <script src="download.js"></script>
+<script src="sidepanel.js"></script>
+<script src="emulator_test_data.js"></script>
 <script> 
 var width = 1260,
     height = 700;
@@ -25,10 +29,11 @@ var graph = {
 };
 var currX = 100;
 var machine = buildMachine(graph);
-var gui;
+var gui, sidePanel;
 
 function buildGUI() {
-  gui = setupGUI(width, height, ".gui", machine);
+  sidePanel = buildSidePanel(".sidePanel");
+  gui = setupGUI(width, height, ".gui", machine, sidePanel, updateSelected);
 }
 
 function addNode() {
@@ -58,6 +63,30 @@ function loadString() {
     load(json);
 }
 
+function updateSelected(selected) {
+  console.log("aids");
+  var str = "Selected states:";
+  var accepting = true, rejecting = true, neither = true;
+  selected.each(function(d) { 
+    if(!d.accept) accepting = false;
+    if(!d.reject) rejecting = false;
+    if(d.reject || d.accept) neither = false;
+    str += " " + d.name + ",";
+  });
+  if(selected.node() == null) {
+    accepting = false;
+    rejecting = false;
+    neither = false;
+  } else {
+    str = str.substring(0, str.length - 1);
+  }
+  console.log(accepting + " " + rejecting + " " + neither);
+  d3.select(".acceptButton").classed("marked", accepting);
+  d3.select(".rejectButton").classed("marked", rejecting);
+  d3.select(".neitherButton").classed("marked", neither);
+  document.getElementById("selectedText").innerHTML = str;
+}
+
 function loadFile() {
   var files = document.getElementById("fileInput").files;
   if(files.length < 1) return;
@@ -73,6 +102,7 @@ function loadFile() {
 
 function setState(accept, reject) {
   machine.setState(accept, reject);
+  gui.selectedChanged();
   gui.updateGraph(machine);
 }
 
@@ -92,21 +122,23 @@ function openFileInput() {
 </head><body onload="buildGUI()">
 <div class="menu">
   <button type="button" onclick="addNode()">Add New State</button>
-  <button type="button" onclick="deleteSelected()">Delete Selected</button>
-  <button type="button" onclick="setState(true, false)">Set as Accepting</button>
-  <button type="button" onclick="setState(false, true)">Set as Rejecting</button>
-  <button type="button" onclick="setState(false, false)">Set as Neither</button>
+  <p id="selectedText">Selected states:</p>
+  <button type="button" class="acceptButton" onclick="setState(true, false)">Set as Accepting</button>
+  <button type="button" class="rejectButton" onclick="setState(false, true)">Set as Rejecting</button>
+  <button type="button" class="neitherButton" onclick="setState(false, false)">Set as Neither</button>
   <button type="button" onclick="setStart()">Set as Start</button>
-  <button type="button" onclick="downloadAsJson(machine.getSaveData(), 'tm.json')">Download as JSON</button>
+  <button type="button" onclick="deleteSelected()">Delete Selected</button>
   <!--
   TODO: This currently isn't working. The issue appears to be that stylesheets aren't taken into account, 
   but I'm not sure how to fix that. document.styleSheets doesn't seem to be scraping the css properly.
   <button type="button" onclick="downloadAsPng(d3.select('svg'))">Download as PNG</button>
   -->
   <input class="fileInput" id="fileInput" type="file" onchange="loadFile();">
-  <button type="button" onclick="openFileInput()">Load from JSON file</button>
-  <button type="button" onclick="loadString()">Load from JSON string</button>
+  <button type="button" onclick="openFileInput()">Load</button>
+  <!--<button type="button" onclick="loadString()">Load from JSON string</button>-->
+  <button type="button" onclick="downloadAsJson(machine.getSaveData(), 'tm.json')">Download as JSON</button>
 </div>
 <div class="gui"></div>
+<div class="sidePanel"></div>
 
 </body></html>
