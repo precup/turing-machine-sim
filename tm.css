@@ -73,6 +73,26 @@ circle.inner {
   shape-rendering: crispEdges;
 }
 
+.json {
+  display: none;
+}
+
+.edgeEntry {
+  display: none;
+}
+
+.popup {
+    width: 50%;
+    height: 50%;
+    background: #f0f0f0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
 .hidden {
   opacity: 0;
 }
