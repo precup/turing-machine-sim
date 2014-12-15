@@ -7,6 +7,37 @@
 //   direction // True is to the right, False is to the left
 // }
 
+/*
+
+graph specification:
+
+{
+  "nodes": [
+    {
+      "x": <int xloc>, // xloc is the x location of the node
+      "y": <int yloc>, // yloc is the y location of the node
+      "index": <int index>, // The indexing does not necessarily start from 0
+      "name": <string name>,
+      "selected": <boolean selected>
+    }
+  ],
+  "links": [
+    {
+      "source": <int srcIndex>,
+      "target": <int tgtIndex>,
+      "transitions": [
+        {
+          "fromChar": <one character string>,
+          "toChar": <one character string>,
+          "direction": <boolean> // true indicates right
+        }
+      ]
+    }
+  ]
+}
+
+*/
+
 function testHarness(graph, tests) {
   Object.keys(tests).forEach(function runTest(element, index, array) {
     var em = new Emulator(graph, element);
