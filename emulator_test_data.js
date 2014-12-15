@@ -1,12 +1,5 @@
 // run(graph, input) return (accept/reject, end state)
 
-// each link will have a transition
-// transition {
-//   fromChar,
-//   toChar, // empty string represents blank space character
-//   direction // True is to the right, False is to the left
-// }
-
 /*
 
 graph specification:
@@ -33,7 +26,8 @@ graph specification:
         }
       ]
     }
-  ]
+  ],
+  "start": <int> // index of starting node
 }
 
 */
