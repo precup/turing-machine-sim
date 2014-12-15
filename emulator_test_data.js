@@ -7,27 +7,27 @@ graph specification:
 {
   "nodes": [
     {
-      "x": <int xloc>, // xloc is the x location of the node
-      "y": <int yloc>, // yloc is the y location of the node
-      "index": <int index>, // The indexing does not necessarily start from 0
-      "name": <string name>,
-      "selected": <boolean selected>
+      "x": int,
+      "y": int,
+      "index": int, // The indexing does not necessarily start from 0
+      "name": string,
+      "selected": boolean
     }
   ],
   "links": [
     {
-      "source": <int srcIndex>,
-      "target": <int tgtIndex>,
+      "source": int,
+      "target": int,
       "transitions": [
         {
-          "fromChar": <one character string>,
-          "toChar": <one character string>,
-          "direction": <boolean> // true indicates right
+          "fromChar": string, // length == 1
+          "toChar": string, // length = 1
+          "direction": boolean // true indicates right
         }
       ]
     }
   ],
-  "start": <int> // index of starting node
+  "start": int // index of starting node
 }
 
 */
