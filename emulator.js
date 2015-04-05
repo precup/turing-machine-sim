@@ -2,10 +2,10 @@ BLANK = "☐";
 
 /*
  * Has two public functions, run(), which runs the TM until termination, 
- * and step(), which run the TM for one step. The getTransitions() function
- * collects all transitions from the specified node, and returns a JS object
- * with key as the “fromChar” and value as a JS object with “fromChar”, 
- * “direction” and “target” (node).
+ * and step(), which runs the TM for one step.
+ * The getTransitions() function collects all transitions from the specified
+ * node, and returns a JS object with key as the “fromChar” and value as
+ * a JS object with “fromChar”, “direction” and “target” (node).
  */
 function Emulator(graph, input, startingNode) {
   var machine = graph;
@@ -75,7 +75,7 @@ function Emulator(graph, input, startingNode) {
     },
     getState: function getState() {
       return currentNode;
-    }
+    },
     getTapePosition: function getTapePosition() {
       return tape.getPosition();
     }
