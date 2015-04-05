@@ -1,5 +1,11 @@
-var setupGUI = function (width, height, element, machine, sidePanel, updateSelected) {
-  var nodeRadius = 30, innerRadius = 24, shiftKey, ctrlKey, linkStart, mouseData, BIDIRECTIONAL_OFFSET = 8;
+function setupGUI(width, height, element, machine, sidePanel, updateSelected) {
+  var nodeRadius = 30,
+    innerRadius = 24,
+    shiftKey,
+    ctrlKey,
+    linkStart,
+    mouseData, 
+    BIDIRECTIONAL_OFFSET = 8;
     
   d3.select("body")
       .on("keydown.brush", keydown)
@@ -194,7 +200,8 @@ var setupGUI = function (width, height, element, machine, sidePanel, updateSelec
             ];
           mouseLine.classed("hidden", false)
             .attr("d", function(d) { 
-            return lineFunction(mouseData)})
+              return lineFunction(mouseData);
+            })
             .style('marker-end', function() { 
               return machine.areLinked(linkStart, d.index) ? 'url(#light-arrow)' : 'url(#end-arrow)';
             })

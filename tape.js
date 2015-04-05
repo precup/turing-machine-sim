@@ -43,6 +43,9 @@ function Tape (start_string, start_position) {
     },
     toString: function toString() {
       return tape;
+    },
+    getPosition: function getPosition() {
+      return position;
     }
   };
 }

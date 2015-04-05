@@ -7,9 +7,9 @@ BLANK = "☐";
  * with key as the “fromChar” and value as a JS object with “fromChar”, 
  * “direction” and “target” (node).
  */
-function Emulator(graph, input) {
+function Emulator(graph, input, startingNode) {
   var machine = graph;
-  var currentNode = graph.start.index.toString();
+  var currentNode = startingNode || graph.start.index.toString();
   var tape = new Tape(input, 0);
   var terminated = false;
   var accepted = false;
@@ -75,6 +75,9 @@ function Emulator(graph, input) {
     },
     getState: function getState() {
       return currentNode;
+    }
+    getTapePosition: function getTapePosition() {
+      return tape.getPosition();
     }
   }
 }
