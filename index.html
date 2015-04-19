@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>A Simple Turing Machine Editor</title>
+    <link href="tm.css" rel="stylesheet" type="text/css">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    
+    <script src="main.js"></script>
+    <script src="behaviors.js"></script>
+    
+    <script src="brush/brush.js"></script>
+    
+    <script src="graph/graph.js"></script>
+    <script src="graph/delete.js"></script>
+    
+    <script src="edges/edges.js"></script>
+    <script src="edges/initial.js"></script>
+    <script src="edges/selection.js"></script>
+    <script src="edges/dragging.js"></script>
+    
+    <script src="nodes/nodes.js"></script>
+    <script src="nodes/movement.js"></script>
+    <script src="nodes/selection.js"></script>
+    <script src="nodes/doubleclick.js"></script>
+    <script src="nodes/snaptogrid.js"></script>
+    <script src="nodes/forcedirected.js"></script>
+    
+    <script src="menu/top.js"></script>
+  </head>
+  <body onload="run()" onresize="gGraph.resize()">
+    <div class="menu">
+      <button type="button" onclick="gTopMenu.addNode()">+ Add New State</button>
+      <span id="selectedText">Selected states:</span>
+      <button type="button" class="acceptButton" onclick="gTopMenu.setState(true, false)">&#x2713; Accepting</button>
+      <button type="button" class="neitherButton" onclick="gTopMenu.setState(false, false)">&#x2717; Rejecting</button>
+      <!--
+        Not needed until Turing Machines
+        <button type="button" class="rejectButton" onclick="gTopMenu.setState(false, true)">&#x2717; Rejecting</button>
+        <button type="button" class="neitherButton" onclick="gTopMenu.setState(false, false)">&#x25cb; Neither</button>
+      -->
+      <button type="button" onclick="gTopMenu.setInitial ()">&#x2192; Set as Start</button>
+      <button type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
+      <input class="fileInput" id="fileInput" type="file" onchange="gTopMenu.load ();">
+      <button type="button" onclick="gTopMenu.openLoadDialog ()">Load</button>
+      <button type="button" onclick="gTopMenu.save ()">Download as JSON</button>
+      <button type="button" onclick="gTopMenu.openModal ('.testing')">Run test</button>
+      <button type="button" onclick="gTopMenu.snapToGrid ()">Snap to Grid</button>
+    </div>
+    <div class="gui">
+      <svg height="100%" width="100%">
+        <g class="brush" />
+        <g class="nodesLower" />
+        <g class="edgesLower" />
+        <g class="edges" />
+        <g class="miscEdges" />
+        <g class="nodes" />
+      </svg>
+    </div>
+  </body>
+</html>
