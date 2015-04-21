@@ -23,6 +23,7 @@ gEdges.editComplete = function () {
   var chars = gModalMenu.getEdgeCharacters ();
   chars = chars.replace (new RegExp("[^" + gGraph.charSet + "]", "g"), "");
   chars += (gModalMenu.getEpsilon () ? gEpsilon : "");
+  console.log (chars);
   
   var transitions = chars.split ("");
   transitions.sort ();

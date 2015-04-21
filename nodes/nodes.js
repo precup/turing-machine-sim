@@ -81,6 +81,23 @@ gNodes.addNode = function (x, y) {
   gEdges.addNode (node);
 };
 
+gNodes.setInitialByIndex = function (index) {
+  gNodes.initial = gNodes.nodes[index];
+};
+
+gNodes.clearInitial = function () {
+  gNodes.initial = null;
+};
+
+gNodes.setAcceptByIndex = function (index, accept) {
+  gNodes.nodes[index].accept = accept;
+};
+
+gNodes.removeByIndex = function (index) {
+  gEdges.removeNode (gNodes.nodes[index]);
+  gNodes.nodes.splice (index, 1);
+};
+
 gNodes.removeNodes = function () {
   for (var i = 0; i < gNodes.nodes.length; i++) {
     if (gNodes.nodes[i].selected) {

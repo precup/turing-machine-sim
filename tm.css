@@ -116,8 +116,14 @@ circle.inner {
   margin-top: -50px;
 }
 
-.tableEditor, .tableEditorHeader {
+.tableEditor {
   display: none;
+  border: 1px solid black;
+}
+
+.tableEditor tr td {
+  margin: 0;
+  border: 1px solid black;
 }
 
 textarea {

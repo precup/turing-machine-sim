@@ -61,6 +61,7 @@ gGraph.draw = function () {
   gNodes.draw ();
   gEdges.draw ();
   gTopMenu.draw ();
+  gTableMenu.draw ();
 }
 
 // TODO: Make the resizing more useful
