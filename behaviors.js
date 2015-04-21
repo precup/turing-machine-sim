@@ -5,7 +5,7 @@ var gBehaviors =
 gBehaviors.init = function () {
   gBehaviors.handlers = {};
   
-  gBehaviors.configure ("edges", ["mousedown", "mousemove", "mouseup"]);
+  gBehaviors.configure ("edges", ["mousedown", "mousemove", "mouseup", "dblclick"]);
   gBehaviors.configure ("nodes", ["mousedown", "drag", "mouseover", "mouseout", "mouseup"]);
   gBehaviors.configure ("lowerNodes", ["mousedown", "mousemove", "mouseover", "mouseout"]);
   gBehaviors.configure ("brush", ["brushstart", "brush"]);

@@ -45,6 +45,10 @@ gTopMenu.snapToGrid = function () {
   gGraph.draw ();
 };
 
+gTopMenu.runTests = function () {
+  gModalMenu.open ("testing");
+};
+
 gTopMenu.load = function () {
   var files = document.getElementById ("fileInput").files;
   if (files.length < 1) return;

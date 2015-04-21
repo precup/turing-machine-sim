@@ -19,9 +19,7 @@ body {
 }
 
 .transparent {
-  fill: #fff;
-  stroke: #fff;
-  stroke-width: 0;
+  opacity: 0;
 }
 
 svg {
@@ -118,20 +116,54 @@ circle.inner {
   margin-top: -50px;
 }
 
+.tableEditor, .tableEditorHeader {
+  display: none;
+}
+
+textarea {
+  height: 100%;
+  resize: none;
+}
+
 .testing {
   display: none;
-  width: 400px;
-  height: 150px;
-  margin-left: -200px;
-  margin-top: -75px;
+  width: 532px;
+  height: 334px;
+  margin-left: -266px;
+  margin-top: -167px;
+}
+
+.testing div {
+  font-weight: 300;
+}
+
+.testing .popupTitle {
+  width: 572px;
+}
+
+.testing table {
+  height: 400;
+}
+
+.testingHeader, .testingResults {
+  padding: 0 0 0 30px;
+  margin: 0;
+}
+
+.testingResults tr {
+  max-height: 30px;
 }
 
 .edgeEntry {
   display: none;
   width: 300px;
-  height: 200px;
-  margin-left: -150px;
+  height: 210px;
+  margin-left: -170px;
   margin-top: -100px;
+}
+
+.edgeEntry .popupTitle {
+  width: 340px;
 }
 
 .popup {
@@ -167,7 +199,7 @@ body {
   background-color: #2d73af;
 }
 
-.menu > button, .popup > button {
+.menu > button, .popup > div > button, .popupRight > button {
   padding: 8px 14px;
   border: none;
   background-color: #4b8ac0;
@@ -210,12 +242,48 @@ body {
 }
 
 .popup {
-  padding: 20px;
+  background-color: #F2F8FC !important;
+  padding: 0px 20px 20px 20px;
   border-radius: 10px;
   box-shadow: 0px 2px 10px #bcbcbc;
   background-color: white;
 }
 
+.popupTitle {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: -20px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #2d73af;
+  margin: 0 -20px auto;    
+  -webkit-box-shadow: 0px 0px 8px 0px #aaa;
+     -moz-box-shadow: 0px 0px 8px 0px #aaa;
+          box-shadow: 0px 0px 8px 0px #aaa;
+}
+
+.popTitle > span {
+  vertical-align: middle;
+  line-height: normal;    
+  display: inline-block;
+}
+
+.popupLeft {
+  text-align: left;
+}
+
+.popupRight {
+  text-align: right;
+}
+
+.popupButtons {
+  padding-top: 20px;
+  float: right;
+}
+
 td {
+  padding-top: 10px;
   text-align: right;
 }

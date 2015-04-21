@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>A Simple Turing Machine Editor</title>
+    <link href="tm.css" rel="stylesheet" type="text/css">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    
+    <script src="main.js"></script>
+    <script src="behaviors.js"></script>
+    
+    <script src="brush/brush.js"></script>
+    
+    <script src="graph/graph.js"></script>
+    <script src="graph/delete.js"></script>
+    
+    <script src="edges/edges.js"></script>
+    <script src="edges/initial.js"></script>
+    <script src="edges/selection.js"></script>
+    <script src="edges/dragging.js"></script>
+    <script src="edges/edit.js"></script>
+    
+    <script src="nodes/nodes.js"></script>
+    <script src="nodes/movement.js"></script>
+    <script src="nodes/selection.js"></script>
+    <script src="nodes/doubleclicking.js"></script>
+    <script src="nodes/snaptogrid.js"></script>
+    <script src="nodes/forcedirected.js"></script>
+    
+    <script src="menu/top.js"></script>
+    <script src="menu/modal.js"></script>
+    <script src="menu/table.js"></script>
+    <script src="menu/tabletop.js"></script>
+    
+    <script src="simulation/dfa.js"></script>
+    <script src="simulation/nfa.js"></script>
+    <script src="simulation/sim.js"></script>
+    <script src="simulation/bulk.js"></script>
+    
+  </head>
+  <body onload="run()" onresize="gGraph.resize()">
+    <div class="menu">
+      <button type="button" onclick="gTopMenu.addNode()">+ Add New State</button>
+      <span class="nontable" id="selectedText">Selected states:</span>
+      <button type="button" class="acceptButton nontable" onclick="gTopMenu.setState(true, false)">&#x2713; Accepting</button>
+      <button type="button" class="neitherButton nontable" onclick="gTopMenu.setState(false, false)">&#x2717; Rejecting</button>
+      <!--
+        Not needed until Turing Machines
+        <button type="button" class="rejectButton" onclick="gTopMenu.setState(false, true)">&#x2717; Rejecting</button>
+        <button type="button" class="neitherButton" onclick="gTopMenu.setState(false, false)">&#x25cb; Neither</button>
+      -->
+      <button class="nontable" type="button" onclick="gTopMenu.setInitial ()">&#x2192; Set as Start</button>
+      <button class="nontable" type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
+      <input class="fileInput" id="fileInput" type="file" onchange="gTopMenu.load ();">
+      <button type="button" onclick="gTopMenu.openLoadDialog ()">Load</button>
+      <button type="button" onclick="gTopMenu.save ()">Download as JSON</button>
+      <button type="button" onclick="gTopMenu.runTests ()">Run tests</button>
+      <button class="nontable" type="button" onclick="gTopMenu.snapToGrid ()">Snap to Grid</button>
+      <button class="swapButton" type="button" onclick="gTableTopMenu.swap ()">Switch to Table View</button>
+    </div>
+    <div class="gui">
+      <svg height="100%" width="100%">
+        <g class="brush" />
+        <g class="nodesLower" />
+        <g class="edgesLower" />
+        <g class="edges" />
+        <g class="miscEdges" />
+        <g class="nodes" />
+      </svg>
+      <table class="tableEditorHeader">
+      </table>
+      <table class="tableEditor">
+      </table>
+    </div>
+    <div class="modal overlay">
+      <div class="edgeEntry popup">
+        <div width="100%" height="150px" class="popupTitle">
+          <span>Edit Edge</span>
+        </div>
+        <br />
+        <table width="100%">
+          <tr>
+            <td class="popupLeft">Characters</td>
+            <td class="popupRight"><input type="text" class="edgeChars" size="20"></td>
+          </tr>
+          <tr>
+            <td>
+            </td>
+            <td class="popupRight">
+              <button type="button" onclick="gModalMenu.addAllEdgeChars ()">Add All</button>
+              <button type="button" onclick="gModalMenu.invertEdgeChars ()">Invert</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="popupLeft">Include Ɛ</td>
+            <td class="popupRight"><input type="checkbox" class="epsilon" size="1"></td>
+          </tr>
+        </table>
+        <div class="popupButtons">
+          <button type="button" onclick="gModalMenu.close ('edgeEntry')">Cancel</button>
+          <button type="button" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
+        </div>
+      </div>
+      
+      <div class="testing popup">
+        <div width="100%" height="150px" class="popupTitle">
+          <span>Run Tests</span>
+        </div>
+        <br />
+        <div width="400px">
+          Enter one test input per line. Append " A" or "R" for Accept and Reject to the end of each line to give an expected result.
+        </div>
+        <table width="100%" height="200px">
+          <tr>
+            <td class="popupLeft" width="30%">
+              <textarea cols="25" width="100%" class="testingText"></textarea>
+            </td>
+            <td class="popupRight" style="vertical-align: top;" width="70%">
+              <table class="testingHeader" width="100%" height="20px">
+                <tr>
+                  <td width="60%" style="text-align: center; padding: 0;">Input</td>
+                  <td width="20%" style="text-align: center; padding: 0;">Result</td>
+                  <td width="20%" style="text-align: center; padding: 0;">Matches</td>
+                </tr>
+              </table>
+              <table class="testingResults" width="100%">
+              </table>
+            </td>
+          </tr>
+        </table>
+        <div class="popupButtons">
+          <button type="button" onclick="gModalMenu.close ('testing')">Close</button>
+          <button type="button" onclick="gModalMenu.submit ('testing')">Run</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -71,6 +71,7 @@ gEdges.init = function () {
   gEdges.initInitial ();
   gEdges.initSelection ();
   gEdges.initDragging ();
+  gEdges.initEditing ();
 };
 
 gEdges.addEdge = function (source, target) {
@@ -111,9 +112,10 @@ gEdges.removeNode = function (node) {
 gEdges.save = function () {
   var saveData =
     {
-      edgeMap: gEdges.edgeMap,
-      edges: gEdges.edges
+      edgeMap: JSON.parse (JSON.stringify (gEdges.edgeMap)),
+      edges: JSON.parse (JSON.stringify (gEdges.edges))
     };
+  console.log (JSON.stringify(saveData.edges));
   saveData.edges.forEach (function (edge) {
     edge.source = edge.source.id;
     edge.target = edge.target.id;
@@ -164,9 +166,13 @@ gEdges.drawDOMEdges = function (lowerSelection, upperSelection) {
   
   upperSelection.select ("text")
     .attr("x", function (edge) { 
-      return gEdges.getTextPosition (edge.source, edge.target, { width: 60, height: 60 }).x; 
+      var height = this.getBoundingClientRect ().height;
+      var width = this.getBoundingClientRect ().width;
+      return gEdges.getTextPosition (edge.source, edge.target, { width: 60, height: 20 }).x; 
     }).attr("y", function (edge) { 
-      return gEdges.getTextPosition (edge.source, edge.target, { width: 60, height: 60 }).y; 
+      var height = this.getBoundingClientRect ().height;
+      var width = this.getBoundingClientRect ().width;
+      return gEdges.getTextPosition (edge.source, edge.target, { width: 60, height: 20 }).y; 
     });
     
   var tspans = upperSelection.select ("text")
@@ -186,7 +192,9 @@ gEdges.drawDOMEdges = function (lowerSelection, upperSelection) {
       return text;
     })
     .attr ("x", function (d, i2, i1) { 
-      return gEdges.getTextPosition (gEdges.edges[i1].source, gEdges.edges[i1].target, { width: 60, height: 60 }).x; 
+      var width = this.parentNode.getBoundingClientRect ().height;
+      var height = this.parentNode.getBoundingClientRect ().width;
+      return gEdges.getTextPosition (gEdges.edges[i1].source, gEdges.edges[i1].target, { width: 60, height: 20 }).x; 
     }).attr ("dy", gEdges.TRANSITION_DY);
     
   gEdges.drawInitial ();

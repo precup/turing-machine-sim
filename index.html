@@ -1,61 +1,121 @@
-<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>A Simple Turing Machine Editor</title>
     <link href="tm.css" rel="stylesheet" type="text/css">
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    
-    <script src="main.js"></script>
-    <script src="behaviors.js"></script>
-    
-    <script src="brush/brush.js"></script>
-    
-    <script src="graph/graph.js"></script>
-    <script src="graph/delete.js"></script>
-    
-    <script src="edges/edges.js"></script>
-    <script src="edges/initial.js"></script>
-    <script src="edges/selection.js"></script>
-    <script src="edges/dragging.js"></script>
-    
-    <script src="nodes/nodes.js"></script>
-    <script src="nodes/movement.js"></script>
-    <script src="nodes/selection.js"></script>
-    <script src="nodes/doubleclick.js"></script>
-    <script src="nodes/snaptogrid.js"></script>
-    <script src="nodes/forcedirected.js"></script>
-    
-    <script src="menu/top.js"></script>
+    <script>
+      var psets = 
+        [
+          {
+            name: "Problem Set 3",
+            problems: [
+              { name: "1: Bacon ipsum", charSet: "yd", type: "dfa" },
+              { name: "2: Dolor amet", charSet: "yd", type: "dfa" },
+              { name: "3: Flank meatloaf", charSet: "yd", type: "nfa" }
+            ]
+          },
+          {
+            name: "Problem Set 4",
+              problems: [
+              { name: "1: Short loin", charSet: "abc", type: "dfa" },
+              { name: "2: T-bone alcatra", charSet: "abc", type: "dfa" },
+              { name: "3: Filet mignon", charSet: "abc", type: "dfa" },
+              { name: "4: Beef leberkas", charSet: "01", type: "nfa" },
+              { name: "5: Picanha ham", charSet: "01", type: "nfa" },
+              { name: "6: Pig shoulder", charSet: "01", type: "nfa" }
+            ]
+          },
+          {
+            name: "Problem Set 5",
+              problems: [
+              { name: "3: Chuck shank", charSet: "0123", type: "turing" },
+              { name: "4: Chicken boudin", charSet: "0123", type: "turing" },
+              { name: "5: Corned beef", charSet: "0123", type: "turing" }
+            ]
+          }
+        ];
+        
+      function setup () {
+        var psetSelect = d3.select (".pset").selectAll ("option").data (psets);
+        psetSelect.enter ()
+          .append ("option")
+          .attr ("value", function (pset, i) { return i; })
+          .each (function (pset, i) { this.innerHTML = pset.name; });
+        d3.select ('.pset').node ().selectedIndex = 0;
+        changeNumbers ();
+      }
+        
+      function changeNumbers () {
+        var psetNum = d3.select ('.pset').node ().selectedIndex;
+        
+        var problemSelect = d3.select (".problem").selectAll ("option").data (psets[psetNum].problems);
+        
+        problemSelect.enter ().append ("option");
+          
+        problemSelect.attr ("value", function (problem) { return problem.charSet; })
+          .each (function (problem) { this.innerHTML = problem.name; });
+          
+        problemSelect.exit ().remove ();
+        d3.select ('.problem').node ().selectedIndex = 0;
+      }
+      
+      function createPset () {
+        var psetNum = d3.select ('.pset').node ().selectedIndex;
+        var problemNum = d3.select ('.problem').node ().selectedIndex;
+        var charSet = psets[psetNum].problems[problemNum].charSet;
+        var type = psets[psetNum].problems[problemNum].type;
+        var url = window.location.href;
+        var loc = url.lastIndexOf ("/") + 1;
+        if (loc <= 8) {
+          url += "/";
+        } else {
+          url = url.substring (0, loc);
+        }
+        window.location = url + "tm.html?type=" + type +
+                          "&charset=" + charSet +
+                          "&pset=" + psetNum +
+                          "&problem=" + problemNum;
+      }
+      
+      function createOther () {
+        var type = d3.select ('.type').node ().selected;
+        var charSet = d3.select ('.language').node ().value;
+        var url = window.location.href;
+        var loc = url.lastIndexOf ("/") + 1;
+        if (loc <= 8) {
+          url += "/";
+        } else {
+          url = url.substring (0, loc);
+        }
+        window.location = url + "tm.html?type=" + type +
+                          "&charset=" + charSet;
+      }
+        
+    </script>
   </head>
-  <body onload="run()" onresize="gGraph.resize()">
-    <div class="menu">
-      <button type="button" onclick="gTopMenu.addNode()">+ Add New State</button>
-      <span id="selectedText">Selected states:</span>
-      <button type="button" class="acceptButton" onclick="gTopMenu.setState(true, false)">&#x2713; Accepting</button>
-      <button type="button" class="neitherButton" onclick="gTopMenu.setState(false, false)">&#x2717; Rejecting</button>
-      <!--
-        Not needed until Turing Machines
-        <button type="button" class="rejectButton" onclick="gTopMenu.setState(false, true)">&#x2717; Rejecting</button>
-        <button type="button" class="neitherButton" onclick="gTopMenu.setState(false, false)">&#x25cb; Neither</button>
-      -->
-      <button type="button" onclick="gTopMenu.setInitial ()">&#x2192; Set as Start</button>
-      <button type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
-      <input class="fileInput" id="fileInput" type="file" onchange="gTopMenu.load ();">
-      <button type="button" onclick="gTopMenu.openLoadDialog ()">Load</button>
-      <button type="button" onclick="gTopMenu.save ()">Download as JSON</button>
-      <button type="button" onclick="gTopMenu.openModal ('.testing')">Run test</button>
-      <button type="button" onclick="gTopMenu.snapToGrid ()">Snap to Grid</button>
+  <body onload="setup ()">
+    Pick a problem to create a new automata for:
+    <div>
+      Problem Set: <select class="pset" onchange="changeNumbers ()"></select>
+      <br>
+      Problem Number: <select class="problem"></select>
+      <br>
+      <button onclick="createPset ()">Create</button>
     </div>
-    <div class="gui">
-      <svg height="100%" width="100%">
-        <g class="brush" />
-        <g class="nodesLower" />
-        <g class="edgesLower" />
-        <g class="edges" />
-        <g class="miscEdges" />
-        <g class="nodes" />
-      </svg>
+    <br>
+    Or, create an automata with your own settings:
+    <div>
+      Automata type: 
+      <select class="type">
+        <option value="dfa">DFA</option>
+        <option value="nfa">NFA</option>
+        <option value="turing">Turing Machine</option>
+      </select>
+      <br>
+      Language: <input type="text" class="language" value="abcd"></input>
+      <br>
+      <button onclick="createOther ()">Create</button>
     </div>
   </body>
 </html>
