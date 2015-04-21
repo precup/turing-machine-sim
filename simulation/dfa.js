@@ -4,7 +4,7 @@ var gDFASimulator =
   
 gDFASimulator.step = function (graph, initial, input, index) {
   var transitionTable = gSimulator.convert (graph);
-  return transitionTable[initial][input[index]];
+  return transitionTable[initial][input[index]][0];
 };
 
 gDFASimulator.run = function (graph, input) {

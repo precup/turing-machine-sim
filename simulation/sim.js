@@ -9,7 +9,7 @@ gSimulator.convert = function (graph) {
     }
   });
   graph.edges.edges.forEach (function (edge) {
-    edge.transitions.forEach (function (input) {
+    edge.transitions[0].forEach (function (input) {
       transitionTable[edge.source][input].push (edge.target);
     });
   });

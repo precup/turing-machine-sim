@@ -108,6 +108,12 @@ circle.inner {
   shape-rendering: crispEdges;
 }
 
+.tapeRect {
+  fill: white;
+  stroke: black;
+  stroke-width: 2px;
+}
+
 .json {
   display: none;
   width: 400px;

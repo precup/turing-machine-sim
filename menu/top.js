@@ -49,6 +49,19 @@ gTopMenu.runTests = function () {
   gModalMenu.open ("testing");
 };
 
+gTopMenu.run = function () {
+  gTape.show ();
+  gTape.run (d3.select (".stepText").node ().value);
+};
+
+gTopMenu.end = function () {
+  gTape.hide ();
+};
+
+gTopMenu.step = function () {
+  gTape.step ();
+};
+
 gTopMenu.load = function () {
   var files = document.getElementById ("fileInput").files;
   if (files.length < 1) return;

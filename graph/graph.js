@@ -23,6 +23,7 @@ gGraph.init = function () {
   gNodes.init ();
   gEdges.init ();
   gBrush.init ();
+  gTape.init ();
   gGraph.initDelete ();
   
   gBehaviors.addBehavior ("page", "keydown", function () { return true; }, gGraph.keydown);
@@ -62,6 +63,7 @@ gGraph.draw = function () {
   gEdges.draw ();
   gTopMenu.draw ();
   gTableMenu.draw ();
+  gTape.draw ();
 }
 
 // TODO: Make the resizing more useful

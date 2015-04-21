@@ -36,6 +36,7 @@
     <script src="simulation/nfa.js"></script>
     <script src="simulation/sim.js"></script>
     <script src="simulation/bulk.js"></script>
+    <script src="simulation/tape.js"></script>
     
   </head>
   <body onload="run()" onresize="gGraph.resize()">
@@ -56,6 +57,10 @@
       <button type="button" onclick="gTopMenu.save ()">Download as JSON</button>
       <button type="button" onclick="gTopMenu.runTests ()">Run tests</button>
       <button class="nontable" type="button" onclick="gTopMenu.snapToGrid ()">Snap to Grid</button>
+      <input class="stepText" type="text" value=""></input>
+      <button class="nontable" type="button" onclick="gTopMenu.run ()">Run</button>
+      <button class="nontable" type="button" onclick="gTopMenu.step ()">Step</button>
+      <button class="nontable" type="button" onclick="gTopMenu.end ()">End</button>
       <button class="swapButton" type="button" onclick="gTableTopMenu.swap ()">Switch to Table View</button>
     </div>
     <div class="gui">
@@ -66,6 +71,7 @@
         <g class="edges" />
         <g class="miscEdges" />
         <g class="nodes" />
+        <g class="tape" />
       </svg>
       <table class="tableEditor">
       </table>

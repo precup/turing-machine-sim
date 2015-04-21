@@ -21,6 +21,7 @@ gNodes.moveSelected = function (dx, dy) {
   gEdges.drawDOMEdges (lowerG, upperG);
   
   gEdges.drawInitial ();
+  gTape.draw ();
 };
 
 gNodes.movementInit = function () {
