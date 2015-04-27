@@ -8,6 +8,7 @@ create table users (
   isTA boolean,
   primary key (id)
 );
+/* probably want to make sunetid the primary key */
 
 create table automatas (
   id integer not null auto_increment,
@@ -32,9 +33,10 @@ create table problems (
 
 create table submissions (
   id integer not null auto_increment,
-  automata_id integer unique,
+  user_id integer,
   problem_id integer,
+  automata mediumtext,
   primary key (id),
-  foreign key (automata_id) references automatas(id),
+  foreign key (user_id) references users(id),
   foreign key (problem_id) references problems(id)
 );
