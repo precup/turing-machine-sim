@@ -76,16 +76,35 @@ gTopMenu.load = function () {
   reader.readAsText (file);
 };
 
-gTopMenu.save = function () {
-  var saveData = gGraph.save ();
-  var a = window.document.createElement ('a');
-  a.href = window.URL.createObjectURL (new Blob ([JSON.stringify(saveData)], { type: 'text/json' }));
-  a.download = "turing-machine.json";
+gTopMenu.save = function (elem) {
+  var save_url = "/api/save.php";
+  elem.innerHTML = "Saving...";
+  var stringGraph = JSON.stringify(gGraph.save());
+  var name = "name";
 
-  document.body.appendChild (a)
-  a.click ();
-  document.body.removeChild (a)
+  var pack = {
+    automata: stringGraph,
+    name: name
+  };
+  console.log(pack);
+  d3.xhr(save_url)
+    .header("Content-Type", "application/json")
+    .post(
+      JSON.stringify(pack),
+      function(err, rawData) {
+        if (err) {
+          elem.innerHTML = "Failed";
+        } else { 
+          elem.innerHTML = "Saved!";
+        }
+        console.log(rawData);
+        window.setTimeout(function() {
+          elem.innerHTML = "Save"; // return to original
+        }, 1000);
+      }
+    );
 };
+
 
 gTopMenu.draw = function () {
   var selectedText = "";
