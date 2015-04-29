@@ -106,7 +106,41 @@
         <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
       </div>
     </div>
-    <div class="modal overlay">
+    <div class="modal overlay" style="display:block">
+
+      <div class="load popup">
+        <div class="modal-header">
+          Load Automaton
+        </div>
+        <div class="modal-content">
+          <ul>
+            <li>First</li>
+            <li>Second</li>
+            <li>Third</li>
+            <li>Fourth</li>
+            <li class="selected">First</li>
+            <li>Second</li>
+            <li>Third</li>
+            <li>Fourth</li>
+          </ul>
+        </div>
+        <div class="modal-buttons">
+          <button type="button">Cancel</button>
+          <button type="button" class="button-primary">Load</button>
+        </div>
+      </div>
+
+      <div class="save popup" style="display: none">
+        <div class="modal-header">
+          Save as
+        </div>
+        <input type="text">
+        <div class="modal-buttons">
+          <button type="button">Cancel</button>
+          <button type="button" class="button-primary">Save</button>
+        </div>
+      </div>
+
       <div class="edgeEntry popup">
         <div width="100%" height="150px" class="popupTitle">
           <span>Edit Edge</span>
@@ -166,6 +200,9 @@
           <button type="button" onclick="gModalMenu.close ('testing')">Close</button>
           <button type="button" onclick="gModalMenu.submit ('testing')">Run</button>
         </div>
+      </div>
+
+      <div class="bg" style="display:none;">
       </div>
     </div>
   </body>
