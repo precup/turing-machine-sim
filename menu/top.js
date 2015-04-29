@@ -46,13 +46,13 @@ gTopMenu.snapToGrid = function () {
 };
 
 gTopMenu.loadFromServer = function () {
+  gModalMenu.open("load");
   gServer.listSaved (function (data) {
     var names = [];
     data.forEach(function(elem, index, arr) {
       names.push(elem["name"]);
     });
     gModalMenu.setLoadNames (names);
-    gModalMenu.open("load");
   });
 };
 
