@@ -99,7 +99,11 @@ gModalMenu.setLoadNames = function (names) {
   lis.classed ("selected", false)
     .each (function (name) {
       this.innerHTML = name;
-     });
+     })
+    .on ("click", function () {
+      d3.select (this).classed ("selected", true);
+    })
+    .style ("cursor", "pointer");
   lis.exit ().remove ();
 };
 
