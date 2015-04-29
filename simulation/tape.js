@@ -1,8 +1,6 @@
 var gTape =
   {
-    CELL_SIZE: 100,
-    BOTTOM_OFFSET: 120,
-    SELECT_RADIUS: 50,
+    SELECT_RADIUS: 50
   };
 
 gTape.init = function () {
@@ -12,9 +10,14 @@ gTape.init = function () {
     .style ("stroke", "blue")
     .attr ("r", gTape.SELECT_RADIUS);
   gTape.hide ();
+  gTape.done = true;
+  gTape.running = false;
 };
 
-gTape.run = function (input) {
+gTape.run = function () {
+  var input = gTestMenu.text;
+  gTape.done = false;
+  gTape.running = true;
   d3.select (".tape")
     .select ("circle")
     .style ("stroke", "blue");
@@ -22,22 +25,6 @@ gTape.run = function (input) {
   gTape.input = input.split ("");
   gTape.index = 0;
   gTape.follow = gTape.current = gNodes.initial;
-  var gs = d3.select (".tape").selectAll ("g").data (gTape.input);
-  
-  var newG = gs.enter ()
-    .append ("g");
-  newG.append ("rect")
-    .attr ("width", gTape.CELL_SIZE)
-    .attr ("height", gTape.CELL_SIZE)
-    .classed ("tapeRect", true);
-    
-  gs.select ("rect")
-    .attr ("x", function (input, i) {
-      return i * gTape.CELL_SIZE + gGraph.width / 2 -  gTape.input.length * gTape.CELL_SIZE / 2;
-    })
-    .attr ("y", gGraph.height - gTape.CELL_SIZE - gTape.BOTTOM_OFFSET);
-    
-  gs.exit ().remove ();
   gTape.draw ();
 };
 
@@ -58,6 +45,12 @@ gTape.draw = function () {
         .style ("stroke", "green");
     }
   }
+  if (gTape.running && gTape.index <= gTape.input.length) {
+    d3.selectAll (".tape-char")
+      .classed ("current-tape-char", function (junk, i) {
+        return gTape.index == i;
+      });
+  }
 };
 
 gTape.show = function () {
@@ -65,10 +58,15 @@ gTape.show = function () {
 };
 
 gTape.hide = function () {
+  gTape.done = true;
+  gTape.running = false;
   d3.select (".tape").style ("opacity", 0);
 };
 
 gTape.step = function () {
+  if (!gTape.running) {
+    gTape.run ();
+  }
   if (typeof gTape.current != "undefined" && gTape.index != gTape.input.length) {
     var next = gDFASimulator.step (gGraph.save (), gTape.current.id,  gTape.input,  gTape.index++);
     gTape.current = gNodes.nodes[gNodes.getNodeIndex (next)];

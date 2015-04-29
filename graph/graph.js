@@ -16,6 +16,7 @@ gGraph.init = function () {
   gEdges.init ();
   gBrush.init ();
   gTape.init ();
+  gTestMenu.init ();
   gGraph.initDelete ();
   
   gBehaviors.addBehavior ("page", "keydown", function () { return true; }, gGraph.keydown);
