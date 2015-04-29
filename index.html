@@ -21,7 +21,7 @@
         changeNumbers ();
         gServer.listSaved (setupSaved);
       }
-      
+
       function setupSaved (names) {
         var savedSelect = d3.select (".saved").selectAll ("li").data (names);
 
@@ -34,7 +34,7 @@
         savedSelect.each (function (nameObj) { this.innerHTML = nameObj.name; });
 
         savedSelect.exit ().remove ();
-        
+
         if (names.length == 0) {
           d3.select (".saved")
             .append ("li")
@@ -42,7 +42,7 @@
             .html ("<p class='modal-description'>Nothing's been saved yet</p>");
         }
       }
-      
+
       function loadSaved (name) {
         var url = window.location.href;
         var loc = url.lastIndexOf ("/") + 1;

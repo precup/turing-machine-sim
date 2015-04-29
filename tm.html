@@ -198,17 +198,27 @@
       </div>
 
       <div class="testing popup">
-        <div width="100%" height="150px" class="popupTitle">
+        <div class="modal-header">
           <span>Run Tests</span>
         </div>
         <div class="modal-content">
           <p class="modal-description">
             Enter one test input per line. Append " A" or "R" for Accept and Reject to the end of each line to give an expected result.
           </p>
-          <table width="100%" height="200px">
+          <table class="layout">
             <tr>
               <td class="popupLeft" width="50%">
-                <textarea cols="25" class="testingText" style="width:100%"></textarea>
+                <table class="testingHeader">
+                  <tr>
+                    <td>Input</td>
+                    <td>A</td>
+                    <td>R</td>
+                  <tr>
+                    <td><input type="text" class="gridInput"></td>
+                    <td><input type="radio"></td>
+                    <td><input type="radio"></td>
+                  </tr>
+                </table>
               </td>
               <td class="popupRight" style="vertical-align: top;" width="50%">
                 <table class="testingHeader" width="100%" height="20px">
