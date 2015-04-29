@@ -23,6 +23,9 @@ gModalMenu.submit = function (type) {
     case "testing":
       gSimulator.runTests ();
       break;
+    case "save":
+      gServer.save ();
+      break;
     default:
       break;
   }

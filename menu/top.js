@@ -45,11 +45,6 @@ gTopMenu.snapToGrid = function () {
   gGraph.draw ();
 };
 
-gTopMenu.forcedDirectedLayout = function () {
-  gNodes.forcedDirectedLayout ();
-  gGraph.draw ();
-};
-
 gTopMenu.loadFromServer = function () {
     var list_url = "/api/list.php";
     d3.xhr(list_url)
@@ -93,33 +88,9 @@ gTopMenu.load = function () {
   reader.readAsText (file);
 };
 
-gTopMenu.save = function (elem) {
-  var save_url = "/api/save.php";
-  elem.innerHTML = "Saving...";
-  var stringGraph = JSON.stringify(gGraph.save());
-  var name = "name";
-
-  var pack = {
-    automata: stringGraph,
-    name: name
-  };
-  console.log(pack);
-  d3.xhr(url_prefix + save_url)
-    .header("Content-Type", "application/json")
-    .post(
-      JSON.stringify(pack),
-      function(err, rawData) {
-        if (err) {
-          elem.innerHTML = "Failed";
-        } else { 
-          elem.innerHTML = "Saved!";
-        }
-        console.log(rawData);
-        window.setTimeout(function() {
-          elem.innerHTML = "Save"; // return to original
-        }, 1000);
-      }
-    );
+gTopMenu.save = function () {
+  gModalMenu.setSaveName(gServer.name);
+  gModalMenu.open("save");
 };
 
 

@@ -40,6 +40,8 @@
     <script src="simulation/bulk.js"></script>
     <script src="simulation/tape.js"></script>
 
+    <script src="server/server.js"></script>
+
   </head>
   <body onload="run()" onresize="gGraph.resize()">
     <div class="menu">
@@ -129,7 +131,7 @@
         <input type="text" class="saveText"></input>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
-          <button type="button" class="button-primary" onclick="gModalMenu.submit ('save')">Save</button>
+          <button type="button" class="button-primary saveButton" onclick="gModalMenu.submit ('save')">Save</button>
         </div>
       </div>
 
