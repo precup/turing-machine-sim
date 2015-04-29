@@ -51,12 +51,20 @@ gTestMenu.disallowInput = function () {
 };
 
 gTestMenu.runTests = function () {
-  gModalMenu.open ("testing");
+  if (gNodes.initial == null) {
+    gErrorMenu.displayError ("No initial node is set");
+  } else {
+    gModalMenu.open ("testing");
+  }
 };
 
 gTestMenu.run = function () {
-  gTape.show ();
-  gTape.run ();
+  if (gNodes.initial == null) {
+    gErrorMenu.displayError ("No initial node is set");
+  } else {
+    gTape.show ();
+    gTape.run ();
+  }
 };
 
 gTestMenu.end = function () {

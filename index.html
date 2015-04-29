@@ -4,37 +4,10 @@
     <title>Select a pset</title>
     <link href="styles/select.css" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <script src="psets.js"></script>
+    <script src="server/server.js"></script>
+    <script src="server/mock.js"></script>
     <script>
-      var psets =
-        [
-          {
-            name: "Problem Set 3",
-            problems: [
-              { name: "1: Bacon ipsum", charSet: "yd", type: "dfa" },
-              { name: "2: Dolor amet", charSet: "yd", type: "dfa" },
-              { name: "3: Flank meatloaf", charSet: "yd", type: "nfa" }
-            ]
-          },
-          {
-            name: "Problem Set 4",
-              problems: [
-              { name: "1: Short loin", charSet: "abc", type: "dfa" },
-              { name: "2: T-bone alcatra", charSet: "abc", type: "dfa" },
-              { name: "3: Filet mignon", charSet: "abc", type: "dfa" },
-              { name: "4: Beef leberkas", charSet: "01", type: "nfa" },
-              { name: "5: Picanha ham", charSet: "01", type: "nfa" },
-              { name: "6: Pig shoulder", charSet: "01", type: "nfa" }
-            ]
-          },
-          {
-            name: "Problem Set 5",
-              problems: [
-              { name: "3: Chuck shank", charSet: "0123", type: "turing" },
-              { name: "4: Chicken boudin", charSet: "0123", type: "turing" },
-              { name: "5: Corned beef", charSet: "0123", type: "turing" }
-            ]
-          }
-        ];
 
       function setup () {
         var psetSelect = d3.select (".pset").selectAll ("option").data (psets);
@@ -46,10 +19,42 @@
           .on ("change", changeNumbers)
           .node ().selectedIndex = 0;
         changeNumbers ();
+        gServer.listSaved (setupSaved);
+      }
+
+      function setupSaved (names) {
+        var savedSelect = d3.select (".saved").selectAll ("li").data (names);
+
+        savedSelect.enter ()
+          .append ("li")
+          .on ("click", function (nameObj, i) {
+            loadSaved (nameObj.name);
+          });
+
+        savedSelect.each (function (nameObj) { this.innerHTML = nameObj.name; });
+
+        savedSelect.exit ().remove ();
+
+        if (names.length == 0) {
+          d3.select (".saved")
+            .append ("li")
+            .classed ("load-nothing", true)
+            .html ("<p class='modal-description'>Nothing's been saved yet</p>");
+        }
+      }
+
+      function loadSaved (name) {
+        var url = window.location.href;
+        var loc = url.lastIndexOf ("/") + 1;
+        if (loc <= 8) {
+          url += "/";
+        } else {
+          url = url.substring (0, loc);
+        }
+        window.location = url + "tm.html?saved=" + name;
       }
 
       function changeNumbers () {
-        console.log ("fired");
         var psetNum = d3.select ('.pset').node ().selectedIndex;
         var problemSelect = d3.select (".problem").selectAll ("li").data (psets[psetNum].problems);
 
@@ -82,7 +87,7 @@
       }
 
       function createOther () {
-        var type = d3.select ('.type').node ().selected;
+        var type = d3.select ('.dfa-radio').node ().checked ? "dfa" : "nfa";
         var charSet = d3.select ('.language').node ().value;
         var url = window.location.href;
         var loc = url.lastIndexOf ("/") + 1;
@@ -112,17 +117,17 @@
         I'm doing my own thing.
         <div class="custom-field">
           <form>
-            <label><input type="radio" name="type">DFA</label>
+            <label><input type="radio" name="type" checked="checked" class="dfa-radio">DFA</label>
             <label><input type="radio" name="type">NFA</label>
-            <input type="text" placeholder="Alphabet">
-            <button type="button">Go</button>
+            <input type="text" placeholder="Alphabet" class="language"></input>
+            <button type="button" onclick="createOther()">Go</button>
           </form>
         </div>
       </div>
       <div class="custom">
         I'm loading something I've saved.
       </div>
-      <ul class="problem"><li class="load-nothing">You haven't saved anything yet.</li></ul>
+      <ul class="saved"></ul>
     </div>
   </body>
 </html>

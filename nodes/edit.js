@@ -22,8 +22,14 @@ gNodes.editNode = function (node) {
 };
 
 gNodes.editComplete = function () {
-  gNodes.editedNode.name = gModalMenu.getNodeName ();
-  gNodes.editedNode = null;
-  gModalMenu.close ("nodeEntry");
-  gGraph.draw ();
+  var name = gModalMenu.getNodeName ();
+  var index = gNodes.getNodeIndexFromName (name);
+  if (index == -1 || gNodes.nodes[index].id == gNodes.editedNode.id) {
+    gNodes.editedNode.name = name;
+    gNodes.editedNode = null;
+    gModalMenu.close ("nodeEntry");
+    gGraph.draw ();
+  } else {
+    gErrorMenu.displayError ("Node name \"" + name + "\" is already in use.");
+  }
 };
