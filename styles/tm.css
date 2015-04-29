@@ -305,12 +305,11 @@ textarea {
 
 .popup {
   position: fixed;
-  top: 50%;
+  top: 150px;
   left: 50%;
   z-index: 10;
   width: 400px;
   margin-left: -200px;
-  margin-top: -20%;
   background-color: #fff;
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -497,22 +496,6 @@ td {
 .modal-buttons {
   text-align: right;
   padding: 10px;
-}
-
-.load {
-  width: 400px;
-  box-sizing: border-box;
-  left: 50%;
-  top: 15%;
-  margin-left: -200px;
-}
-
-.save {
-  width: 400px;
-  box-sizing: border-box;
-  left: 50%;
-  top: 15%;
-  margin-left: -200px;
 }
 
 .load .modal-content {
