@@ -3,4 +3,3 @@ function run () {
   gGraph.init ();
 }
 
-url_prefix = "/class/cs103/cgi-bin/restricted";
