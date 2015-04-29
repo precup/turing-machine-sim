@@ -27,6 +27,15 @@ gEdges.editEdge = function (edge) {
   d3.event.stopPropagation ();
 };
 
+gEdges.editCancelled = function () {
+  if (gEdges.editedEdge.transitions[0].length == 0) {
+    gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
+  }
+  gEdges.editedEdge = null;
+  gModalMenu.close ("edgeEntry");
+  gGraph.draw ();
+};
+
 gEdges.editComplete = function () {
   var chars = gModalMenu.getEdgeCharacters ();
   chars = intersection (gGraph.charSet, chars);

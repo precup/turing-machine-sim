@@ -17,9 +17,24 @@ gModalMenu.submit = function (type) {
     case "edgeEntry":
       gEdges.editComplete ();
       break;
+    case "nodeEntry":
+      gNodes.editComplete ();
+      break;
     case "testing":
       gSimulator.runTests ();
+      break;
     default:
+      break;
+  }
+}
+
+gModalMenu.cancel = function (type) {
+  switch (type) {
+    case "edgeEntry":
+      gEdges.editCancelled ();
+      break;
+    default:
+      gModalMenu.close (type);
       break;
   }
 }
@@ -54,3 +69,11 @@ gModalMenu.setEdgeChars = function (chars) {
 gModalMenu.getEdgeCharacters = function () {
   return d3.select(".edgeChars").node().value;
 }
+
+gModalMenu.getNodeName = function () {
+  return d3.select (".nodeName").node ().value;
+};
+
+gModalMenu.setNodeName = function (name) {
+  d3.select (".nodeName").node ().value = name;
+};

@@ -6,7 +6,7 @@ gBehaviors.init = function () {
   gBehaviors.handlers = {};
   
   gBehaviors.configure ("edges", ["mousedown", "mousemove", "mouseup", "dblclick"]);
-  gBehaviors.configure ("nodes", ["mousedown", "drag", "mouseover", "mouseout", "mouseup"]);
+  gBehaviors.configure ("nodes", ["mousedown", "drag", "mouseover", "mouseout", "mouseup", "dblclick"]);
   gBehaviors.configure ("lowerNodes", ["mousedown", "mousemove", "mouseover", "mouseout"]);
   gBehaviors.configure ("brush", ["brushstart", "brush"]);
   gBehaviors.configure ("background", ["dblclick", "mousemove", "mouseover", "mouseup", "mousedown"]);
@@ -20,8 +20,6 @@ gBehaviors.configure = function (type, events) {
   events.forEach (function (event) {
     gBehaviors.handlers[type][event] = [];
     gBehaviors[type][event] = function (data) {
-      // console.log ("event triggered for " + type + ", event is: " + event);
-      // console.log (gBehaviors.handlers[type][event].length);
       gBehaviors.handlers[type][event].forEach (function (entry) {
         if (entry.condition (data)) {
           entry.action (data);

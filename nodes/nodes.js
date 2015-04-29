@@ -24,6 +24,7 @@ gNodes.init = function () {
   gNodes.selectionInit ();
   gNodes.movementInit ();
   gNodes.doubleClickInit ();
+  gNodes.editInit ();
 };
 
 gNodes.setInitial = function () {

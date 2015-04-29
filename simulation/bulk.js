@@ -11,7 +11,7 @@ gSimulator.runTests = function () {
         expected: gSimulator.NEITHER,
         testCase: line
       };
-    if (line.endsWith (" A") || line.endsWith (" R")) {
+    if (line.endsWith ("A") || line.endsWith ("R")) {
       input.expected = line.endsWith ("A") ? gSimulator.ACCEPT : gSimulator.REJECT;
       input.testCase = line.substring (0, line.length - 2);
     }

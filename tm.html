@@ -23,6 +23,7 @@
     <script src="edges/edit.js"></script>
 
     <script src="nodes/nodes.js"></script>
+    <script src="nodes/edit.js"></script>
     <script src="nodes/movement.js"></script>
     <script src="nodes/selection.js"></script>
     <script src="nodes/doubleclicking.js"></script>
@@ -53,6 +54,7 @@
       <div class="right">
         <button type="button" onclick="gTopMenu.loadFromServer ()">Load</button>
         <button class="nontable" type="button" onclick="gTopMenu.snapToGrid ()">Snap to Grid</button>
+        <button class="nontable" type="button" onclick="gTopMenu.forcedDirectedLayout ()">Force Directed Layout</button>
       </div>
       <!--
         Not needed until Turing Machines
@@ -133,7 +135,7 @@
           </tr>
         </table>
         <div class="popupButtons">
-          <button type="button" onclick="gModalMenu.close ('edgeEntry')">Cancel</button>
+          <button type="button" onclick="gModalMenu.cancel ('edgeEntry')">Cancel</button>
           <button type="button" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
         </div>
       </div>
@@ -165,8 +167,28 @@
           </tr>
         </table>
         <div class="popupButtons">
-          <button type="button" onclick="gModalMenu.close ('testing')">Close</button>
+          <button type="button" onclick="gModalMenu.cancel ('testing')">Cancel</button>
           <button type="button" onclick="gModalMenu.submit ('testing')">Run</button>
+        </div>
+      </div>
+
+      <div class="nodeEntry popup">
+        <div width="100%" height="150px" class="popupTitle">
+          <span>Edit Node</span>
+        </div>
+        <br />
+        <div width="400px">
+          Enter a new name for this node. (5 character maximum)
+        </div>
+        <table width="100%">
+          <tr>
+            <td class="popupLeft">Name</td>
+            <td class="popupRight"><input type="text" class="nodeName" maxlength="5"></td>
+          </tr>
+        </table>
+        <div class="popupButtons">
+          <button type="button" onclick="gModalMenu.cancel ('nodeEntry')">Cancel</button>
+          <button type="button" onclick="gModalMenu.submit ('nodeEntry')">Update</button>
         </div>
       </div>
     </div>

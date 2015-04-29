@@ -230,6 +230,18 @@ textarea {
   resize: none;
 }
 
+.nodeEntry {
+  display: none;
+  width: 302px;
+  height: 174px;
+  margin-left: -151px;
+  margin-top: -87px;
+}
+
+.nodeEntry .popupTitle {
+  width: 342px;
+}
+
 .testing {
   display: none;
   width: 532px;
