@@ -5,6 +5,13 @@ gEdges.initEditing = function () {
     function () { 
       return true;
     }, gEdges.editEdge);
+  
+  d3.select (".edgeChars")
+    .on ("keypress", function () {
+      if (d3.event.keyCode == 13) {
+        gModalMenu.submit ("edgeEntry");
+      }
+    });
 };
 
 gEdges.editEdge = function (edge) {

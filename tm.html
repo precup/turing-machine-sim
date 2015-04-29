@@ -3,67 +3,75 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>A Simple Turing Machine Editor</title>
-    <link href="tm.css" rel="stylesheet" type="text/css">
+    <link href="styles/tm.css" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"></script>
-    
     <script src="main.js"></script>
     <script src="behaviors.js"></script>
     <script src="util.js"></script>
     <script src="queue.js"></script>
-    
     <script src="brush/brush.js"></script>
-    
+
     <script src="graph/graph.js"></script>
     <script src="graph/delete.js"></script>
-    
+
     <script src="edges/edges.js"></script>
     <script src="edges/initial.js"></script>
     <script src="edges/selection.js"></script>
     <script src="edges/dragging.js"></script>
     <script src="edges/edit.js"></script>
-    
+
     <script src="nodes/nodes.js"></script>
     <script src="nodes/movement.js"></script>
     <script src="nodes/selection.js"></script>
     <script src="nodes/doubleclicking.js"></script>
     <script src="nodes/snaptogrid.js"></script>
     <script src="nodes/forcedirected.js"></script>
-    
+
     <script src="menu/top.js"></script>
     <script src="menu/modal.js"></script>
     <script src="menu/table.js"></script>
     <script src="menu/tabletop.js"></script>
-    
+    <script src="menu/test.js"></script>
+
     <script src="simulation/dfa.js"></script>
     <script src="simulation/nfa.js"></script>
     <script src="simulation/sim.js"></script>
     <script src="simulation/bulk.js"></script>
     <script src="simulation/tape.js"></script>
-    
+
   </head>
   <body onload="run()" onresize="gGraph.resize()">
     <div class="menu">
-      <button type="button" onclick="gTopMenu.addNode()">+ Add New State</button>
-      <span class="nontable" id="selectedText">Selected states:</span>
-      <button type="button" class="acceptButton nontable" onclick="gTopMenu.setState(true, false)">&#x2713; Accepting</button>
-      <button type="button" class="neitherButton nontable" onclick="gTopMenu.setState(false, false)">&#x2717; Rejecting</button>
+      <div class="left">
+        <button type="button" onclick="gTopMenu.save (this)">Save</button>
+      </div>
+      <div class="center">
+        <button class="swapButton" type="button" onclick="gTableTopMenu.swap ()">Switch to Table View</button>
+      </div>
+      <div class="right">
+        <button type="button" onclick="gTopMenu.loadFromServer ()">Load</button>
+        <button class="nontable" type="button" onclick="gTopMenu.snapToGrid ()">Snap to Grid</button>
+      </div>
       <!--
         Not needed until Turing Machines
         <button type="button" class="rejectButton" onclick="gTopMenu.setState(false, true)">&#x2717; Rejecting</button>
         <button type="button" class="neitherButton" onclick="gTopMenu.setState(false, false)">&#x25cb; Neither</button>
       -->
-      <button class="nontable" type="button" onclick="gTopMenu.setInitial ()">&#x2192; Set as Start</button>
-      <button class="nontable" type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
-      <input class="fileInput" id="fileInput" type="file" onchange="gTopMenu.load ();">
-      <button type="button" onclick="gTopMenu.loadFromServer ()">Load</button>
-      <button type="button" onclick="gTopMenu.save (this)">Save</button>
-      <button type="button" onclick="gTopMenu.runTests ()">Run tests</button>
-      <button class="nontable" type="button" onclick="gTopMenu.snapToGrid ()">Snap to Grid</button>
-      <input class="stepText" type="text" value=""></input>
-      <button class="nontable" type="button" onclick="gTopMenu.run ()">Run</button>
-      <button class="nontable" type="button" onclick="gTopMenu.step ()">Step</button>
-      <button class="nontable" type="button" onclick="gTopMenu.end ()">End</button>
-      <button class="swapButton" type="button" onclick="gTableTopMenu.swap ()">Switch to Table View</button>
+      <!--<input class="fileInput" id="fileInput" type="file" onchange="gTopMenu.load ();">-->
+    </div>
+    <div class="menu">
+      <div class="left">
+        <button type="button" class="button-primary" onclick="gTopMenu.addNode()">+ Add New State</button>
+      </div>
+      <div class="center">
+        <div class="nontable" id="selectedText">Selected states:</div>
+      </div>
+      <div class="right">
+        <button class="nontable" type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
+        <button class="nontable" type="button" onclick="gTopMenu.setInitial ()">&#x2192; Set as Start</button>
+        <button type="button" class="acceptButton nontable" onclick="gTopMenu.setState(true, false)">&#x2713; Accepting</button>
+        <button type="button" class="neitherButton nontable" onclick="gTopMenu.setState(false, false)">&#x2717; Rejecting</button>
+      </div>
     </div>
     <div class="gui">
       <svg height="100%" width="100%">
@@ -78,7 +86,61 @@
       <table class="tableEditor">
       </table>
     </div>
-    <div class="modal overlay">
+    <div class="tape-bar">
+      <button onclick="gTestMenu.runTests ()">
+        Run Batch Test
+      </button >
+      <button onclick="gTestMenu.end ()">
+        End
+      </button>
+      <button onclick="gTestMenu.step ()">
+        Step
+      </button>
+      <button onclick="gTestMenu.run ()">
+        Run
+      </button>
+      <div class="tape-field">
+        <!--
+          <input type="text" class="tape-char current-tape-char" name="tapeChar[]" maxlength="1" />
+        -->
+        <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
+      </div>
+    </div>
+    <div class="modal overlay" style="display:block">
+
+      <div class="load popup">
+        <div class="modal-header">
+          Load Automaton
+        </div>
+        <div class="modal-content">
+          <ul>
+            <li>First</li>
+            <li>Second</li>
+            <li>Third</li>
+            <li>Fourth</li>
+            <li class="selected">First</li>
+            <li>Second</li>
+            <li>Third</li>
+            <li>Fourth</li>
+          </ul>
+        </div>
+        <div class="modal-buttons">
+          <button type="button">Cancel</button>
+          <button type="button" class="button-primary">Load</button>
+        </div>
+      </div>
+
+      <div class="save popup" style="display: none">
+        <div class="modal-header">
+          Save as
+        </div>
+        <input type="text">
+        <div class="modal-buttons">
+          <button type="button">Cancel</button>
+          <button type="button" class="button-primary">Save</button>
+        </div>
+      </div>
+
       <div class="edgeEntry popup">
         <div width="100%" height="150px" class="popupTitle">
           <span>Edit Edge</span>
@@ -107,7 +169,7 @@
           <button type="button" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
         </div>
       </div>
-      
+
       <div class="testing popup">
         <div width="100%" height="150px" class="popupTitle">
           <span>Run Tests</span>
@@ -138,6 +200,9 @@
           <button type="button" onclick="gModalMenu.close ('testing')">Close</button>
           <button type="button" onclick="gModalMenu.submit ('testing')">Run</button>
         </div>
+      </div>
+
+      <div class="bg" style="display:none;">
       </div>
     </div>
   </body>
