@@ -77,3 +77,11 @@ gModalMenu.getNodeName = function () {
 gModalMenu.setNodeName = function (name) {
   d3.select (".nodeName").node ().value = name;
 };
+
+gModalMenu.getSaveName = function () {
+  return d3.select (".saveText").node ().value;
+};
+
+gModalMenu.setSaveName = function (name) {
+  d3.select (".saveText").node ().value = name;
+};

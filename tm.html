@@ -102,9 +102,6 @@
         Run
       </button>
       <div class="tape-field">
-        <!--
-          <input type="text" class="tape-char current-tape-char" name="tapeChar[]" maxlength="1" />
-        -->
         <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
       </div>
     </div>
@@ -127,19 +124,19 @@
           </ul>
         </div>
         <div class="modal-buttons">
-          <button type="button">Cancel</button>
-          <button type="button" class="button-primary">Load</button>
+          <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
+          <button type="button" class="button-primary" onclick="gModalMenu.submit ('save')">Load</button>
         </div>
       </div>
 
-      <div class="save popup" style="display: none">
+      <div class="save popup">
         <div class="modal-header">
-          Save as
+          Save As
         </div>
-        <input type="text">
+        <input type="text" class="saveText"></input>
         <div class="modal-buttons">
-          <button type="button">Cancel</button>
-          <button type="button" class="button-primary">Save</button>
+          <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
+          <button type="button" class="button-primary" onclick="gModalMenu.submit ('save')">Save</button>
         </div>
       </div>
 
@@ -204,7 +201,6 @@
         </div>
       </div>
 
-<<<<<<< HEAD
       <div class="nodeEntry popup">
         <div width="100%" height="150px" class="popupTitle">
           <span>Edit Node</span>
@@ -223,9 +219,7 @@
           <button type="button" onclick="gModalMenu.cancel ('nodeEntry')">Cancel</button>
           <button type="button" onclick="gModalMenu.submit ('nodeEntry')">Update</button>
         </div>
-=======
       <div class="bg" style="display:none;">
->>>>>>> 1271ab412cfffbbb0ce6a7c6f3482eaec34dfae3
       </div>
     </div>
   </body>

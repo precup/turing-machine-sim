@@ -233,6 +233,14 @@ textarea {
   resize: none;
 }
 
+.load {
+  display: none;
+}
+
+.save {
+  display: none;
+}
+
 .nodeEntry {
   display: none;
   width: 302px;
