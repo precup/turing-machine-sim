@@ -3,23 +3,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>A Simple Turing Machine Editor</title>
-<<<<<<< HEAD
-    <link href="tm.css" rel="stylesheet" type="text/css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"></script>
+    <link href="styles/tm.css" rel="stylesheet" type="text/css">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
     
     <script src="main.js"></script>
     <script src="behaviors.js"></script>
     <script src="util.js"></script>
     <script src="queue.js"></script>
     
-=======
-    <link href="styles/tm.css" rel="stylesheet" type="text/css">
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-
-    <script src="main.js"></script>
-    <script src="behaviors.js"></script>
-
->>>>>>> 2237043e956af5b8f6989623d5db668faf88c9e1
     <script src="brush/brush.js"></script>
 
     <script src="graph/graph.js"></script>
@@ -42,6 +33,7 @@
     <script src="menu/modal.js"></script>
     <script src="menu/table.js"></script>
     <script src="menu/tabletop.js"></script>
+    <script src="menu/test.js"></script>
 
     <script src="simulation/dfa.js"></script>
     <script src="simulation/nfa.js"></script>
@@ -93,54 +85,28 @@
         <g class="nodes" />
         <g class="tape" />
       </svg>
-      <div class="tape-bar">
-        <button>
-          Run Batch Test
-        </button >
-        <button>
-          Step
-        </button >
-        <button>
-          Run
-        </button>
-        <div class="tape-field">
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char current-tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-          <input type="text" class="tape-char" name="tapeChar[]" maxlength="1" />
-        </div>
-      </div>
       <table class="tableEditor">
       </table>
+    </div>
+    <div class="tape-bar">
+      <button onclick="gTestMenu.runTests ()">
+        Run Batch Test
+      </button >
+      <button onclick="gTestMenu.end ()">
+        End
+      </button>
+      <button onclick="gTestMenu.step ()">
+        Step
+      </button>
+      <button onclick="gTestMenu.run ()">
+        Run
+      </button>
+      <div class="tape-field">
+        <!--
+          <input type="text" class="tape-char current-tape-char" name="tapeChar[]" maxlength="1" />
+        -->
+        <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
+      </div>
     </div>
     <div class="modal overlay">
       <div class="edgeEntry popup">

@@ -45,23 +45,6 @@ gTopMenu.snapToGrid = function () {
   gGraph.draw ();
 };
 
-gTopMenu.runTests = function () {
-  gModalMenu.open ("testing");
-};
-
-gTopMenu.run = function () {
-  gTape.show ();
-  gTape.run (d3.select (".stepText").node ().value);
-};
-
-gTopMenu.end = function () {
-  gTape.hide ();
-};
-
-gTopMenu.step = function () {
-  gTape.step ();
-};
-
 gTopMenu.loadFromServer = function () {
     var list_url = "/api/list.php";
     d3.xhr(list_url)

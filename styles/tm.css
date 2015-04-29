@@ -58,20 +58,29 @@ body {
   overflow: hidden;
 }
 
-.tape-char {
+.tape-char, .tape-char-input {
   -webkit-appearance: none;
   border: none;
   padding: 6px;
   font-size: 14px;
-  text-align: center;
-  width: 36px;
-  height: 30px;
   box-sizing: border-box;
   background: transparent;
   color: #fff;
   margin: 0px;
   margin-right: -5px;
+}
+
+.tape-char-input {
+  width: 100%;
+  text-align: left;
+  outline-width: 0;
+}
+
+.tape-char {
+  width: 36px;
+  height: 30px;
   border-right: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
 }
 
 .current-tape-char {
