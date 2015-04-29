@@ -109,4 +109,27 @@ class DB
     if ($result === False) exit();
     return $this->fetchAll($result); 
   }
+
+  public function getAutomataOfSubmission($sunetid, $pset, $problem) {
+    $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
+    if(gettype($pset) !== "integer" || gettype($problem) !== "integer") {
+      echo "pset or problem not integers";
+      exit();
+    }
+    $query_string = "select automata from submissions where user_id=\"$sunetid\" and pset_id=\"$pset\" and problem_id=\"$problem\";";
+    $result = $db->query($query_string);
+    if ($result === False) {
+      echo "Internal Server Error";
+      exit();
+    }
+    if ($result->num_rows > 1) {
+      echo "That shouldn't happen...";
+      exit();
+    }
+    if ($result->num_rows === 0) {
+      return False;
+    }
+    return $this->fetchAll($result); 
+  }
 }

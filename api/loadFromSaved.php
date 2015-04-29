@@ -7,9 +7,6 @@ GET request
 should contain the parameter "name"
 */
 
-
-// ini_set('display_errors', 'On');
-// error_reporting(E_ALL);
 require_once("./db.php");
 
 $db = new DB();

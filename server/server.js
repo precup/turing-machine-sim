@@ -16,7 +16,7 @@ gServer.save = function save () {
     name: name
   };
 
-  d3.xhr (gServer.url_prefix + save_url)
+  d3.xhr (url_prefix + save_url)
     .header ("Content-Type", "application/json")
     .post (
       JSON.stringify (pack),
@@ -35,7 +35,7 @@ gServer.save = function save () {
 
 gServer.load = function load () {
   var selected = gModalMenu.getLoadName();
-  var get_url = "/api/load.php" + "?name=" + selected;
+  var get_url = "/api/loadFromSaved.php" + "?name=" + selected;
   d3.xhr (gServer.url_prefix + get_url)
     .header ("Content-Type", "application/json")
     .get (function(err, data) {

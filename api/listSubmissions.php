@@ -10,8 +10,6 @@ Sample client-side code:
 var url_prefix = "/class/cs103/cgi-bin/restricted";
 var listSubmissions_url = "/api/listSubmissions.php";
 
-console.log(pack);
-
 d3.xhr (url_prefix + listSubmissions_url)
   .header ("Content-Type", "application/json")
   .get (
