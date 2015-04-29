@@ -123,6 +123,9 @@ gTopMenu.save = function (elem) {
 };
 
 
+gTopMenu.submit = function () {
+};
+
 gTopMenu.draw = function () {
   var selectedText = "";
   var selected = gNodes.getSelected ();

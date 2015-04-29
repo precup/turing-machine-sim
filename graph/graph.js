@@ -10,6 +10,8 @@ gGraph.init = function () {
   gGraph.height = svg.node ().getBoundingClientRect ().height;
   
   var charSetParam = getURLParam ("charset");
+  gGraph.problem = getURLParam ("problem");
+  gGraph.pset = getURLParam ("pset");
   if (charSetParam == null) {
     var url = window.location.href;
     var loc = url.lastIndexOf ("/") + 1;
