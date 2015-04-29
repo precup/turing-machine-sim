@@ -25,4 +25,3 @@ if (!$db->checkUserExists($user)) {
 }
 
 $db->addSubmission($sunetid, $automata, $problem);
-
