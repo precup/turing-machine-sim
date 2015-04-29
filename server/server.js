@@ -23,7 +23,7 @@ gServer.save = function save () {
       function (err, rawData) {
         if (err) {
           gModalMenu.setSaveButton ("Failed");
-        } else { 
+        } else {
           gModalMenu.setSaveButton ("Saved!");
         }
         window.setTimeout(function () {
@@ -141,4 +141,4 @@ gServer.getSunetid = function getSunetid (callback) {
       var json_data = JSON.parse(data.response);
       callback(json_data);
     });
-}
+};
