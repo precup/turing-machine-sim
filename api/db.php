@@ -99,4 +99,14 @@ class DB
     $result = $db->query($query_string);
     if ($result === False) exit();
   }
+
+  public function getSubmissionsOfUser($sunetid) {
+    $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
+
+    $query_string = "select pset_id, problem_id from submissions where user_id=\"$sunetid\";";
+    $result = $db->query($query_string);
+    if ($result === False) exit();
+    return $this->fetchAll($result); 
+  }
 }

@@ -1,5 +1,4 @@
 <?php
-// TODO: Not sure if this code works yet
 
 /*
 /api/submit.php
@@ -13,7 +12,7 @@ POST request
 Sample client-side code:
 
 var url_prefix = "/class/cs103/cgi-bin/restricted";
-var save_url = "/api/submit.php";
+var submit_url = "/api/submit.php";
 
 var automata = JSON.stringify (gGraph.save ());
 var pset = 1;
@@ -27,7 +26,7 @@ var pack = {
 
 console.log(pack);
 
-d3.xhr (url_prefix + save_url)
+d3.xhr (url_prefix + submit_url)
   .header ("Content-Type", "application/json")
   .post (
     JSON.stringify (pack),
@@ -40,9 +39,6 @@ d3.xhr (url_prefix + save_url)
     });
 
 */
-
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
 
 require_once("./db.php");
 
