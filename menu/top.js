@@ -46,25 +46,20 @@ gTopMenu.snapToGrid = function () {
 };
 
 gTopMenu.loadFromServer = function () {
-  var listSaved_url = "/api/listSaved.php";
-  d3.xhr(gServer.url_prefix + listSaved_url)
-    .header("Content-Type", "application/json")
-    .get(function(err, data) {
-      var json_data = JSON.parse(data.response);
-      var names = [];
-      json_data.forEach(function(elem, index, arr) {
-        names.push(elem["name"]);
-      });
-      gModalMenu.setLoadNames (names);
-      gModalMenu.open("load");
+  gServer.listSaved (function (data) {
+    var names = [];
+    data.forEach(function(elem, index, arr) {
+      names.push(elem["name"]);
     });
+    gModalMenu.setLoadNames (names);
+    gModalMenu.open("load");
+  });
 };
 
 gTopMenu.save = function () {
   gModalMenu.setSaveName (gServer.name);
   gModalMenu.open ("save");
 };
-
 
 gTopMenu.submit = function () {
   gModalMenu.open ("submit");
