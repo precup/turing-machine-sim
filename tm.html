@@ -149,30 +149,56 @@
         </div>
       </div>
 
+      <div class="submit popup">
+        <div class="modal-header">
+          Submit
+        </div>
+        <div class="modal-content">
+        <table width="100%">
+          <tr>
+            <td class="popupLeft">Problem Set Number</td>
+            <td class="popupRight"><select></select></td>
+          </tr>
+          <tr>
+            <td class="popupLeft">Problem Number</td>
+            <td class="popupRight"><select></select></td>
+          </tr>
+          <tr>
+            <td class="popupLeft">Team Members</td>
+            <td class="popupRight"><input type="text" class="gridInput"></td>
+          </tr>
+        </table>
+      </div>
+        <div class="modal-buttons">
+          <button type="button" onclick="gModalMenu.cancel ('submit')">Cancel</button>
+          <button type="button" class="button-primary" onclick="gModalMenu.submit ('submit')">Submit</button>
+        </div>
+      </div>
+
       <div class="edgeEntry popup">
         <div class="modal-header">
           Edit Edge
         </div>
         <div class="modal-content">
-        <table width="100%">
-          <tr>
-            <td class="popupLeft">Characters</td>
-            <td class="popupRight"><input type="text" class="edgeChars" size="20"></td>
-          </tr>
-          <tr>
-            <td>
-            </td>
-            <td class="popupRight char-options">
-              <button type="button" onclick="gModalMenu.addAllEdgeChars ()">Add All</button>
-              <button type="button" onclick="gModalMenu.invertEdgeChars ()">Invert</button>
-            </td>
-          </tr>
-          <tr>
-            <td class="popupLeft">Include Ɛ</td>
-            <td class="popupRight"><input type="checkbox" class="epsilon" size="1"></td>
-          </tr>
-        </table>
-      </div>
+          <table width="100%">
+            <tr>
+              <td class="popupLeft">Characters</td>
+              <td class="popupRight"><input type="text" class="edgeChars" size="20"></td>
+            </tr>
+            <tr>
+              <td>
+              </td>
+              <td class="popupRight char-options">
+                <button type="button" onclick="gModalMenu.addAllEdgeChars ()">Add All</button>
+                <button type="button" onclick="gModalMenu.invertEdgeChars ()">Invert</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="popupLeft">Include Ɛ</td>
+              <td class="popupRight"><input type="checkbox" class="epsilon" size="1"></td>
+            </tr>
+          </table>
+        </div>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('edgeEntry')">Cancel</button>
           <button type="button" class="button-primary" onclick="gModalMenu.submit ('edgeEntry')">Update</button>

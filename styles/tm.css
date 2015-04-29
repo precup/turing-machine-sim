@@ -529,3 +529,16 @@ td {
   text-align: center;
   margin: 12px 6px 6px 0px;
 }
+
+.submit {
+  display: none;
+}
+
+.submit td {
+  font-size: 14px;
+  padding: 6px;
+}
+
+.submit input {
+  width: 240px;
+}
