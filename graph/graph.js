@@ -2,12 +2,14 @@
 var gEpsilon = "Ɛ";
 var gGraph = 
   {
+    HEIGHT_OFFSET: 5
   };
   
 gGraph.init = function () {
   var svg = d3.select ("svg");
   gGraph.width = svg.node ().getBoundingClientRect ().width;
-  gGraph.height = svg.node ().getBoundingClientRect ().height;
+  gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
+  svg.attr ("height", gGraph.height);
   
   var charSetParam = getURLParam ("charset");
   gGraph.problem = getURLParam ("problem");
