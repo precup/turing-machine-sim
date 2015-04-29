@@ -28,6 +28,7 @@ gServer.save = function save () {
         }
         window.setTimeout(function () {
           gModalMenu.setSaveButton ("Save"); // return to original
+          gModalMenu.close("save");
         }, 1000);
       }
     );
@@ -45,6 +46,8 @@ gServer.load = function load () {
 
         gGraph.load (JSON.parse (json_data[0]["automata"]));
         gGraph.draw ();
+
+        gModalMenu.close("load");
       });
 };
 
