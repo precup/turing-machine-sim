@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>A Simple Turing Machine Editor</title>
-    <link href="tm.css" rel="stylesheet" type="text/css">
+    <link href="styles/tm.css" rel="stylesheet" type="text/css">
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
     <script src="main.js"></script>
@@ -41,27 +41,36 @@
   </head>
   <body onload="run()" onresize="gGraph.resize()">
     <div class="menu">
-      <button type="button" onclick="gTopMenu.addNode()">+ Add New State</button>
-      <span class="nontable" id="selectedText">Selected states:</span>
-      <button type="button" class="acceptButton nontable" onclick="gTopMenu.setState(true, false)">&#x2713; Accepting</button>
-      <button type="button" class="neitherButton nontable" onclick="gTopMenu.setState(false, false)">&#x2717; Rejecting</button>
+      <div class="left">
+        <button type="button" onclick="gTopMenu.save (this)">Save</button>
+      </div>
+      <div class="center">
+        <button class="swapButton" type="button" onclick="gTableTopMenu.swap ()">Switch to Table View</button>
+      </div>
+      <div class="right">
+        <button type="button" onclick="gTopMenu.loadFromServer ()">Load</button>
+        <button class="nontable" type="button" onclick="gTopMenu.snapToGrid ()">Snap to Grid</button>
+      </div>
       <!--
         Not needed until Turing Machines
         <button type="button" class="rejectButton" onclick="gTopMenu.setState(false, true)">&#x2717; Rejecting</button>
         <button type="button" class="neitherButton" onclick="gTopMenu.setState(false, false)">&#x25cb; Neither</button>
       -->
-      <button class="nontable" type="button" onclick="gTopMenu.setInitial ()">&#x2192; Set as Start</button>
-      <button class="nontable" type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
-      <input class="fileInput" id="fileInput" type="file" onchange="gTopMenu.load ();">
-      <button type="button" onclick="gTopMenu.loadFromServer ()">Load</button>
-      <button type="button" onclick="gTopMenu.save (this)">Save</button>
-      <button type="button" onclick="gTopMenu.runTests ()">Run tests</button>
-      <button class="nontable" type="button" onclick="gTopMenu.snapToGrid ()">Snap to Grid</button>
-      <input class="stepText" type="text" value=""></input>
-      <button class="nontable" type="button" onclick="gTopMenu.run ()">Run</button>
-      <button class="nontable" type="button" onclick="gTopMenu.step ()">Step</button>
-      <button class="nontable" type="button" onclick="gTopMenu.end ()">End</button>
-      <button class="swapButton" type="button" onclick="gTableTopMenu.swap ()">Switch to Table View</button>
+      <!--<input class="fileInput" id="fileInput" type="file" onchange="gTopMenu.load ();">-->
+    </div>
+    <div class="menu">
+      <div class="left">
+        <button type="button" class="button-primary" onclick="gTopMenu.addNode()">+ Add New State</button>
+      </div>
+      <div class="center">
+        <div class="nontable" id="selectedText">Selected states:</div>
+      </div>
+      <div class="right">
+        <button class="nontable" type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
+        <button class="nontable" type="button" onclick="gTopMenu.setInitial ()">&#x2192; Set as Start</button>
+        <button type="button" class="acceptButton nontable" onclick="gTopMenu.setState(true, false)">&#x2713; Accepting</button>
+        <button type="button" class="neitherButton nontable" onclick="gTopMenu.setState(false, false)">&#x2717; Rejecting</button>
+      </div>
     </div>
     <div class="gui">
       <svg height="100%" width="100%">
@@ -74,13 +83,13 @@
         <g class="tape" />
       </svg>
       <div class="tape-bar">
-        <button class="button">
+        <button>
           Run Batch Test
         </button >
-        <button class="button">
+        <button>
           Step
         </button >
-        <button class="button">
+        <button>
           Run
         </button>
         <div class="tape-field">

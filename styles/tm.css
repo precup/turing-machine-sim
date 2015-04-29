@@ -1,0 +1,410 @@
+@font-face {
+    font-family: "San Francisco";
+    src: url("sf.otf");
+}
+
+* {
+  font-family: "San Francisco";
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  position:relative;
+}
+
+.gui {
+  position:absolute;
+  width: 100%;
+  top: 100px;
+  margin: 0;
+  bottom: 0;
+  float: left;
+}
+
+.transparent {
+  opacity: 0;
+}
+
+.tape-char:focus {
+  outline-color: transparent;
+  outline-style: none;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tape-bar {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  padding: 10px;
+  color: #fff;
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+.tape-field {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 3px;
+  border: none;
+  width: auto;
+  height: 30px;
+  overflow: hidden;
+}
+
+.tape-char {
+  -webkit-appearance: none;
+  border: none;
+  padding: 6px;
+  font-size: 14px;
+  text-align: center;
+  width: 36px;
+  height: 30px;
+  box-sizing: border-box;
+  background: transparent;
+  color: #fff;
+  margin: 0px;
+  margin-right: -5px;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.current-tape-char {
+  background-color: #0092EE;
+}
+
+.tape-char:last-child {
+  border-right: none;
+}
+
+.tape-bar button {
+  display: inline-block;
+  font-size: 14px;
+  padding: 0px 12px;
+  margin-left: 6px;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  border: none;
+  color: #fff;
+  height: 30px;
+  float: right;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  transition: .2s background-color ease;
+}
+
+.tape-bar button:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.tape-bar button:active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+svg {
+  background-color: #FFF;
+  outline-style: none;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+#sel-arrow path {
+  stroke: blue;
+}
+
+path.edge {
+  pointer-events: none;
+}
+
+path.selected {
+  stroke: blue;
+}
+
+path.lower {
+  stroke-width: 25px;
+}
+
+path {
+  stroke: #000;
+  stroke-width: 4px;
+  cursor: default;
+}
+
+text {
+	text-anchor: middle;
+	pointer-events: none;
+  dominant-baseline: middle;
+  alignment-baseline: middle;
+  stroke-width: 0px;
+  fill: #000;
+}
+
+.fileInput {
+  display: none;
+}
+
+circle.inner {
+  opacity: 0;
+}
+
+.accept circle.inner {
+  opacity: 1;
+}
+
+.accept circle.outer {
+  fill: #0f0;
+}
+
+.reject circle.inner {
+  opacity: 1;
+}
+
+.reject circle.outer {
+  fill: #f00;
+}
+
+.nodes {
+  stroke: #000;
+  stroke-width: 1.5px;
+  fill: #fff;
+}
+
+.nodes .selected {
+  stroke: blue;
+}
+
+.edges {
+  stroke: #999;
+}
+
+.brush .extent {
+  fill-opacity: .1;
+  shape-rendering: crispEdges;
+}
+
+.tapeRect {
+  fill: white;
+  stroke: black;
+  stroke-width: 2px;
+}
+
+.json {
+  display: none;
+  width: 400px;
+  height: 100px;
+  margin-left: -200px;
+  margin-top: -50px;
+}
+
+.tableEditor {
+  display: none;
+  border: 1px solid black;
+}
+
+.tableEditor tr td {
+  margin: 0;
+  border: 1px solid black;
+}
+
+textarea {
+  height: 100%;
+  resize: none;
+}
+
+.testing {
+  display: none;
+  width: 532px;
+  height: 334px;
+  margin-left: -266px;
+  margin-top: -167px;
+}
+
+.testing div {
+  font-weight: 300;
+}
+
+.testing .popupTitle {
+  width: 572px;
+}
+
+.testing table {
+  height: 400;
+}
+
+.testingHeader, .testingResults {
+  padding: 0 0 0 30px;
+  margin: 0;
+}
+
+.testingResults tr {
+  max-height: 30px;
+}
+
+.edgeEntry {
+  display: none;
+  width: 300px;
+  height: 210px;
+  margin-left: -170px;
+  margin-top: -100px;
+}
+
+.edgeEntry .popupTitle {
+  width: 340px;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-color: #e5e5e5;
+  z-index: 10;
+}
+
+.hidden {
+  opacity: 0;
+}
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: none;
+}
+
+/** UI **/
+body {
+  margin: 0px;
+  font-family: "Avenir", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+.menu {
+  padding: 10px;
+  color: rgb(83, 83, 83);
+  background-color: #fff;
+  min-width: 800px;
+  border-bottom: 1px solid rgb(223, 223, 223);
+  height: 50px;
+  box-sizing: border-box;
+}
+
+.menu .left {
+  position: absolute;
+  left: 10px;
+  z-index: 999;
+}
+
+.menu .right {
+  position: absolute;
+  right: 10px;
+  z-index: 999;
+}
+
+.menu .center {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+.menu button, .popup button, .popupRight button {
+  padding: 0px 12px;
+  border: 1px solid rgb(223, 223, 223);
+  background-color: #fff;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 300;
+  height: 30px;
+  box-sizing: border-box;
+  color: rgb(83,83,83);
+  transition: background-color .2s ease, box-shadow .2s ease;
+}
+
+.menu button:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.menu button:active, .popup button:active {
+  background-color: rgb(240, 240, 240);
+}
+
+button.button-primary {
+  background-color: rgb(0, 146, 238);
+  border: none;
+  color: #fff;
+}
+
+button.button-primary:hover {
+  background-color: rgb(76, 178, 243);
+}
+
+.marked {
+  background-color: #6fa1cd !important;
+}
+
+#selectedText {
+  font-size: 14px;
+  padding: 6px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.sidePanel {
+  float: right;
+}
+
+.popup {
+  background-color: #F2F8FC !important;
+  padding: 0px 20px 20px 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px #bcbcbc;
+  background-color: white;
+}
+
+.popupTitle {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: -20px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #2d73af;
+  margin: 0 -20px auto;
+  -webkit-box-shadow: 0px 0px 8px 0px #aaa;
+     -moz-box-shadow: 0px 0px 8px 0px #aaa;
+          box-shadow: 0px 0px 8px 0px #aaa;
+}
+
+.popTitle > span {
+  vertical-align: middle;
+  line-height: normal;
+  display: inline-block;
+}
+
+.popupLeft {
+  text-align: left;
+}
+
+.popupRight {
+  text-align: right;
+}
+
+.popupButtons {
+  padding-top: 20px;
+  float: right;
+}
+
+td {
+  padding-top: 10px;
+  text-align: right;
+}
