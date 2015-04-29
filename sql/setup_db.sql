@@ -1,23 +1,20 @@
-create database automata;
-use automata;
+use c_cs103_db;
 create table users (
-  id integer not null  auto_increment,
-  first_name char(30),
-  last_name char(30),
-  sunetid char(30),
-  isTA boolean,
-  primary key (id)
+  sunetid char(30) not null,
+  isTA boolean not null,
+  primary key (sunetid)
 );
-/* probably want to make sunetid the primary key */
 
 create table automatas (
   id integer not null auto_increment,
-  user_id integer,
+  user_id char(30) not null,
   automata mediumtext,
-  name char(30),
+  name char(30) not null,
   primary key (id),
-  foreign key (user_id) references users(id)
+  foreign key (user_id) references users(sunetid)
 );
+
+/* The tables below will be integrated later*/
 
 create table psets (
   id integer not null auto_increment,

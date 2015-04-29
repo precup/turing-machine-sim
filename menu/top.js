@@ -116,7 +116,7 @@ gTopMenu.save = function (elem) {
     name: name
   };
   console.log(pack);
-  d3.xhr(save_url)
+  d3.xhr(url_prefix + save_url)
     .header("Content-Type", "application/json")
     .post(
       JSON.stringify(pack),
