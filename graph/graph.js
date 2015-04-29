@@ -9,7 +9,18 @@ gGraph.init = function () {
   gGraph.width = svg.node ().getBoundingClientRect ().width;
   gGraph.height = svg.node ().getBoundingClientRect ().height;
   
-  gGraph.charSet = sortString (getURLParam ("charset"));
+  var charSetParam = getURLParam ("charset");
+  if (charSetParam == null) {
+    var url = window.location.href;
+    var loc = url.lastIndexOf ("/") + 1;
+    if (loc <= 8) {
+      url += "/";
+    } else {
+      url = url.substring (0, loc);
+    }
+    window.location = url + "index.html";
+  }
+  gGraph.charSet = sortString (charSetParam);
   gGraph.epsilonEnabled = true;
   
   gNodes.init ();
