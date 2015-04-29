@@ -11,6 +11,7 @@ gEdges.initDragging = function () {
   gEdges.dragging = false;
   gEdges.startNode = null;
   gEdges.backupNode = null;
+  gEdges.endNode = null;
   
   var always = function () { return true; };
   gBehaviors.addBehavior ("lowerNodes", "mouseover", always, gEdges.showTempEdge);
@@ -31,6 +32,10 @@ gEdges.initDragging = function () {
   gBehaviors.addBehavior ("nodes", "mouseover", function () {
       return !gEdges.dragging && gEdges.tempVisible;
     }, gEdges.hideTempEdge);
+  gBehaviors.addBehavior ("nodes", "mouseover", function () {
+      return gEdges.dragging;
+    }, gEdges.setTempEdgeEnd);
+  gBehaviors.addBehavior ("nodes", "mouseout", always, gEdges.unsetTempEdgeEnd);
   gBehaviors.addBehavior ("background", "mousemove", function () {
       var mouse = d3.mouse(d3.select("svg").node());
       if (gEdges.dragging || !gEdges.tempVisible)
@@ -63,11 +68,24 @@ gEdges.initDragging = function () {
     }, gEdges.addTempEdge);
 };
 
+gEdges.unsetTempEdgeEnd = function (endNode) {
+  if (gEdges.endNode != null) {
+    gEdges.endNode = null;
+    gGraph.draw ();
+  }
+};
+
+gEdges.setTempEdgeEnd = function (endNode) {
+  gEdges.endNode = endNode;
+  gGraph.draw ();
+};
+
 gEdges.addTempEdge = function (endNode) {
   gEdges.backupNode = null;
   gEdges.hideTempEdge ();
   gEdges.addEdge (gEdges.startNode, endNode);
   gGraph.draw ();
+  gEdges.editEdge (gEdges.edges[gEdges.edges.length - 1]);
 };
 
 gEdges.startDragging = function () {
@@ -96,7 +114,13 @@ gEdges.drawTempEdge = function () {
   var mouse = d3.mouse(d3.select("svg").node());
   d3.select ("path.temp")
     .attr ("d", function () {
+      if (gEdges.endNode != null) {
+        return gEdges.customPathFunction (gEdges.startNode, gEdges.endNode);
+      }
       return gEdges.customPathFunction (gEdges.startNode, { x: mouse[0], y: mouse[1] });
+    })
+    .style ('marker-end', function () {
+      return gEdges.endNode == null ? 'url(#mouse-arrow)' : 'url(#end-arrow)';
     });
 };
 

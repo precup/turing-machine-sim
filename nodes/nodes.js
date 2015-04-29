@@ -243,3 +243,13 @@ gNodes.getNodeIndex = function (id) {
   });
   return index;
 }
+
+gNodes.getNodeIndexFromName = function (name) {
+  var index = -1;
+  gNodes.nodes.forEach (function (node, i) {
+    if (node.name === name) {
+      index = i;
+    }
+  });
+  return index;
+}

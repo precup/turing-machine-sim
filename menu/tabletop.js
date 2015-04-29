@@ -10,6 +10,7 @@ gTableTopMenu.swap = function () {
     d3.selectAll (".nontable").style ("display", "inline");
     d3.select (".swapButton") .node ().innerHTML = "Switch to Table View";
     gTableTopMenu.active = false;
+    gTableMenu.updateAll ();
   } else {
     d3.select ("svg") .style ("display", "none");
     d3.select (".tableEditor, .tableEditorHeader") .style ("display", "inline");
@@ -17,4 +18,5 @@ gTableTopMenu.swap = function () {
     d3.select (".swapButton") .node ().innerHTML = "Switch to Editor View";
     gTableTopMenu.active = true;
   }
+  gGraph.draw ();
 };

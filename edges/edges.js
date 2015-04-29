@@ -7,7 +7,8 @@ var gEdges =
     LOOP_WIDTH: 70,
     LOOP_HEIGHT: 80,
     LOOP_PEAK: 50,
-    TEXT_OFFSET: 5,
+    LOOP_TEXT_OFFSET: 70,
+    TEXT_OFFSET: 10,
     TRANSITION_DY: 20,
     // The below constant is also set in tm.css, change it there, too (in path.lower)
     SELECTABLE_WIDTH: 25,
@@ -115,7 +116,7 @@ gEdges.save = function () {
       edgeMap: JSON.parse (JSON.stringify (gEdges.edgeMap)),
       edges: JSON.parse (JSON.stringify (gEdges.edges))
     };
-  console.log (JSON.stringify(saveData.edges));
+    
   saveData.edges.forEach (function (edge) {
     edge.source = edge.source.id;
     edge.target = edge.target.id;
@@ -127,8 +128,6 @@ gEdges.load = function (saveData) {
   gEdges.edges = saveData.edges;
   gEdges.edgeMap = saveData.edgeMap;
   gEdges.edges.forEach (function (edge) {
-    console.log ((edge.source) + " " + (edge.target));
-    console.log (gNodes.getNodeIndex (edge.source) + " " + gNodes.getNodeIndex (edge.target));
     edge.source = gNodes.nodes[gNodes.getNodeIndex (edge.source)];
     edge.target = gNodes.nodes[gNodes.getNodeIndex (edge.target)];
   });
@@ -163,17 +162,6 @@ gEdges.drawDOMEdges = function (lowerSelection, upperSelection) {
     }).style('marker-end', function (edge) {
       return edge.selected ? 'url(#sel-arrow)' : 'url(#end-arrow)';
     });
-  
-  upperSelection.select ("text")
-    .attr("x", function (edge) { 
-      var height = this.getBoundingClientRect ().height;
-      var width = this.getBoundingClientRect ().width;
-      return gEdges.getTextPosition (edge.source, edge.target, { width: 60, height: 20 }).x; 
-    }).attr("y", function (edge) { 
-      var height = this.getBoundingClientRect ().height;
-      var width = this.getBoundingClientRect ().width;
-      return gEdges.getTextPosition (edge.source, edge.target, { width: 60, height: 20 }).y; 
-    });
     
   var tspans = upperSelection.select ("text")
     .selectAll ("tspan")
@@ -191,11 +179,26 @@ gEdges.drawDOMEdges = function (lowerSelection, upperSelection) {
       }
       return text;
     })
-    .attr ("x", function (d, i2, i1) { 
-      var width = this.parentNode.getBoundingClientRect ().height;
-      var height = this.parentNode.getBoundingClientRect ().width;
-      return gEdges.getTextPosition (gEdges.edges[i1].source, gEdges.edges[i1].target, { width: 60, height: 20 }).x; 
+    .attr ("x", function (d, i2, i1) {
+      var actualEdge;
+      d3.select (this.parentNode).each (function (edge, i) {
+        actualEdge = edge;
+      });
+      return gEdges.getTextPosition (actualEdge.source, 
+                                     actualEdge.target, 
+                                     this.parentNode.getBoundingClientRect ()).x; 
     }).attr ("dy", gEdges.TRANSITION_DY);
+    
+  upperSelection.select ("text")
+    .attr("x", function (edge) { 
+      return gEdges.getTextPosition (edge.source, 
+                                     edge.target, 
+                                     this.getBoundingClientRect ()).x; 
+    }).attr("y", function (edge) {
+      return gEdges.getTextPosition (edge.source, 
+                                     edge.target, 
+                                     this.getBoundingClientRect ()).y; 
+    });
     
   gEdges.drawInitial ();
 };
@@ -215,11 +218,22 @@ gEdges.draw = function () {
 };
 
 gEdges.areConnected = function (sourceId, targetId) {
-  return gEdges.edgeMap[sourceId] && gEdges.edgeMap[sourceId].indexOf(targetId) > -1;
+  return (gEdges.endNode != null && sourceId == gEdges.startNode.id && targetId == gEdges.endNode.id) ||
+    (gEdges.edgeMap[sourceId] && gEdges.edgeMap[sourceId].indexOf(targetId) > -1);
 };
 
 gEdges.getEdgeId = function (edge) {
   return edge.source.id + " " + edge.target.id;
+};
+
+gEdges.getEdge = function (source, target) {
+  var targetEdge = null;
+  gEdges.edges.forEach (function (edge) {
+    if (edge.source.id == source.id && edge.target.id == target.id) {
+      targetEdge = edge;
+    }
+  });
+  return targetEdge;
 };
 
 gEdges.buildMarker = function (id, refX, fill) {
@@ -238,18 +252,30 @@ gEdges.buildMarker = function (id, refX, fill) {
 };
 
 gEdges.getTextPosition = function (source, target, bbox) {
-  var midpoint = { x : (source.x + target.x) / 2, y : (source.y + target.y) / 2 };
-  var theta = Math.atan2 (target.y - source.y, target.x - source.x);
+  var startPoint = { x: source.x, y: source.y };
+  var endPoint = { x: target.x, y: target.y };
+  if (target.id == source.id) {
+    startPoint.x += gEdges.LOOP_TEXT_OFFSET;
+    startPoint.y -= 1;
+    endPoint.x += gEdges.LOOP_TEXT_OFFSET;
+    endPoint.y += 1;
+  } else if (gEdges.areConnected (target.id, source.id)) {
+    startPoint = gEdges.offsetPoint(startPoint, source, target, gEdges.BIDIRECTIONAL_OFFSET);
+    endPoint = gEdges.offsetPoint(endPoint, source, target, gEdges.BIDIRECTIONAL_OFFSET);
+  }
+  
+  var midpoint = { x : (startPoint.x + endPoint.x) / 2, y : (startPoint.y + endPoint.y) / 2 };
+  var theta = Math.bound (Math.atan2 (startPoint.y - endPoint.y, startPoint.x - endPoint.x) + Math.PI / 2, 0, 2 * Math.PI);
   var dist = Math.sqrt (Math.pow (bbox.height / 2, 2) + Math.pow (bbox.width / 2, 2));
-  var q = Math.cos (Math.atan2 (bbox.height / 2, bbox.width / 2) - theta);
-  q = Math.min (q, Math.cos (Math.atan2 (bbox.height / 2, -bbox.width / 2) - theta));
-  q = Math.min (q, Math.cos (Math.atan2 (-bbox.height / 2, bbox.width / 2) - theta));
-  q = Math.min (q, Math.cos (Math.atan2 (-bbox.height / 2, -bbox.width / 2) - theta));
-  q *= dist;
-  q -= gEdges.TEXT_OFFSET;
+  var hc = (theta > Math.PI) ? -1 : 1;
+  var wc = (theta < 3 * Math.PI / 2 && theta >= Math.PI / 2) ? -1 : 1;
+  var dtheta = Math.bound (Math.atan2 (hc * bbox.height, wc * bbox.width), 0, 2 * Math.PI);
+  var ttheta = Math.abs (dtheta - theta);
+  var q = Math.cos (ttheta) * dist;
+  q += gEdges.TEXT_OFFSET;
   return {
-    x: midpoint.x + Math.cos (theta + Math.PI / 2) * q,
-    y: midpoint.y - bbox.height / 2 + Math.sin (theta + Math.PI / 2) * q
+    x: midpoint.x + Math.cos (theta) * q,
+    y: midpoint.y - bbox.height + Math.sin (theta) * q
   };
 };
 
