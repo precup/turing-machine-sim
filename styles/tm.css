@@ -227,7 +227,7 @@ circle.inner {
   margin: 0;
 }
 
-.tableEditor tr:(even) {
+.tableEditor tr:nth-child(even) {
   background: rgb(229, 229, 229);
 }
 
@@ -239,10 +239,6 @@ circle.inner {
   width: 10%;
 }
 
-<<<<<<< HEAD
-.tableEditor tr td:nth-child(1n+2) {
-  width: 15%;
-=======
 .gridInput, .edgeChars, .nodeName {
   -webkit-appearance:none;
   border:1px solid rgb(229, 229, 229);
@@ -254,7 +250,6 @@ circle.inner {
 
 .edgeChars, .nodeName {
   text-align: left;
->>>>>>> 9b3c670ff2eb2be135b25d864fd9bada412d98bd
 }
 
 textarea {
