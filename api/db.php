@@ -90,12 +90,12 @@ class DB
     return $this->fetchAll($result); 
   }
 
-  public function addSubmission($sunetid, $automata, $problem) {
+  public function addSubmission($sunetid, $automata, $pset, $problem) {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
     $automata = $db->real_escape_string($automata);
 
-    $query_string = "insert into submissions (user_id, problem_id, automata) values (\"$sunetid\", $problem, \"$automata\");";
+    $query_string = "insert into submissions (user_id, pset_id, problem_id, automata) values (\"$sunetid\", $pset, $problem, \"$automata\");";
     $result = $db->query($query_string);
     if ($result === False) exit();
   }

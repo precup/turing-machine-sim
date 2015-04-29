@@ -16,11 +16,11 @@ gServer.save = function save () {
     name: name
   };
 
-  d3.xhr (url_prefix + save_url)
+  d3.xhr (gServer.url_prefix + save_url)
     .header ("Content-Type", "application/json")
     .post (
       JSON.stringify (pack),
-      function(err, rawData) {
+      function (err, rawData) {
         if (err) {
           gModalMenu.setSaveButton ("Failed");
         } else { 
@@ -36,14 +36,20 @@ gServer.save = function save () {
 gServer.load = function load () {
   var selected = gModalMenu.getLoadName();
   var get_url = "/api/load.php" + "?name=" + selected;
-  d3.xhr(gServer.url_prefix + get_url)
-    .header("Content-Type", "application/json")
-    .get(function(err, data) {
-        if(err) console.log(err);
+  d3.xhr (gServer.url_prefix + get_url)
+    .header ("Content-Type", "application/json")
+    .get (function(err, data) {
+        if (err) console.log(err);
 
-        var json_data = JSON.parse(data.response);
+        var json_data = JSON.parse (data.response);
 
-        gGraph.load(JSON.parse(json_data[0]["automata"]));
+        gGraph.load (JSON.parse (json_data[0]["automata"]));
         gGraph.draw ();
       });
+}
+
+gServer.submit = function submit () {
+  d3.xhr ()
+  gGraph.problem
+  gGraph.pset
 }

@@ -8,6 +8,32 @@ body should contain JSON:
   "automata": <String represention of JSON graph>,
   "name": <String, name of automata, length < 30>,
 }
+
+Sample client-side code:
+
+var url_prefix = "/class/cs103/cgi-bin/restricted";
+var save_url = "/api/save.php";
+var name = "name";
+var stringGraph = JSON.stringify (gGraph.save ());
+
+var pack = {
+  automata: stringGraph,
+  name: name
+};
+
+d3.xhr (url_prefix + save_url)
+  .header ("Content-Type", "application/json")
+  .post (
+    JSON.stringify (pack),
+    function (err, rawData) {
+      if (err) {
+        console.log(err);
+      } else { 
+        console.log(rawData);
+      }
+    }
+  );
+
 */
 
 require_once("./db.php");

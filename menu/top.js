@@ -89,12 +89,13 @@ gTopMenu.loadFromServer = function () {
 };
 
 gTopMenu.save = function () {
-  gModalMenu.setSaveName(gServer.name);
-  gModalMenu.open("save");
+  gModalMenu.setSaveName (gServer.name);
+  gModalMenu.open ("save");
 };
 
 
 gTopMenu.submit = function () {
+  gModalMenu.open ("submit");
 };
 
 gTopMenu.draw = function () {
