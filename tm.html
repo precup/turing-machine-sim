@@ -4,13 +4,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>A Simple Turing Machine Editor</title>
     <link href="styles/tm.css" rel="stylesheet" type="text/css">
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"></script>
     <script src="main.js"></script>
     <script src="behaviors.js"></script>
     <script src="util.js"></script>
     <script src="queue.js"></script>
-    
     <script src="brush/brush.js"></script>
 
     <script src="graph/graph.js"></script>
@@ -110,7 +108,41 @@
         <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
       </div>
     </div>
-    <div class="modal overlay">
+    <div class="modal overlay" style="display:block">
+
+      <div class="load popup">
+        <div class="modal-header">
+          Load Automaton
+        </div>
+        <div class="modal-content">
+          <ul>
+            <li>First</li>
+            <li>Second</li>
+            <li>Third</li>
+            <li>Fourth</li>
+            <li class="selected">First</li>
+            <li>Second</li>
+            <li>Third</li>
+            <li>Fourth</li>
+          </ul>
+        </div>
+        <div class="modal-buttons">
+          <button type="button">Cancel</button>
+          <button type="button" class="button-primary">Load</button>
+        </div>
+      </div>
+
+      <div class="save popup" style="display: none">
+        <div class="modal-header">
+          Save as
+        </div>
+        <input type="text">
+        <div class="modal-buttons">
+          <button type="button">Cancel</button>
+          <button type="button" class="button-primary">Save</button>
+        </div>
+      </div>
+
       <div class="edgeEntry popup">
         <div width="100%" height="150px" class="popupTitle">
           <span>Edit Edge</span>
@@ -172,6 +204,7 @@
         </div>
       </div>
 
+<<<<<<< HEAD
       <div class="nodeEntry popup">
         <div width="100%" height="150px" class="popupTitle">
           <span>Edit Node</span>
@@ -190,6 +223,9 @@
           <button type="button" onclick="gModalMenu.cancel ('nodeEntry')">Cancel</button>
           <button type="button" onclick="gModalMenu.submit ('nodeEntry')">Update</button>
         </div>
+=======
+      <div class="bg" style="display:none;">
+>>>>>>> 1271ab412cfffbbb0ce6a7c6f3482eaec34dfae3
       </div>
     </div>
   </body>

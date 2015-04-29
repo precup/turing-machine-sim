@@ -10,12 +10,15 @@
 html {
   width: 100%;
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 body {
   width: 100%;
   height: 100%;
   margin: 0;
+  padding: 0;
   position:relative;
 }
 
@@ -287,8 +290,10 @@ textarea {
   position: fixed;
   top: 50%;
   left: 50%;
-  background-color: #e5e5e5;
   z-index: 10;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .hidden {
@@ -323,18 +328,17 @@ body {
 .menu .left {
   position: absolute;
   left: 10px;
-  z-index: 999;
 }
 
 .menu .right {
   position: absolute;
   right: 10px;
-  z-index: 999;
 }
 
 .menu .center {
   position: absolute;
   width: 100%;
+  left: 0;
   text-align: center;
 }
 
@@ -383,14 +387,6 @@ button.button-primary:hover {
   float: right;
 }
 
-.popup {
-  background-color: #F2F8FC !important;
-  padding: 0px 20px 20px 20px;
-  border-radius: 10px;
-  box-shadow: 0px 2px 10px #bcbcbc;
-  background-color: white;
-}
-
 .popupTitle {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -428,4 +424,75 @@ button.button-primary:hover {
 td {
   padding-top: 10px;
   text-align: right;
+}
+
+.modal-header {
+  width: auto;
+  font-size: 14px;
+  padding: 10px;
+  text-align: center;
+}
+
+.modal-content {
+  background: rgb(247, 247, 247);
+  overflow: scroll;
+}
+
+.modal-content ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.modal-content li {
+  padding: 10px;
+  border-bottom: 1px solid rgb(229, 229, 229);
+}
+
+.modal-content li.selected {
+  background-color: rgba(0, 146, 238, 0.8);
+  color: #fff;
+}
+
+.save input[type="text"] {
+  width: 380px;
+  margin: 0px auto;
+  -webkit-appearance: none;
+  padding: 6px;
+  box-sizing: border-box;
+  font-size: 16px;
+  border: 1px solid rgb(229, 229, 229);
+  display: block;
+}
+
+.modal-buttons {
+  text-align: right;
+  padding: 10px;
+}
+
+.load {
+  width: 400px;
+  box-sizing: border-box;
+  left: 50%;
+  top: 15%;
+  margin-left: -200px;
+}
+
+.save {
+  width: 400px;
+  box-sizing: border-box;
+  left: 50%;
+  top: 15%;
+  margin-left: -200px;
+}
+
+.load .modal-content {
+  height: 200px;
+}
+
+.modal .bg {
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
 }
