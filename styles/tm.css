@@ -227,10 +227,6 @@ circle.inner {
   margin: 0;
 }
 
-.tableEditor tr:nth-child(even) {
-  background: rgb(229, 229, 229);
-}
-
 .tableEditor tr:nth-child(odd) {
   background: rgb(247, 247, 247);
 }
@@ -273,10 +269,6 @@ textarea {
   width: 342px;
 }
 
-.testing {
-  display: none;
-}
-
 .testing td {
   padding: 4px;
   font-size: 13px;
@@ -286,9 +278,19 @@ textarea {
   border: 1px solid rgb(229,229,229);
 }
 
+.testing .layout {
+  width: 100%;
+}
+
+.testing .layout input[type="text"] {
+  width: 100%;
+  text-align: right;
+}
+
 .testingHeader, .testingResults {
   padding: 0;
   margin: 0;
+  width: 100%;
 }
 
 .testingResults tr {
@@ -510,9 +512,11 @@ td {
 }
 
 .modal-description {
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 20px;
   text-align: center;
-  margin: 12px 6px 6px 0px;
+  margin: 12px 12px 6px 12px;
+  opacity: 0.6;
 }
 
 .submit {
@@ -526,4 +530,9 @@ td {
 
 .submit input {
   width: 240px;
+}
+
+.testing {
+  width: 600px;
+  margin-left: -300px;
 }

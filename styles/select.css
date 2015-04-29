@@ -94,7 +94,7 @@ button {
   margin: 0;
   padding: 6px;
   border: none;
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgb(0,146,238);
   border-radius: 4px;
   color: #fff;
 
@@ -136,4 +136,9 @@ li:last-child {
   font-size: 12px;
   position: relative;
   top: -2px;
+}
+
+.load-nothing {
+  opacity: 0.5;
+  text-align: center;
 }
