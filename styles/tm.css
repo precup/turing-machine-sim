@@ -225,18 +225,24 @@ circle.inner {
 
 .tableEditor tr td {
   margin: 0;
-  text-align: center;
-  padding: 10px;
+}
+
+.tableEditor tr:(even) {
+  background: rgb(229, 229, 229);
 }
 
 .tableEditor tr:nth-child(odd) {
   background: rgb(247, 247, 247);
 }
 
-.tableEditor tr td:first-child {
-  width: 5%;
+.tableEditor tr td:nth-child(1) {
+  width: 10%;
 }
 
+<<<<<<< HEAD
+.tableEditor tr td:nth-child(1n+2) {
+  width: 15%;
+=======
 .gridInput, .edgeChars, .nodeName {
   -webkit-appearance:none;
   border:1px solid rgb(229, 229, 229);
@@ -248,6 +254,7 @@ circle.inner {
 
 .edgeChars, .nodeName {
   text-align: left;
+>>>>>>> 9b3c670ff2eb2be135b25d864fd9bada412d98bd
 }
 
 textarea {

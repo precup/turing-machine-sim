@@ -46,7 +46,8 @@
   <body onload="run()" onresize="gGraph.resize()">
     <div class="menu">
       <div class="left">
-        <button type="button" onclick="gTopMenu.save (this)">Save</button>
+        <button type="button" onclick="gTopMenu.save ()">Save</button>
+        <button type="button" onclick="gTopMenu.submit ()">Submit</button>
       </div>
       <div class="center">
         <button class="swapButton" type="button" onclick="gTableTopMenu.swap ()">Switch to Table View</button>
@@ -61,14 +62,13 @@
         <button type="button" class="rejectButton" onclick="gTopMenu.setState(false, true)">&#x2717; Rejecting</button>
         <button type="button" class="neitherButton" onclick="gTopMenu.setState(false, false)">&#x25cb; Neither</button>
       -->
-      <!--<input class="fileInput" id="fileInput" type="file" onchange="gTopMenu.load ();">-->
     </div>
     <div class="menu">
       <div class="left">
         <button type="button" class="button-primary" onclick="gTopMenu.addNode()">+ Add New State</button>
       </div>
       <div class="center">
-        <div class="nontableblock" id="selectedText">Selected states:</div>
+        <div class="nontable" id="selectedText">Selected states:</div>
       </div>
       <div class="right">
         <button class="nontable" type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
@@ -201,13 +201,13 @@
         </div>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('edgeEntry')">Cancel</button>
-          <button type="button" class="button-primary" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
+          <button type="button" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
         </div>
       </div>
 
       <div class="testing popup">
-        <div class="modal-header">
-          Run Tests
+        <div width="100%" height="150px" class="popupTitle">
+          <span>Run Tests</span>
         </div>
         <div class="modal-content">
           <p class="modal-description">
@@ -234,13 +234,13 @@
         </div>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('testing')">Cancel</button>
-          <button type="button" class="button-primary" onclick="gModalMenu.submit ('testing')">Run</button>
+          <button type="button" onclick="gModalMenu.submit ('testing')">Run</button>
         </div>
       </div>
 
       <div class="nodeEntry popup">
-        <div class="modal-header">
-          Edit Node
+        <div width="100%" height="150px" class="popupTitle">
+          <span>Edit Node</span>
         </div>
         <div class="modal-content">
           <p class="modal-description">
