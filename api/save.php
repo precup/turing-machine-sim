@@ -10,6 +10,8 @@ body should contain JSON:
 }
 */
 
+// TODO: Need to overwrite automata if it already has same name
+
 require_once("./db.php");
 
 $db = new DB();
