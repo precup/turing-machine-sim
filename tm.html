@@ -105,7 +105,7 @@
         <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
       </div>
     </div>
-    <div class="modal overlay" style="display:block">
+    <div class="modal overlay">
 
       <div class="load popup">
         <div class="modal-header">
@@ -124,8 +124,8 @@
           </ul>
         </div>
         <div class="modal-buttons">
-          <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
-          <button type="button" class="button-primary" onclick="gModalMenu.submit ('save')">Load</button>
+          <button type="button" onclick="gModalMenu.cancel ('load')">Cancel</button>
+          <button type="button" class="button-primary" onclick="gModalMenu.submit ('load')">Load</button>
         </div>
       </div>
 
@@ -219,8 +219,8 @@
           <button type="button" onclick="gModalMenu.cancel ('nodeEntry')">Cancel</button>
           <button type="button" onclick="gModalMenu.submit ('nodeEntry')">Update</button>
         </div>
-      <div class="bg" style="display:none;">
-      </div>
+      <!-- <div class="bg" style="display:none;">
+      </div>-->
     </div>
   </body>
 </html>

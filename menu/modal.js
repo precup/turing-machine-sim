@@ -85,3 +85,7 @@ gModalMenu.getSaveName = function () {
 gModalMenu.setSaveName = function (name) {
   d3.select (".saveText").node ().value = name;
 };
+
+gModalMenu.setSaveButton = function (text) {
+  d3.select (".saveButton").node ().innerHTML = text;
+};
