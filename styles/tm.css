@@ -239,8 +239,22 @@ circle.inner {
   width: 10%;
 }
 
+<<<<<<< HEAD
 .tableEditor tr td:nth-child(1n+2) {
   width: 15%;
+=======
+.gridInput, .edgeChars, .nodeName {
+  -webkit-appearance:none;
+  border:1px solid rgb(229, 229, 229);
+  padding:6px;
+  border-radius:3px;
+  font-size: 14px;
+  text-align:center;
+}
+
+.edgeChars, .nodeName {
+  text-align: left;
+>>>>>>> 9b3c670ff2eb2be135b25d864fd9bada412d98bd
 }
 
 textarea {
@@ -258,10 +272,6 @@ textarea {
 
 .nodeEntry {
   display: none;
-  width: 302px;
-  height: 174px;
-  margin-left: -151px;
-  margin-top: -87px;
 }
 
 .nodeEntry .popupTitle {
@@ -270,26 +280,19 @@ textarea {
 
 .testing {
   display: none;
-  width: 532px;
-  height: 334px;
-  margin-left: -266px;
-  margin-top: -167px;
 }
 
-.testing div {
-  font-weight: 300;
+.testing td {
+  padding: 4px;
+  font-size: 13px;
 }
 
-.testing .popupTitle {
-  width: 572px;
-}
-
-.testing table {
-  height: 400;
+.testing textarea {
+  border: 1px solid rgb(229,229,229);
 }
 
 .testingHeader, .testingResults {
-  padding: 0 0 0 30px;
+  padding: 0;
   margin: 0;
 }
 
@@ -299,14 +302,10 @@ textarea {
 
 .edgeEntry {
   display: none;
-  width: 300px;
-  height: 210px;
-  margin-left: -170px;
-  margin-top: -100px;
 }
 
-.edgeEntry .popupTitle {
-  width: 340px;
+.char-options {
+  padding: 0px 10px;
 }
 
 .popup {
@@ -314,6 +313,9 @@ textarea {
   top: 50%;
   left: 50%;
   z-index: 10;
+  width: 400px;
+  margin-left: -200px;
+  margin-top: -20%;
   background-color: #fff;
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -380,7 +382,7 @@ body {
   transition: background-color .2s ease, box-shadow .2s ease;
 }
 
-.menu button:hover {
+.menu button:hover, .popup button:hover {
   background-color: rgb(240, 240, 240);
 }
 
@@ -412,33 +414,12 @@ button.button-primary:hover {
   float: right;
 }
 
-.popupTitle {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  padding-left: -20px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  color: #ffffff;
-  background-color: #2d73af;
-  margin: 0 -20px auto;
-  -webkit-box-shadow: 0px 0px 8px 0px #aaa;
-     -moz-box-shadow: 0px 0px 8px 0px #aaa;
-          box-shadow: 0px 0px 8px 0px #aaa;
-}
-
-.popTitle > span {
-  vertical-align: middle;
-  line-height: normal;
-  display: inline-block;
-}
-
 .popupLeft {
-  text-align: left;
+  text-align: right;
 }
 
 .popupRight {
-  text-align: right;
+  text-align: left;
 }
 
 .popupButtons {
@@ -447,7 +428,7 @@ button.button-primary:hover {
 }
 
 td {
-  padding-top: 10px;
+  padding: 10px;
   text-align: right;
 }
 
@@ -520,4 +501,10 @@ td {
   height: 100%;
   z-index: 100;
   background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-description {
+  font-size: 12px;
+  text-align: center;
+  margin: 12px 6px 6px 0px;
 }

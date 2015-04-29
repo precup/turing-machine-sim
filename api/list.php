@@ -4,29 +4,25 @@
 /api/list.php
 GET request
 
-responds with a JSON array of arrays. Ex:
-[["id", "name"], ["1", "awesome_automata"]]
+responds with a JSON array of objects. Ex:
+[
+  {
+    "id": "15",
+    "user_id": "maxwang7",
+    "automata": "<string>",
+    "name": "name"
+  }
+]
 */
 
-$DB_CONFIG_FILE = './db_config.secret';
+require_once("./db.php");
 
-$db = json_decode(file_get_contents($DB_CONFIG_FILE), True);
+$db = new DB();
 
-$mysqli = new mysqli($db['url'], $db['user'], $db['password'], $db['name']);
-
-if (mysqli_connect_errno($mysqli)) {
-  echo "Oops! Something weird happened on our server. Try again?\n";
-  // echo "Failed to connect to MySQL: " . mysqli_connect_error();  exit();
+$user = $_ENV['WEBAUTH_USER'];
+if(!$db->checkUserExists($user)) {
+  $db->addUser($user);
 }
 
-$automatas = mysqli_query($mysqli, "select * from automatas;");
-
-$jsonlist = array();
-while ($row = $automatas->fetch_assoc()) {
-  $cur = array(); 
-  $cur[0] = $row['id'];
-  $cur[1] = $row['name'];
-  array_push ($jsonlist, $cur);
-}
-echo json_encode($jsonlist);
-?>
+$result = $db->getAllAutomataOfUser($user);
+echo json_encode($result);

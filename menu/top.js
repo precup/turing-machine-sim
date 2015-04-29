@@ -45,81 +45,52 @@ gTopMenu.snapToGrid = function () {
   gGraph.draw ();
 };
 
-gTopMenu.forcedDirectedLayout = function () {
-  gNodes.forcedDirectedLayout ();
-  gGraph.draw ();
-};
-
 gTopMenu.loadFromServer = function () {
-    var list_url = "/api/list.php";
-    d3.xhr(list_url)
-      .header("Content-Type", "application/json")
-      .get(function(err, data) {
-        console.log("data", data);
-        var json_data = JSON.parse(data.response);
-        console.log(json_data);
-        var nice_data = "";
-        json_data.forEach(function(elem, index, arr) {
-          nice_data += elem[0] + "," + elem[1] + "\n";
-        });
-        var selected_id = parseInt(prompt(nice_data));
-        console.log(selected_id);
-        var get_url = "/api/load.php" + "?id=" + selected_id;
-        d3.xhr(get_url)
-          .header("Content-Type", "application/json")
-          .post(selected_id, 
-            function(err, data) {
-              if(err) console.log(err);
-              console.log(data);
-              var json_data = JSON.parse(data.response);
-              console.log(json_data);
-              gGraph.load(JSON.parse(json_data[0][1]));
-              gGraph.draw ();
-          });
-      });
-};
-
-gTopMenu.load = function () {
-  var files = document.getElementById ("fileInput").files;
-  if (files.length < 1) return;
-  var file = files[0];
-  var reader = new FileReader ();
-
-  reader.onload = function (e) {
-    gGraph.load (JSON.parse (reader.result));
-    gGraph.draw ();
-  }
-
-  reader.readAsText (file);
-};
-
-gTopMenu.save = function (elem) {
-  var save_url = "/api/save.php";
-  elem.innerHTML = "Saving...";
-  var stringGraph = JSON.stringify(gGraph.save());
-  var name = "name";
-
-  var pack = {
-    automata: stringGraph,
-    name: name
-  };
-  console.log(pack);
-  d3.xhr(url_prefix + save_url)
+  var list_url = "/api/list.php";
+  d3.xhr(gServer.url_prefix + list_url)
     .header("Content-Type", "application/json")
-    .post(
-      JSON.stringify(pack),
-      function(err, rawData) {
-        if (err) {
-          elem.innerHTML = "Failed";
-        } else { 
-          elem.innerHTML = "Saved!";
-        }
-        console.log(rawData);
-        window.setTimeout(function() {
-          elem.innerHTML = "Save"; // return to original
-        }, 1000);
-      }
-    );
+    .get(function(err, data) {
+      var json_data = JSON.parse(data.response);
+      var names = [];
+      json_data.forEach(function(elem, index, arr) {
+        names.push(elem["name"]);
+      })
+      gModalMenu.setLoadNames (names);
+      gModalMenu.open("load");
+    });
+
+
+    // var list_url = "/api/list.php";
+    // d3.xhr(list_url)
+    //   .header("Content-Type", "application/json")
+    //   .get(function(err, data) {
+    //     console.log("data", data);
+    //     var json_data = JSON.parse(data.response);
+    //     console.log(json_data);
+    //     var nice_data = "";
+    //     json_data.forEach(function(elem, index, arr) {
+    //       nice_data += elem[0] + "," + elem[1] + "\n";
+    //     });
+    //     var selected_id = parseInt(prompt(nice_data));
+    //     console.log(selected_id);
+    //     var get_url = "/api/load.php" + "?id=" + selected_id;
+    //     d3.xhr(get_url)
+    //       .header("Content-Type", "application/json")
+    //       .post(selected_id, 
+    //         function(err, data) {
+    //           if(err) console.log(err);
+    //           console.log(data);
+    //           var json_data = JSON.parse(data.response);
+    //           console.log(json_data);
+    //           gGraph.load(JSON.parse(json_data[0][1]));
+    //           gGraph.draw ();
+    //       });
+    //   });
+};
+
+gTopMenu.save = function () {
+  gModalMenu.setSaveName(gServer.name);
+  gModalMenu.open("save");
 };
 
 

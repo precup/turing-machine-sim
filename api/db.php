@@ -26,6 +26,15 @@ class DB
     }
   }
 
+  public function fetchAll($result) 
+  {
+    $all = array();
+    while ($row = $result->fetch_assoc()) {
+      array_push($all, $row);
+    }
+    return $all;
+  }
+
   public function checkUserExists($sunetid)
   {
     $db = $this->db;
@@ -50,9 +59,44 @@ class DB
     $name = $db->real_escape_string($name);
 
 
-    $query_string = "insert into automatas (user_id, automata, name) values(\"$sunetid\", \"$automata\", \"$name\");";
+    // TODO: test this line again
+    $query_string = "insert into automatas (user_id, automata, name) values(\"$sunetid\", \"$automata\", \"$name\") on duplicate key update automata=\"$automata\";";
+    $result = $db->query($query_string);
+    if ($result === False) exit();
+  }
+
+  public function getAllAutomataOfUser($sunetid) {
+    $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
+
+    $query_string = "select * from automatas where user_id = \"$sunetid\";";
+    $result = $db->query($query_string);
+    if ($result === False) exit();
+    return $this->fetchAll($result);
+  }
+
+  public function getAutomataOfUser($sunetid, $automata_name) {
+    $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
+    $automata_name = $db->real_escape_string($automata_name);
+
+    $query_string = "select * from automatas where name=\"$automata_name\" and user_id=\"$sunetid\";";
+    $result = $db->query($query_string);
+    if ($result === False) exit();
+    if ($result->num_rows === 0) {
+      echo "Something is wrong with your automata...";
+      exit();
+    }
+    return $this->fetchAll($result); 
+  }
+
+  public function addSubmission($sunetid, $automata, $problem) {
+    $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
+    $automata = $db->real_escape_string($automata);
+
+    $query_string = "insert into submissions (user_id, problem_id, automata) values (\"$sunetid\", $problem, \"$automata\");";
     $result = $db->query($query_string);
     if ($result === False) exit();
   }
 }
-?>

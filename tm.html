@@ -40,6 +40,8 @@
     <script src="simulation/bulk.js"></script>
     <script src="simulation/tape.js"></script>
 
+    <script src="server/server.js"></script>
+
   </head>
   <body onload="run()" onresize="gGraph.resize()">
     <div class="menu">
@@ -60,14 +62,13 @@
         <button type="button" class="rejectButton" onclick="gTopMenu.setState(false, true)">&#x2717; Rejecting</button>
         <button type="button" class="neitherButton" onclick="gTopMenu.setState(false, false)">&#x25cb; Neither</button>
       -->
-      <!--<input class="fileInput" id="fileInput" type="file" onchange="gTopMenu.load ();">-->
     </div>
     <div class="menu">
       <div class="left">
         <button type="button" class="button-primary" onclick="gTopMenu.addNode()">+ Add New State</button>
       </div>
       <div class="center">
-        <div class="nontableblock" id="selectedText">Selected states:</div>
+        <div class="nontable" id="selectedText">Selected states:</div>
       </div>
       <div class="right">
         <button class="nontable" type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
@@ -130,15 +131,15 @@
         <input type="text" class="saveText"></input>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
-          <button type="button" class="button-primary" onclick="gModalMenu.submit ('save')">Save</button>
+          <button type="button" class="button-primary saveButton" onclick="gModalMenu.submit ('save')">Save</button>
         </div>
       </div>
 
       <div class="edgeEntry popup">
-        <div class="modal-header">
-          Edit Edge
+        <div width="100%" height="150px" class="popupTitle">
+          <span>Edit Edge</span>
         </div>
-        <br />
+        <div class="modal-content">
         <table width="100%">
           <tr>
             <td class="popupLeft">Characters</td>
@@ -147,7 +148,7 @@
           <tr>
             <td>
             </td>
-            <td class="popupRight">
+            <td class="popupRight char-options">
               <button type="button" onclick="gModalMenu.addAllEdgeChars ()">Add All</button>
               <button type="button" onclick="gModalMenu.invertEdgeChars ()">Invert</button>
             </td>
@@ -157,61 +158,64 @@
             <td class="popupRight"><input type="checkbox" class="epsilon" size="1"></td>
           </tr>
         </table>
+      </div>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('edgeEntry')">Cancel</button>
-          <button type="button" class="button-primary" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
+          <button type="button" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
         </div>
       </div>
 
       <div class="testing popup">
-        <div class="modal-header">
-          Run Tests
+        <div width="100%" height="150px" class="popupTitle">
+          <span>Run Tests</span>
         </div>
-        <br />
-        <div width="400px">
-          Enter one test input per line. Append " A" or "R" for Accept and Reject to the end of each line to give an expected result.
+        <div class="modal-content">
+          <p class="modal-description">
+            Enter one test input per line. Append " A" or "R" for Accept and Reject to the end of each line to give an expected result.
+          </p>
+          <table width="100%" height="200px">
+            <tr>
+              <td class="popupLeft" width="50%">
+                <textarea cols="25" class="testingText" style="width:100%"></textarea>
+              </td>
+              <td class="popupRight" style="vertical-align: top;" width="50%">
+                <table class="testingHeader" width="100%" height="20px">
+                  <tr>
+                    <td>Input</td>
+                    <td>Result</td>
+                    <td>Matches</td>
+                  </tr>
+                </table>
+                <table class="testingResults" width="100%">
+                </table>
+              </td>
+            </tr>
+          </table>
         </div>
-        <table width="100%" height="200px">
-          <tr>
-            <td class="popupLeft" width="30%">
-              <textarea cols="25" width="100%" class="testingText"></textarea>
-            </td>
-            <td class="popupRight" style="vertical-align: top;" width="70%">
-              <table class="testingHeader" width="100%" height="20px">
-                <tr>
-                  <td width="60%" style="text-align: center; padding: 0;">Input</td>
-                  <td width="20%" style="text-align: center; padding: 0;">Result</td>
-                  <td width="20%" style="text-align: center; padding: 0;">Matches</td>
-                </tr>
-              </table>
-              <table class="testingResults" width="100%">
-              </table>
-            </td>
-          </tr>
-        </table>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('testing')">Cancel</button>
-          <button type="button" class="button-primary" onclick="gModalMenu.submit ('testing')">Run</button>
+          <button type="button" onclick="gModalMenu.submit ('testing')">Run</button>
         </div>
       </div>
 
       <div class="nodeEntry popup">
-        <div class="modal-header">
-          Edit Node
+        <div width="100%" height="150px" class="popupTitle">
+          <span>Edit Node</span>
         </div>
-        <br />
-        <div width="400px">
-          Enter a new name for this node. (5 character maximum)
+        <div class="modal-content">
+          <p class="modal-description">
+            Enter a new name for this node. (5 character maximum)
+          </p>
+          <table width="100%">
+            <tr>
+              <td class="popupLeft">Name</td>
+              <td class="popupRight"><input type="text" class="nodeName" maxlength="5"></td>
+            </tr>
+          </table>
         </div>
-        <table width="100%">
-          <tr>
-            <td class="popupLeft">Name</td>
-            <td class="popupRight"><input type="text" class="nodeName" maxlength="5"></td>
-          </tr>
-        </table>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('nodeEntry')">Cancel</button>
-          <button type="button" onclick="gModalMenu.submit ('nodeEntry')">Update</button>
+          <button type="button" class="button-primary" onclick="gModalMenu.submit ('nodeEntry')">Update</button>
         </div>
       <!-- <div class="bg" style="display:none;">
       </div>-->
