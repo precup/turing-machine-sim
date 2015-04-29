@@ -46,46 +46,18 @@ gTopMenu.snapToGrid = function () {
 };
 
 gTopMenu.loadFromServer = function () {
-  var list_url = "/api/list.php";
-  d3.xhr(gServer.url_prefix + list_url)
+  var listSaved_url = "/api/listSaved.php";
+  d3.xhr(gServer.url_prefix + listSaved_url)
     .header("Content-Type", "application/json")
     .get(function(err, data) {
       var json_data = JSON.parse(data.response);
       var names = [];
       json_data.forEach(function(elem, index, arr) {
         names.push(elem["name"]);
-      })
+      });
       gModalMenu.setLoadNames (names);
       gModalMenu.open("load");
     });
-
-
-    // var list_url = "/api/list.php";
-    // d3.xhr(list_url)
-    //   .header("Content-Type", "application/json")
-    //   .get(function(err, data) {
-    //     console.log("data", data);
-    //     var json_data = JSON.parse(data.response);
-    //     console.log(json_data);
-    //     var nice_data = "";
-    //     json_data.forEach(function(elem, index, arr) {
-    //       nice_data += elem[0] + "," + elem[1] + "\n";
-    //     });
-    //     var selected_id = parseInt(prompt(nice_data));
-    //     console.log(selected_id);
-    //     var get_url = "/api/load.php" + "?id=" + selected_id;
-    //     d3.xhr(get_url)
-    //       .header("Content-Type", "application/json")
-    //       .post(selected_id, 
-    //         function(err, data) {
-    //           if(err) console.log(err);
-    //           console.log(data);
-    //           var json_data = JSON.parse(data.response);
-    //           console.log(json_data);
-    //           gGraph.load(JSON.parse(json_data[0][1]));
-    //           gGraph.draw ();
-    //       });
-    //   });
 };
 
 gTopMenu.save = function () {
