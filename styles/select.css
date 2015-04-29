@@ -64,16 +64,26 @@ h3 {
   border: 1px solid rgb(229, 229, 229);
 }
 
+.standalone input[type="radio"] {
+  vertical-align: baseline;
+  margin-right: 6px;
+}
+
+.standalone label {
+  margin-right: 6px;
+}
+
 .custom-field {
   float: right;
   margin-top: -2px;
 }
 
-.custom input {
+.custom input[type="text"]{
   font-size: 13px;
   border-radius: 4px;
   height: 24px;
   box-sizing: border-box;
+  width: 140px;
   padding: 4px;
   border: 1px solid rgb(229, 229, 229);
 }
