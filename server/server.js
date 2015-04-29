@@ -138,7 +138,7 @@ gServer.listSaved = function listSaved (callback) {
 // callback(sunetid)
 gServer.getSunetid = function getSunetid (callback) {
   var getSunetid_url = "/api/getSunetid.php";
-  d3.xhr(gServer.url_prefix + listSaved_url)
+  d3.xhr(gServer.url_prefix + getSunetid_url)
     .header("Content-Type", "application/json")
     .get(function(err, data) {
       var json_data = JSON.parse(data.response);

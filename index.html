@@ -87,7 +87,7 @@
       }
 
       function createOther () {
-        var type = "dfa";//d3.select ('.type').node ().selected;
+        var type = d3.select ('.dfa-radio').node ().checked ? "dfa" : "nfa";
         var charSet = d3.select ('.language').node ().value;
         var url = window.location.href;
         var loc = url.lastIndexOf ("/") + 1;
@@ -116,8 +116,12 @@
       <div class="custom standalone">
         I'm doing my own thing.
         <div class="custom-field">
-          <input type="text" placeholder="Alphabet" class="language"></input>
-          <button type="button" onclick="createOther()">Go</button>
+          <form>
+            <label><input type="radio" name="type" checked="checked" class="dfa-radio">DFA</label>
+            <label><input type="radio" name="type">NFA</label>
+            <input type="text" placeholder="Alphabet" class="language"></input>
+            <button type="button" onclick="createOther()">Go</button>
+          </form>
         </div>
       </div>
       <div class="custom">
