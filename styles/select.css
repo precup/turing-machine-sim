@@ -34,12 +34,14 @@ h3 {
   color: rgba(0, 0, 0, 0.5);
 }
 
-.select-pset {
-  background: rgb(0, 146, 238);
-  color: #fff;
+.select-pset, .custom {
+  color: rgb(0, 146, 238);
   padding: 0.8em 1em;
   font-size: 16px;
-  border-radius: 6px;
+  border-radius: 6px 6px 0px 0px;
+  border-top: 1px solid rgb(229, 229, 229);
+  border-left: 1px solid rgb(229, 229, 229);
+  border-right: 1px solid rgb(229, 229, 229);
 }
 
 .pset {
@@ -53,11 +55,46 @@ h3 {
   margin: 0px auto;
 }
 
-ul {
+.custom {
   margin-top: 20px;
-  padding: 0px;
-  border: 1px solid rgb(223, 223, 223);
+}
+
+.standalone {
   border-radius: 6px;
+  border: 1px solid rgb(229, 229, 229);
+}
+
+.custom-field {
+  float: right;
+  margin-top: -2px;
+}
+
+.custom input {
+  font-size: 13px;
+  border-radius: 4px;
+  height: 24px;
+  box-sizing: border-box;
+  padding: 4px;
+  border: 1px solid rgb(229, 229, 229);
+}
+
+button {
+  height: 24px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 6px;
+  border: none;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 4px;
+  color: #fff;
+
+}
+
+ul {
+  padding: 0px;
+  border: 1px solid rgb(229, 229, 229);
+  border-radius: 0px 0px 6px 6px;
+  margin: 0px;
 }
 
 li {

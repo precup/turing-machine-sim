@@ -5,7 +5,7 @@
     <link href="styles/select.css" rel="stylesheet" type="text/css">
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script>
-      var psets = 
+      var psets =
         [
           {
             name: "Problem Set 3",
@@ -35,7 +35,7 @@
             ]
           }
         ];
-        
+
       function setup () {
         var psetSelect = d3.select (".pset").selectAll ("option").data (psets);
         psetSelect.enter ()
@@ -47,23 +47,23 @@
           .node ().selectedIndex = 0;
         changeNumbers ();
       }
-        
+
       function changeNumbers () {
         console.log ("fired");
         var psetNum = d3.select ('.pset').node ().selectedIndex;
         var problemSelect = d3.select (".problem").selectAll ("li").data (psets[psetNum].problems);
-        
+
         problemSelect.enter ()
           .append ("li")
           .on ("click", function (junk, i) {
             createPset (i);
           });
-          
+
         problemSelect.each (function (problem) { this.innerHTML = problem.name; });
-          
+
         problemSelect.exit ().remove ();
       }
-      
+
       function createPset (problemNum) {
         var psetNum = d3.select ('.pset').node ().selectedIndex;
         var charSet = psets[psetNum].problems[problemNum].charSet;
@@ -80,7 +80,7 @@
                           "&pset=" + psetNum +
                           "&problem=" + problemNum;
       }
-      
+
       function createOther () {
         var type = d3.select ('.type').node ().selected;
         var charSet = d3.select ('.language').node ().value;
@@ -108,6 +108,17 @@
         <select class="pset"></select>
       </div>
       <ul class="problem"></ul>
+      <div class="custom standalone">
+        I'm doing my own thing.
+        <div class="custom-field">
+          <input type="text" placeholder="Alphabet">
+          <button type="button">Go</button>
+        </div>
+      </div>
+      <div class="custom">
+        I'm loading something I've saved.
+      </div>
+      <ul class="problem"><li>1: Bacon ipsum</li><li>2: Dolor amet</li><li>3: Flank meatloaf</li></ul>
     </div>
   </body>
 </html>

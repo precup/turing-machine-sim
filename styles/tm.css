@@ -343,23 +343,51 @@ body {
   box-sizing: border-box;
 }
 
-.menu .left {
+.left {
   position: absolute;
   left: 10px;
 }
 
-.menu .right {
+.right {
   position: absolute;
   right: 10px;
 }
 
-.menu .center {
+.center {
   position: absolute;
   width: 200px;
   margin: auto;
   left: 0;
   right: 0;
   text-align: center;
+}
+
+.contextual-menu {
+  padding: 10px;
+  font-size: 13px;
+  box-sizing: border-box;
+  position: absolute;
+  background: transparent;
+  width: 100%;
+}
+
+.errors {
+  width: 100%;
+  font-size: 14px;
+  margin: 0 auto;
+  top: 10px;
+  text-align: center;
+  line-height: 30px;
+  position: absolute;
+}
+
+.error {
+  text-wrap: none;
+  background-color: #A44242;
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin: 4px;
 }
 
 .menu button, .popup button, .popupRight button {
