@@ -14,12 +14,87 @@ body {
   position:absolute;
   width: 100%;
   top: 47px;
-  bottom:3px;
   margin: 0;
+  bottom: 0;
+  float: left;
 }
 
 .transparent {
   opacity: 0;
+}
+
+.tape-char:focus {
+  outline-color: transparent;
+  outline-style: none;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tape-bar {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  padding: 10px;
+  color: #fff;
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+.tape-field {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 3px;
+  border: none;
+  width: auto;
+  height: 30px;
+  overflow: hidden;
+}
+
+.tape-char {
+  -webkit-appearance: none;
+  border: none;
+  padding: 6px;
+  font-size: 14px;
+  text-align: center;
+  width: 36px;
+  height: 30px;
+  box-sizing: border-box;
+  background: transparent;
+  color: #fff;
+  margin: 0px;
+  margin-right: -5px;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.current-tape-char {
+  background-color: #0092EE;
+}
+
+.tape-char:last-child {
+  border-right: none;
+}
+
+.tape-bar .button {
+  display: inline-block;
+  font-size: 14px;
+  padding: 0px 12px;
+  margin-left: 6px;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  border: none;
+  color: #fff;
+  height: 30px;
+  float: right;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  transition: .2s background-color ease;
+}
+
+.tape-bar .button:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.tape-bar .button:active {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 svg {
@@ -183,7 +258,7 @@ textarea {
   top: 50%;
   left: 50%;
   background-color: #e5e5e5;
-  z-index: 10; 
+  z-index: 10;
 }
 
 .hidden {
@@ -245,10 +320,6 @@ body {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.gui {
-  float: left;
-}
-
 .sidePanel {
   float: right;
 }
@@ -270,7 +341,7 @@ body {
   text-align: center;
   color: #ffffff;
   background-color: #2d73af;
-  margin: 0 -20px auto;    
+  margin: 0 -20px auto;
   -webkit-box-shadow: 0px 0px 8px 0px #aaa;
      -moz-box-shadow: 0px 0px 8px 0px #aaa;
           box-shadow: 0px 0px 8px 0px #aaa;
@@ -278,7 +349,7 @@ body {
 
 .popTitle > span {
   vertical-align: middle;
-  line-height: normal;    
+  line-height: normal;
   display: inline-block;
 }
 
