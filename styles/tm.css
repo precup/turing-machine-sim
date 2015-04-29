@@ -70,7 +70,6 @@ body {
   background: transparent;
   color: #fff;
   margin: 0px;
-  margin-right: -5px;
 }
 
 .tape-char-input {
@@ -220,12 +219,28 @@ circle.inner {
 
 .tableEditor {
   display: none;
-  border: 1px solid black;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .tableEditor tr td {
   margin: 0;
-  border: 1px solid black;
+}
+
+.tableEditor tr:(even) {
+  background: rgb(229, 229, 229);
+}
+
+.tableEditor tr:nth-child(odd) {
+  background: rgb(247, 247, 247);
+}
+
+.tableEditor tr td:nth-child(1) {
+  width: 10%;
+}
+
+.tableEditor tr td:nth-child(1n+2) {
+  width: 15%;
 }
 
 textarea {
@@ -345,8 +360,10 @@ body {
 
 .menu .center {
   position: absolute;
-  width: 100%;
+  width: 200px;
+  margin: auto;
   left: 0;
+  right: 0;
   text-align: center;
 }
 
