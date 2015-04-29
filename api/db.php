@@ -75,11 +75,12 @@ class DB
     return $this->fetchAll($result);
   }
 
-  public function getAutomataOfUser($sunetid, $automata_id) {
+  public function getAutomataOfUser($sunetid, $automata_name) {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
+    $automata_name = $db->real_escape_string($automata_name);
 
-    $query_string = "select * from automatas where id=$automata_id and user_id=\"$sunetid\";";
+    $query_string = "select * from automatas where name=\"$automata_name\" and user_id=\"$sunetid\";";
     $result = $db->query($query_string);
     if ($result === False) exit();
     if ($result->num_rows === 0) {

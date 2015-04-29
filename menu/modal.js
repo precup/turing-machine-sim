@@ -26,6 +26,8 @@ gModalMenu.submit = function (type) {
     case "save":
       gServer.save ();
       break;
+    case "load":
+      gServer.load ();
     default:
       break;
   }
