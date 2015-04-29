@@ -9,6 +9,8 @@
     <script src="behaviors.js"></script>
     <script src="util.js"></script>
     <script src="queue.js"></script>
+    <script src="psets.js"></script>
+    
     <script src="brush/brush.js"></script>
 
     <script src="graph/graph.js"></script>
@@ -41,6 +43,7 @@
     <script src="simulation/tape.js"></script>
 
     <script src="server/server.js"></script>
+    <script src="server/mock.js"></script>
 
   </head>
   <body onload="run()" onresize="gGraph.resize()">
@@ -156,16 +159,16 @@
         <div class="modal-content">
         <table width="100%">
           <tr>
-            <td class="popupLeft">Problem Set Number</td>
-            <td class="popupRight"><select></select></td>
+            <td class="popupLeft">Problem Set</td>
+            <td class="popupRight"><select  class="pset" onchange="gModalMenu.changeNumbers ()"></select></td>
           </tr>
           <tr>
-            <td class="popupLeft">Problem Number</td>
-            <td class="popupRight"><select></select></td>
+            <td class="popupLeft">Problem</td>
+            <td class="popupRight"><select class="problem"></select></td>
           </tr>
           <tr>
             <td class="popupLeft">Team Members</td>
-            <td class="popupRight"><input type="text" class="gridInput"></td>
+            <td class="popupRight"><input type="text" class="gridInput teamText"></td>
           </tr>
         </table>
       </div>

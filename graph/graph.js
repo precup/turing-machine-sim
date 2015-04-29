@@ -25,11 +25,16 @@ gGraph.init = function () {
   gGraph.charSet = sortString (charSetParam);
   gGraph.epsilonEnabled = true;
   
+  gServer.getSunetid (function (sunetid) {
+    gGraph.sunetid = sunetid;
+  });
+  
   gNodes.init ();
   gEdges.init ();
   gBrush.init ();
   gTape.init ();
   gTestMenu.init ();
+  gModalMenu.initSubmit ();
   gGraph.initDelete ();
   
   gBehaviors.addBehavior ("page", "keydown", function () { return true; }, gGraph.keydown);

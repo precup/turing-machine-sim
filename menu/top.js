@@ -1,9 +1,3 @@
-// <button type="button" onclick="setStart()">&#x2192; Set as Start</button>
-// <input class="fileInput" id="fileInput" type="file" onchange="loadFile();">
-// <button type="button" onclick="openModal('.json')">Load</button>
-// <button type="button" onclick="downloadAsJson(machine.getSaveData(), 'tm.json')">Download as JSON</button>
-// <button type="button" onclick="openModal('.testing')">Run test</button>
-
 var gTopMenu =
   {
     MAX_DISPLAYED_STATES: 5,
@@ -62,6 +56,7 @@ gTopMenu.save = function () {
 };
 
 gTopMenu.submit = function () {
+  gModalMenu.setTeamText ([gGraph.sunetid]);
   gModalMenu.open ("submit");
 };
 

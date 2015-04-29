@@ -106,17 +106,71 @@ gModalMenu.setLoadNames = function (names) {
     
   lis.enter ().append ("li");
   lis.classed ("selected", false)
+    .classed ("load-nothing", false)
     .each (function (name) {
       this.innerHTML = name;
      })
     .on ("click", function () {
+      d3.select (".loadNames").selectAll ("li").classed ("selected", false);
       d3.select (this).classed ("selected", true);
     })
     .style ("cursor", "pointer");
   lis.exit ().remove ();
+  
+  if (names.length == 0) {
+    d3.select (".loadNames")
+      .append ("li")
+      .classed ("load-nothing", true)
+      .html ("<p class='modal-description'>Nothing's been saved yet</p>");
+  }
 };
 
 gModalMenu.getLoadName = function () {  
   var node = d3.select (".loadNames").select ("li.selected").node ();
   return node == null ? null : node.innerHTML;
+};
+
+gModalMenu.initSubmit = function () {
+  var psetSelect = d3.select (".pset").selectAll ("option").data (psets);
+  psetSelect.enter ()
+    .append ("option")
+    .attr ("value", function (pset, i) { return i; })
+    .each (function (pset, i) { this.innerHTML = pset.name; });
+  d3.select ('.pset').node ().selectedIndex = 0;
+  gModalMenu.changeNumbers ();
+};
+
+gModalMenu.getTeamText = function () {
+  var names = d3.select (".teamText").node ().value.split (/[ ,\t\r\n]/);
+  for (var i = 0; i < names.length; i++) {
+    if (names[i].endsWith ("@stanford.edu")) {
+      names[i] = names[i].substring (0, names[i].length - "@stanford.edu".length);
+    }
+    if (names[i] == "") {
+      names.splice (i--, 1);
+    }
+  }
+};
+
+gModalMenu.setTeamText = function (names) {
+  for (var i = 0; i < names.length; i++) {
+    if (!names[i].endsWith ("@stanford.edu")) {
+      names[i] += "@stanford.edu";
+    }
+  }
+  d3.select (".teamText").node ().value = names.join (", ");
+};
+
+gModalMenu.changeNumbers = function () {
+  var psetNum = d3.select ('.pset').node ().selectedIndex;
+  
+  var problemSelect = d3.select (".problem").selectAll ("option").data (psets[psetNum].problems);
+  
+  problemSelect.enter ().append ("option");
+    
+  problemSelect.attr ("value", function (problem) { return problem.charSet; })
+    .each (function (problem) { this.innerHTML = problem.name; });
+    
+  problemSelect.exit ().remove ();
+  d3.select ('.problem').node ().selectedIndex = 0;
 };
