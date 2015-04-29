@@ -89,3 +89,21 @@ gModalMenu.setSaveName = function (name) {
 gModalMenu.setSaveButton = function (text) {
   d3.select (".saveButton").node ().innerHTML = text;
 };
+
+gModalMenu.setLoadNames = function (names) {
+  var lis = d3.select (".loadNames")
+    .selectAll ("li")
+    .data (names);
+    
+  lis.enter ().append ("li");
+  lis.classed ("selected", false)
+    .each (function (name) {
+      this.innerHTML = name;
+     });
+  lis.exit ().remove ();
+};
+
+gModalMenu.getLoadName = function () {  
+  var node = d3.select (".loadNames").select ("li.selected").node ();
+  return node == null ? null : node.innerHTML;
+};
