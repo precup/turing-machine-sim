@@ -47,6 +47,7 @@ class DB
   public function addUser($sunetid, $isTA)
   {
     $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
     $isTA = $isTA ? 1 : 0;
     $query_string = "insert into users (sunetid, isTA) values(\"$sunetid\",$isTA)";
     $result = $db->query($query_string);
@@ -55,6 +56,7 @@ class DB
 
   public function addAutomata($sunetid, $automata, $name) {
     $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
     $automata = $db->real_escape_string($automata);
     $name = $db->real_escape_string($name);
 
@@ -78,6 +80,10 @@ class DB
   public function getAutomataOfUser($sunetid, $automata_id) {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
+    if (gettype($automata_id) !== "integer") {
+      echo "Invalid automata ID";
+      exit();
+    }
 
     $query_string = "select * from automatas where id=$automata_id and user_id=\"$sunetid\";";
     $result = $db->query($query_string);
@@ -93,6 +99,10 @@ class DB
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
     $automata = $db->real_escape_string($automata);
+    if (gettype($problem) !== "integer") {
+      echo "Invalid problem ID";
+      exit();
+    }
 
     $query_string = "insert into submissions (user_id, problem_id, automata) values (\"$sunetid\", $problem, \"$automata\");";
     $result = $db->query($query_string);
