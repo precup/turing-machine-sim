@@ -59,7 +59,8 @@ class DB
     $name = $db->real_escape_string($name);
 
 
-    $query_string = "insert into automatas (user_id, automata, name) values(\"$sunetid\", \"$automata\", \"$name\");";
+    // TODO: test this line again
+    $query_string = "insert into automatas (user_id, automata, name) values(\"$sunetid\", \"$automata\", \"$name\") on duplicate key update automata=\"$automata\";";
     $result = $db->query($query_string);
     if ($result === False) exit();
   }
@@ -87,5 +88,14 @@ class DB
     }
     return $this->fetchAll($result); 
   }
+
+  public function addSubmission($sunetid, $automata, $problem) {
+    $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
+    $automata = $db->real_escape_string($automata);
+
+    $query_string = "insert into submissions (user_id, problem_id, automata) values (\"$sunetid\", $problem, \"$automata\");";
+    $result = $db->query($query_string);
+    if ($result === False) exit();
+  }
 }
-?>
