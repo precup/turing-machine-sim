@@ -297,8 +297,8 @@ textarea {
   display: none;
 }
 
-.edgeEntry tr:nth-child(2) > td{
-  padding: 0px;
+.char-options {
+  padding: 0px 10px;
 }
 
 .popup {
