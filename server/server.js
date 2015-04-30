@@ -4,7 +4,7 @@ gServer.url_prefix = "/class/cs103/cgi-bin/restricted";
 
 gServer.name = "automata";
 
-gServer.save = function save () {
+gServer.save = function () {
   var name = gModalMenu.getSaveName();
   gServer.name = name;
   var save_url = "/api/save.php";
@@ -34,7 +34,7 @@ gServer.save = function save () {
     );
 };
 
-gServer.load = function load () {
+gServer.load = function () {
   var selected = gModalMenu.getLoadName();
   var get_url = "/api/loadFromSaved.php" + "?name=" + selected;
   d3.xhr (gServer.url_prefix + get_url)
@@ -51,16 +51,12 @@ gServer.load = function load () {
       });
 };
 
-gServer.submit = function submit () {
-  console.log("start");
+gServer.submit = function () {
   var submit_url = "/api/submit.php";
 
   var automata = JSON.stringify (gGraph.save ());
   var pset = gModalMenu.getPsetNumber();
   var problem = gModalMenu.getProblemNumber();
-
-  console.log(pset);
-  console.log(problem);
 
   var pack = {
     automata: automata,
@@ -81,7 +77,7 @@ gServer.submit = function submit () {
       });
 };
 
-gServer.listSubmissions = function listSubmissions () {
+gServer.listSubmissions = function () {
   var listSubmissions_url = "/api/listSubmissions.php";
 
   d3.xhr (gServer.url_prefix + listSubmissions_url)
@@ -102,7 +98,7 @@ gServer.listSubmissions = function listSubmissions () {
       });
 };
 
-gServer.loadSubmission = function loadSubmission () {
+gServer.loadSubmission = function () {
   var pset = 1; // TODO
   var problem = 1; // TODO
 
@@ -129,7 +125,7 @@ gServer.loadSubmission = function loadSubmission () {
 };
 
 // callback(data)
-gServer.listSaved = function listSaved (callback) {
+gServer.listSaved = function (callback) {
   var listSaved_url = "/api/listSaved.php";
   d3.xhr(gServer.url_prefix + listSaved_url)
     .header("Content-Type", "application/json")
@@ -140,12 +136,11 @@ gServer.listSaved = function listSaved (callback) {
 }
 
 // callback(sunetid)
-gServer.getSunetid = function getSunetid (callback) {
+gServer.getSunetid = function (callback) {
   var getSunetid_url = "/api/getSunetid.php";
   d3.xhr(gServer.url_prefix + getSunetid_url)
     .header("Content-Type", "application/json")
     .get(function(err, data) {
-      var json_data = JSON.parse(data.response);
-      callback(json_data);
+      callback(data.response);
     });
 };

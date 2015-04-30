@@ -36,7 +36,7 @@ gModalMenu.submit = function (type) {
       break;
     case "submit":
       console.log("submit");
-      gServer.submit ();
+      console.log(gServer.submit ());
       console.log("after");
       break;
     default:
