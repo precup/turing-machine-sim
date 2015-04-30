@@ -35,9 +35,10 @@ gServer.save = function () {
 };
 
 // whileRunning (), error (err), done ()
-gServer.load = function (whileRunning, error, success, done) {
-  var selected = gModalMenu.getLoadName ();
+gServer.load = function (selected, whileRunning, error, success, done) {
+  // var selected = gModalMenu.getLoadName ();
   if (whileRunning) whileRunning ();
+  console.log ("loading", selected);
 
   var get_url = "/api/loadFromSaved.php" + "?name=" + selected;
   d3.xhr (gServer.url_prefix + get_url)

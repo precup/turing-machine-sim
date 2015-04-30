@@ -7,8 +7,11 @@ function run () {
   if (saved == null) {
     buildGraph (null, pset, problem, charSet, mode);
   } else {
-    buildGraph (null, pset, problem, charSet, mode);
+    // buildGraph (null, pset, problem, charSet, mode);
+    gBehaviors.init ();
+    gGraph.init(null, pset, problem, "", mode);
     gServer.load (
+      saved,
       null, null,
       function (automata) {
         gGraph.load (automata);
