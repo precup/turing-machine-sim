@@ -106,7 +106,6 @@ class DB
 
     $query_string = "select pset_id, problem_id from submissions where user_id=\"$sunetid\";";
     $result = $db->query($query_string);
-    echo $result->fetch_assoc();
     if ($result === False) exit();
     return $this->fetchAll($result); 
   }

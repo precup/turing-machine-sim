@@ -71,27 +71,42 @@ gServer.submit = function () {
     pset: pset,
     problem: problem
   };
+  
+  gServer.listSubmissions(function (data) {
+    var isOverwrite = false;
+    data.forEach (function (elem, index, arr) {
+      if (elem ["pset_id"] === pset && elem ["problem_id"] === problem) {
+        isOverwrite = true;
+      }
+    });
 
-  d3.xhr (gServer.url_prefix + submit_url)
-    .header ("Content-Type", "application/json")
-    .post (
-      JSON.stringify (pack),
-      function (err, rawData) {
-        if (err) {
-          gModalMenu.setSubmitButton ("Failed");
-          console.log (err);
-        } else { 
-          console.log (rawData);
-          gModalMenu.setSubmitButton ("Success!");
-          setTimeout(function () {
-            gModalMenu.setSubmitButton ("Submit");
-            gModalMenu.close ("submit");
-          }, 1000);
-        }
-      });
+    if (isOverwrite) {
+      // Check if the user wants to overwrite previous submission.
+    }
+
+
+    d3.xhr (gServer.url_prefix + submit_url)
+      .header ("Content-Type", "application/json")
+      .post (
+        JSON.stringify (pack),
+        function (err, rawData) {
+          if (err) {
+            gModalMenu.setSubmitButton ("Failed");
+            console.log (err);
+          } else {
+            console.log (rawData);
+            gModalMenu.setSubmitButton ("Success!");
+            setTimeout(function () {
+              gModalMenu.setSubmitButton ("Submit");
+              gModalMenu.close ("submit");
+            }, 1000);
+          }
+        });
+  });
 };
 
-gServer.listSubmissions = function () {
+// callback (data)
+gServer.listSubmissions = function (callback) {
   var listSubmissions_url = "/api/listSubmissions.php";
 
   d3.xhr (gServer.url_prefix + listSubmissions_url)
