@@ -102,6 +102,9 @@ gNodes.removeByIndex = function (index) {
 gNodes.removeNodes = function () {
   for (var i = 0; i < gNodes.nodes.length; i++) {
     if (gNodes.nodes[i].selected) {
+      if (gNodes.initial.id == gNodes.nodes[i].id) {
+        gNodes.initial = null;
+      }
       gEdges.removeNode (gNodes.nodes[i]);
       gNodes.nodes.splice (i--, 1);
     }
