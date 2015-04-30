@@ -51,6 +51,9 @@ $pset = intval($data->pset);
 $problem = intval($data->problem);
 $user = $_ENV['WEBAUTH_USER'];
 
+echo $pset;
+echo $problem;
+
 if (!$db->checkUserExists($user)) {
   $db->addUser($user);
 }

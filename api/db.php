@@ -95,7 +95,7 @@ class DB
     $sunetid = $db->real_escape_string($sunetid);
     $automata = $db->real_escape_string($automata);
 
-    $query_string = "insert into submissions (user_id, pset_id, problem_id, automata) values (\"$sunetid\", $pset, $problem, \"$automata\");";
+    $query_string = "insert into submissions (user_id, pset_id, problem_id, automata) values (\"$sunetid\", $pset, $problem, \"$automata\") on duplicate key update automata=\"$automata\";";
     $result = $db->query($query_string);
     if ($result === False) exit();
   }
@@ -106,6 +106,7 @@ class DB
 
     $query_string = "select pset_id, problem_id from submissions where user_id=\"$sunetid\";";
     $result = $db->query($query_string);
+    echo $result->fetch_assoc();
     if ($result === False) exit();
     return $this->fetchAll($result); 
   }

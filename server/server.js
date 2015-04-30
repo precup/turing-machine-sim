@@ -52,11 +52,15 @@ gServer.load = function load () {
 };
 
 gServer.submit = function submit () {
+  console.log("start");
   var submit_url = "/api/submit.php";
 
   var automata = JSON.stringify (gGraph.save ());
-  var pset = 1; // TODO
-  var problem = 1; // TODO
+  var pset = gModalMenu.getPsetNumber();
+  var problem = gModalMenu.getProblemNumber();
+
+  console.log(pset);
+  console.log(problem);
 
   var pack = {
     automata: automata,

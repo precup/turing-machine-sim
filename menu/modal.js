@@ -35,7 +35,9 @@ gModalMenu.submit = function (type) {
       gServer.load ();
       break;
     case "submit":
+      console.log("submit");
       gServer.submit ();
+      console.log("after");
       break;
     default:
       break;
@@ -253,3 +255,12 @@ gModalMenu.clearAccept = function (index) {
     }
   });
 }
+
+gModalMenu.getProblemNumber = function () {
+  console.log("getProblemNumber");
+  return d3.select (".problem").node ().selectedIndex;
+};
+
+gModalMenu.getPsetNumber = function () {
+  return d3.select (".pset").node ().selectedIndex;
+};
