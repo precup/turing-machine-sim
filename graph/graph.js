@@ -2,7 +2,9 @@
 var gEpsilon = "Ɛ";
 var gGraph = 
   {
-    HEIGHT_OFFSET: 5
+    HEIGHT_OFFSET: 5,
+    DFA: "dfa",
+    NFA: "nfa"
   };
   
 gGraph.init = function () {
@@ -14,22 +16,27 @@ gGraph.init = function () {
   var charSetParam = getURLParam ("charset");
   gGraph.problem = getURLParam ("problem");
   gGraph.pset = getURLParam ("pset");
+  gGraph.mode = getURLParam ("type");
+  if (gGraph.mode != gGraph.NFA) {
+    gGraph.mode = gGraph.DFA;
+  }
   if (charSetParam == null) {
-    var url = window.location.href;
-    var loc = url.lastIndexOf ("/") + 1;
-    if (loc <= 8) {
-      url += "/";
-    } else {
-      url = url.substring (0, loc);
-    }
-    window.location = url + "index.html";
+    window.location = getURLParent () + "index.html";
   }
   gGraph.charSet = sortString (charSetParam);
-  gGraph.epsilonEnabled = true;
+  gGraph.epsilonEnabled = gGraph.mode == gGraph.NFA;
   
   gServer.getSunetid (function (sunetid) {
     gGraph.sunetid = sunetid;
   });
+  
+  if (gGraph.mode == gGraph.DFA) {
+    d3.selectAll (".dfa-hide")
+      .style ("display", "none");
+  } else if (gGraph.mode == gGraph.NFA) {
+    d3.selectAll (".nfa-hide")
+      .style ("display", "none");
+  }
   
   gNodes.init ();
   gEdges.init ();

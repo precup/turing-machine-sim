@@ -100,16 +100,16 @@
       <button onclick="gTestMenu.runTests ()">
         Run Batch Test
       </button >
-      <button onclick="gTestMenu.end ()">
+      <button onclick="gTestMenu.end ()" class="nfa-hide">
         End
       </button>
-      <button onclick="gTestMenu.step ()">
+      <button onclick="gTestMenu.step ()" class="nfa-hide">
         Step
       </button>
-      <button onclick="gTestMenu.run ()">
+      <button onclick="gTestMenu.run ()" class="nfa-hide">
         Run
       </button>
-      <div class="tape-field">
+      <div class="tape-field nfa-hide">
         <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
       </div>
     </div>
@@ -185,7 +185,7 @@
                 <button type="button" onclick="gModalMenu.invertEdgeChars ()">Invert</button>
               </td>
             </tr>
-            <tr>
+            <tr class="dfa-hide">
               <td class="popupLeft">Include Ɛ</td>
               <td class="popupRight"><input type="checkbox" class="epsilon" size="1"></td>
             </tr>

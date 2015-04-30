@@ -27,3 +27,14 @@ function intersection (str1, str2) {
 function sortString (str) {
   return str.split ("").sort ().join ("");
 }
+
+function getURLParent () {
+  var url = window.location.href;
+  var loc = url.lastIndexOf ("/") + 1;
+  if (loc <= 8) {
+    url += "/";
+  } else {
+    url = url.substring (0, loc);
+  }
+  return url;
+}

@@ -49,7 +49,7 @@ gModalMenu.cancel = function (type) {
 }
 
 gModalMenu.getEpsilon = function () {
-  return d3.select(".epsilon").node().checked;
+  return gGraph.mode == gGraph.NFA && d3.select(".epsilon").node().checked;
 }
 
 gModalMenu.setEpsilon = function (included) {

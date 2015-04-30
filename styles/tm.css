@@ -533,6 +533,7 @@ td {
 }
 
 .testing {
+  display: none;
   width: 600px;
   margin-left: -300px;
 }
