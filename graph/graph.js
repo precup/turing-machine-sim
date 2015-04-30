@@ -7,16 +7,16 @@ var gGraph =
     NFA: "nfa"
   };
   
-gGraph.init = function () {
+gGraph.init = function (graph, pset, problem, charSet, mode) {
   var svg = d3.select ("svg");
   gGraph.width = svg.node ().getBoundingClientRect ().width;
   gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
   svg.attr ("height", gGraph.height);
   
-  var charSetParam = getURLParam ("charset");
-  gGraph.problem = getURLParam ("problem");
-  gGraph.pset = getURLParam ("pset");
-  gGraph.mode = getURLParam ("type");
+  var charSetParam = charSet;
+  gGraph.problem = problem;
+  gGraph.pset = pset;
+  gGraph.mode = mode;
   if (gGraph.mode != gGraph.NFA) {
     gGraph.mode = gGraph.DFA;
   }
@@ -43,8 +43,19 @@ gGraph.init = function () {
   gBrush.init ();
   gTape.init ();
   gTestMenu.init ();
+  gModalMenu.initBulk ();
   gModalMenu.initSubmit ();
   gGraph.initDelete ();
+  
+  d3.selectAll (".popup")
+    .on ("click", function () {
+      d3.event.stopPropagation ();
+    });
+  
+  d3.selectAll (".overlay")
+    .on ("click", function () {
+      gModalMenu.closeCurrent ();
+    });
   
   gBehaviors.addBehavior ("page", "keydown", function () { return true; }, gGraph.keydown);
   gBehaviors.addBehavior ("page", "keyup", function () { return true; }, gGraph.keyup);

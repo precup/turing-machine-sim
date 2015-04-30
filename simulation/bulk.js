@@ -3,20 +3,25 @@ gSimulator.REJECT = "REJECT";
 gSimulator.NEITHER = "NEITHER";
 
 gSimulator.runTests = function () {
-  var testLines = d3.select(".testingText").node().value.split ("\n");
   var inputs = [];
-  testLines.forEach (function (line) {
-    var input = 
-      {
-        expected: gSimulator.NEITHER,
-        testCase: line
-      };
-    if (line.endsWith ("A") || line.endsWith ("R")) {
-      input.expected = line.endsWith ("A") ? gSimulator.ACCEPT : gSimulator.REJECT;
-      input.testCase = line.substring (0, line.length - 2);
-    }
-    inputs.push (input);
+  
+  d3.selectAll (".bulkInput").each (function () {
+    inputs.push ({ 
+      testCase: this.value,
+      expected: gSimulator.NEITHER
+    });
   });
+  d3.selectAll (".bulkAccept").each (function (junk, i) {
+    if (this.checked) {
+      inputs[i].expected = gSimulator.ACCEPT;
+    }
+  });
+  d3.selectAll (".bulkReject").each (function (junk, i) {
+    if (this.checked) {
+      inputs[i].expected = gSimulator.REJECT;
+    }
+  });
+  
   var results = [];
   var graph = gGraph.save ();
   inputs.forEach (function (input) {

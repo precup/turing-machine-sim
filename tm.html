@@ -201,9 +201,9 @@
         <div class="modal-header">
           <span>Run Tests</span>
         </div>
-        <div class="modal-content">
+        <div class="modal-content bulkContent">
           <p class="modal-description">
-            Enter one test input per line. Append " A" or "R" for Accept and Reject to the end of each line to give an expected result.
+            Enter one test input per line. Enter one test input per line. Select "A" or "R" for Accept and Reject to give an expected result.
           </p>
           <table class="layout">
             <tr>
@@ -213,10 +213,6 @@
                     <td>Input</td>
                     <td>A</td>
                     <td>R</td>
-                  <tr>
-                    <td><input type="text" class="gridInput"></td>
-                    <td><input type="radio"></td>
-                    <td><input type="radio"></td>
                   </tr>
                 </table>
               </td>
@@ -235,6 +231,7 @@
           </table>
         </div>
         <div class="modal-buttons">
+          <button type="button" onclick="gModalMenu.buildRow (true)">Add Another Test</button>
           <button type="button" onclick="gModalMenu.cancel ('testing')">Cancel</button>
           <button type="button" onclick="gModalMenu.submit ('testing')">Run</button>
         </div>
