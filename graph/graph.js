@@ -65,6 +65,8 @@ gGraph.init = function (graph, pset, problem, charSet, mode) {
   gNodes.addNode ();
   gNodes.addNode ();
   gGraph.draw ();
+
+  console.log (getURLParam ("name", window.location.href ));
 }
 
 gGraph.keydown = function () {

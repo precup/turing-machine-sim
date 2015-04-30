@@ -6,6 +6,14 @@ function run () {
   var mode = getURLParam ("type");
   if (saved == null) {
     buildGraph (null, pset, problem, charSet, mode);
+  } else {
+    buildGraph (null, pset, problem, charSet, mode);
+    gServer.load (
+      null, null,
+      function (automata) {
+        gGraph.load (automata);
+        gGraph.draw ();
+      }, null);
   }
 }
 

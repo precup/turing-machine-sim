@@ -32,7 +32,24 @@ gModalMenu.submit = function (type) {
       gServer.save ();
       break;
     case "load":
-      gServer.load ();
+      gServer.load (
+        function () { // whileRunning
+          gModalMenu.setLoadButton ("Loading...");
+        },
+        function (err) { // error
+          gModalMenu.setLoadButton ("Failed");
+        },
+        function (automata) { // success
+          gModalMenu.setLoadButton ("Success!");
+          gGraph.load (automata);
+          gGraph.draw ();
+        },
+        function () { // callback
+          setTimeout (function () {
+            gModalMenu.setLoadButton ("Load");
+            gModalMenu.close ("load");
+          }, 300);
+        });
       break;
     case "submit":
       console.log("submit");

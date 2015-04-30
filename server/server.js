@@ -34,27 +34,24 @@ gServer.save = function () {
     );
 };
 
-gServer.load = function () {
+// whileRunning (), error (err), done ()
+gServer.load = function (whileRunning, error, success, done) {
   var selected = gModalMenu.getLoadName ();
-  gModalMenu.setLoadButton ("Loading...");
+  if (whileRunning) whileRunning ();
 
   var get_url = "/api/loadFromSaved.php" + "?name=" + selected;
   d3.xhr (gServer.url_prefix + get_url)
     .header ("Content-Type", "application/json")
-    .get (function(err, data) {
+    .get (function(err, res) {
         if (err) {
-          console.log(err);
-          gModalMenu.setLoadButton ("Failed");
+          if (error) error (err);
         } else {
-          var json_data = JSON.parse (data.response);
-          gModalMenu.setLoadButton ("Success!");
-          gGraph.load (JSON.parse (json_data[0]["automata"]));
-          gGraph.draw ();
-          setTimeout (function () {
-            gModalMenu.setLoadButton ("Load");
-            gModalMenu.close ("load");
-          }, 300);
+          if (success) {
+            var json_data = JSON.parse (res.response);
+            success (JSON.parse (json_data[0]["automata"]));
+          }
         }
+        if (done) done ();
       });
 };
 
