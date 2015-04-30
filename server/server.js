@@ -35,24 +35,32 @@ gServer.save = function () {
 };
 
 gServer.load = function () {
-  var selected = gModalMenu.getLoadName();
+  var selected = gModalMenu.getLoadName ();
+  gModalMenu.setLoadButton ("Loading...");
+
   var get_url = "/api/loadFromSaved.php" + "?name=" + selected;
   d3.xhr (gServer.url_prefix + get_url)
     .header ("Content-Type", "application/json")
     .get (function(err, data) {
-        if (err) console.log(err);
-
-        var json_data = JSON.parse (data.response);
-
-        gGraph.load (JSON.parse (json_data[0]["automata"]));
-        gGraph.draw ();
-
-        gModalMenu.close("load");
+        if (err) {
+          console.log(err);
+          gModalMenu.setLoadButton ("Failed");
+        } else {
+          var json_data = JSON.parse (data.response);
+          gModalMenu.setLoadButton ("Success!");
+          gGraph.load (JSON.parse (json_data[0]["automata"]));
+          gGraph.draw ();
+          setTimeout (function () {
+            gModalMenu.setLoadButton ("Load");
+            gModalMenu.close ("load");
+          }, 300);
+        }
       });
 };
 
 gServer.submit = function () {
   var submit_url = "/api/submit.php";
+  gModalMenu.setSubmitButton ("Submitting...");
 
   var automata = JSON.stringify (gGraph.save ());
   var pset = gModalMenu.getPsetNumber();
@@ -70,9 +78,15 @@ gServer.submit = function () {
       JSON.stringify (pack),
       function (err, rawData) {
         if (err) {
+          gModalMenu.setSubmitButton ("Failed");
           console.log (err);
         } else { 
           console.log (rawData);
+          gModalMenu.setSubmitButton ("Success!");
+          setTimeout(function () {
+            gModalMenu.setSubmitButton ("Submit");
+            gModalMenu.close ("submit");
+          }, 1000);
         }
       });
 };

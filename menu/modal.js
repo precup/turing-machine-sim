@@ -137,6 +137,10 @@ gModalMenu.getLoadName = function () {
   return node == null ? null : node.innerHTML;
 };
 
+gModalMenu.setLoadButton = function (text) {
+  d3.select ('.loadButton').node ().innerHTML = text;
+};
+
 gModalMenu.initSubmit = function () {
   var psetSelect = d3.select (".pset").selectAll ("option").data (psets);
   psetSelect.enter ()
@@ -254,13 +258,16 @@ gModalMenu.clearAccept = function (index) {
       this.checked = false;
     }
   });
-}
+};
 
 gModalMenu.getProblemNumber = function () {
-  console.log("getProblemNumber");
   return d3.select (".problem").node ().selectedIndex;
 };
 
 gModalMenu.getPsetNumber = function () {
   return d3.select (".pset").node ().selectedIndex;
+};
+
+gModalMenu.setSubmitButton = function (text) {
+  d3.select (".submitButton").node ().innerHTML = text;
 };
