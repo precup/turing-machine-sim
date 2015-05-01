@@ -32,30 +32,10 @@ gModalMenu.submit = function (type) {
       gServer.save ();
       break;
     case "load":
-      gServer.load (
-        gModalMenu.getLoadName (),
-        function () { // whileRunning
-          gModalMenu.setLoadButton ("Loading...");
-        },
-        function (err) { // error
-          gModalMenu.setLoadButton ("Failed");
-        },
-        function (automata) { // success
-          gModalMenu.setLoadButton ("Success!");
-          gGraph.load (automata);
-          gGraph.draw ();
-        },
-        function () { // callback
-          setTimeout (function () {
-            gModalMenu.setLoadButton ("Load");
-            gModalMenu.close ("load");
-          }, 300);
-        });
+      gModalMenu.loadFromModal ();
       break;
     case "submit":
-      console.log("submit");
-      console.log(gServer.submit ());
-      console.log("after");
+      gServer.submit ();
       break;
     default:
       break;
@@ -71,6 +51,28 @@ gModalMenu.cancel = function (type) {
       gModalMenu.close (type);
       break;
   }
+}
+
+gModalMenu.loadFromModal = function () {
+  gServer.load (
+    gModalMenu.getLoadName (),
+    function () { // whileRunning
+      gModalMenu.setLoadButton ("Loading...");
+    },
+    function (err) { // error
+      gModalMenu.setLoadButton ("Failed");
+    },
+    function (automata) { // success
+      gModalMenu.setLoadButton ("Success!");
+      gGraph.load (automata);
+      gGraph.draw ();
+    },
+    function () { // callback
+      setTimeout (function () {
+        gModalMenu.setLoadButton ("Load");
+        gModalMenu.close ("load");
+      }, 300);
+    });
 }
 
 gModalMenu.getEpsilon = function () {
@@ -103,10 +105,6 @@ gModalMenu.setEdgeChars = function (chars) {
 gModalMenu.getEdgeCharacters = function () {
   return d3.select(".edgeChars").node().value;
 }
-
-gModalMenu.deleteEdge = function () {
-  gEdges.deleteEditedEdge ();
-};
 
 gModalMenu.getNodeName = function () {
   return d3.select (".nodeName").node ().value;
