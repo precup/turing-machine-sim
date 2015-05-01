@@ -3,6 +3,7 @@ var gEpsilon = "Ɛ";
 var gGraph = 
   {
     HEIGHT_OFFSET: 5,
+    BUFFER: 100,
     DFA: "dfa",
     NFA: "nfa"
   };
@@ -46,6 +47,7 @@ gGraph.init = function (graph, pset, problem, charSet, mode) {
   gModalMenu.initBulk ();
   gModalMenu.initSubmit ();
   gGraph.initDelete ();
+  gSimulator.init ();
   
   d3.selectAll (".popup")
     .on ("click", function () {

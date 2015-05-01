@@ -1,8 +1,8 @@
+gNodes.FORCE_LAYOUT_ITERATIONS = 100000;
+
 gNodes.forcedDirectedLayout = function () {
-  var kIterations = 100000;
-  var kBuffer = 100;
-  var bottomBound = gGraph.height - kBuffer;
-  var rightBound = gGraph.width - kBuffer;
+  var bottomBound = gGraph.height - gGraph.BUFFER;
+  var rightBound = gGraph.width - gGraph.BUFFER;
   var leftBound = kBuffer;
   var topBound = kBuffer;
   
@@ -32,7 +32,9 @@ gNodes.forcedDirectedLayout = function () {
     .size ([gGraph.width - 2 * kBuffer, gGraph.height - 2 * kBuffer]);
   
   force.start();
-  for (var i = 0; i < kIterations; ++i) force.tick();
+  for (var i = 0; i < gNodes.FORCE_LAYOUT_ITERATIONS; i++) {
+      force.tick();
+  }
   force.stop();
   
   var xMin = nodes[0].x;

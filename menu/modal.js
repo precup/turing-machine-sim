@@ -252,7 +252,6 @@ gModalMenu.buildRow = function (focus) {
     });
   d3.selectAll (".bulkInput")  
     .on ("keydown", function (junk, i) {
-      console.log (d3.event.keyCode);
       if (d3.event.keyCode == 13 || d3.event.keyCode == 40) {
         gModalMenu.focusRow (i + 1);
       } else if (d3.event.keyCode == 38) {

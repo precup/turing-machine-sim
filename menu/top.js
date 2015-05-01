@@ -16,9 +16,10 @@ gTopMenu.setState = function (accepting, rejecting) {
 };
 
 gTopMenu.deleteSelected = function () {
-  gNodes.removeNodes ();
-  gEdges.deleteSelected ();
-  gGraph.draw ();
+  if (gNodes.removeNodes ()) {
+    gEdges.deleteSelected ();
+    gGraph.draw ();
+  }
 };
 
 gTopMenu.openLoadDialog = function () {
