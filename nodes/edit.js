@@ -23,6 +23,11 @@ gNodes.editNode = function (node) {
 
 gNodes.editComplete = function () {
   var name = gModalMenu.getNodeName ();
+  if (name.replace (/\s/, "").length == 0) {
+    gErrorMenu.displayError ("Node name cannot be blank.");
+    return;
+  }
+  
   var index = gNodes.getNodeIndexFromName (name);
   if (index == -1 || gNodes.nodes[index].id == gNodes.editedNode.id) {
     gNodes.editedNode.name = name;

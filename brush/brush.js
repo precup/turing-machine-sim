@@ -7,6 +7,7 @@ gBrush.init = function () {
   var brush = d3.svg.brush ()
     .x (d3.scale.identity ().domain([0, gGraph.width]))
     .y (d3.scale.identity ().domain([0, gGraph.height]))
+    .clamp ([false, false])
     // A kludge needed to deal with d3 contexts
     // This should be dealt with with gBehaviors
     // TODO: Unkludge this
