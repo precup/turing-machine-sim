@@ -16,7 +16,7 @@
             d3.event.preventDefault ();
             createOther ();
           });
-      
+
         var psetSelect = d3.select (".pset").selectAll ("option").data (psets);
         psetSelect.enter ()
           .append ("option")
@@ -95,7 +95,9 @@
     <div class="select-problems">
       <div class="select-pset">
         I'm designing for
-        <select class="pset"></select>
+        <div class="pset-wrapper">
+          <select class="pset"></select>
+        </div>
       </div>
       <ul class="problem"></ul>
       <div class="custom standalone">
