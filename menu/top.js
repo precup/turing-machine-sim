@@ -1,9 +1,7 @@
 var gTopMenu =
   {
     MAX_DISPLAYED_STATES: 5,
-    SELECTED_TEXT: "Selected states: ",
-    MODE_TEXT: "Current Mode: ",
-    CHARSET_TEXT: "Character Set: "
+    SELECTED_TEXT: "Selected states: "
   };
   
 gTopMenu.addNode = function () {
@@ -101,17 +99,14 @@ gTopMenu.draw = function () {
     selectedText += "...";
   }
   
-  var status = gTopMenu.MODE_TEXT + (gGraph.mode == gGraph.DFA ? "DFA" : "NFA") + ", ";
+  d3.select (".current-mode").text (gGraph.mode == gGraph.DFA ? "DFA" : "NFA");
   var charSet = gGraph.charSet;
   if (gGraph.epsilonEnabled) {
     charSet += gEpsilon;
   }
-  status += gTopMenu.CHARSET_TEXT + charSet;
-  if (!gTableTopMenu.active) {
-    status += ", " + gTopMenu.SELECTED_TEXT + selectedText;
-  }
+  d3.select (".current-alphabet").text (charSet);
   
-  d3.select ("#statusText").text (status);
+  d3.select ("#selectedText").text (gTopMenu.SELECTED_TEXT + selectedText);
   
   d3.select(".acceptButton").classed("marked", gNodes.selectionIsAccepting ());
   d3.select(".rejectButton").classed("marked", gNodes.selectionIsRejecting ());
