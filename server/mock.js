@@ -134,4 +134,6 @@ gServerMock.getSunetid = function getSunetid (callback) {
   callback ("mprecup");
 };
 
-// gServer = gServerMock;
+if (getURLParam ("mock") != null) {
+  gServer = gServerMock;
+}

@@ -14,7 +14,9 @@ gEdges.initDragging = function () {
   gEdges.endNode = null;
   
   var always = function () { return true; };
-  gBehaviors.addBehavior ("lowerNodes", "mouseover", always, gEdges.showTempEdge);
+  gBehaviors.addBehavior ("lowerNodes", "mouseover", function () {
+      return !gNodes.dragging;
+    }, gEdges.showTempEdge);
   gBehaviors.addBehavior ("lowerNodes", "mousemove", function () {
       return !gNodes.dragging;
     }, gEdges.drawTempEdge);

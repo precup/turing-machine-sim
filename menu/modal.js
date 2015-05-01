@@ -104,6 +104,10 @@ gModalMenu.getEdgeCharacters = function () {
   return d3.select(".edgeChars").node().value;
 }
 
+gModalMenu.deleteEdge = function () {
+  gEdges.deleteEditedEdge ();
+};
+
 gModalMenu.getNodeName = function () {
   return d3.select (".nodeName").node ().value;
 };

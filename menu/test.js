@@ -26,6 +26,13 @@ gTestMenu.init = function () {
   gTestMenu.disallowInput ();
 };
 
+gTestMenu.reset = function () {
+  d3.select (".tape-char-input").node ().value = "";
+  d3.selectAll (".current-tape-char")
+    .classed ("current-tape-char", false);
+  gTestMenu.disallowInput ();
+};
+
 gTestMenu.allowInput = function () {
   d3.select (".tape-char-input").node ().value = gTestMenu.text;
 
@@ -39,6 +46,11 @@ gTestMenu.allowInput = function () {
 
 gTestMenu.disallowInput = function () {
   gTestMenu.text = d3.select (".tape-char-input").node ().value;
+  var legal = intersection (gTestMenu.text, gGraph.charSet);
+  if (gTestMenu.text.length != legal.length) {
+    gTestMenu.text = legal;
+    gErrorMenu.displayError ("Removing illegal characters in the input");
+  }
    
   d3.selectAll (".tape-char")
     .style ("display", "inline")
@@ -72,5 +84,10 @@ gTestMenu.end = function () {
 };
 
 gTestMenu.step = function () {
-  gTape.step ();
+  if (gNodes.initial == null) {
+    gErrorMenu.displayError ("No initial node is set");
+  } else {
+    gTape.show ();
+    gTape.step ();
+  }
 };

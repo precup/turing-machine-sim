@@ -93,6 +93,8 @@ gGraph.load = function (saveData) {
   gGraph.problem = saveData.meta.problem;
   gNodes.load (saveData.nodes);
   gEdges.load (saveData.edges);
+  gTape.reset ();
+  gTestMenu.reset ();
 };
 
 gGraph.draw = function () {
