@@ -36,7 +36,8 @@ h3 {
 
 .select-pset, .custom {
   color: rgb(0, 146, 238);
-  padding: 0.8em 1em;
+  line-height: 50px;
+  padding: 0em 1em;
   font-size: 16px;
   border-radius: 6px 6px 0px 0px;
   border-top: 1px solid rgb(229, 229, 229);
@@ -44,15 +45,16 @@ h3 {
   border-right: 1px solid rgb(229, 229, 229);
 }
 
-.pset {
-  display: inline-block;
-  float: right;
-  text-align: right;
-}
-
 .select-problems {
   width: 500px;
   margin: 0px auto;
+}
+
+.pset-wrapper {
+  display: inline-block;
+  float: right;
+  text-align: right;
+  vertical-align: middle;
 }
 
 .custom {
@@ -61,6 +63,7 @@ h3 {
 
 .standalone {
   border-radius: 6px;
+  line-height: 50px;
   border: 1px solid rgb(229, 229, 229);
 }
 
@@ -75,10 +78,16 @@ h3 {
 
 .custom-field {
   float: right;
-  margin-top: -2px;
 }
 
 .custom input[type="text"]{
+  font-size: 13px;
+  border-radius: 4px;
+  width: 140px;
+  border: 1px solid rgb(229, 229, 229);
+  padding: 4px;
+  box-sizing: border-box;
+  /*
   font-size: 13px;
   border-radius: 4px;
   height: 24px;
@@ -86,9 +95,21 @@ h3 {
   width: 140px;
   padding: 4px;
   border: 1px solid rgb(229, 229, 229);
+  */
+  display: inline-block;
+  vertical-align: middle;
 }
 
 button {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+  border-radius: 4px;
+  border: none;
+  background-color: rgb(0,146,238);
+  padding: 4px;
+  color: #fff;
+  /*
   height: 24px;
   box-sizing: border-box;
   margin: 0;
@@ -97,6 +118,7 @@ button {
   background-color: rgb(0,146,238);
   border-radius: 4px;
   color: #fff;
+  */
 
 }
 

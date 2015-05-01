@@ -81,16 +81,16 @@ body {
 .tape-char {
   width: 36px;
   height: 30px;
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-left: 3px solid rgba(255, 255, 255, 0.2);
   text-align: center;
 }
 
 .current-tape-char {
-  background-color: #0092EE;
+  border-left: 3px solid #0092EE;
 }
 
-.tape-char:last-child {
-  border-right: none;
+.tape-char:nth-child(2) {
+  border-left: none !important;
 }
 
 .tape-bar button {
@@ -285,6 +285,10 @@ textarea {
 .testing .layout input[type="text"] {
   width: 100%;
   text-align: right;
+  margin: 0;
+}
+
+.bulkInput {
 }
 
 .testingHeader, .testingResults {
@@ -358,12 +362,11 @@ body {
 
 .center {
   position: absolute;
-  width: 500px;
+  width: 200px;
   margin: auto;
   left: 0;
   right: 0;
   text-align: center;
-  white-space: nowrap;
 }
 
 .contextual-menu {
@@ -429,7 +432,7 @@ button.button-primary:hover {
   background-color: #6fa1cd !important;
 }
 
-#selectedText, #modeText, #charSetText, #statusText {
+#selectedText {
   font-size: 14px;
   padding: 6px;
   color: rgba(0, 0, 0, 0.5);
@@ -537,4 +540,17 @@ td {
   display: none;
   width: 600px;
   margin-left: -300px;
+}
+
+.alphabet-bar {
+  position: absolute;
+  bottom: 60px;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(0,0,0,0.5);
+}
+
+.current-alphabet {
+  color: black;
 }
