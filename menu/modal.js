@@ -33,6 +33,7 @@ gModalMenu.submit = function (type) {
       break;
     case "load":
       gServer.load (
+        gModalMenu.getLoadName (),
         function () { // whileRunning
           gModalMenu.setLoadButton ("Loading...");
         },

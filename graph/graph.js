@@ -80,11 +80,19 @@ gGraph.keyup = function () {
 gGraph.save = function () {
   return {
       nodes: gNodes.save (),
-      edges: gEdges.save ()
+      edges: gEdges.save (),
+      meta: {
+        charSet: gGraph.charSet,
+        pset: gGraph.pset,
+        problem: gGraph.problem
+      }
     };
 };
 
 gGraph.load = function (saveData) {
+  gGraph.charSet = saveData.meta.charSet;
+  gGraph.pset = saveData.meta.pset;
+  gGraph.problem = saveData.meta.problem;
   gNodes.load (saveData.nodes);
   gEdges.load (saveData.edges);
   gTape.reset ();
