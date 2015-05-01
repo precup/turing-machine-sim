@@ -103,21 +103,58 @@ class DB
 
     $automata = $db->real_escape_string($automata);
 
-    $query_string = "begin; insert into submissions (pset_id, problem_id, automata) values ($pset, $problem, \"$automata\");";
-    $query_string .= "set @submission_id=last_insert_id();";
+    $result = $db->autocommit(FALSE);
 
+    // $result = $db->begin_transaction ();
+    if ($result === false) {
+      echo "Internal server error";
+      exit ();
+    }
+    $query_string_insert_submission = 
+      "insert into submissions (pset_id, problem_id, automata)
+      values ($pset, $problem, \"$automata\");";
+    $result = $db->query ($query_string_insert_submission);
+    if ($result === false) {
+      echo "Internal server error";
+      exit ();
+    }
+    $query_string_set = "set @submission_id=last_insert_id();";
+    $result = $db->query ($query_string_set);
+    if ($result === false) {
+      echo "Internal server error";
+      exit ();
+    }
     foreach ($clean_sunetids as &$sunetid)
     {
-      $query_string .= "insert into user_submissions (user_id, submission_id) values (\"$sunetid\", @submission_id);";
+      $query_string_insert_user_submissions =
+        "insert into user_submissions (user_id, submission_id)
+        values (\"$sunetid\", @submission_id);";
+      $result = $db->query ($query_string_insert_user_submissions);
+      if ($result === false) {
+        echo "Internal server error";
+        exit ();
+      }
     }
+    $result = $db->commit ();
+    if ($result === false) {
+        echo "Internal server error";
+        exit ();
+      }
 
-    $query_string .= "commit;";
+    // $query_string .= "set @submission_id=last_insert_id();";
 
-    echo $query_string;
+    // foreach ($clean_sunetids as &$sunetid)
+    // {
+    //   $query_string .= "insert into user_submissions (user_id, submission_id) values (\"$sunetid\", @submission_id);";
+    // }
 
-    $result = $db->query($query_string);
-    echo $db->error;
-    if ($result === False) exit();
+    // $query_string .= "commit;";
+
+    // echo $query_string;
+
+    // $result = $db->query($query_string);
+    // echo $db->error;
+    // if ($result === False) exit();
   }
 
   public function getSubmissionsOfUser($sunetid) {
