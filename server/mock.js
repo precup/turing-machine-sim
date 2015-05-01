@@ -6,6 +6,10 @@ gServerMock.name = "automata";
 
 gServerMock.save = function save () {
   var name = gModalMenu.getSaveName();
+  if (name.replace (/\s/g, "").length == 0) {
+    gErrorMenu.displayError ("Automata name cannot be blank");
+    return;
+  }
   gServer.name = name;
   var save_url = "/api/save.php";
   gModalMenu.setSaveButton ("Saving...");
