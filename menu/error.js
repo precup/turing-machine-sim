@@ -1,19 +1,18 @@
 var gErrorMenu =
   {
-    DISPLAY_TIME: 3000
+    DISPLAY_TIME: 2100,
+    FADE_OUT_TIME: 400
   };
   
 gErrorMenu.displayError = function (message) {
-  var node = d3.select (".errors")
+  var selection = d3.select (".errors")
     .append ("span")
     .html (message)
     .classed ("error", true)
-    .node ();
-  setTimeout (function () { 
-    gErrorMenu.closeError (node);
-  }, gErrorMenu.DISPLAY_TIME);
-};
-
-gErrorMenu.closeError = function (elem) {
-  d3.select (elem).remove ();
+    .transition ()
+    .delay (gErrorMenu.DISPLAY_TIME)
+    .duration (gErrorMenu.FADE_OUT_TIME)
+    .ease ("cubic")
+    .style ("opacity", 0)
+    .remove ();
 };
