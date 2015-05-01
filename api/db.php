@@ -90,13 +90,33 @@ class DB
     return $this->fetchAll($result); 
   }
 
-  public function addSubmission($sunetid, $automata, $pset, $problem) {
+  public function addSubmission($sunetids, $automata, $pset, $problem) {
+    // echo 1;
     $db = $this->db;
-    $sunetid = $db->real_escape_string($sunetid);
+    $clean_sunetids = array();
+    foreach ($sunetids as &$sunetid)
+    {
+      $clean_sunetids[] = $db->real_escape_string ($sunetid);
+    }
+    // echo 3;
+    // echo json_encode($clean_sunetids);
+
     $automata = $db->real_escape_string($automata);
 
-    $query_string = "insert into submissions (user_id, pset_id, problem_id, automata) values (\"$sunetid\", $pset, $problem, \"$automata\") on duplicate key update automata=\"$automata\";";
+    $query_string = "begin; insert into submissions (pset_id, problem_id, automata) values ($pset, $problem, \"$automata\");";
+    $query_string .= "set @submission_id=last_insert_id();";
+
+    foreach ($clean_sunetids as &$sunetid)
+    {
+      $query_string .= "insert into user_submissions (user_id, submission_id) values (\"$sunetid\", @submission_id);";
+    }
+
+    $query_string .= "commit;";
+
+    echo $query_string;
+
     $result = $db->query($query_string);
+    echo $db->error;
     if ($result === False) exit();
   }
 

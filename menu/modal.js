@@ -55,7 +55,8 @@ gModalMenu.cancel = function (type) {
 
 gModalMenu.loadFromModal = function () {
   var loadName = gModalMenu.getLoadName ()
-  if (!loadName) {
+  if (!loadName)
+  {
     gErrorMenu.displayError ("No automata selected");
     return;
   }
@@ -191,6 +192,7 @@ gModalMenu.getTeamText = function () {
       names.splice (i--, 1);
     }
   }
+  return names;
 };
 
 gModalMenu.setTeamText = function (names) {

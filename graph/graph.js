@@ -47,6 +47,7 @@ gGraph.init = function (graph, pset, problem, charSet, mode) {
   gModalMenu.initBulk ();
   gModalMenu.initSubmit ();
   gGraph.initDelete ();
+  gSimulator.init ();
   
   d3.selectAll (".popup")
     .on ("click", function () {
@@ -91,6 +92,8 @@ gGraph.save = function () {
 gGraph.load = function (saveData) {
   gNodes.load (saveData.nodes);
   gEdges.load (saveData.edges);
+  gTape.reset ();
+  gTestMenu.reset ();
 };
 
 gGraph.draw = function () {

@@ -6,6 +6,12 @@ gServer.name = "automata";
 
 gServer.save = function () {
   var name = gModalMenu.getSaveName();
+  if (name === "")
+  {
+    gErrorMenu.displayError ("No name provided");
+    return;
+  }
+
   gServer.name = name;
   var save_url = "/api/save.php";
   gModalMenu.setSaveButton ("Saving...");
@@ -63,14 +69,17 @@ gServer.submit = function () {
   var automata = JSON.stringify (gGraph.save ());
   var pset = gModalMenu.getPsetNumber();
   var problem = gModalMenu.getProblemNumber();
+  var team = gModalMenu.getTeamText ();
 
   var pack = {
     automata: automata,
     pset: pset,
-    problem: problem
+    problem: problem,
+    team: team
   };
   
   gServer.listSubmissions(function (data) {
+    console.log ("submitting");
     var isOverwrite = false;
     data.forEach (function (elem, index, arr) {
       if (parseInt(elem ["pset_id"]) === pset && parseInt(elem["problem_id"]) === problem) {
@@ -81,8 +90,8 @@ gServer.submit = function () {
     if (isOverwrite) {
       // Check if the user wants to overwrite previous submission.
     }
-
     function continueSubmit () {
+      console.log (pack);
       d3.xhr (gServer.url_prefix + submit_url)
         .header ("Content-Type", "application/json")
         .post (
@@ -101,12 +110,17 @@ gServer.submit = function () {
             }
           });
     }
+    continueSubmit ();
   });
 };
 
 // callback (data)
 gServer.listSubmissions = function (callback) {
   var listSubmissions_url = "/api/listSubmissions.php";
+
+  var empty = [];
+  callback (empty);
+  return;
 
   d3.xhr (gServer.url_prefix + listSubmissions_url)
     .header ("Content-Type", "application/json")

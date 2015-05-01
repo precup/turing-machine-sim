@@ -40,6 +40,9 @@ d3.xhr (url_prefix + submit_url)
 
 */
 
+// ini_set('display_errors', 'On');
+// error_reporting(E_ALL);
+
 require_once("./db.php");
 
 $db = new DB();
@@ -49,13 +52,29 @@ $data = json_decode(file_get_contents('php://input'));
 $automata = $data->automata;
 $pset = intval($data->pset);
 $problem = intval($data->problem);
-$user = $_ENV['WEBAUTH_USER'];
+$team_members = $data->team;
+$webauth_user = $_ENV['WEBAUTH_USER'];
 
-echo $pset;
-echo $problem;
-
-if (!$db->checkUserExists($user)) {
-  $db->addUser($user);
+// Check that the WEBAUTH_USER is in the list of team members
+$webauth_user_is_present = false;
+foreach ($team_members as &$user)
+{
+  if (!$db->checkUserExists($user))
+  {
+    $db->addUser($user);
+  }
+  if ($webauth_user === $user)
+  {
+    $webauth_user_is_present = true;
+  }
 }
 
-$db->addSubmission($user, $automata, $pset, $problem);
+if ($webauth_user_is_present)
+{
+  $db->addSubmission($team_members, $automata, $pset, $problem);
+}
+else
+{
+  echo "You are not listed as a team member";
+  exit ();
+}
