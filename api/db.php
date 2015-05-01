@@ -98,18 +98,30 @@ class DB
     {
       $clean_sunetids[] = $db->real_escape_string ($sunetid);
     }
-    // echo 3;
-    // echo json_encode($clean_sunetids);
 
     $automata = $db->real_escape_string($automata);
 
     $result = $db->autocommit(FALSE);
-
-    // $result = $db->begin_transaction ();
     if ($result === false) {
       echo "Internal server error";
       exit ();
     }
+    $sunetid = $clean_sunetids[0];
+    $query_string_get_previous_partners =
+      "select *
+      from submissions
+      join user_submissions on submissions.id=user_submissions.submission_id
+      join users on user_submissions.user_id=users.sunetid
+      where users.sunetid=\"$sunetid\"";
+    foreach ($m = 1; m < count($clean_sunetids); m++)
+    {
+      $sunetid = $clean_sunetids[$m];
+      $query_string_get_previous_partners .=
+        "or users.sunetid=\"$sunetid\""
+    }
+    $query_string_get_previous_partners .= ";";
+    $echo $query_string_get_previous_partners;
+
     $query_string_insert_submission = 
       "insert into submissions (pset_id, problem_id, automata)
       values ($pset, $problem, \"$automata\");";
@@ -140,21 +152,6 @@ class DB
         echo "Internal server error";
         exit ();
       }
-
-    // $query_string .= "set @submission_id=last_insert_id();";
-
-    // foreach ($clean_sunetids as &$sunetid)
-    // {
-    //   $query_string .= "insert into user_submissions (user_id, submission_id) values (\"$sunetid\", @submission_id);";
-    // }
-
-    // $query_string .= "commit;";
-
-    // echo $query_string;
-
-    // $result = $db->query($query_string);
-    // echo $db->error;
-    // if ($result === False) exit();
   }
 
   public function getSubmissionsOfUser($sunetid) {

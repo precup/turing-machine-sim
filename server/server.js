@@ -1,6 +1,6 @@
 var gServer = {};
 
-gServer.url_prefix = "/class/cs103/cgi-bin/restricted";
+gServer.url_prefix = "/class/cs103/cgi-bin/restricted_copy";
 
 gServer.name = "automata";
 

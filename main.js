@@ -26,4 +26,4 @@ function buildGraph (graph, pset, problem, charSet, mode) {
   gGraph.init (graph, pset, problem, charSet, mode);
 }
 
-url_prefix = "/class/cs103/cgi-bin/restricted";
+url_prefix = "/class/cs103/cgi-bin/restricted_copy";
