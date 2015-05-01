@@ -547,10 +547,10 @@ td {
   bottom: 60px;
   width: 100%;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(0,0,0,0.5);
 }
 
-.current-alphabet {
+.current-alphabet, .current-mode{
   color: black;
 }
