@@ -3,8 +3,8 @@ gNodes.FORCE_LAYOUT_ITERATIONS = 100000;
 gNodes.forcedDirectedLayout = function () {
   var bottomBound = gGraph.height - gGraph.BUFFER;
   var rightBound = gGraph.width - gGraph.BUFFER;
-  var leftBound = kBuffer;
-  var topBound = kBuffer;
+  var leftBound = gGraph.BUFFER;
+  var topBound = gGraph.BUFFER;
   
   var nodes = [];
   gNodes.nodes.forEach (function (node) {
@@ -29,7 +29,7 @@ gNodes.forcedDirectedLayout = function () {
     .linkDistance (200)
     .charge (-300)
     .gravity (0.01)
-    .size ([gGraph.width - 2 * kBuffer, gGraph.height - 2 * kBuffer]);
+    .size ([gGraph.width - 2 * gGraph.BUFFER, gGraph.height - 2 * gGraph.BUFFER]);
   
   force.start();
   for (var i = 0; i < gNodes.FORCE_LAYOUT_ITERATIONS; i++) {
