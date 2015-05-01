@@ -53,38 +53,6 @@ gModalMenu.cancel = function (type) {
   }
 }
 
-gModalMenu.loadFromModal = function () {
-  var loadName = gModalMenu.getLoadName ()
-  if (!loadName) {
-    gErrorMenu.displayError ("No automata selected");
-    return;
-  }
-
-  gServer.load (
-    loadName,
-    function () { // whileRunning
-      gModalMenu.setLoadButton ("Loading...");
-    },
-    function (err) { // error
-      gModalMenu.setLoadButton ("Failed");
-    },
-    function (automata) { // success
-      gModalMenu.setLoadButton ("Success!");
-      var charSet = automata.meta.charSet;
-      var pset = automata.meta.pset;
-      var problem = automata.meta.problem;
-      buildGraph (null, pset, problem, charSet, "dfa");
-      gGraph.load (automata);
-      gGraph.draw ();
-    },
-    function () { // callback
-      setTimeout (function () {
-        gModalMenu.setLoadButton ("Load");
-        gModalMenu.close ("load");
-      }, 300);
-    });
-}
-
 gModalMenu.getEpsilon = function () {
   return gGraph.mode == gGraph.NFA && d3.select(".epsilon").node().checked;
 }
