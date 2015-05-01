@@ -7,13 +7,14 @@ function run () {
   if (saved == null) {
     buildGraph (null, pset, problem, charSet, mode);
   } else {
-    // buildGraph (null, pset, problem, charSet, mode);
-    gBehaviors.init ();
-    gGraph.init(null, pset, problem, "", mode);
     gServer.load (
       saved,
       null, null,
       function (automata) {
+        var charSet = automata.meta.charSet;
+        var pset = automata.meta.pset;
+        var problem = automata.meta.problem;
+        buildGraph (null, pset, problem, charSet, "dfa");
         gGraph.load (automata);
         gGraph.draw ();
       }, null);

@@ -64,6 +64,10 @@ gModalMenu.loadFromModal = function () {
     },
     function (automata) { // success
       gModalMenu.setLoadButton ("Success!");
+      var charSet = automata.meta.charSet;
+      var pset = automata.meta.pset;
+      var problem = automata.meta.problem;
+      buildGraph (null, pset, problem, charSet, "dfa");
       gGraph.load (automata);
       gGraph.draw ();
     },
