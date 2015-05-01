@@ -35,9 +35,8 @@ gServer.save = function () {
 };
 
 // whileRunning (), error (err), done ()
-gServer.load = function (selected, whileRunning, error, success, done) {
-  // var selected = gModalMenu.getLoadName ();
-  if (whileRunning) whileRunning ();
+gServer.load = function (selected, whileRunning, error_callback, success, done) {
+  if (typeof whileRunning === "function") whileRunning ();
   console.log ("loading", selected);
 
   var get_url = "/api/loadFromSaved.php" + "?name=" + selected;
@@ -45,7 +44,7 @@ gServer.load = function (selected, whileRunning, error, success, done) {
     .header ("Content-Type", "application/json")
     .get (function(err, res) {
         if (err) {
-          if (error) error (err);
+          if (typeof error_callback === "function") error (err);
         } else {
           if (success) {
             gServer.name = selected;

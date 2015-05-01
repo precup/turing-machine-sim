@@ -54,8 +54,14 @@ gModalMenu.cancel = function (type) {
 }
 
 gModalMenu.loadFromModal = function () {
+  var loadName = gModalMenu.getLoadName ()
+  if (!loadName) {
+    gErrorMenu.displayError ("No automata selected");
+    return;
+  }
+
   gServer.load (
-    gModalMenu.getLoadName (),
+    loadName,
     function () { // whileRunning
       gModalMenu.setLoadButton ("Loading...");
     },
