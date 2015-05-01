@@ -74,7 +74,7 @@ gServer.submit = function () {
   gServer.listSubmissions(function (data) {
     var isOverwrite = false;
     data.forEach (function (elem, index, arr) {
-      if (elem ["pset_id"] === pset && elem ["problem_id"] === problem) {
+      if (parseInt(elem ["pset_id"]) === pset && parseInt(elem["problem_id"]) === problem) {
         isOverwrite = true;
       }
     });
@@ -83,24 +83,25 @@ gServer.submit = function () {
       // Check if the user wants to overwrite previous submission.
     }
 
-
-    d3.xhr (gServer.url_prefix + submit_url)
-      .header ("Content-Type", "application/json")
-      .post (
-        JSON.stringify (pack),
-        function (err, rawData) {
-          if (err) {
-            gModalMenu.setSubmitButton ("Failed");
-            console.log (err);
-          } else {
-            console.log (rawData);
-            gModalMenu.setSubmitButton ("Success!");
-            setTimeout(function () {
-              gModalMenu.setSubmitButton ("Submit");
-              gModalMenu.close ("submit");
-            }, 1000);
-          }
-        });
+    function continueSubmit () {
+      d3.xhr (gServer.url_prefix + submit_url)
+        .header ("Content-Type", "application/json")
+        .post (
+          JSON.stringify (pack),
+          function (err, rawData) {
+            if (err) {
+              gModalMenu.setSubmitButton ("Failed");
+              console.log (err);
+            } else {
+              console.log (rawData);
+              gModalMenu.setSubmitButton ("Success!");
+              setTimeout(function () {
+                gModalMenu.setSubmitButton ("Submit");
+                gModalMenu.close ("submit");
+              }, 1000);
+            }
+          });
+    }
   });
 };
 
@@ -116,8 +117,8 @@ gServer.listSubmissions = function (callback) {
           console.log (err);
         } else { 
           console.log (rawData);
-
           var data = JSON.parse (rawData.response);
+          callback (data);
 
           // example of accessing values in data:
           // console.log(data[0]['pset_id']);
