@@ -44,8 +44,13 @@ gEdges.deleteEditedEdge = function () {
 };
 
 gEdges.editComplete = function () {
-  var chars = gModalMenu.getEdgeCharacters ();
-  chars = intersection (gGraph.charSet, chars);
+  var chars = gModalMenu.getEdgeCharacters ().replace (/[\s,]/g, "");
+  var legal = intersection (gGraph.charSet, chars);
+  if (legal.length != chars.length) {
+    gErrorMenu.displayError ("Ignoring characters not present in the character set");
+  }
+  chars = legal;    
+  gModalMenu.setEdgeChars (legal);
   chars += (gModalMenu.getEpsilon () ? gEpsilon : "");
   
   if (chars.length == 0) {

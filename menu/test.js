@@ -105,6 +105,9 @@ gTestMenu.run = function () {
 };
 
 gTestMenu.end = function () {
+  d3.selectAll (".current-tape-char")
+    .classed ("current-tape-char", false);
+  gTestMenu.disallowInput ();
   gTape.hide ();
 };
 

@@ -8,7 +8,7 @@ var gGraph =
     NFA: "nfa"
   };
   
-gGraph.init = function (graph, pset, problem, charSet, mode) {
+gGraph.init = function (pset, problem, charSet, mode) {
   var svg = d3.select ("svg");
   gGraph.width = svg.node ().getBoundingClientRect ().width;
   gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
@@ -24,7 +24,7 @@ gGraph.init = function (graph, pset, problem, charSet, mode) {
   if (charSetParam == null) {
     window.location = getURLParent () + "index.html";
   }
-  gGraph.charSet = sortString (charSetParam);
+  gGraph.charSet = sortString (removeDuplicates (charSetParam));
   gGraph.epsilonEnabled = gGraph.mode == gGraph.NFA;
   
   gServer.getSunetid (function (sunetid) {
@@ -84,7 +84,8 @@ gGraph.save = function () {
       meta: {
         charSet: gGraph.charSet,
         pset: gGraph.pset,
-        problem: gGraph.problem
+        problem: gGraph.problem,
+        mode: gGraph.mode
       }
     };
 };

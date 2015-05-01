@@ -5,11 +5,18 @@
     <link href="styles/select.css" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
     <script src="psets.js"></script>
+    <script src="util.js"></script>
     <script src="server/server.js"></script>
     <script src="server/mock.js"></script>
     <script>
 
       function setup () {
+        d3.select ("form")
+          .on ("submit", function () {
+            d3.event.preventDefault ();
+            createOther ();
+          });
+      
         var psetSelect = d3.select (".pset").selectAll ("option").data (psets);
         psetSelect.enter ()
           .append ("option")
@@ -44,14 +51,7 @@
       }
 
       function loadSaved (name) {
-        var url = window.location.href;
-        var loc = url.lastIndexOf ("/") + 1;
-        if (loc <= 8) {
-          url += "/";
-        } else {
-          url = url.substring (0, loc);
-        }
-        window.location = url + "tm.html?saved=" + name;
+        window.location = getURLParent () + "tm.html?saved=" + name;
       }
 
       function changeNumbers () {
@@ -73,14 +73,7 @@
         var psetNum = d3.select ('.pset').node ().selectedIndex;
         var charSet = psets[psetNum].problems[problemNum].charSet;
         var type = psets[psetNum].problems[problemNum].type;
-        var url = window.location.href;
-        var loc = url.lastIndexOf ("/") + 1;
-        if (loc <= 8) {
-          url += "/";
-        } else {
-          url = url.substring (0, loc);
-        }
-        window.location = url + "tm.html?type=" + type +
+        window.location = getURLParent () + "tm.html?type=" + type +
                           "&charset=" + charSet +
                           "&pset=" + psetNum +
                           "&problem=" + problemNum;
@@ -89,15 +82,7 @@
       function createOther () {
         var type = d3.select ('.dfa-radio').node ().checked ? "dfa" : "nfa";
         var charSet = d3.select ('.language').node ().value;
-        var url = window.location.href;
-        var loc = url.lastIndexOf ("/") + 1;
-        if (loc <= 8) {
-          url += "/";
-        } else {
-          url = url.substring (0, loc);
-        }
-        window.location = url + "tm.html?type=" + type +
-                          "&charset=" + charSet;
+        window.location = getURLParent () + "tm.html?type=" + type + "&charset=" + charSet;
       }
     </script>
   </head>

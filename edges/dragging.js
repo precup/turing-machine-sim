@@ -85,9 +85,13 @@ gEdges.setTempEdgeEnd = function (endNode) {
 gEdges.addTempEdge = function (endNode) {
   gEdges.backupNode = null;
   gEdges.hideTempEdge ();
-  gEdges.addEdge (gEdges.startNode, endNode);
+  var edge = gEdges.getEdge (gEdges.startNode, endNode);
+  if (edge == null) {
+    gEdges.addEdge (gEdges.startNode, endNode);
+    edge = gEdges.edges[gEdges.edges.length - 1];
+  }
   gGraph.draw ();
-  gEdges.editEdge (gEdges.edges[gEdges.edges.length - 1]);
+  gEdges.editEdge (edge);
 };
 
 gEdges.startDragging = function () {
