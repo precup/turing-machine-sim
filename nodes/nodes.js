@@ -237,7 +237,7 @@ gNodes.drawDOMNodes = function (lowerSelection, upperSelection) {
     .attr ("cy", function (d) { return d.y; });
     
   upperSelection.select ("text")
-    .html (function (d) { return d.name; })
+    .text (function (d) { return d.name; })
     .attr ("x", function (d) { return d.x; })
     .attr ("y", function (d) { return d.y; });
 };

@@ -14,7 +14,7 @@
         psetSelect.enter ()
           .append ("option")
           .attr ("value", function (pset, i) { return i; })
-          .each (function (pset, i) { this.innerHTML = pset.name; });
+          .text (function (pset) { return pset.name; });
         d3.select ('.pset')
           .on ("change", changeNumbers)
           .node ().selectedIndex = 0;
@@ -31,7 +31,7 @@
             loadSaved (nameObj.name);
           });
 
-        savedSelect.each (function (nameObj) { this.innerHTML = nameObj.name; });
+        savedSelect.text (function (nameObj) { return nameObj.name; });
 
         savedSelect.exit ().remove ();
 
@@ -64,7 +64,7 @@
             createPset (i);
           });
 
-        problemSelect.each (function (problem) { this.innerHTML = problem.name; });
+        problemSelect.text (function (problem) { return problem.name; });
 
         problemSelect.exit ().remove ();
       }

@@ -7,7 +7,7 @@ var gErrorMenu =
 gErrorMenu.displayError = function (message) {
   var selection = d3.select (".errors")
     .append ("span")
-    .html (message)
+    .text (message)
     .classed ("error", true)
     .transition ()
     .delay (gErrorMenu.DISPLAY_TIME)

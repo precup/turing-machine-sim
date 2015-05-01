@@ -84,7 +84,7 @@ gTopMenu.draw = function () {
     selectedText += "...";
   }
   
-  d3.select ("#selectedText").node ().innerHTML = gTopMenu.SELECTED_TEXT + selectedText;
+  d3.select ("#selectedText").text (gTopMenu.SELECTED_TEXT + selectedText);
   
   d3.select(".acceptButton").classed("marked", gNodes.selectionIsAccepting ());
   d3.select(".rejectButton").classed("marked", gNodes.selectionIsRejecting ());
