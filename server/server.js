@@ -97,6 +97,7 @@ gServer.submit = function () {
         .post (
           JSON.stringify (pack),
           function (err, rawData) {
+            console.log (err, rawData);
             if (err) {
               gModalMenu.setSubmitButton ("Failed");
               console.log (err);

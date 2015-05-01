@@ -91,7 +91,6 @@ class DB
   }
 
   public function addSubmission($sunetids, $automata, $pset, $problem) {
-    // echo 1;
     $db = $this->db;
     $clean_sunetids = array();
     foreach ($sunetids as &$sunetid)
@@ -108,50 +107,127 @@ class DB
     }
     $sunetid = $clean_sunetids[0];
     $query_string_get_previous_partners =
-      "select *
+      "select distinct(submissions.id), users.sunetid
       from submissions
       join user_submissions on submissions.id=user_submissions.submission_id
       join users on user_submissions.user_id=users.sunetid
-      where users.sunetid=\"$sunetid\"";
-    foreach ($m = 1; m < count($clean_sunetids); m++)
+      where submissions.pset_id=$pset and submissions.problem_id=$problem and 
+        ( users.sunetid=\"$sunetid\" ";
+    for ($m = 1; $m < count($clean_sunetids); $m++)
     {
       $sunetid = $clean_sunetids[$m];
       $query_string_get_previous_partners .=
-        "or users.sunetid=\"$sunetid\""
+        " or users.sunetid=\"$sunetid\" ";
     }
-    $query_string_get_previous_partners .= ";";
-    $echo $query_string_get_previous_partners;
+    $query_string_get_previous_partners .= ");";
+    $previous_submissions = $db->query ($query_string_get_previous_partners);
+    if ($previous_submissions === false) {
+      echo "Internal server error";
+      exit ();
+    }
 
-    $query_string_insert_submission = 
-      "insert into submissions (pset_id, problem_id, automata)
-      values ($pset, $problem, \"$automata\");";
-    $result = $db->query ($query_string_insert_submission);
-    if ($result === false) {
-      echo "Internal server error";
-      exit ();
-    }
-    $query_string_set = "set @submission_id=last_insert_id();";
-    $result = $db->query ($query_string_set);
-    if ($result === false) {
-      echo "Internal server error";
-      exit ();
-    }
-    foreach ($clean_sunetids as &$sunetid)
+    $previous_submissions = $this->fetchAll ($previous_submissions);
+
+    if (count ($previous_submissions) !== 0)
     {
-      $query_string_insert_user_submissions =
-        "insert into user_submissions (user_id, submission_id)
-        values (\"$sunetid\", @submission_id);";
-      $result = $db->query ($query_string_insert_user_submissions);
+
+      $query_string_select_previous_users = 
+        "select users.sunetid
+        from submissions
+        join user_submissions on submissions.id=user_submissions.submission_id
+        join users on user_submissions.user_id=users.sunetid
+        where ";
+      $submission_id = $previous_submissions[0]["id"];
+      $query_string_select_previous_users .= " submissions.id=$submission_id";
+      for ($m = 1; $m < count ($previous_submissions); $m++)
+      {
+        $submission_id = $previous_submissions[$m]["id"];
+        $query_string_select_previous_users .= " or submissions.id=$submission_id";
+      }
+      $query_string_select_previous_users .= ";";
+      $result = $db->query ($query_string_select_previous_users);
       if ($result === false) {
         echo "Internal server error";
         exit ();
       }
-    }
-    $result = $db->commit ();
-    if ($result === false) {
+      $previous_users = $this->fetchAll ($result);
+
+      foreach ($previous_users as &$blah)
+      {
+        $ok = false;
+        $cur = $blah["sunetid"];
+        foreach ($sunetids as &$sunetid)
+        {
+          if (strcmp ($cur, $sunetid) == 0)
+          {
+            echo "\n$cur = $sunetid\n";
+            $ok = true;
+          }
+        }
+        if ($ok === false)
+        {
+          echo "You don't have the same teammates as before.";
+          echo $cur;
+          exit();
+        }
+      }
+      // overwrite previous submissions
+      $sub_id = $previous_submissions[0]["id"];
+      $query_string_update = 
+        "update submissions 
+        set automata=\"$automata\"
+        where id=$sub_id ";
+      for ($m = 1; $m < count ($previous_submissions); $m++)
+      {
+        $sub_id = $previous_submissions[$m]["id"];
+        $query_string_update .= " or id=$sub_id ";
+      }
+      $query_string_update .= ";";
+      $result = $db->query ($query_string_update);
+      if ($result === false)
+      {
         echo "Internal server error";
         exit ();
       }
+      $result = $db->commit ();
+      if ($result === false) {
+          echo "Internal server error";
+          exit ();
+      }
+    }
+    else {
+      $query_string_insert_submission = 
+        "insert into submissions (pset_id, problem_id, automata)
+        values ($pset, $problem, \"$automata\");";
+      $result = $db->query ($query_string_insert_submission);
+      if ($result === false) {
+        echo "Internal server error";
+        exit ();
+      }
+      $query_string_set = "set @submission_id=last_insert_id();";
+      $result = $db->query ($query_string_set);
+      if ($result === false) {
+        echo "Internal server error";
+        exit ();
+      }
+      foreach ($clean_sunetids as &$sunetid)
+      {
+        echo $sunetid;
+        $query_string_insert_user_submissions =
+          "insert into user_submissions (user_id, submission_id)
+          values (\"$sunetid\", @submission_id);";
+        $result = $db->query ($query_string_insert_user_submissions);
+        if ($result === false) {
+          echo "Internal server error";
+          exit ();
+        }
+      }
+      $result = $db->commit ();
+      if ($result === false) {
+          echo "Internal server error";
+          exit ();
+      }
+    }
   }
 
   public function getSubmissionsOfUser($sunetid) {

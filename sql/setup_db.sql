@@ -27,7 +27,7 @@ create table submissions (
 create table user_submissions (
   user_id char(30) not null,
   submission_id integer not null,
-  unique (user_id, submission_id),
+  unique key `user_submission` (`user_id`,`submission_id`),
   foreign key (user_id) references users(sunetid),
   foreign key (submission_id) references submissions(id)
 );
