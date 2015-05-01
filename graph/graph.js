@@ -65,8 +65,6 @@ gGraph.init = function (graph, pset, problem, charSet, mode) {
   gNodes.addNode ();
   gNodes.addNode ();
   gGraph.draw ();
-
-  console.log (getURLParam ("name", window.location.href ));
 }
 
 gGraph.keydown = function () {
@@ -87,6 +85,8 @@ gGraph.save = function () {
 gGraph.load = function (saveData) {
   gNodes.load (saveData.nodes);
   gEdges.load (saveData.edges);
+  gTape.reset ();
+  gTestMenu.reset ();
 };
 
 gGraph.draw = function () {

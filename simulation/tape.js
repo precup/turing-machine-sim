@@ -33,7 +33,8 @@ gTape.draw = function () {
     d3.select (".tape")
       .select ("circle")
       .attr ("cx", gTape.follow.x)
-      .attr ("cy", gTape.follow.y);
+      .attr ("cy", gTape.follow.y)
+      .style ("opacity", 1);
     if (typeof gTape.current == "undefined" || (gTape.index == gTape.input.length && !gTape.current.accept)) {
       d3.select (".tape")
         .select ("circle")
@@ -44,6 +45,10 @@ gTape.draw = function () {
         .select ("circle")
         .style ("stroke", "green");
     }
+  } else {
+    d3.select (".tape")
+      .select ("circle")
+      .style ("opacity", 0);
   }
   if (gTape.running && gTape.index <= gTape.input.length) {
     d3.selectAll (".tape-char")
@@ -57,15 +62,22 @@ gTape.show = function () {
   d3.select (".tape").style ("opacity", 1);
 };
 
-gTape.hide = function () {
+gTape.reset = function () {
   gTape.done = true;
   gTape.running = false;
+  gTape.follow = null;
+  gTape.draw ();
+};
+
+gTape.hide = function () {
+  gTape.reset ();
   d3.select (".tape").style ("opacity", 0);
 };
 
 gTape.step = function () {
   if (!gTape.running) {
     gTape.run ();
+    return;
   }
   if (typeof gTape.current != "undefined" && gTape.index != gTape.input.length) {
     var next = gDFASimulator.step (gGraph.save (), gTape.current.id,  gTape.input,  gTape.index++);

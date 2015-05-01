@@ -39,6 +39,11 @@ gTopMenu.snapToGrid = function () {
   gGraph.draw ();
 };
 
+gTopMenu.forcedDirectedLayout = function () {
+  gNodes.forcedDirectedLayout ();
+  gGraph.draw ();
+};
+
 gTopMenu.loadFromServer = function () {
   gModalMenu.open("load");
   gServer.listSaved (function (data) {

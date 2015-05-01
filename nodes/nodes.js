@@ -71,6 +71,9 @@ gNodes.addNode = function (x, y) {
     node.y = y;
   }
   
+  while (gNodes.getNodeIndexFromName ("n" + gNodes.nextId) != -1) {
+    gNodes.nextId++;
+  }
   node.id = gNodes.nextId++;
   node.name = "n" + node.id;
   node.accept = false;
@@ -102,7 +105,7 @@ gNodes.removeByIndex = function (index) {
 gNodes.removeNodes = function () {
   for (var i = 0; i < gNodes.nodes.length; i++) {
     if (gNodes.nodes[i].selected) {
-      if (gNodes.initial.id == gNodes.nodes[i].id) {
+      if (gNodes.initial != null && gNodes.initial.id == gNodes.nodes[i].id) {
         gNodes.initial = null;
       }
       gEdges.removeNode (gNodes.nodes[i]);
@@ -158,6 +161,10 @@ gNodes.load = function (saveData) {
   if (gNodes.initial != null) {
     gNodes.initial = gNodes.nodes[gNodes.getNodeIndex (gNodes.initial)];
   }
+  gNodes.nextId = 0;
+  gNodes.nodes.forEach (function (node) {
+    gNodes.nextId = Math.max (node.id + 1, gNodes.nextId);
+  });
 };
 
 gNodes.selectionIsAccepting = function () {
