@@ -17,6 +17,8 @@ gTableTopMenu.swap = function () {
     d3.select (".tableEditor, .tableEditorHeader") .style ("display", "table");
     d3.selectAll (".nontable, .nontableblock").style ("display", "none");
     d3.select (".swapButton") .text ("Switch to Editor View");
+    gNodes.deselectAll ();
+    gEdges.deselectAll ();
     gTableTopMenu.active = true;
   }
   gGraph.draw ();

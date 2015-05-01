@@ -95,8 +95,8 @@ gTableMenu.draw = function () {
     .attr ("value", function (character, i2, i1) {
       return gTableMenu.getConnections (gNodes.nodes[i1].id, character);
     })
-    .on ("blur", function (node, i) {
-      gTableMenu.updateAll ();
+    .on ("blur", function () {
+      gTableMenu.updateAll (); 
       gTableMenu.draw ();
     });
     

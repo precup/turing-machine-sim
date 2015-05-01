@@ -1,7 +1,7 @@
 gNodes.doubleClickInit = function () {
   gBehaviors.addBehavior ("background", "dblclick", 
     function () { 
-      return true;
+      return !gTableTopMenu.active;
     },
     function () {
       var mouse = d3.mouse(d3.select("svg").node());
