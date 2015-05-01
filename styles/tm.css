@@ -272,7 +272,6 @@ textarea {
 .testing td {
   padding: 4px;
   font-size: 13px;
-  line-height: 30px;
 }
 
 .testing textarea {
@@ -286,6 +285,10 @@ textarea {
 .testing .layout input[type="text"] {
   width: 100%;
   text-align: right;
+  margin: 0;
+}
+
+.bulkInput {
 }
 
 .testingHeader, .testingResults {
@@ -359,12 +362,11 @@ body {
 
 .center {
   position: absolute;
-  width: 500px;
+  width: 200px;
   margin: auto;
   left: 0;
   right: 0;
   text-align: center;
-  white-space: nowrap;
 }
 
 .contextual-menu {
@@ -430,7 +432,7 @@ button.button-primary:hover {
   background-color: #6fa1cd !important;
 }
 
-#selectedText, #modeText, #charSetText, #statusText {
+#selectedText {
   font-size: 14px;
   padding: 6px;
   color: rgba(0, 0, 0, 0.5);
