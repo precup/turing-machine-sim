@@ -50,6 +50,7 @@
   <body onload="run()" onresize="gGraph.resize()">
     <div class="menu">
       <div class="left">
+        <button type="button" onclick="gTopMenu.homepage ()">Return to Creation Page</button>
         <button type="button" onclick="gTopMenu.save ()">Save</button>
         <button type="button" onclick="gTopMenu.submit ()">Submit</button>
       </div>
@@ -71,9 +72,10 @@
       <div class="left">
         <button type="button" class="button-primary" onclick="gTopMenu.addNode()">+ Add New State</button>
       </div>
-      <div class="center">
-        <div class="nontable" id="selectedText">Selected states:</div>
-      </div>
+      <div class="center" id="statusText">Current Mode: DFA, Character Set: , Selected states: </div>
+        <!-- <span id="modeText">Current Mode: </span>
+        <span id="charSetText">Character Set: </span> -->
+      
       <div class="right">
         <button class="nontable" type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
         <button class="nontable" type="button" onclick="gTopMenu.setInitial ()">&#x2192; Set as Start</button>
