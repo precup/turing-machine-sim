@@ -48,6 +48,7 @@ gServer.load = function (selected, whileRunning, error, success, done) {
           if (error) error (err);
         } else {
           if (success) {
+            gServer.name = selected;
             var json_data = JSON.parse (res.response);
             success (JSON.parse (json_data[0]["automata"]));
           }
