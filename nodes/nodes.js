@@ -103,6 +103,10 @@ gNodes.removeByIndex = function (index) {
 };
 
 gNodes.removeNodes = function () {
+  if (gTape.follow != null && gTape.follow.selected) {
+    gErrorMenu.displayError ("The current node in a running test cannot be deleted");
+    return false;
+  }
   for (var i = 0; i < gNodes.nodes.length; i++) {
     if (gNodes.nodes[i].selected) {
       if (gNodes.initial != null && gNodes.initial.id == gNodes.nodes[i].id) {
@@ -112,6 +116,7 @@ gNodes.removeNodes = function () {
       gNodes.nodes.splice (i--, 1);
     }
   }
+  return true;
 };
 
 gNodes.createDOMNodes = function (lowerSelection, upperSelection) {

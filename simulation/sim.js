@@ -1,4 +1,12 @@
-var gSimulator = gGraph.mode == gGraph.DFA ? gDFASimulator : gNFASimulator;
+var gSimulator = 
+  {
+  };
+
+gSimulator.init = function () {
+  var simulator = gGraph.mode == gGraph.DFA ? gDFASimulator : gNFASimulator;
+  gSimulator.run = simulator.run;
+  gSimulator.step = simulator.step;
+};  
 
 gSimulator.convert = function (graph) {
   var transitionTable = {};
