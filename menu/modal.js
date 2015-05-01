@@ -127,7 +127,7 @@ gModalMenu.setSaveName = function (name) {
 };
 
 gModalMenu.setSaveButton = function (text) {
-  d3.select (".saveButton").node ().innerHTML = text;
+  d3.select (".saveButton").text (text);
 };
 
 gModalMenu.setLoadNames = function (names) {
@@ -138,8 +138,8 @@ gModalMenu.setLoadNames = function (names) {
   lis.enter ().append ("li");
   lis.classed ("selected", false)
     .classed ("load-nothing", false)
-    .each (function (name) {
-      this.innerHTML = name;
+    .text (function (name) {
+      return name;
      })
     .on ("click", function () {
       d3.select (".loadNames").selectAll ("li").classed ("selected", false);
@@ -158,11 +158,11 @@ gModalMenu.setLoadNames = function (names) {
 
 gModalMenu.getLoadName = function () {  
   var node = d3.select (".loadNames").select ("li.selected").node ();
-  return node == null ? null : node.innerHTML;
+  return node == null ? null : d3.select (".loadNames").select ("li.selected").text ();
 };
 
 gModalMenu.setLoadButton = function (text) {
-  d3.select ('.loadButton').node ().innerHTML = text;
+  d3.select ('.loadButton').text (text);
 };
 
 gModalMenu.initSubmit = function () {
@@ -170,7 +170,7 @@ gModalMenu.initSubmit = function () {
   psetSelect.enter ()
     .append ("option")
     .attr ("value", function (pset, i) { return i; })
-    .each (function (pset, i) { this.innerHTML = pset.name; });
+    .text (function (pset, i) { return pset.name; });
   d3.select ('.pset').node ().selectedIndex = 0;
   gModalMenu.changeNumbers ();
 };
@@ -204,7 +204,7 @@ gModalMenu.changeNumbers = function () {
   problemSelect.enter ().append ("option");
     
   problemSelect.attr ("value", function (problem) { return problem.charSet; })
-    .each (function (problem) { this.innerHTML = problem.name; });
+    .text (function (problem) { return problem.name; });
     
   problemSelect.exit ().remove ();
   d3.select ('.problem').node ().selectedIndex = 0;
@@ -292,5 +292,5 @@ gModalMenu.getPsetNumber = function () {
 };
 
 gModalMenu.setSubmitButton = function (text) {
-  d3.select (".submitButton").node ().innerHTML = text;
+  d3.select (".submitButton").text (text);
 };

@@ -49,26 +49,23 @@ gSimulator.runTests = function () {
     .style ("text-align", "center");
   
   rows.each (function (result) {
-      d3.select (this).selectAll ("td").each (function (junk, i) {
+      d3.select (this).selectAll ("td").text (function (junk, i) {
         switch (i) {
           case 0:
-            this.innerHTML = result.input;
-            break;
+            return result.input;
           case 1:
-            this.innerHTML = result.accepted ? "A" : "R";
-            break;
+            return result.accepted ? "A" : "R";
           case 2:
             if (result.expected === gSimulator.NEITHER) {
-              this.innerHTML = "-";
+              return "-";
             } else {
               var correct = !((result.expected === gSimulator.ACCEPT) ^ result.accepted);
-              this.innerHTML = "<div style='color: " + 
-                               (correct ? "#00D000" : "red") + 
-                               ";'>" +
-                               (correct ? "Y" : "N") +
-                               "</div>";
+              return "<div style='color: " + 
+                     (correct ? "#00D000" : "red") + 
+                     ";'>" +
+                     (correct ? "Y" : "N") +
+                     "</div>";
             }
-            break;
         }
       });
     });
