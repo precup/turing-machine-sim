@@ -106,14 +106,14 @@
       <button onclick="gTestMenu.runTests ()">
         Run Batch Test
       </button >
-      <button onclick="gTestMenu.end ()" class="nfa-hide nontable">
-        End
+      <button onclick="gTestMenu.end ()" class="nfa-hide nontable running">
+        Stop
       </button>
-      <button onclick="gTestMenu.step ()" class="nfa-hide nontable">
+      <button onclick="gTestMenu.step ()" class="nfa-hide nontable running stepButton">
         Step
       </button>
-      <button onclick="gTestMenu.run ()" class="nfa-hide nontable">
-        Run
+      <button onclick="gTestMenu.run ()" class="nfa-hide nontable runButton">
+        Start
       </button>
       <div class="tape-field nfa-hide nontableblock">
         <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
