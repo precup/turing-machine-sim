@@ -147,6 +147,20 @@
         </div>
       </div>
 
+      <div class="confirm popup">
+        <div class="modal-header">
+          Confirm
+        </div>
+        <p class="modal-description">
+          An automata with that name already exists. Are you sure you want to overwrite it?
+        </p>
+        <input type="text" class="saveText" maxlength="30"></input>
+        <div class="modal-buttons">
+          <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
+          <button type="button" class="button-primary saveButton" onclick="gModalMenu.submit ('save')">Yes, I'm sure.</button>
+        </div>
+      </div>
+
       <div class="submit popup">
         <div class="modal-header">
           Submit
