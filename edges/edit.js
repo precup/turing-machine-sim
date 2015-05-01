@@ -60,21 +60,28 @@ gEdges.editComplete = function () {
       transitions.splice (i--, 1);
     }
   }
-  transitions.forEach (function (transition) {
-    for (var i = 0; i < gEdges.edges.length; i++) {
-      var edge = gEdges.edges[i];
-      if (edge != gEdges.editedEdge && edge.source == gEdges.editedEdge.source) {
-        var index = edge.transitions[0].indexOf (transition);
-        if (index != -1) {
-          edge.transitions[0].splice (index, 1);
-          if (edge.transitions[0].length == 0) {
-            gEdges.removeEdge (edge.source, edge.target);
-            i--;
+  if (gGraph.mode == gGraph.DFA) {
+    var removed = false;
+    transitions.forEach (function (transition) {
+      for (var i = 0; i < gEdges.edges.length; i++) {
+        var edge = gEdges.edges[i];
+        if (edge != gEdges.editedEdge && edge.source == gEdges.editedEdge.source) {
+          var index = edge.transitions[0].indexOf (transition);
+          if (index != -1) {
+            edge.transitions[0].splice (index, 1);
+            if (edge.transitions[0].length == 0) {
+              gEdges.removeEdge (edge.source, edge.target);
+              i--;
+              removed = true;
+            }
           }
         }
       }
+    });
+    if (removed) {
+      gErrorMenu.displayError ("Removed duplicate transitions");
     }
-  });
+  }
   
   gEdges.editedEdge.transitions[0] = transitions;
   gEdges.editedEdge = null;

@@ -12,6 +12,7 @@ gTestMenu.init = function () {
       .classed ("tape-char", true)
       .attr ("name", "tapeChar[]")
       .attr ("maxlength", 1)
+      .attr ("readonly", "readonly")
       .on ("click", gTestMenu.allowInput);
   }
   d3.select (".tape-char-input")

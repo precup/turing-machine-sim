@@ -53,8 +53,13 @@ gTape.draw = function () {
   if (gTape.running && gTape.index <= gTape.input.length) {
     d3.selectAll (".tape-char")
       .classed ("current-tape-char", function (junk, i) {
+        if (!d3.select (this).classed ("current-tape-char") && gTape.index == i) {
+          this.focus ();
+          this.blur ();
+        }
         return gTape.index == i;
       });
+    
   }
 };
 
