@@ -53,32 +53,6 @@ gModalMenu.cancel = function (type) {
   }
 }
 
-gModalMenu.loadFromModal = function () {
-  gServer.load (
-    gModalMenu.getLoadName (),
-    function () { // whileRunning
-      gModalMenu.setLoadButton ("Loading...");
-    },
-    function (err) { // error
-      gModalMenu.setLoadButton ("Failed");
-    },
-    function (automata) { // success
-      gModalMenu.setLoadButton ("Success!");
-      var charSet = automata.meta.charSet;
-      var pset = automata.meta.pset;
-      var problem = automata.meta.problem;
-      buildGraph (null, pset, problem, charSet, "dfa");
-      gGraph.load (automata);
-      gGraph.draw ();
-    },
-    function () { // callback
-      setTimeout (function () {
-        gModalMenu.setLoadButton ("Load");
-        gModalMenu.close ("load");
-      }, 300);
-    });
-}
-
 gModalMenu.getEpsilon = function () {
   return gGraph.mode == gGraph.NFA && d3.select(".epsilon").node().checked;
 }
@@ -164,6 +138,36 @@ gModalMenu.getLoadName = function () {
 gModalMenu.setLoadButton = function (text) {
   d3.select ('.loadButton').text (text);
 };
+
+gModalMenu.loadFromModal = function () {
+  var name = gModalMenu.getLoadName ();
+  gServer.load (
+    name,
+    function () { // whileRunning
+      gModalMenu.setLoadButton ("Loading...");
+    },
+    function (err) { // error
+      gModalMenu.setLoadButton ("Failed");
+    },
+    function (automata) { // success
+      gModalMenu.setLoadButton ("Success!");
+      gGraph.charSet = automata.meta.charSet;
+      gGraph.pset = automata.meta.pset;
+      gGraph.problem = automata.meta.problem;
+      var mode = automata.meta.mode;
+      if (mode != gGraph.mode) {
+        window.location.href = getURLParent () + "tm.html?saved=" + name;
+      }
+      gGraph.load (automata);
+      gGraph.draw ();
+    },
+    function () { // callback
+      setTimeout (function () {
+        gModalMenu.setLoadButton ("Load");
+        gModalMenu.close ("load");
+      }, 300);
+    });
+}
 
 gModalMenu.initSubmit = function () {
   var psetSelect = d3.select (".pset").selectAll ("option").data (psets);

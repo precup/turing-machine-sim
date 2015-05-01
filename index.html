@@ -51,15 +51,7 @@
       }
 
       function loadSaved (name) {
-        console.log ("loading saved");
-        var url = window.location.href;
-        var loc = url.lastIndexOf ("/") + 1;
-        if (loc <= 8) {
-          url += "/";
-        } else {
-          url = url.substring (0, loc);
-        }
-        window.location = url + "tm.html?saved=" + name;
+        window.location = getURLParent () + "tm.html?saved=" + name;
       }
 
       function changeNumbers () {
@@ -78,35 +70,19 @@
       }
 
       function createPset (problemNum) {
-        console.log ("creating pset");
         var psetNum = d3.select ('.pset').node ().selectedIndex;
         var charSet = psets[psetNum].problems[problemNum].charSet;
         var type = psets[psetNum].problems[problemNum].type;
-        var url = window.location.href;
-        var loc = url.lastIndexOf ("/") + 1;
-        if (loc <= 8) {
-          url += "/";
-        } else {
-          url = url.substring (0, loc);
-        }
-        window.location = url + "tm.html?type=" + type +
+        window.location = getURLParent () + "tm.html?type=" + type +
                           "&charset=" + charSet +
                           "&pset=" + psetNum +
                           "&problem=" + problemNum;
       }
 
       function createOther () {
-        console.log ("creating other");
         var type = d3.select ('.dfa-radio').node ().checked ? "dfa" : "nfa";
         var charSet = d3.select ('.language').node ().value;
-        var url = window.location.href;
-        var loc = url.lastIndexOf ("/") + 1;
-        if (loc <= 8) {
-          url += "/";
-        } else {
-          url = url.substring (0, loc);
-        }
-        window.location = url + "tm.html?type=" + type + "&charset=" + charSet;
+        window.location = getURLParent () + "tm.html?type=" + type + "&charset=" + charSet;
       }
     </script>
   </head>
