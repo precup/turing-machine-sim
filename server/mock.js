@@ -20,7 +20,7 @@ gServerMock.save = function save () {
     name: name
   };
 
-  d3.xhr (url_prefix + save_url)
+  d3.xhr (gServer.url_prefix + save_url)
     .header ("Content-Type", "application/json")
     .post (
       JSON.stringify (pack),

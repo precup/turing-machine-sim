@@ -10,7 +10,7 @@ var problem = 1;
 
 var url_prefix = "/class/cs103/cgi-bin/restricted";
 var loadFromSubmissions_url = "/api/loadFromSubmissions.php";
-var full_url = url_prefix + loadFromSubmissions_url + "?problem=" + problem + "&pset=" + pset;
+var full_url = gServer.url_prefix + loadFromSubmissions_url + "?problem=" + problem + "&pset=" + pset;
 
 d3.xhr (full_url)
   .header ("Content-Type", "application/json")

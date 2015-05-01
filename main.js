@@ -26,5 +26,3 @@ function buildGraph (pset, problem, charSet, mode) {
   gBehaviors.init ();
   gGraph.init (pset, problem, charSet, mode);
 }
-
-url_prefix = "/class/cs103/cgi-bin/restricted";
