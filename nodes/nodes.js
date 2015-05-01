@@ -173,9 +173,48 @@ gNodes.load = function (saveData) {
     gNodes.initial = gNodes.nodes[gNodes.getNodeIndex (gNodes.initial)];
   }
   gNodes.nextId = 0;
+
   gNodes.nodes.forEach (function (node) {
     gNodes.nextId = Math.max (node.id + 1, gNodes.nextId);
   });
+  
+  gNodes.scale ();
+};
+
+gNodes.scale = function () {
+  if (gNodes.nodes.length > 0) {
+    var xMin = gNodes.nodes[0].x;
+    var xMax = gNodes.nodes[0].x;
+    var yMin = gNodes.nodes[0].y;
+    var yMax = gNodes.nodes[0].y;
+    for (var i = 1; i < gNodes.nodes.length; i++) {
+      xMin = Math.min (xMin, gNodes.nodes[i].x);
+      xMax = Math.max (xMax, gNodes.nodes[i].x);
+      yMin = Math.min (yMin, gNodes.nodes[i].y);
+      yMax = Math.max (yMax, gNodes.nodes[i].y);
+    }
+    var leftBound = xMin;
+    var rightBound = xMax;
+    if (gGraph.BUFFER > xMin || gGraph.width - gGraph.BUFFER < xMax) {
+      leftBound = gGraph.BUFFER;
+      rightBound = gGraph.width - gGraph.BUFFER;
+    }
+    var topBound = yMin;
+    var bottomBound = yMax;
+    if (gGraph.BUFFER > yMin || gGraph.height - gGraph.BUFFER < yMax) {
+      topBound = gGraph.BUFFER;
+      bottomBound = gGraph.height - gGraph.BUFFER;
+    }
+    
+    for (var i = 0; i < gNodes.nodes.length; i++) {
+      var xDenom = xMax - xMin;
+      var xPercent = xDenom == 0 ? 1 : (gNodes.nodes[i].x - xMin) / xDenom;
+      var yDenom = yMax - yMin;
+      var yPercent = yDenom == 0 ? 1 : (gNodes.nodes[i].y - yMin) / yDenom;
+      gNodes.nodes[i].x = leftBound * (1 - xPercent) + rightBound * xPercent;
+      gNodes.nodes[i].y = topBound * (1 - yPercent) + bottomBound * yPercent;
+    }
+  }
 };
 
 gNodes.selectionIsAccepting = function () {
@@ -237,7 +276,7 @@ gNodes.drawDOMNodes = function (lowerSelection, upperSelection) {
     .attr ("cy", function (d) { return d.y; });
     
   upperSelection.select ("text")
-    .html (function (d) { return d.name; })
+    .text (function (d) { return d.name; })
     .attr ("x", function (d) { return d.x; })
     .attr ("y", function (d) { return d.y; });
 };
@@ -259,7 +298,7 @@ gNodes.draw = function () {
 gNodes.getNodeIndex = function (id) {
   var index = -1;
   gNodes.nodes.forEach (function (node, i) {
-    if (node.id === id) {
+    if (node.id == id) {
       index = i;
     }
   });

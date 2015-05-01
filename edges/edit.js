@@ -44,8 +44,13 @@ gEdges.deleteEditedEdge = function () {
 };
 
 gEdges.editComplete = function () {
-  var chars = gModalMenu.getEdgeCharacters ();
-  chars = intersection (gGraph.charSet, chars);
+  var chars = gModalMenu.getEdgeCharacters ().replace (/[\s,]/g, "");
+  var legal = intersection (gGraph.charSet, chars);
+  if (legal.length != chars.length) {
+    gErrorMenu.displayError ("Ignoring characters not present in the character set");
+  }
+  chars = legal;    
+  gModalMenu.setEdgeChars (legal);
   chars += (gModalMenu.getEpsilon () ? gEpsilon : "");
   
   if (chars.length == 0) {
@@ -60,21 +65,28 @@ gEdges.editComplete = function () {
       transitions.splice (i--, 1);
     }
   }
-  transitions.forEach (function (transition) {
-    for (var i = 0; i < gEdges.edges.length; i++) {
-      var edge = gEdges.edges[i];
-      if (edge != gEdges.editedEdge && edge.source == gEdges.editedEdge.source) {
-        var index = edge.transitions[0].indexOf (transition);
-        if (index != -1) {
-          edge.transitions[0].splice (index, 1);
-          if (edge.transitions[0].length == 0) {
-            gEdges.removeEdge (edge.source, edge.target);
-            i--;
+  if (gGraph.mode == gGraph.DFA) {
+    var removed = false;
+    transitions.forEach (function (transition) {
+      for (var i = 0; i < gEdges.edges.length; i++) {
+        var edge = gEdges.edges[i];
+        if (edge != gEdges.editedEdge && edge.source == gEdges.editedEdge.source) {
+          var index = edge.transitions[0].indexOf (transition);
+          if (index != -1) {
+            edge.transitions[0].splice (index, 1);
+            if (edge.transitions[0].length == 0) {
+              gEdges.removeEdge (edge.source, edge.target);
+              i--;
+              removed = true;
+            }
           }
         }
       }
+    });
+    if (removed) {
+      gErrorMenu.displayError ("Removed duplicate transitions");
     }
-  });
+  }
   
   gEdges.editedEdge.transitions[0] = transitions;
   gEdges.editedEdge = null;

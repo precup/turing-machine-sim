@@ -5,25 +5,26 @@ function run () {
   var charSet = getURLParam ("charset");
   var mode = getURLParam ("type");
   if (saved == null) {
-    buildGraph (null, pset, problem, charSet, mode);
+    buildGraph (pset, problem, charSet, mode);
   } else {
     gServer.load (
       saved,
       null, null,
       function (automata) {
-        var charSet = automata.meta.charSet;
-        var pset = automata.meta.pset;
-        var problem = automata.meta.problem;
-        buildGraph (null, pset, problem, charSet, "dfa");
+        var loadedCharSet = automata.meta.charSet;
+        var loadedPset = automata.meta.pset;
+        var loadedProblem = automata.meta.problem;
+        var loadedMode = automata.meta.mode;
+        buildGraph (loadedPset, loadedProblem, loadedCharSet, loadedMode);
         gGraph.load (automata);
         gGraph.draw ();
       }, null);
   }
 }
 
-function buildGraph (graph, pset, problem, charSet, mode) {
+function buildGraph (pset, problem, charSet, mode) {
   gBehaviors.init ();
-  gGraph.init (graph, pset, problem, charSet, mode);
+  gGraph.init (pset, problem, charSet, mode);
 }
 
 url_prefix = "/class/cs103/cgi-bin/restricted_copy";

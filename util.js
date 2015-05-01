@@ -28,6 +28,16 @@ function sortString (str) {
   return str.split ("").sort ().join ("");
 }
 
+function removeDuplicates (str) {
+  var result = "";
+  for (var i = 0; i < str.length; i++) {
+    if (result.indexOf (str[i]) == -1) {
+      result += str[i];
+    }
+  }
+  return result;
+}
+
 function getURLParent () {
   var url = window.location.href;
   var loc = url.lastIndexOf ("/") + 1;

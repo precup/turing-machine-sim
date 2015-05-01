@@ -110,8 +110,8 @@ gTableMenu.draw = function () {
     });
     
   table.insert ("td", "td")
-    .each (function (node) {
-      this.innerHTML = node.name;
+    .text (function (node) {
+      return node.name;
     });
     
   table.append ("td", "td")
@@ -120,9 +120,7 @@ gTableMenu.draw = function () {
       gNodes.removeByIndex (i);
       gGraph.draw ();
     })
-    .each (function () {
-      this.innerHTML = "X";
-    });
+    .text ("X");
     
   table.exit ()
     .remove ();
@@ -132,17 +130,17 @@ gTableMenu.draw = function () {
   header.enter ()
     .append ("td");
   
-  header.each (function (inputChar) {
-      this.innerHTML = inputChar;
+  header.text (function (inputChar) {
+      return inputChar;
     });
   
   header.exit ().remove ();
   
   var headerTr = d3.select (".tableEditor").select("tr");
-  headerTr.insert ("td", "td").node ().innerHTML = "Accepts";
-  headerTr.insert ("td", "td").node ().innerHTML = "Initial";
-  headerTr.insert ("td", "td").node ().innerHTML = "";
-  headerTr.append ("td").node ().innerHTML = "Delete";
+  headerTr.insert ("td", "td").text ("Accepts");
+  headerTr.insert ("td", "td").text ("Initial");
+  headerTr.insert ("td", "td").text ("");
+  headerTr.append ("td").text ("Delete");
 };
 
 gTableMenu.getConnections = function (source, character) {
