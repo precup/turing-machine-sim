@@ -98,6 +98,12 @@ gNodes.setAcceptByIndex = function (index, accept) {
 };
 
 gNodes.removeByIndex = function (index) {
+  if (gTape.follow != null && gTape.follow.id == gNodes.nodes[index].id) {
+    gTape.reset ();
+  }
+  if (gNodes.initial != null && gNodes.initial.id == gNodes.nodes[index].id) {
+    gNodes.initial = null;
+  }
   gEdges.removeNode (gNodes.nodes[index]);
   gNodes.nodes.splice (index, 1);
 };
