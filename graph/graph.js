@@ -24,7 +24,7 @@ gGraph.init = function (graph, pset, problem, charSet, mode) {
   if (charSetParam == null) {
     window.location = getURLParent () + "index.html";
   }
-  gGraph.charSet = sortString (charSetParam);
+  gGraph.charSet = sortString (removeDuplicates (charSetParam));
   gGraph.epsilonEnabled = gGraph.mode == gGraph.NFA;
   
   gServer.getSunetid (function (sunetid) {

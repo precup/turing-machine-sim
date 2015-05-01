@@ -23,7 +23,7 @@ gNodes.editNode = function (node) {
 
 gNodes.editComplete = function () {
   var name = gModalMenu.getNodeName ();
-  if (name.replace (/\s/, "").length == 0) {
+  if (name.replace (/\s/g, "").length == 0) {
     gErrorMenu.displayError ("Node name cannot be blank.");
     return;
   }
