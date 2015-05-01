@@ -74,8 +74,8 @@ gSimulator.runTests = function () {
     });
   
   rows.exit ().remove ();
-  var height = 334 + Math.max (0, results.length * 31 - 161); // Derived experimentally
+  /*var height = 334 + Math.max (0, results.length * 31 - 161); // Derived experimentally
   d3.select (".testing")
     .style ("height", height + "px")
-    .style ("margin-top", (-height/2) + "px");
+    .style ("margin-top", (-height/2) + "px");*/
 };
