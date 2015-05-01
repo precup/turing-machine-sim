@@ -271,7 +271,7 @@ textarea {
 
 .testing td {
   padding: 4px;
-  font-size: 13px;
+  line-height: 30px;
 }
 
 .testing textarea {
@@ -288,17 +288,14 @@ textarea {
   margin: 0;
 }
 
-.bulkInput {
-}
-
 .testingHeader, .testingResults {
   padding: 0;
   margin: 0;
   width: 100%;
 }
 
-.testingResults tr {
-  max-height: 30px;
+.testingHeader tr, .testingResults tr{
+  line-height: 30px;
 }
 
 .edgeEntry {
@@ -469,6 +466,7 @@ td {
 
 .modal-content {
   background: rgb(247, 247, 247);
+  max-height: 400px;
   overflow: scroll;
 }
 
