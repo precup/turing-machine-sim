@@ -259,7 +259,7 @@ gNodes.draw = function () {
 gNodes.getNodeIndex = function (id) {
   var index = -1;
   gNodes.nodes.forEach (function (node, i) {
-    if (node.id === id) {
+    if (node.id == id) {
       index = i;
     }
   });

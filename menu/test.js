@@ -63,17 +63,41 @@ gTestMenu.disallowInput = function () {
     .style ("display", "none");
 };
 
+gTestMenu.unsetTransitions = function () {
+  var missing = [];
+  if (gGraph.mode == gGraph.DFA) {
+    var graph = gGraph.save ();
+    var table = gSimulator.convert (graph);
+    for (var nodeId in table) {
+      var hasMissing = false;
+      for (var character in table[nodeId]) {
+        hasMissing |= table[nodeId][character].length == 0;
+      }
+      if (hasMissing) {
+        missing.push (gNodes.nodes[gNodes.getNodeIndex (nodeId)].name);
+      }
+    }
+  }
+  return missing;
+};
+
 gTestMenu.runTests = function () {
+  var unset = gTestMenu.unsetTransitions ();
   if (gNodes.initial == null) {
     gErrorMenu.displayError ("No initial node is set");
+  } else if (unset.length != 0) {
+    gErrorMenu.displayError ("The following nodes have undefined transitions: " + unset.join (", "));
   } else {
     gModalMenu.open ("testing");
   }
 };
 
 gTestMenu.run = function () {
+  var unset = gTestMenu.unsetTransitions ();
   if (gNodes.initial == null) {
     gErrorMenu.displayError ("No initial node is set");
+  } else if (unset.length != 0) {
+    gErrorMenu.displayError ("The following nodes have undefined transitions: " + unset.join (", "));
   } else {
     gTape.show ();
     gTape.run ();
@@ -85,8 +109,11 @@ gTestMenu.end = function () {
 };
 
 gTestMenu.step = function () {
+  var unset = gTestMenu.unsetTransitions ();
   if (gNodes.initial == null) {
     gErrorMenu.displayError ("No initial node is set");
+  } else if (unset.length != 0) {
+    gErrorMenu.displayError ("The following nodes have undefined transitions: " + unset.join (", "));
   } else {
     gTape.show ();
     gTape.step ();
