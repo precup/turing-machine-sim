@@ -272,6 +272,7 @@ textarea {
 .testing td {
   padding: 4px;
   font-size: 13px;
+  line-height: 30px;
 }
 
 .testing textarea {
