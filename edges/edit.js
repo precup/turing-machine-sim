@@ -36,10 +36,22 @@ gEdges.editCancelled = function () {
   gGraph.draw ();
 };
 
+gEdges.deleteEditedEdge = function () {
+  gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
+  gEdges.editedEdge = null;
+  gModalMenu.close ("edgeEntry");
+  gGraph.draw ();
+};
+
 gEdges.editComplete = function () {
   var chars = gModalMenu.getEdgeCharacters ();
   chars = intersection (gGraph.charSet, chars);
   chars += (gModalMenu.getEpsilon () ? gEpsilon : "");
+  
+  if (chars.length == 0) {
+    gErrorMenu.displayError ("Edges must contain at least one character");
+    return;
+  }
   
   var transitions = chars.split ("");
   transitions.sort ();
@@ -65,9 +77,6 @@ gEdges.editComplete = function () {
   });
   
   gEdges.editedEdge.transitions[0] = transitions;
-  if (transitions.length == 0) {
-    gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
-  }
   gEdges.editedEdge = null;
   gModalMenu.close ("edgeEntry");
   gGraph.draw ();
