@@ -95,7 +95,7 @@ gTableMenu.draw = function () {
     
   table.insert ("td", "td")
     .append ("input")
-    .attr ("type", "checkbox")
+    .attr ("type", "radio")
     .classed ("initialBox", true)
     .each (function (node) {
       this.checked = gNodes.initial != null && gNodes.initial.id == node.id;

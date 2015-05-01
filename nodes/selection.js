@@ -16,6 +16,16 @@ gNodes.deselectAll = function () {
   });
 };
 
+gNodes.selectionIsEmpty = function () {
+  return gNodes.selectionSize () == 0;
+};
+
+gNodes.selectionSize = function () {
+  return gNodes.nodes.filter (function (node) {
+    return node.selected;
+  }).length;
+};
+
 gNodes.selectionInit = function () {
   gBehaviors.addBehavior ("nodes", "mousedown", 
     function () { 

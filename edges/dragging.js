@@ -117,6 +117,12 @@ gEdges.hideTempEdge = function () {
 };
 
 gEdges.drawTempEdge = function () {
+  if (gNodes.dragging) {
+    d3.select ("path.temp").style ("opacity", 0);
+    gEdges.dragging = false;
+    gEdges.tempVisible = false;
+    return;
+  }
   var mouse = d3.mouse(d3.select("svg").node());
   d3.select ("path.temp")
     .attr ("d", function () {
@@ -131,13 +137,15 @@ gEdges.drawTempEdge = function () {
 };
 
 gEdges.showTempEdge = function (startNode) {
-  if (!gEdges.dragging) {
-    gEdges.startNode = startNode;
-    d3.select ("path.temp")
-      .style ("opacity", 1);
-    gEdges.tempVisible = true;
-    gEdges.drawTempEdge ();
-  } else {
-    gEdges.backupNode = startNode;
+  if (!gNodes.dragging) {
+    if (!gEdges.dragging) {
+      gEdges.startNode = startNode;
+      d3.select ("path.temp")
+        .style ("opacity", 1);
+      gEdges.tempVisible = true;
+      gEdges.drawTempEdge ();
+    } else {
+      gEdges.backupNode = startNode;
+    }
   }
 };

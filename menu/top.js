@@ -10,12 +10,18 @@ gTopMenu.addNode = function () {
 };
 
 gTopMenu.setState = function (accepting, rejecting) {
+  if (gNodes.selectionIsEmpty ()) {
+    gErrorMenu.displayError ("No nodes are selected");
+  } 
   gNodes.setAccepting (accepting);
   gNodes.setRejecting (rejecting);
   gGraph.draw ();
 };
 
 gTopMenu.deleteSelected = function () {
+  if (gNodes.selectionIsEmpty () && gEdges.selectionIsEmpty ()) {
+    gErrorMenu.displayError ("No nodes or edges are selected");
+  } 
   if (gNodes.removeNodes ()) {
     gEdges.deleteSelected ();
     gGraph.draw ();
@@ -31,6 +37,11 @@ gTopMenu.openLoadDialog = function () {
 };
 
 gTopMenu.setInitial = function () {
+  if (gNodes.selectionIsEmpty ()) {
+    gErrorMenu.displayError ("No nodes are selected");
+  } else if (gNodes.selectionSize () > 1) {
+    gErrorMenu.displayError ("Multiple nodes are selected. Using the first one.");
+  }
   gNodes.setInitial ();
   gGraph.draw ();
 };
