@@ -10,7 +10,7 @@
     <script src="util.js"></script>
     <script src="queue.js"></script>
     <script src="psets.js"></script>
-    
+
     <script src="brush/brush.js"></script>
 
     <script src="graph/graph.js"></script>
@@ -52,6 +52,7 @@
       <div class="left">
         <button type="button" onclick="gTopMenu.save ()">Save</button>
         <button type="button" onclick="gTopMenu.submit ()">Submit</button>
+        <button type="button" onclick="">Select New Problem</button>
       </div>
       <div class="center">
         <button class="swapButton" type="button" onclick="gTableTopMenu.swap ()">Switch to Table View</button>
@@ -95,6 +96,9 @@
       </svg>
       <table class="tableEditor">
       </table>
+    </div>
+    <div class="alphabet-bar">
+      Current Alphabet: <span class="current-alphabet">Alphabet</span>
     </div>
     <div class="tape-bar">
       <button onclick="gTestMenu.runTests ()">
