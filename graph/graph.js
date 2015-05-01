@@ -47,6 +47,7 @@ gGraph.init = function (graph, pset, problem, charSet, mode) {
   gModalMenu.initBulk ();
   gModalMenu.initSubmit ();
   gGraph.initDelete ();
+  gSimulator.init ();
   
   d3.selectAll (".popup")
     .on ("click", function () {
