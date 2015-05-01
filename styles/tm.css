@@ -89,8 +89,8 @@ body {
   border-left: 3px solid #0092EE;
 }
 
-.tape-char:first-child {
-  border-left: none;
+.tape-char:nth-child(2) {
+  border-left: none !important;
 }
 
 .tape-bar button {
