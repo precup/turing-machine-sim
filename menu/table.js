@@ -21,18 +21,35 @@ gTableMenu.updateAll = function () {
     map.push (arr);
   });
   
+  var extraNames = false;
+  var badNames = false;
   d3.selectAll ("input.gridInput")
     .each (function () {
       var nodes = this.value.split(/[ \t\n\r,]/);
       var character = this.character;
       var i1 = this.i1;
+      var foundOne = false;
       nodes.forEach (function (nodeName) {
         var nodeIndex = gNodes.getNodeIndexFromName (nodeName);
         if (nodeIndex != -1) {
-          map[i1][nodeIndex] += character;
+          if (!foundOne || gGraph.mode == gGraph.NFA) {
+            map[i1][nodeIndex] += character;
+          } else {
+            extraNames = true;
+          }
+          foundOne = true;
+        } else if (nodeName != "") {
+          badNames = true;
         }
       });
     });
+   console.log (extraNames);
+  if (extraNames) {
+    gErrorMenu.displayError ("Multiple transitions defined for one character, ignoring extras");
+  }
+  if (badNames) {
+    gErrorMenu.displayError ("Some nodes entered in the table could not be found, ignoring them");
+  }
     
   map.forEach (function (row, i1) {
     row.forEach (function (transitions, i2) {
@@ -77,6 +94,10 @@ gTableMenu.draw = function () {
   rows.select ("input")
     .attr ("value", function (character, i2, i1) {
       return gTableMenu.getConnections (gNodes.nodes[i1].id, character);
+    })
+    .on ("blur", function () {
+      gTableMenu.updateAll (); 
+      gTableMenu.draw ();
     });
     
   rows.exit ().remove ();
@@ -95,7 +116,7 @@ gTableMenu.draw = function () {
     
   table.insert ("td", "td")
     .append ("input")
-    .attr ("type", "checkbox")
+    .attr ("type", "radio")
     .classed ("initialBox", true)
     .each (function (node) {
       this.checked = gNodes.initial != null && gNodes.initial.id == node.id;

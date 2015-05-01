@@ -6,6 +6,10 @@ gServerMock.name = "automata";
 
 gServerMock.save = function save () {
   var name = gModalMenu.getSaveName();
+  if (name.replace (/\s/g, "").length == 0) {
+    gErrorMenu.displayError ("Automata name cannot be blank");
+    return;
+  }
   gServer.name = name;
   var save_url = "/api/save.php";
   gModalMenu.setSaveButton ("Saving...");
@@ -16,7 +20,7 @@ gServerMock.save = function save () {
     name: name
   };
 
-  d3.xhr (url_prefix + save_url)
+  d3.xhr (gServer.url_prefix + save_url)
     .header ("Content-Type", "application/json")
     .post (
       JSON.stringify (pack),

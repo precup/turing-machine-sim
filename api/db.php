@@ -189,6 +189,24 @@ class DB
         echo "Internal server error";
         exit ();
       }
+      // // if no user_submission entry exists yet for the user, add it
+      // $user = $sunetids[0];
+      // $query_string_insert_or_update = "insert into user_submissions (user_id, submission_id)
+      // values (\"$user\", $sub_id)";
+
+      // for ($m = 1; $m < count($sunetids); $m++)
+      // {
+      //   $user = $sunetids [$m];
+      //   $query_string_insert_or_update .= " , (\"$user\", $sub_id) ";
+      // }
+      // $query_string_insert_or_update .=
+      //   ";";
+      //   echo $query_string_insert_or_update;
+      // $result = $db->query ($query_string_insert_or_update);
+      // if ($result === false) {
+      //     echo "Internal server error";
+      //     exit ();
+      // }
       $result = $db->commit ();
       if ($result === false) {
           echo "Internal server error";

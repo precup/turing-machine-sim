@@ -10,7 +10,7 @@
     <script src="util.js"></script>
     <script src="queue.js"></script>
     <script src="psets.js"></script>
-    
+
     <script src="brush/brush.js"></script>
 
     <script src="graph/graph.js"></script>
@@ -50,6 +50,7 @@
   <body onload="run()" onresize="gGraph.resize()">
     <div class="menu">
       <div class="left">
+        <button type="button" onclick="gTopMenu.homepage ()">Return to Creation Page</button>
         <button type="button" onclick="gTopMenu.save ()">Save</button>
         <button type="button" onclick="gTopMenu.submit ()">Submit</button>
       </div>
@@ -72,8 +73,9 @@
         <button type="button" class="button-primary" onclick="gTopMenu.addNode()">+ Add New State</button>
       </div>
       <div class="center">
-        <div class="nontable" id="selectedText">Selected states:</div>
+        <div id="selectedText" class="nontable">Selected states: </div>
       </div>
+
       <div class="right">
         <button class="nontable" type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
         <button class="nontable" type="button" onclick="gTopMenu.setInitial ()">&#x2192; Set as Start</button>
@@ -93,23 +95,29 @@
         <g class="nodes" />
         <g class="tape" />
       </svg>
-      <table class="tableEditor">
-      </table>
+      <div class="tableWrapper">
+        <table class="tableEditor">
+        </table>
+      </div>
+    </div>
+    <div class="alphabet-bar">
+      Current Alphabet: <span class="current-alphabet"></span>,
+      Current Mode: <span class="current-mode">DFA</span>
     </div>
     <div class="tape-bar">
       <button onclick="gTestMenu.runTests ()">
         Run Batch Test
       </button >
-      <button onclick="gTestMenu.end ()" class="nfa-hide">
-        End
+      <button onclick="gTestMenu.end ()" class="nfa-hide nontable running">
+        Stop
       </button>
-      <button onclick="gTestMenu.step ()" class="nfa-hide">
+      <button onclick="gTestMenu.step ()" class="nfa-hide nontable running stepButton">
         Step
       </button>
-      <button onclick="gTestMenu.run ()" class="nfa-hide">
-        Run
+      <button onclick="gTestMenu.run ()" class="nfa-hide nontable runButton">
+        Start
       </button>
-      <div class="tape-field nfa-hide">
+      <div class="tape-field nfa-hide nontableblock">
         <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
       </div>
     </div>
@@ -134,10 +142,24 @@
         <div class="modal-header">
           Save As
         </div>
-        <input type="text" class="saveText"></input>
+        <input type="text" class="saveText" maxlength="30"></input>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
           <button type="button" class="button-primary saveButton" onclick="gModalMenu.submit ('save')">Save</button>
+        </div>
+      </div>
+
+      <div class="confirm popup">
+        <div class="modal-header">
+          Confirm
+        </div>
+        <p class="modal-description">
+          An automata with that name already exists. Are you sure you want to overwrite it?
+        </p>
+        <input type="text" class="saveText" maxlength="30"></input>
+        <div class="modal-buttons">
+          <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
+          <button type="button" class="button-primary saveButton" onclick="gModalMenu.submit ('save')">Yes, I'm sure.</button>
         </div>
       </div>
 

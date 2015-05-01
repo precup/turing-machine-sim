@@ -1,7 +1,8 @@
 var gErrorMenu =
   {
     DISPLAY_TIME: 2100,
-    FADE_OUT_TIME: 400
+    FADE_OUT_TIME: 400,
+    MAX_ERRORS: 3
   };
   
 gErrorMenu.displayError = function (message) {
@@ -14,5 +15,14 @@ gErrorMenu.displayError = function (message) {
     .duration (gErrorMenu.FADE_OUT_TIME)
     .ease ("cubic")
     .style ("opacity", 0)
+    .remove ();
+    
+  var errors = d3.select (".errors").selectAll ("span").size ();
+  
+  d3.select (".errors")
+    .selectAll ("span")
+    .filter (function (junk, i) {
+      return i < errors - gErrorMenu.MAX_ERRORS;
+    })
     .remove ();
 };

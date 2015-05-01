@@ -20,6 +20,8 @@ gBehaviors.configure = function (type, events) {
   events.forEach (function (event) {
     gBehaviors.handlers[type][event] = [];
     gBehaviors[type][event] = function (data) {
+      //if (event != "mousemove")
+      //  console.log ("firing " + event + " for " + type);
       gBehaviors.handlers[type][event].forEach (function (entry) {
         if (entry.condition (data)) {
           entry.action (data);
@@ -45,7 +47,7 @@ gBehaviors.apply = function (type, selection) {
       selection.call (
         d3.behavior.drag ()
         .on ("drag", gBehaviors[type][event])
-        .on ("dragstart", function () { gNodes.dragging = true; })
+        .on ("dragstart", function () { gNodes.dragging = true; gEdges.hideTempEdge (); })
         .on ("dragend", function () { gNodes.dragging = false; })
       );
     } else {

@@ -34,3 +34,13 @@ gEdges.deselectAll = function () {
     edge.selected = false;
   });
 };
+
+gEdges.selectionIsEmpty = function () {
+  return gEdges.selectionSize () == 0;
+};
+
+gEdges.selectionSize = function () {
+  return gEdges.edges.filter (function (edge) {
+    return edge.selected;
+  }).length;
+};

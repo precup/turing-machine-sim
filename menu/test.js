@@ -4,6 +4,7 @@ var gTestMenu =
   };
   
 gTestMenu.init = function () {
+  gTestMenu.setRunning (false);
   gTestMenu.text = "";
   var tape = d3.select (".tape-field");
   for (var i = 0; i < gTestMenu.NUM_CELLS; i++) {
@@ -28,6 +29,7 @@ gTestMenu.init = function () {
 };
 
 gTestMenu.reset = function () {
+  gTestMenu.setRunning (false);
   d3.select (".tape-char-input").node ().value = "";
   d3.selectAll (".current-tape-char")
     .classed ("current-tape-char", false);
@@ -35,6 +37,7 @@ gTestMenu.reset = function () {
 };
 
 gTestMenu.allowInput = function () {
+  gTestMenu.setRunning (false);
   d3.select (".tape-char-input").node ().value = gTestMenu.text;
 
   d3.selectAll (".tape-char")
@@ -92,6 +95,18 @@ gTestMenu.runTests = function () {
   }
 };
 
+gTestMenu.setRunning = function (running) {
+  if (running) {
+    d3.selectAll (".running")
+      .style ("display", "inline");
+    d3.select (".runButton").text ("Restart");
+  } else {
+    d3.selectAll (".running")
+      .style ("display", "none");
+    d3.select (".runButton").text ("Start");
+  }
+};
+
 gTestMenu.run = function () {
   var unset = gTestMenu.unsetTransitions ();
   if (gNodes.initial == null) {
@@ -99,12 +114,14 @@ gTestMenu.run = function () {
   } else if (unset.length != 0) {
     gErrorMenu.displayError ("The following nodes have undefined transitions: " + unset.join (", "));
   } else {
+    gTestMenu.setRunning (true);
     gTape.show ();
     gTape.run ();
   }
 };
 
 gTestMenu.end = function () {
+  gTestMenu.setRunning (false);
   d3.selectAll (".current-tape-char")
     .classed ("current-tape-char", false);
   gTestMenu.disallowInput ();

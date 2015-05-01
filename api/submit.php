@@ -26,7 +26,7 @@ var pack = {
 
 console.log(pack);
 
-d3.xhr (url_prefix + submit_url)
+d3.xhr (gServer.url_prefix + submit_url)
   .header ("Content-Type", "application/json")
   .post (
     JSON.stringify (pack),

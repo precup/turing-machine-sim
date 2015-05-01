@@ -10,12 +10,18 @@ gTopMenu.addNode = function () {
 };
 
 gTopMenu.setState = function (accepting, rejecting) {
+  if (gNodes.selectionIsEmpty ()) {
+    gErrorMenu.displayError ("No nodes are selected");
+  } 
   gNodes.setAccepting (accepting);
   gNodes.setRejecting (rejecting);
   gGraph.draw ();
 };
 
 gTopMenu.deleteSelected = function () {
+  if (gNodes.selectionIsEmpty () && gEdges.selectionIsEmpty ()) {
+    gErrorMenu.displayError ("No nodes or edges are selected");
+  } 
   if (gNodes.removeNodes ()) {
     gEdges.deleteSelected ();
     gGraph.draw ();
@@ -31,6 +37,11 @@ gTopMenu.openLoadDialog = function () {
 };
 
 gTopMenu.setInitial = function () {
+  if (gNodes.selectionIsEmpty ()) {
+    gErrorMenu.displayError ("No nodes are selected");
+  } else if (gNodes.selectionSize () > 1) {
+    gErrorMenu.displayError ("Multiple nodes are selected. Using the first one.");
+  }
   gNodes.setInitial ();
   gGraph.draw ();
 };
@@ -66,6 +77,10 @@ gTopMenu.submit = function () {
   gModalMenu.open ("submit");
 };
 
+gTopMenu.homepage = function () {
+  window.location.href = getURLParent () + "index.html";
+};
+
 gTopMenu.draw = function () {
   var selectedText = "";
   var selected = gNodes.getSelected ();
@@ -83,6 +98,13 @@ gTopMenu.draw = function () {
   if (selected.length > gTopMenu.MAX_DISPLAYED_STATES) {
     selectedText += "...";
   }
+  
+  d3.select (".current-mode").text (gGraph.mode == gGraph.DFA ? "DFA" : "NFA");
+  var charSet = gGraph.charSet;
+  if (gGraph.epsilonEnabled) {
+    charSet += gEpsilon;
+  }
+  d3.select (".current-alphabet").text (charSet);
   
   d3.select ("#selectedText").text (gTopMenu.SELECTED_TEXT + selectedText);
   

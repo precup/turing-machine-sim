@@ -6,12 +6,11 @@ gServer.name = "automata";
 
 gServer.save = function () {
   var name = gModalMenu.getSaveName();
-  if (name === "")
-  {
-    gErrorMenu.displayError ("No name provided");
+
+  if (name.replace (/\s/g, "").length == 0) {
+    gErrorMenu.displayError ("Automata name cannot be blank");
     return;
   }
-
   gServer.name = name;
   var save_url = "/api/save.php";
   gModalMenu.setSaveButton ("Saving...");
@@ -22,7 +21,7 @@ gServer.save = function () {
     name: name
   };
 
-  d3.xhr (url_prefix + save_url)
+  d3.xhr (gServer.url_prefix + save_url)
     .header ("Content-Type", "application/json")
     .post (
       JSON.stringify (pack),
