@@ -68,20 +68,17 @@ gServer.submit = function () {
   var automata = JSON.stringify (gGraph.save ());
   var pset = gModalMenu.getPsetNumber();
   var problem = gModalMenu.getProblemNumber();
-  var team = gModalMenu.getTeamText ();
 
   var pack = {
     automata: automata,
     pset: pset,
-    problem: problem,
-    team: team
+    problem: problem
   };
   
   gServer.listSubmissions(function (data) {
-    console.log ("submitting");
     var isOverwrite = false;
     data.forEach (function (elem, index, arr) {
-      if (parseInt(elem ["pset_id"]) === pset && parseInt(elem["problem_id"]) === problem) {
+      if (elem ["pset_id"] === pset && elem ["problem_id"] === problem) {
         isOverwrite = true;
       }
     });
@@ -89,28 +86,25 @@ gServer.submit = function () {
     if (isOverwrite) {
       // Check if the user wants to overwrite previous submission.
     }
-    function continueSubmit () {
-      console.log (pack);
-      d3.xhr (gServer.url_prefix + submit_url)
-        .header ("Content-Type", "application/json")
-        .post (
-          JSON.stringify (pack),
-          function (err, rawData) {
-            console.log (err, rawData);
-            if (err) {
-              gModalMenu.setSubmitButton ("Failed");
-              console.log (err);
-            } else {
-              console.log (rawData);
-              gModalMenu.setSubmitButton ("Success!");
-              setTimeout(function () {
-                gModalMenu.setSubmitButton ("Submit");
-                gModalMenu.close ("submit");
-              }, 1000);
-            }
-          });
-    }
-    continueSubmit ();
+
+
+    d3.xhr (gServer.url_prefix + submit_url)
+      .header ("Content-Type", "application/json")
+      .post (
+        JSON.stringify (pack),
+        function (err, rawData) {
+          if (err) {
+            gModalMenu.setSubmitButton ("Failed");
+            console.log (err);
+          } else {
+            console.log (rawData);
+            gModalMenu.setSubmitButton ("Success!");
+            setTimeout(function () {
+              gModalMenu.setSubmitButton ("Submit");
+              gModalMenu.close ("submit");
+            }, 1000);
+          }
+        });
   });
 };
 

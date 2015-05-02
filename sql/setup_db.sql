@@ -18,16 +18,11 @@ create table automatas (
 
 create table submissions (
   id integer not null auto_increment,
+  user_id char(30) not null,
   pset_id integer not null,
   problem_id integer not null,
   automata mediumtext,
-  primary key (id)
-);
-
-create table user_submissions (
-  user_id char(30) not null,
-  submission_id integer not null,
-  unique key `user_submission` (`user_id`,`submission_id`),
+  primary key (id),
   foreign key (user_id) references users(sunetid),
-  foreign key (submission_id) references submissions(id)
+  unique (pset_id, problem_id, user_id)
 );

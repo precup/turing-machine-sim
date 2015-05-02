@@ -179,28 +179,6 @@ gModalMenu.initSubmit = function () {
   gModalMenu.changeNumbers ();
 };
 
-gModalMenu.getTeamText = function () {
-  var names = d3.select (".teamText").node ().value.split (/[ ,\t\r\n]/);
-  for (var i = 0; i < names.length; i++) {
-    if (names[i].endsWith ("@stanford.edu")) {
-      names[i] = names[i].substring (0, names[i].length - "@stanford.edu".length);
-    }
-    if (names[i] == "") {
-      names.splice (i--, 1);
-    }
-  }
-  return names;
-};
-
-gModalMenu.setTeamText = function (names) {
-  for (var i = 0; i < names.length; i++) {
-    if (!names[i].endsWith ("@stanford.edu")) {
-      names[i] += "@stanford.edu";
-    }
-  }
-  d3.select (".teamText").node ().value = names.join (", ");
-};
-
 gModalMenu.changeNumbers = function () {
   var psetNum = d3.select ('.pset').node ().selectedIndex;
   

@@ -73,7 +73,6 @@ gTopMenu.save = function () {
 };
 
 gTopMenu.submit = function () {
-  gModalMenu.setTeamText ([gGraph.sunetid]);
   gModalMenu.open ("submit");
 };
 
