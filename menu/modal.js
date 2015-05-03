@@ -11,6 +11,7 @@ gModalMenu.open = function (type) {
 }
 
 gModalMenu.close = function (type) {
+  gErrorMenu.clearModalErrors ();
   d3.select ("." + type).style ('display', 'none');
   d3.select ('.overlay').style ('display', 'none');
 };
