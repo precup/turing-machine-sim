@@ -14,6 +14,8 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
   gGraph.height -= d3.select (".tape-bar").node ().getBoundingClientRect ().height;
   svg.attr ("height", gGraph.height);
+  svg
+    .on ("click", function () { console.log ("hi jay"); });
   
   var charSetParam = charSet;
   gGraph.problem = problem;
