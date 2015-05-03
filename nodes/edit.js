@@ -46,3 +46,17 @@ gNodes.editComplete = function () {
     gErrorMenu.displayModalError ("nodeEntry", "State name \"" + name + "\" is already in use.");
   }
 };
+
+gNodes.deleteEdited = function () {
+  if (gTape.follow != null && gTape.follow.id == gNodes.editedNode.id) {
+    if (gTape.done) {
+      gTestMenu.end ();
+    } else {
+      gErrorMenu.displayModalError ("nodeEntry", "The current state in a running test cannot be deleted");
+      return;
+    }
+  }
+  gNodes.removeByIndex (gNodes.getNodeIndex (gNodes.editedNode.id));
+  gModalMenu.close ("nodeEntry");
+  gGraph.draw ();
+};
