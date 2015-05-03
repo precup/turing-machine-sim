@@ -17,6 +17,8 @@ gNodes.editInit = function () {
 gNodes.editNode = function (node) {
   gNodes.editedNode = node;
   gModalMenu.setNodeName (node.name);
+  gModalMenu.setInitial (gNodes.initial != null && node.id == gNodes.initial.id);
+  gModalMenu.setState (node.accept, node.reject);
   gModalMenu.open ("nodeEntry");
   d3.event.stopPropagation ();
 };
@@ -30,6 +32,12 @@ gNodes.editComplete = function () {
   
   var index = gNodes.getNodeIndexFromName (name);
   if (index == -1 || gNodes.nodes[index].id == gNodes.editedNode.id) {
+    gNodes.editedNode.accept = gModalMenu.getAccepting ();
+    if (gModalMenu.getInitial ()) {
+      gNodes.initial = gNodes.editedNode;
+    } else if (gNodes.initial != null && gNodes.editedNode.id == gNodes.initial.id) {
+      gNodes.initial = null;
+    }
     gNodes.editedNode.name = name;
     gNodes.editedNode = null;
     gModalMenu.close ("nodeEntry");

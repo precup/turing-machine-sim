@@ -216,8 +216,8 @@
           </table>
         </div>
         <div class="modal-buttons">
-          <button type="button" onclick="gModalMenu.cancel ('edgeEntry')">Cancel</button>
           <button type="button" class="button-delete" onclick="gModalMenu.deleteEdge ()">Delete Edge</button>
+          <button type="button" onclick="gModalMenu.cancel ('edgeEntry')">Cancel</button>
           <button type="button" class="button-primary" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
         </div>
       </div>
@@ -277,13 +277,13 @@
             </tr>
             <tr>
               <td class="popupLeft">Start state</td>
-              <td class="popupRight"><input type="radio"></input></td>
+              <td class="popupRight"><input type="checkbox" class="nodeInitialCheckbox"></input></td>
             </tr>
             <tr>
               <td class="popupLeft">Decide to</td>
               <td class="popupRight">
-                <button type="button" class="acceptButton nontable" onclick="gTopMenu.setState(true, false)">&#x2713; Accept</button>
-                <button type="button" class="neitherButton nontable" onclick="gTopMenu.setState(false, false)">&#x2717; Reject</button>
+                <button type="button" class="modalAcceptButton" onclick="gModalMenu.setState(true, false)">&#x2713; Accept</button>
+                <button type="button" class="modalNeitherButton" onclick="gModalMenu.setState(false, false)">&#x2717; Reject</button>
               </td>
             </tr>
           </table>

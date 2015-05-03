@@ -35,18 +35,18 @@ gTape.draw = function () {
       .attr ("cx", gTape.follow.x)
       .attr ("cy", gTape.follow.y)
       .style ("opacity", 1);
-    d3.select (".stepButton").text ("Step");
+    d3.select (".stepButton").text ("Step").attr ("disabled", false);
     if (typeof gTape.current == "undefined" || (gTape.index == gTape.input.length && !gTape.current.accept)) {
       d3.select (".tape")
         .select ("circle")
         .style ("stroke", "red");
-      d3.select (".stepButton").text ("Completed");
+      d3.select (".stepButton").text ("Completed").attr ("disabled", true);
     }
     else if (gTape.index == gTape.input.length) {
       d3.select (".tape")
         .select ("circle")
         .style ("stroke", "green");
-      d3.select (".stepButton").text ("Completed");
+      d3.select (".stepButton").text ("Completed").attr ("disabled", true);
     }
   } else {
     d3.select (".tape")
