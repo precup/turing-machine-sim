@@ -89,11 +89,11 @@ gTopMenu.save = function () {
 };
 
 gTopMenu.submit = function () {
-  if (gGraph.problem != null) {
-    gModalMenu.setProblemNumber (gGraph.problem);
-  }
   if (gGraph.pset != null) {
     gModalMenu.setPsetNumber (gGraph.pset);
+  }
+  if (gGraph.problem != null) {
+    gModalMenu.setProblemNumber (gGraph.problem);
   }
   gModalMenu.open ("submit");
 };
