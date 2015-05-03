@@ -5,14 +5,12 @@ var gModalMenu =
   };
 
 gModalMenu.open = function (type) {
-  gErrorMenu.clearModalErrors ();
   gModalMenu.currentType = type;
   d3.select ("." + type).style ('display', 'inline');
   d3.select ('.overlay').style ('display', 'inline');
 }
 
 gModalMenu.close = function (type) {
-  gErrorMenu.clearModalErrors ();
   d3.select ("." + type).style ('display', 'none');
   d3.select ('.overlay').style ('display', 'none');
 };
@@ -22,7 +20,6 @@ gModalMenu.closeCurrent = function () {
 };
 
 gModalMenu.submit = function (type) {
-  gErrorMenu.clearModalErrors ();
   switch (type) {
     case "edgeEntry":
       gEdges.editComplete ();
@@ -34,7 +31,6 @@ gModalMenu.submit = function (type) {
       gSimulator.runTests ();
       break;
     case "save":
-      // gServer.save ();
       gModalMenu.initSave ();
       break;
     case "load":
@@ -243,11 +239,6 @@ gModalMenu.getRejecting = function () {
   return d3.select (".modalNeitherButton").classed ("marked");
 };
 
-gModalMenu.deleteNode = function () {
-  gErrorMenu.clearModalErrors ();
-  gNodes.deleteEdited ();
-};
-
 gModalMenu.getSaveName = function () {
   return d3.select (".saveText").node ().value;
 };
@@ -282,7 +273,9 @@ gModalMenu.setLoadNames = function (names) {
     d3.select (".loadNames")
       .append ("li")
       .classed ("load-nothing", true)
-      .html ("<p class='modal-description'>Nothing's been saved yet</p>");
+      .append ("p")
+      .classed ("modal-description", true)
+      .text ("Nothing's been saved yet");
   }
 };
 
@@ -297,6 +290,10 @@ gModalMenu.setLoadButton = function (text) {
 
 gModalMenu.loadFromModal = function () {
   var name = gModalMenu.getLoadName ();
+  if (!name) {
+    gErrorMenu.displayError ("No automaton selected");
+    return;
+  }
   gServer.load (
     name,
     function () { // whileRunning
@@ -323,6 +320,18 @@ gModalMenu.loadFromModal = function () {
         gModalMenu.close ("load");
       }, 300);
     });
+}
+
+gModalMenu.setLoadMessage = function (message) {
+  d3.select (".loadNames")
+    .selectAll ("li")
+    .remove ();
+  d3.select (".loadNames")
+    .append ("li")
+    .classed ("load-nothing", true)
+    .append ("p")
+    .classed ("modal-description", true)
+    .text (message);
 }
 
 gModalMenu.initSubmit = function () {
