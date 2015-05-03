@@ -5,17 +5,20 @@ var gErrorMenu =
     MAX_ERRORS: 3
   };
   
-gErrorMenu.displayError = function (message) {
+gErrorMenu.displayError = function (message, persistent) {
   var selection = d3.select (".errors")
     .append ("span")
     .text (message)
-    .classed ("error", true)
-    .transition ()
+    .classed ("error", true);
+    
+  if (persistent != true) {
+    selection.transition ()
     .delay (gErrorMenu.DISPLAY_TIME)
     .duration (gErrorMenu.FADE_OUT_TIME)
     .ease ("cubic")
     .style ("opacity", 0)
     .remove ();
+  }
     
   var errors = d3.select (".errors").selectAll ("span").size ();
   
