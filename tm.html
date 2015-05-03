@@ -73,7 +73,7 @@
         <button type="button" class="button-primary" onclick="gTopMenu.addNode()">+ Add New State</button>
       </div>
       <div class="center">
-        <div id="selectedText" class="nontable">Selected states: </div>
+        <div id="selectedText" class="nontableblock">Selected states: </div>
       </div>
 
       <div class="right">
@@ -84,8 +84,10 @@
       </div>
     </div>
     <div class="gui">
-        <div class="errors">
-        </div>
+      <div class="errors">
+        <span class="run-finished accepted">Run finished, accepting string "dydydydydy"</span>
+        <span class="run-finished rejected">Run finished, rejecting string "dydydydydy"</span>
+      </div>
       <svg height="100%" width="100%">
         <g class="brush" />
         <g class="nodesLower" />
@@ -215,8 +217,8 @@
         </div>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('edgeEntry')">Cancel</button>
-          <button type="button" onclick="gModalMenu.deleteEdge ()">Delete Edge</button>
-          <button type="button" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
+          <button type="button" class="button-delete" onclick="gModalMenu.deleteEdge ()">Delete Edge</button>
+          <button type="button" class="button-primary" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
         </div>
       </div>
 
@@ -256,7 +258,7 @@
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.buildRow (true)">Add Another Test</button>
           <button type="button" onclick="gModalMenu.cancel ('testing')">Cancel</button>
-          <button type="button" onclick="gModalMenu.submit ('testing')">Run</button>
+          <button type="button" class="button-primary" onclick="gModalMenu.submit ('testing')">Run</button>
         </div>
       </div>
 
@@ -266,12 +268,23 @@
         </div>
         <div class="modal-content">
           <p class="modal-description">
-            Enter a new name for this node. (5 character maximum)
+            (Name limited to maximum 5 characters)
           </p>
           <table width="100%">
             <tr>
               <td class="popupLeft">Name</td>
               <td class="popupRight"><input type="text" class="nodeName" maxlength="5"></td>
+            </tr>
+            <tr>
+              <td class="popupLeft">Start state</td>
+              <td class="popupRight"><input type="radio"></input></td>
+            </tr>
+            <tr>
+              <td class="popupLeft">Decide to</td>
+              <td class="popupRight">
+                <button type="button" class="acceptButton nontable" onclick="gTopMenu.setState(true, false)">&#x2713; Accept</button>
+                <button type="button" class="neitherButton nontable" onclick="gTopMenu.setState(false, false)">&#x2717; Reject</button>
+              </td>
             </tr>
           </table>
         </div>
