@@ -34,6 +34,16 @@ h3 {
   color: rgba(0, 0, 0, 0.5);
 }
 
+.error {
+  text-wrap: none;
+  background-color: #A44242;
+  color: #fff !important;
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin: 6px auto;
+  width: 580px;
+}
+
 .select-pset, .custom {
   color: rgb(0, 146, 238);
   line-height: 50px;

@@ -30,11 +30,18 @@
         
 
         gServer.listSubmissions (function (submit_names, err) {
+          if (typeof err == "object") {
+            if (d3.select ("p.error").size () == 0) {
+              addError ("Could not connect to server");
+            }
+            changeNumbers ();
+            return;
+          }
           previous_submissions = submit_names;
           d3.select (".problem")
             .append ("li")
             .classed ("load-nothing", true)
-            .html ("Loading...");
+            .text ("Loading...");
           changeNumbers ();
         });
 
@@ -42,7 +49,16 @@
       }
 
       function setupSaved (err, names) {
-        console.log ("err is " + err); 
+        if (typeof err == "object") {
+          if (d3.select ("p.error").size () == 0) {
+            addError ("Could not connect to server");
+          }
+          d3.select (".saved")
+            .append ("li")
+            .classed ("load-nothing", true)
+            .text ("Could not connect to server");
+          return;
+        }
         var savedSelect = d3.select (".saved").selectAll ("li").data (names);
 
         savedSelect.enter ()
@@ -59,7 +75,7 @@
           d3.select (".saved")
             .append ("li")
             .classed ("load-nothing", true)
-            .html ("Nothing's been saved yet");
+            .text ("Nothing's been saved yet");
         }
       }
 
@@ -120,6 +136,13 @@
         var type = d3.select ('.dfa-radio').node ().checked ? "dfa" : "nfa";
         var charSet = d3.select ('.language').node ().value;
         window.location = getURLParent () + "tm.html?type=" + type + "&charset=" + charSet;
+      }
+      
+      function addError (message) {
+        d3.select ("body")
+          .insert ("p", ".select-problems")
+          .classed ("error", true)
+          .text (message);
       }
     </script>
   </head>
