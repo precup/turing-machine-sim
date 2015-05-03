@@ -39,7 +39,7 @@ gServer.load = function (selected, whileRunning, error_callback, success, done) 
     .header ("Content-Type", "application/json")
     .get (function (err, res) {
         if (err) {
-          if (typeof error_callback === "function") error (err);
+          if (typeof error_callback === "function") error_callback (err);
           return;
         } else {
           if (success) {
