@@ -222,7 +222,7 @@ gEdges.areConnected = function (sourceId, targetId) {
 };
 
 gEdges.getEdgeLabel = function (transition) { 
-  var charSet = gGraph.charSet + (gGraph.epsilonEnabled ? gEpsilon : "");
+  var charSet = gGraph.charSet;
   var text = "";
   if (charSet.length / 2 >= transition.length) {
     transition.forEach (function (symbol) {
@@ -242,6 +242,9 @@ gEdges.getEdgeLabel = function (transition) {
       text = text.substring (0, text.length - 2);
     } else {
       text = "Σ";
+    }
+    if (transitions.indexOf(gEpsilon) != -1) {
+      text += " + " + gEpsilon;
     }
   }
   return text;
