@@ -147,7 +147,7 @@ li:last-child {
   border-bottom: none;
 }
 
-.submitted {
+.submitted, .loading {
   text-transform: uppercase;
   background: rgb(66, 184, 23);
   color: white;
@@ -158,6 +158,10 @@ li:last-child {
   font-size: 12px;
   position: relative;
   top: -2px;
+}
+
+.loading {
+  background: rgb(103, 103, 103);
 }
 
 .load-nothing {

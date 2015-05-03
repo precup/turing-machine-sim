@@ -4,10 +4,14 @@ gSimulator.NEITHER = "NEITHER";
 
 gSimulator.runTests = function () {
   var inputs = [];
+  var illegalsExist = false;
   
   d3.selectAll (".bulkInput").each (function () {
+    var test = intersection (this.value, gGraph.charSet);
+    illegalsExist |= test.length != this.value.length;
+    this.value = test;
     inputs.push ({ 
-      testCase: this.value,
+      testCase: test,
       expected: gSimulator.NEITHER
     });
   });
@@ -21,6 +25,10 @@ gSimulator.runTests = function () {
       inputs[i].expected = gSimulator.REJECT;
     }
   });
+  
+  if (illegalsExist) {
+    gErrorMenu.displayModalError ("testing", "Removing characters not in alphabet");
+  }
   
   var results = [];
   var graph = gGraph.save ();
@@ -67,8 +75,4 @@ gSimulator.runTests = function () {
     });
   
   rows.exit ().remove ();
-  /*var height = 334 + Math.max (0, results.length * 31 - 161); // Derived experimentally
-  d3.select (".testing")
-    .style ("height", height + "px")
-    .style ("margin-top", (-height/2) + "px");*/
 };
