@@ -394,7 +394,8 @@ body {
   top: 10px;
   text-align: center;
   line-height: 30px;
-  position: absolute;
+  position: fixed;
+  top: 110px;
 }
 
 .error, .run-finished {
