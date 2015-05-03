@@ -1,6 +1,7 @@
 var gModalMenu =
   {
-    confirmFlag: ""
+    confirmFlag: "",
+    MAX_HEIGHT_PERCENT: 0.62
   };
 
 gModalMenu.open = function (type) {
@@ -395,6 +396,7 @@ gModalMenu.buildRow = function (focus) {
 
 gModalMenu.initBulk = function () {
   gModalMenu.buildRow (false);
+  d3.select (".modal-content").attr ("max-height", gGraph.height * gModalMenu.MAX_HEIGHT_PERCENT);
 };
 
 gModalMenu.clearReject = function (index) {
