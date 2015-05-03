@@ -274,6 +274,14 @@ gModalMenu.getPsetNumber = function () {
   return d3.select (".pset").node ().selectedIndex;
 };
 
+gModalMenu.setProblemNumber = function (index) {
+  d3.select (".problem").node ().selectedIndex = index;
+};
+
+gModalMenu.setPsetNumber = function (index) {
+  d3.select (".pset").node ().selectedIndex = index;
+};
+
 gModalMenu.setSubmitButton = function (text) {
   d3.select (".submitButton").text (text);
 };

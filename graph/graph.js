@@ -12,6 +12,7 @@ gGraph.init = function (pset, problem, charSet, mode) {
   var svg = d3.select ("svg");
   gGraph.width = svg.node ().getBoundingClientRect ().width;
   gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
+  gGraph.height -= d3.select (".tape-bar").node ().getBoundingClientRect ().height;
   svg.attr ("height", gGraph.height);
   
   var charSetParam = charSet;

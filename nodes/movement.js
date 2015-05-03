@@ -1,4 +1,9 @@
 gNodes.moveSelected = function (dx, dy) {
+  dx += gNodes.selectionX;
+  dy += gNodes.selectionY;
+  gNodes.selectionX = 0;
+  gNodes.selectionY = 0;
+  
   var nodeIsSelected = function (node) {
     return node.selected;
   };
@@ -7,11 +12,24 @@ gNodes.moveSelected = function (dx, dy) {
     return edge.source.selected || edge.target.selected;
   }
 
-  gNodes.nodes.filter (nodeIsSelected)
-    .forEach (function (node) {
-      node.x += dx;
-      node.y += dy;
-    });
+  if (gNodes.validMoveX (dx)) {
+    gNodes.nodes.filter (nodeIsSelected)
+      .forEach (function (node) {
+        node.x += dx;
+      });
+  } else {
+    gNodes.selectionX += dx;
+  }
+  
+  if (gNodes.validMoveY (dy)) {
+    gNodes.nodes.filter (nodeIsSelected)
+      .forEach (function (node) {
+        node.y += dy;
+      });
+  } else {
+    gNodes.selectionY += dy;
+  }
+  
   var upperG = d3.select ("g.nodes").selectAll ("g").filter (nodeIsSelected);
   var lowerG = d3.select ("g.nodesLower").selectAll ("circle").filter (nodeIsSelected);
   gNodes.drawDOMNodes (lowerG, upperG);

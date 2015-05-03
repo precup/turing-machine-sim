@@ -47,8 +47,15 @@ gBehaviors.apply = function (type, selection) {
       selection.call (
         d3.behavior.drag ()
         .on ("drag", gBehaviors[type][event])
-        .on ("dragstart", function () { gNodes.dragging = true; gEdges.hideTempEdge (); })
-        .on ("dragend", function () { gNodes.dragging = false; })
+        .on ("dragstart", function () { 
+          gNodes.selectionX = 0;
+          gNodes.selectionY = 0;
+          gNodes.dragging = true; 
+          gEdges.hideTempEdge (); 
+        })
+        .on ("dragend", function () { 
+          gNodes.dragging = false; 
+        })
       );
     } else {
       selection.on (event, gBehaviors[type][event]);
