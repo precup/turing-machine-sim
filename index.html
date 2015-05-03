@@ -10,6 +10,8 @@
     <script src="server/mock.js"></script>
     <script>
 
+      var previous_submissions;
+
       function setup () {
         d3.select ("form")
           .on ("submit", function () {
@@ -26,6 +28,12 @@
           .on ("change", changeNumbers)
           .node ().selectedIndex = 0;
         changeNumbers ();
+
+        gServer.listSubmissions (function (submit_names) {
+          console.log (submit_names);
+          previous_submissions = submit_names;
+        });
+
         gServer.listSaved (setupSaved);
       }
 
@@ -54,15 +62,43 @@
         window.location = getURLParent () + "tm.html?saved=" + name;
       }
 
+      function loadSubmission (pset, problem) {
+        window.location = getURLParent () + "submit_pset=" + pset + "&submit_problem=" + problem;
+      }
+
       function changeNumbers () {
         var psetNum = d3.select ('.pset').node ().selectedIndex;
+        d3.select (".problem").selectAll ("li").remove ();
         var problemSelect = d3.select (".problem").selectAll ("li").data (psets[psetNum].problems);
+
+        function isSubmitted (pset, problem, previous_submissions) {
+          return previous_submissions.some (function (elem, index, arr) {
+            return parseInt(elem.pset_id) === pset && 
+              parseInt(elem.problem_id) === problem;
+          });
+        }
 
         problemSelect.enter ()
           .append ("li")
           .on ("click", function (junk, i) {
             createPset (i);
-          });
+          })
+          .filter (function (junk, i) {
+            if (previous_submissions) {
+              var is = isSubmitted (psetNum, i, previous_submissions);
+              console.log (is);
+              return is;
+            }
+            console.log ("false");
+            return false;
+          })
+          .on ("click", function (junk, i) {
+            loadSubmission (psetNum, i);
+          })
+          .append ("span")
+          .classed ("submitted", true)
+          .text ("SUBMITTED");
+          
 
         problemSelect.text (function (problem) { return problem.name; });
 
