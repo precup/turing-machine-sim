@@ -48,7 +48,7 @@ gTableMenu.updateAll = function () {
     gErrorMenu.displayError ("Multiple transitions defined for one character, ignoring extras");
   }
   if (badNames) {
-    gErrorMenu.displayError ("Some nodes entered in the table could not be found, ignoring them");
+    gErrorMenu.displayError ("Some states entered in the table could not be found, ignoring them");
   }
 
   map.forEach (function (row, i1) {
