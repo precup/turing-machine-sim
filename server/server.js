@@ -59,17 +59,6 @@ gServer.submit = function (automata, pset, problem, callback) {
     pset: pset,
     problem: problem
   };
-<<<<<<< HEAD
-
-  gServer.listSubmissions(function (data) {
-    var isOverwrite = false;
-    data.forEach (function (elem, index, arr) {
-      if (elem ["pset_id"] === pset && elem ["problem_id"] === problem) {
-        isOverwrite = true;
-      }
-    });
-=======
->>>>>>> a67d98b1e423a9ca7fce5c2e53efd1022ddb69cd
 
 
   var packed = JSON.stringify (pack);
@@ -92,16 +81,7 @@ gServer.listSubmissions = function (callback) {
     .header ("Content-Type", "application/json")
     .get (
       function (err, rawData) {
-<<<<<<< HEAD
-        if (err) {
-          console.log (err);
-        } else {
-          console.log (rawData);
-          var data = JSON.parse (rawData.response);
-          callback (data);
-=======
         callback (JSON.parse (rawData.response), err);
->>>>>>> a67d98b1e423a9ca7fce5c2e53efd1022ddb69cd
 
         // example of accessing values in data:
         // console.log(data[0]['pset_id']);
@@ -121,13 +101,7 @@ gServer.loadSubmission = function () {
     .get (
       function (err, rawData) {
         if (err) {
-<<<<<<< HEAD
-          console.log(err);
         } else {
-          console.log(rawData);
-=======
-        } else {
->>>>>>> a67d98b1e423a9ca7fce5c2e53efd1022ddb69cd
 
           var data = JSON.parse(rawData.response);
 
