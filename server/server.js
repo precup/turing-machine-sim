@@ -24,7 +24,8 @@ gServer.save = function (name, callback) {
     .post (
       JSON.stringify (pack),
       function (err, rawData) {
-        callback (err, rawData);
+        if (err) callback (err, null);
+        else callback (err, rawData);
       }
     );
 };
@@ -39,6 +40,7 @@ gServer.load = function (selected, whileRunning, error_callback, success, done) 
     .get (function(err, res) {
         if (err) {
           if (typeof error_callback === "function") error (err);
+          return;
         } else {
           if (success) {
             gServer.name = selected;
@@ -81,7 +83,8 @@ gServer.listSubmissions = function (callback) {
     .header ("Content-Type", "application/json")
     .get (
       function (err, rawData) {
-        callback (JSON.parse (rawData.response), err);
+        var data = rawData ? JSON.parse (rawData.response) : null;
+        callback (data, err);
 
         // example of accessing values in data:
         // console.log(data[0]['pset_id']);
@@ -99,18 +102,19 @@ gServer.loadSubmission = function (pset, problem, callback) {
     .header ("Content-Type", "application/json")
     .get (
       function (err, rawData) {
-        callback (err, JSON.parse(rawData.response));
+        if (err) callback (err, null);
+        else callback (err, JSON.parse(rawData.response));
     });
 };
 
-// callback(data)
+// callback(err, data)
 gServer.listSaved = function (callback) {
   var listSaved_url = "/api/listSaved.php";
   d3.xhr(gServer.url_prefix + listSaved_url)
     .header("Content-Type", "application/json")
     .get(function(err, data) {
-      var json_data = JSON.parse(data.response);
-      callback(json_data);
+      if (err) callback (err, null);
+      else callback (err, JSON.parse(data.response));
     });
 }
 
@@ -120,6 +124,7 @@ gServer.getSunetid = function (callback) {
   d3.xhr(gServer.url_prefix + getSunetid_url)
     .header("Content-Type", "application/json")
     .get(function(err, data) {
-      callback(data.response);
+      if (err) callback (null)
+      else callback(data.response);
     });
 };
