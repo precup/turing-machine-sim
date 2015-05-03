@@ -5,7 +5,6 @@ var gModalMenu =
   };
 
 gModalMenu.open = function (type) {
-  gErrorMenu.clearModalErrors ();
   gModalMenu.currentType = type;
   d3.select ("." + type).style ('display', 'inline');
   d3.select ('.overlay').style ('display', 'inline');
@@ -34,7 +33,6 @@ gModalMenu.submit = function (type) {
       gSimulator.runTests ();
       break;
     case "save":
-      // gServer.save ();
       gModalMenu.initSave ();
       break;
     case "load":
@@ -282,7 +280,9 @@ gModalMenu.setLoadNames = function (names) {
     d3.select (".loadNames")
       .append ("li")
       .classed ("load-nothing", true)
-      .html ("<p class='modal-description'>Nothing's been saved yet</p>");
+      .append ("p")
+      .classed ("modal-description", true)
+      .text ("Nothing's been saved yet");
   }
 };
 
@@ -323,6 +323,18 @@ gModalMenu.loadFromModal = function () {
         gModalMenu.close ("load");
       }, 300);
     });
+}
+
+gModalMenu.setLoadMessage = function (message) {
+  d3.select (".loadNames")
+    .selectAll ("li")
+    .remove ();
+  d3.select (".loadNames")
+    .append ("li")
+    .classed ("load-nothing", true)
+    .append ("p")
+    .classed ("modal-description", true)
+    .text (message);
 }
 
 gModalMenu.initSubmit = function () {
