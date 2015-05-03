@@ -113,6 +113,7 @@ gGraph.resize = function () {
   var svg = d3.select ("svg");
   gGraph.width = svg.node ().getBoundingClientRect ().width;
   gGraph.height = svg.node ().getBoundingClientRect ().height;
-  d3.select (".background").attr("width", gGraph.width);
-  d3.select (".background").attr("height", gGraph.height);
+  d3.select (".background").attr ("width", gGraph.width);
+  d3.select (".background").attr ("height", gGraph.height);
+  d3.select (".modal-content").attr ("max-height", gGraph.height * gModalMenu.MAX_HEIGHT_PERCENT);
 };

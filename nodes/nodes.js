@@ -116,8 +116,12 @@ gNodes.removeByIndex = function (index) {
 
 gNodes.removeNodes = function () {
   if (gTape.follow != null && gTape.follow.selected) {
-    gErrorMenu.displayError ("The current node in a running test cannot be deleted");
-    return false;
+    if (gTape.done) {
+      gTestMenu.end ();
+    } else {
+      gErrorMenu.displayError ("The current node in a running test cannot be deleted");
+      return false;
+    }
   }
   for (var i = 0; i < gNodes.nodes.length; i++) {
     if (gNodes.nodes[i].selected) {
