@@ -3,9 +3,9 @@ var psets =
     {
       name: "Problem Set 3",
       problems: [
-        { name: "1: Bacon ipsum", charSet: "yd", type: "dfa" },
-        { name: "2: Dolor amet", charSet: "yd", type: "dfa" },
-        { name: "3: Flank meatloaf", charSet: "yd", type: "nfa" }
+        { name: "1: Bacon ipsum", charSet: "dy", type: "dfa" },
+        { name: "2: Dolor amet", charSet: "dy", type: "dfa" },
+        { name: "3: Flank meatloaf", charSet: "dy", type: "nfa" }
       ]
     },
     {

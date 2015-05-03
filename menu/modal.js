@@ -107,6 +107,15 @@ gModalMenu.initSubmitToServer = function () {
   var automata = JSON.stringify (gGraph.save ());
   var pset = gModalMenu.getPsetNumber();
   var problem = gModalMenu.getProblemNumber();
+  
+  if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "nfa") {
+    gErrorMenu.displayError ("This automaton is an NFA, but the problem requires a DFA.");
+    return;
+  }
+  if (psets[pset].problems[problem].charSet != gGraph.charSet) {
+    gErrorMenu.displayError ("The alphabet for this automaton doesn't match the alphabet for that problem.");
+    return;
+  }
 
   gModalMenu.setSubmitButton ("Submitting...");
 

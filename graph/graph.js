@@ -14,8 +14,6 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
   gGraph.height -= d3.select (".tape-bar").node ().getBoundingClientRect ().height;
   svg.attr ("height", gGraph.height);
-  svg
-    .on ("click", function () { console.log ("hi jay"); });
   
   var charSetParam = charSet;
   gGraph.problem = problem;
@@ -66,6 +64,7 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gBehaviors.addBehavior ("page", "keyup", function () { return true; }, gGraph.keyup);
   gBehaviors.apply ("page", d3.select("body"));
   gBehaviors.apply ("background", d3.select("div.gui"));
+
   
   gNodes.addNode ();
   gNodes.addNode ();

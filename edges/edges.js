@@ -20,6 +20,10 @@ var gEdges =
     MOUSE_ARROW_OFFSET: 13
   };
   
+if (isIE) {
+  //gEdges.BIDIRECTIONAL_OFFSET = 12;
+}
+  
 gEdges.init = function () {  
   gEdges.lowerG = d3.select ("g.edgesLower");
   gEdges.upperG = d3.select ("g.edges");
@@ -200,6 +204,10 @@ gEdges.destroyDOMEdges = function (lowerSelection, upperSelection) {
 };
 
 gEdges.draw = function () {
+  if (isIE) {
+    gEdges.lowerG.selectAll ("path").remove ();
+    gEdges.upperG.selectAll ("g").remove ();
+  }
   var lowerEdges = gEdges.lowerG.selectAll ("path").data (gEdges.edges, gEdges.getEdgeId);
   var upperEdges = gEdges.upperG.selectAll ("g").data (gEdges.edges, gEdges.getEdgeId);
   

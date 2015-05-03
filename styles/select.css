@@ -46,7 +46,7 @@ h3 {
 }
 
 .select-problems {
-  width: 500px;
+  width: 600px;
   margin: 0px auto;
 }
 
@@ -109,6 +109,7 @@ button {
   background-color: rgb(0,146,238);
   padding: 4px;
   color: #fff;
+  line-height:20px;
   /*
   height: 24px;
   box-sizing: border-box;

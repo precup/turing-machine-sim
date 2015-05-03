@@ -21,3 +21,23 @@ gEdges.drawInitial = function () {
         ])});
   }
 };
+
+if (isIE) {
+  gEdges.initInitial = function () {};
+
+  gEdges.drawInitial = function () {
+    d3.select ("path.initial").remove ();
+    var initialNode = gNodes.initial;
+    if (initialNode != null) {      
+      d3.select (".miscEdges")
+        .append ("path")
+        .classed ("initial", true)
+        .style ('marker-end', 'url(#end-arrow)')
+        .attr ("fill", "none")
+        .attr ("d", function () { return gEdges.lineFunction ([
+            { x: initialNode.x - gEdges.INITIAL_EDGE_LENGTH, y: initialNode.y },
+            { x: initialNode.x, y: initialNode.y }
+          ])});
+    }
+  };
+}

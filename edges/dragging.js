@@ -1,13 +1,6 @@
 // TODO: Clean up this file
 
-gEdges.initDragging = function () {
-  gEdges.initialEdge = d3.select (".miscEdges")
-    .append ("path")
-    .classed ("temp", true)
-    .style ('marker-end', 'url(#mouse-arrow)')
-    .attr ("fill", "none")
-    .style ("opacity", 0);
-    
+gEdges.initDragging = function () {    
   gEdges.dragging = false;
   gEdges.startNode = null;
   gEdges.backupNode = null;
@@ -106,7 +99,7 @@ gEdges.hideTempEdge = function () {
       Math.pow (mouse[1] - gEdges.backupNode.y, 2));
   }
   if (gEdges.backupNode == null || dist > gNodes.SELECTABLE_RADIUS) {
-    d3.select ("path.temp").style ("opacity", 0);
+    d3.select ("path.temp").remove ();  
     gEdges.dragging = false;
     gEdges.tempVisible = false;
   } else {
@@ -117,14 +110,21 @@ gEdges.hideTempEdge = function () {
 };
 
 gEdges.drawTempEdge = function () {
+  if (gEdges.startNode == null) return;
   if (gNodes.dragging) {
-    d3.select ("path.temp").style ("opacity", 0);
+    d3.select ("path.temp").remove ();  
     gEdges.dragging = false;
     gEdges.tempVisible = false;
     return;
   }
   var mouse = d3.mouse(d3.select("svg").node());
-  d3.select ("path.temp")
+  
+  d3.select ("path.temp").remove ();  
+  gEdges.initialEdge = d3.select (".miscEdges")
+    .append ("path")
+    .classed ("temp", true)
+    .style ('marker-end', 'url(#mouse-arrow)')
+    .attr ("fill", "none")
     .attr ("d", function () {
       if (gEdges.endNode != null) {
         return gEdges.customPathFunction (gEdges.startNode, gEdges.endNode);
@@ -140,8 +140,6 @@ gEdges.showTempEdge = function (startNode) {
   if (!gNodes.dragging) {
     if (!gEdges.dragging) {
       gEdges.startNode = startNode;
-      d3.select ("path.temp")
-        .style ("opacity", 1);
       gEdges.tempVisible = true;
       gEdges.drawTempEdge ();
     } else {
