@@ -401,7 +401,7 @@ body {
 .error, .run-finished {
   text-wrap: none;
   background-color: #A44242;
-  color: #fff;
+  color: #fff !important;
   border-radius: 4px;
   padding: 4px 10px;
   margin: 4px;
@@ -545,7 +545,7 @@ td {
   line-height: 20px;
   text-align: center;
   margin: 12px 12px 6px 12px;
-  opacity: 0.6;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .confirm {
