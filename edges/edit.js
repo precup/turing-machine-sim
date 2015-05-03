@@ -1,11 +1,11 @@
 gEdges.initEditing = function () {
   gEdges.editedEdge = null;
-  
-  gBehaviors.addBehavior ("edges", "dblclick", 
-    function () { 
+
+  gBehaviors.addBehavior ("edges", "dblclick",
+    function () {
       return true;
     }, gEdges.editEdge);
-  
+
   d3.select (".edgeChars")
     .on ("keypress", function () {
       if (d3.event.keyCode == 13) {
@@ -47,17 +47,17 @@ gEdges.editComplete = function () {
   var chars = removeDuplicates (gModalMenu.getEdgeCharacters ().replace (/[\s,]/g, ""));
   var legal = intersection (gGraph.charSet, chars);
   if (legal.length != chars.length) {
-    gErrorMenu.displayError ("Ignoring characters not present in the character set");
+    gErrorMenu.displayError ("Ignoring characters that aren't in the alphabet.");
   }
-  chars = legal;    
+  chars = legal;
   gModalMenu.setEdgeChars (legal);
   chars += (gModalMenu.getEpsilon () ? gEpsilon : "");
-  
+
   if (chars.length == 0) {
-    gErrorMenu.displayError ("Edges must contain at least one character");
+    gErrorMenu.displayError ("Transitions must take at least one character");
     return;
   }
-  
+
   var transitions = chars.split ("");
   transitions.sort ();
   for (var i = 0; i < transitions.length - 1; i++) {
@@ -87,7 +87,7 @@ gEdges.editComplete = function () {
       gErrorMenu.displayError ("Removed duplicate transitions");
     }
   }
-  
+
   gEdges.editedEdge.transitions[0] = transitions;
   gEdges.editedEdge = null;
   gModalMenu.close ("edgeEntry");

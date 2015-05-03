@@ -8,7 +8,7 @@ gServer.save = function () {
   var name = gModalMenu.getSaveName();
 
   if (name.replace (/\s/g, "").length == 0) {
-    gErrorMenu.displayError ("Automata name cannot be blank");
+    gErrorMenu.displayError ("Automaton name cannot be blank");
     return;
   }
   gServer.name = name;
@@ -74,7 +74,7 @@ gServer.submit = function () {
     pset: pset,
     problem: problem
   };
-  
+
   gServer.listSubmissions(function (data) {
     var isOverwrite = false;
     data.forEach (function (elem, index, arr) {
@@ -122,7 +122,7 @@ gServer.listSubmissions = function (callback) {
       function (err, rawData) {
         if (err) {
           console.log (err);
-        } else { 
+        } else {
           console.log (rawData);
           var data = JSON.parse (rawData.response);
           callback (data);
@@ -147,7 +147,7 @@ gServer.loadSubmission = function () {
       function (err, rawData) {
         if (err) {
           console.log(err);
-        } else { 
+        } else {
           console.log(rawData);
 
           var data = JSON.parse(rawData.response);
