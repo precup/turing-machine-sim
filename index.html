@@ -29,7 +29,7 @@
           .node ().selectedIndex = 0;
         
 
-        gServer.listSubmissions (function (submit_names) {
+        gServer.listSubmissions (function (submit_names, err) {
           previous_submissions = submit_names;
           d3.select (".problem")
             .append ("li")
@@ -41,8 +41,8 @@
         gServer.listSaved (setupSaved);
       }
 
-      function setupSaved (names) {
-        console.log (names); 
+      function setupSaved (err, names) {
+        console.log ("err is " + err); 
         var savedSelect = d3.select (".saved").selectAll ("li").data (names);
 
         savedSelect.enter ()
