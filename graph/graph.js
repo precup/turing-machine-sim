@@ -16,7 +16,8 @@ gGraph.init = function (pset, problem, charSet, mode) {
   svg.attr ("height", gGraph.height);
   d3.select (".gRekt")
     .attr ("width", gGraph.width)
-    .attr ("height", gGraph.height)
+    .attr ("height", gGraph.height);
+  svg
     .on ("click", function () { console.log ("hi jay"); });
   
   var charSetParam = charSet;
