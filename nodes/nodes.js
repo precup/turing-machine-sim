@@ -3,6 +3,7 @@ var gNodes =
     SELECTABLE_RADIUS: 50,
     RADIUS: 30,
     INNER_RADIUS: 24,
+    STROKE_WIDTH: 2,
     MIN_NEW_X: 100,
     MIN_NEW_Y: 100,
     MAX_NEW_X: 700,
@@ -293,6 +294,29 @@ gNodes.draw = function () {
   gNodes.createDOMNodes (lowerNodes.enter (), upperNodes.enter ());
   gNodes.drawDOMNodes (lowerNodes, upperNodes);
   gNodes.destroyDOMNodes (lowerNodes.exit (), upperNodes.exit ());
+};
+
+gNodes.validMoveX = function (dx) {
+  var valid = true;
+  gNodes.nodes.filter (function (node) { 
+    return node.selected;
+  }).forEach (function (node) {
+    valid &= (node.x + dx >= gNodes.RADIUS + gNodes.STROKE_WIDTH || dx >= 0);
+    valid &= (node.x + dx <= gGraph.width - gNodes.RADIUS - gNodes.STROKE_WIDTH || dx <= 0);
+  });
+  return valid;
+};
+
+
+gNodes.validMoveY = function (dy) {
+  var valid = true;
+  gNodes.nodes.filter (function (node) { 
+    return node.selected;
+  }).forEach (function (node) {
+    valid &= (node.y + dy >= gNodes.RADIUS + gNodes.STROKE_WIDTH || dy >= 0);
+    valid &= (node.y + dy <= gGraph.height - gNodes.RADIUS - gNodes.STROKE_WIDTH || dy <= 0);
+  });
+  return valid;
 };
 
 gNodes.getNodeIndex = function (id) {
