@@ -1,4 +1,4 @@
-var gNodes = 
+var gNodes =
   {
     SELECTABLE_RADIUS: 50,
     RADIUS: 30,
@@ -11,11 +11,11 @@ var gNodes =
 gNodes.init = function () {
   gNodes.lowerG = d3.select ("g.nodesLower");
   gNodes.upperG = d3.select ("g.nodes");
-  
+
   gNodes.nextId = 0;
   gNodes.nodes = [];
   gNodes.initial = null;
-  
+
   gNodes.selectionInit ();
   gNodes.movementInit ();
   gNodes.doubleClickInit ();
@@ -57,14 +57,14 @@ gNodes.wouldOverlap = function (x, y) {
 
 gNodes.addNode = function (x, y) {
   var node = {};
-  
+
   if (typeof x === "undefined") {
     var foundPosition = false;
-    for (node.y = gNodes.NEW_BUFFER; 
-         node.y <= gGraph.height - gNodes.NEW_BUFFER && !foundPosition; 
+    for (node.y = gNodes.NEW_BUFFER;
+         node.y <= gGraph.height - gNodes.NEW_BUFFER && !foundPosition;
          node.y += gNodes.NEW_INCREMENT) {
-      for (node.x = gNodes.NEW_BUFFER; 
-           node.x <= gGraph.width - gNodes.NEW_BUFFER && !foundPosition; 
+      for (node.x = gNodes.NEW_BUFFER;
+           node.x <= gGraph.width - gNodes.NEW_BUFFER && !foundPosition;
            node.x += gNodes.NEW_INCREMENT) {
         foundPosition = !gNodes.wouldOverlap (node.x, node.y);
       }
@@ -75,7 +75,7 @@ gNodes.addNode = function (x, y) {
     node.x = x;
     node.y = y;
   }
-  
+
   while (gNodes.getNodeIndexFromName ("n" + gNodes.nextId) != -1) {
     gNodes.nextId++;
   }
@@ -85,9 +85,9 @@ gNodes.addNode = function (x, y) {
   node.reject = false;
   node.selected = true;
   gNodes.deselectAll ();
-  
-  gNodes.nodes.push (node); 
-  
+
+  gNodes.nodes.push (node);
+
   gEdges.addNode (node);
 };
 
@@ -105,7 +105,7 @@ gNodes.setAcceptByIndex = function (index, accept) {
 
 gNodes.removeByIndex = function (index) {
   if (gTape.follow != null && gTape.follow.id == gNodes.nodes[index].id) {
-    gTape.reset ();
+    gTestMenu.end ();
   }
   if (gNodes.initial != null && gNodes.initial.id == gNodes.nodes[index].id) {
     gNodes.initial = null;
@@ -116,8 +116,12 @@ gNodes.removeByIndex = function (index) {
 
 gNodes.removeNodes = function () {
   if (gTape.follow != null && gTape.follow.selected) {
-    gErrorMenu.displayError ("The current node in a running test cannot be deleted");
-    return false;
+    if (gTape.done) {
+      gTestMenu.end ();
+    } else {
+      gErrorMenu.displayError ("The current state in a running test cannot be deleted");
+      return false;
+    }
   }
   for (var i = 0; i < gNodes.nodes.length; i++) {
     if (gNodes.nodes[i].selected) {
@@ -132,26 +136,26 @@ gNodes.removeNodes = function () {
 };
 
 gNodes.createDOMNodes = function (lowerSelection, upperSelection) {
-  gBehaviors.apply ("lowerNodes", 
+  gBehaviors.apply ("lowerNodes",
     lowerSelection.append ("circle")
       .classed ("transparent", true)
       .attr ("r", gNodes.SELECTABLE_RADIUS)
   );
 
   upperSelection = upperSelection.append ("g");
-  
-  gBehaviors.apply ("nodes", 
+
+  gBehaviors.apply ("nodes",
     upperSelection.append ("circle")
       .classed ("outer", true)
       .attr ("r", gNodes.RADIUS)
   );
-    
-  gBehaviors.apply ("nodes", 
+
+  gBehaviors.apply ("nodes",
     upperSelection.append ("circle")
       .classed ("inner", true)
       .attr ("r", gNodes.INNER_RADIUS)
   );
-  
+
   upperSelection.append ("text");
 };
 
@@ -183,7 +187,7 @@ gNodes.load = function (saveData) {
   gNodes.nodes.forEach (function (node) {
     gNodes.nextId = Math.max (node.id + 1, gNodes.nextId);
   });
-  
+
   gNodes.scale ();
 };
 
@@ -211,7 +215,7 @@ gNodes.scale = function () {
       topBound = gGraph.BUFFER;
       bottomBound = gGraph.height - gGraph.BUFFER;
     }
-    
+
     for (var i = 0; i < gNodes.nodes.length; i++) {
       var xDenom = xMax - xMin;
       var xPercent = xDenom == 0 ? 1 : (gNodes.nodes[i].x - xMin) / xDenom;
@@ -268,19 +272,19 @@ gNodes.selectionIsNeither = function () {
 gNodes.drawDOMNodes = function (lowerSelection, upperSelection) {
   lowerSelection.attr ("cx", function(d) { return d.x; })
     .attr ("cy", function(d) { return d.y; });
-    
+
   upperSelection.classed ("selected", function (d) { return d.selected; })
     .classed ("accept", function (d) { return d.accept; })
     .classed ("reject", function (d) { return d.reject; });
-  
+
   upperSelection.select ("circle.inner")
     .attr ("cx", function(d) { return d.x; })
     .attr ("cy", function(d) { return d.y; });
-    
+
   upperSelection.select ("circle.outer")
     .attr ("cx", function (d) { return d.x; })
     .attr ("cy", function (d) { return d.y; });
-    
+
   upperSelection.select ("text")
     .text (function (d) { return d.name; })
     .attr ("x", function (d) { return d.x; })
@@ -295,7 +299,7 @@ gNodes.destroyDOMNodes = function (lowerSelection, upperSelection) {
 gNodes.draw = function () {
   var lowerNodes = gNodes.lowerG.selectAll ("circle").data (gNodes.nodes, function (d) { return d.id; });
   var upperNodes = gNodes.upperG.selectAll ("g").data (gNodes.nodes, function (d) { return d.id; });
-  
+
   gNodes.createDOMNodes (lowerNodes.enter (), upperNodes.enter ());
   gNodes.drawDOMNodes (lowerNodes, upperNodes);
   gNodes.destroyDOMNodes (lowerNodes.exit (), upperNodes.exit ());
@@ -303,7 +307,7 @@ gNodes.draw = function () {
 
 gNodes.validMoveX = function (dx) {
   var valid = true;
-  gNodes.nodes.filter (function (node) { 
+  gNodes.nodes.filter (function (node) {
     return node.selected;
   }).forEach (function (node) {
     valid &= (node.x + dx >= gNodes.RADIUS + gNodes.STROKE_WIDTH || dx >= 0);
@@ -315,7 +319,7 @@ gNodes.validMoveX = function (dx) {
 
 gNodes.validMoveY = function (dy) {
   var valid = true;
-  gNodes.nodes.filter (function (node) { 
+  gNodes.nodes.filter (function (node) {
     return node.selected;
   }).forEach (function (node) {
     valid &= (node.y + dy >= gNodes.RADIUS + gNodes.STROKE_WIDTH || dy >= 0);

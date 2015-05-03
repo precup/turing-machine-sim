@@ -117,8 +117,10 @@
       <button onclick="gTestMenu.run ()" class="nfa-hide nontable runButton">
         Start
       </button>
-      <div class="tape-field nfa-hide nontableblock">
-        <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
+      <div class="tape-field-wrapper">
+        <div class="tape-field nfa-hide nontableblock">
+          <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
+        </div>
       </div>
     </div>
     <div class="modal overlay">
@@ -194,7 +196,7 @@
 
       <div class="edgeEntry popup">
         <div class="modal-header">
-          Edit Edge
+          Edit Transition
         </div>
         <div class="modal-content">
           <p class="modal-description error">
@@ -271,7 +273,7 @@
 
       <div class="nodeEntry popup">
         <div class="modal-header">
-          <span>Edit Node</span>
+          <span>Edit State</span>
         </div>
         <div class="modal-content">
           <p class="modal-description">

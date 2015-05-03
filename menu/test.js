@@ -1,8 +1,10 @@
-var gTestMenu = 
+var gTestMenu =
   {
-    NUM_CELLS: 250
+    NUM_CELLS: 250,
+    DISPLAY_TIME: 4600,
+    FADE_OUT_TIME: 400
   };
-  
+
 gTestMenu.init = function () {
   gTestMenu.setRunning (false);
   gTestMenu.text = "";
@@ -24,7 +26,7 @@ gTestMenu.init = function () {
         gTestMenu.run ();
       }
     });
-    
+
   gTestMenu.disallowInput ();
 };
 
@@ -53,15 +55,15 @@ gTestMenu.disallowInput = function () {
   var legal = intersection (gTestMenu.text, gGraph.charSet);
   if (gTestMenu.text.length != legal.length) {
     gTestMenu.text = legal;
-    gErrorMenu.displayError ("Removing illegal characters in the input");
+    gErrorMenu.displayError ("Removing characters that aren't in the alphabet.");
   }
-   
+
   d3.selectAll (".tape-char")
     .style ("display", "inline")
     .each (function (junk, i) {
       this.value = i < gTestMenu.text.length ? gTestMenu.text[i] : "";
     });
-    
+
   d3.select (".tape-char-input")
     .style ("display", "none");
 };
@@ -87,9 +89,9 @@ gTestMenu.unsetTransitions = function () {
 gTestMenu.runTests = function () {
   var unset = gTestMenu.unsetTransitions ();
   if (gNodes.initial == null) {
-    gErrorMenu.displayError ("No initial node is set");
+    gErrorMenu.displayError ("This automaton doesn't have a start state.");
   } else if (unset.length != 0) {
-    gErrorMenu.displayError ("The following nodes have undefined transitions: " + unset.join (", "));
+    gErrorMenu.displayError ("The following states have undefined transitions: " + unset.join (", "));
   } else {
     gModalMenu.open ("testing");
   }
@@ -110,9 +112,9 @@ gTestMenu.setRunning = function (running) {
 gTestMenu.run = function () {
   var unset = gTestMenu.unsetTransitions ();
   if (gNodes.initial == null) {
-    gErrorMenu.displayError ("No initial node is set");
+    gErrorMenu.displayError ("This automaton doesn't have a start state.");
   } else if (unset.length != 0) {
-    gErrorMenu.displayError ("The following nodes have undefined transitions: " + unset.join (", "));
+    gErrorMenu.displayError ("The following states have undefined transitions: " + unset.join (", "));
   } else {
     gTestMenu.setRunning (true);
     gTape.show ();

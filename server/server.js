@@ -101,7 +101,7 @@ gServer.loadSubmission = function () {
     .get (
       function (err, rawData) {
         if (err) {
-        } else { 
+        } else {
 
           var data = JSON.parse(rawData.response);
 

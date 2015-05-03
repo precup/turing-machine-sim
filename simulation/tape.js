@@ -48,8 +48,8 @@ gTape.draw = function () {
           .classed ("run-finished", true)
           .classed ("rejecting", true)
           .transition ()
-          .delay (gErrorMenu.DISPLAY_TIME)
-          .duration (gErrorMenu.FADE_OUT_TIME)
+          .delay (gTestMenu.DISPLAY_TIME)
+          .duration (gTestMenu.FADE_OUT_TIME)
           .ease ("cubic")
           .style ("opacity", 0)
           .remove ();
@@ -68,8 +68,8 @@ gTape.draw = function () {
           .classed ("run-finished", true)
           .classed ("accepting", true)
           .transition ()
-          .delay (gErrorMenu.DISPLAY_TIME)
-          .duration (gErrorMenu.FADE_OUT_TIME)
+          .delay (gTestMenu.DISPLAY_TIME)
+          .duration (gTestMenu.FADE_OUT_TIME)
           .ease ("cubic")
           .style ("opacity", 0)
           .remove ();

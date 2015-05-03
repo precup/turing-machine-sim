@@ -52,13 +52,19 @@ body {
   margin: 0px;
 }
 
-.tape-field {
-  background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 3px;
-  border: none;
-  width: auto;
+.tape-field-wrapper {
   height: 30px;
   overflow: hidden;
+  border-radius: 3px;
+}
+
+.tape-field {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+  width: auto;
+  height: 60px;
+  overflow-x: scroll;
+  white-space:nowrap;
 }
 
 .tape-char, .tape-char-input {
@@ -494,7 +500,7 @@ td {
 .modal-content {
   background: rgb(247, 247, 247);
   max-height: 300px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .modal-content ul {
@@ -597,4 +603,9 @@ button.button-delete:hover {
 
 .modal.overlay {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+button[disabled], button[disabled]:hover, button[disabled]:focus, button[disabled]:active {
+  opacity: 0.3 !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
 }

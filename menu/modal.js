@@ -1,6 +1,7 @@
 var gModalMenu =
   {
-    confirmFlag: ""
+    confirmFlag: "",
+    MAX_HEIGHT_PERCENT: 0.62
   };
 
 gModalMenu.open = function (type) {
@@ -328,9 +329,7 @@ gModalMenu.initSubmit = function () {
 
 gModalMenu.changeNumbers = function () {
   var psetNum = d3.select ('.pset').node ().selectedIndex;
-  
   var problemSelect = d3.select (".problem").selectAll ("option").data (psets[psetNum].problems);
-  
   problemSelect.enter ().append ("option");
     
   problemSelect.attr ("value", function (problem) { return problem.charSet; })
@@ -360,7 +359,7 @@ gModalMenu.buildRow = function (focus) {
   row.append ("td")
     .append ("input")
     .attr ("type", "text")
-    .classed ("gridInput bulkInput", true)
+    .classed ("bulkInput", true)
     .each (function () {
       if (focus) {
         this.focus ();
@@ -395,6 +394,7 @@ gModalMenu.buildRow = function (focus) {
 
 gModalMenu.initBulk = function () {
   gModalMenu.buildRow (false);
+  d3.select (".modal-content").attr ("max-height", gGraph.height * gModalMenu.MAX_HEIGHT_PERCENT);
 };
 
 gModalMenu.clearReject = function (index) {
