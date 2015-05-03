@@ -94,10 +94,9 @@ gServer.listSubmissions = function (callback) {
 
 // callback (err, data)
 gServer.loadSubmission = function (pset, problem, callback) {
-
   var loadFromSubmissions_url = "/api/loadFromSubmissions.php";
   var full_url = gServer.url_prefix + loadFromSubmissions_url + "?problem=" + problem + "&pset=" + pset;
-
+  
   d3.xhr (full_url)
     .header ("Content-Type", "application/json")
     .get (

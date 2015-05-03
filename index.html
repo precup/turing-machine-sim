@@ -85,6 +85,9 @@
 
         problemSelect.enter ()
           .append ("li")
+          .attr ("index", function (junk, i) {
+            return i;
+          })
           .on ("click", function (junk, i) {
             createPset (i);
           })
@@ -95,8 +98,8 @@
             }
             return false;
           })
-          .on ("click", function (junk, i) {
-            loadSubmission (psetNum, i);
+          .on ("click", function () {
+            loadSubmission (psetNum, d3.select (this).attr ("index"));
           })
           .append ("span")
           .classed ("submitted", true)
