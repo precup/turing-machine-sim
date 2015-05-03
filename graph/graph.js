@@ -14,9 +14,6 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
   gGraph.height -= d3.select (".tape-bar").node ().getBoundingClientRect ().height;
   svg.attr ("height", gGraph.height);
-  d3.select (".gRekt")
-    .attr ("width", gGraph.width)
-    .attr ("height", gGraph.height);
   svg
     .on ("click", function () { console.log ("hi jay"); });
   
@@ -118,9 +115,6 @@ gGraph.resize = function () {
   var svg = d3.select ("svg");
   gGraph.width = svg.node ().getBoundingClientRect ().width;
   gGraph.height = svg.node ().getBoundingClientRect ().height;
-  d3.select (".gRekt")
-    .attr ("width", gGraph.width)
-    .attr ("height", gGraph.height);
   d3.select (".background").attr ("width", gGraph.width);
   d3.select (".background").attr ("height", gGraph.height);
   d3.select (".modal-content").attr ("max-height", gGraph.height * gModalMenu.MAX_HEIGHT_PERCENT);
