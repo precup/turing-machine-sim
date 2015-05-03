@@ -26,3 +26,6 @@ gErrorMenu.displayError = function (message) {
     })
     .remove ();
 };
+
+gErrorMenu.displayModalError = function (modal, message) {
+};

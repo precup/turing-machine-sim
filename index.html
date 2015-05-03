@@ -95,12 +95,10 @@
           .on ("click", function (junk, i) {
             loadSubmission (psetNum, i);
           })
+          .text (function (problem) { return problem.name; })
           .append ("span")
           .classed ("submitted", true)
           .text ("SUBMITTED");
-          
-
-        problemSelect.text (function (problem) { return problem.name; });
 
         problemSelect.exit ().remove ();
       }
