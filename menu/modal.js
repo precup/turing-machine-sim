@@ -52,10 +52,9 @@ gModalMenu.cancel = function (type) {
     case "edgeEntry":
       gEdges.editCancelled ();
       break;
-    case "submit":
-      gModalMenu.submitCancelled ();
-    case "save":
-      gModalMenu.saveCancelled ();
+    case "confirm":
+      gModalMenu.confirmCancelled ();
+      break;
     default:
       gModalMenu.close (type);
       break;
@@ -78,6 +77,18 @@ gModalMenu.confirm = function () {
   }
 }
 
+gModalMenu.confirmCancelled = function () {
+  if (gModalMenu.confirmFlag === "submit") {
+    gModalMenu.close ("confirm");
+    gModalMenu.close ("submit");
+    gModalMenu.setSubmitButton ("Submit");
+  } else if (gModalMenu.confirmFlag === "save") {
+    gModalMenu.close ("save");
+    gModalMenu.close ("confirm");
+    gModalMenu.setSaveButton ("Save");
+  }
+}
+
 gModalMenu.submitToServer = function (done) {
   var automata = JSON.stringify (gGraph.save ());
   var pset = gModalMenu.getPsetNumber();
@@ -88,7 +99,8 @@ gModalMenu.submitToServer = function (done) {
         gErrorMenu.displayModalError ("submit", "Failed to submit");
         setTimeout (function () {
           gErrorMenu.clearModalErrors ();
-        }, 3000); 
+        }, 3000);
+        gModalMenu.setSubmitButton ("Submit");
         return;
       } else {
         gModalMenu.setSubmitButton ("Success!");
@@ -101,29 +113,12 @@ gModalMenu.submitToServer = function (done) {
   );
 }
 
-gModalMenu.submitCancelled = function () {
-  gModalMenu.close ("confirm");
-}
-
 gModalMenu.initSubmitToServer = function () {
   gModalMenu.confirmFlag = "submit";
 
   var automata = JSON.stringify (gGraph.save ());
   var pset = gModalMenu.getPsetNumber();
   var problem = gModalMenu.getProblemNumber();
-  
-  if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "nfa") {
-    gErrorMenu.displayError ("This automaton is an NFA, but the problem requires a DFA.");
-    return;
-  }
-  if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "dfa") {
-    gErrorMenu.displayError ("This automaton is a DFA, but the problem requires an NFA.");
-    return;
-  }
-  if (psets[pset].problems[problem].charSet != gGraph.charSet) {
-    gErrorMenu.displayError ("The alphabet for this automaton doesn't match the alphabet for that problem.");
-    return;
-  }
 
   gModalMenu.setSubmitButton ("Submitting...");
 
@@ -162,8 +157,6 @@ gModalMenu.initSave = function () {
 
   var name = gModalMenu.getSaveName ();
   gServer.listSaved (function (err, data) {
-    console.log ("err:", err);
-    console.log (data);
     function isPreviouslySaved (list, name) {
       var isPreviouslySaved = false;
       return list.some (function (elem, index, arr) {
@@ -190,23 +183,17 @@ gModalMenu.initSave = function () {
   })
 }
 
-gModalMenu.saveCancelled = function () {
-  gModalMenu.close ("confirm");
-}
-
-// done ()
+// done () - not used right now
 gModalMenu.save = function (done) {
   var name = gModalMenu.getSaveName ();
   gModalMenu.setSaveButton ("Saving...");
   gServer.save (name, function (err, data) {
     if (err) {
-      if (typeof err === "string") {
-        gErrorMenu.displayModalError ("save", err);
-        gModalMenu.setSaveButton ("Save");
-        setTimeout (function () {
-          gErrorMenu.clearModalErrors ();
-        }, 3000);
-      }
+      gErrorMenu.displayModalError ("save", "Failed to save");
+      setTimeout (function () {
+        gErrorMenu.clearModalErrors ();
+      }, 3000);
+      gModalMenu.setSaveButton ("Save");
       return;
     } else {
       gModalMenu.setSaveButton ("Saved!");
@@ -328,9 +315,10 @@ gModalMenu.setLoadButton = function (text) {
 };
 
 gModalMenu.loadFromModal = function () {
+  gErrorMenu.clearModalErrors ();
   var name = gModalMenu.getLoadName ();
   if (!name) {
-    gErrorMenu.displayModalError ("No automaton selected");
+    gErrorMenu.displayModalError ("load", "No automaton selected");
     setTimeout (function () {
       gErrorMenu.clearModalErrors ();
     }, 3000);
@@ -346,6 +334,7 @@ gModalMenu.loadFromModal = function () {
       setTimeout (function () {
         gErrorMenu.clearModalErrors ();
       }, 3000);
+      gModalMenu.setLoadButton ("Load");
     },
     function (automata) { // success
       gModalMenu.setLoadButton ("Success!");
@@ -489,7 +478,6 @@ gModalMenu.setProblemNumber = function (index) {
 
 gModalMenu.setPsetNumber = function (index) {
   d3.select (".pset").node ().selectedIndex = index;
-  gModalMenu.changeNumbers ();
 };
 
 gModalMenu.setSubmitButton = function (text) {

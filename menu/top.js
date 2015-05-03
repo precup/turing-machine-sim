@@ -65,13 +65,15 @@ gTopMenu.loadFromServer = function () {
   
   gServer.listSaved (function (err, data) {
     if (err) {
-      gErrorMenu.displayModalError ("load", "Load failed");
-      setTimeout (function () {
-        gErrorMenu.clearModalErrors ();
-      }, 3000);
+      gErrorMenu.displayModalError ("load", "Could not gather saved automata...");
       d3.select (".load")
         .selectAll ("li")
         .remove ();
+      setTimeout (function () {
+        gErrorMenu.clearModalErrors ();
+      }, 3000);
+      
+      return;
     }
     else {
       var names = [];

@@ -53,6 +53,13 @@
           if (d3.select ("p.error").size () == 0) {
             addError ("Could not connect to server");
           }
+          d3.select (".problem")
+            .selectAll ("li")
+            .remove ();
+          d3.select (".problem")
+            .append ("li")
+            .classed ("load-nothing", true)
+            .text ("Could not connect to server");
           d3.select (".saved")
             .append ("li")
             .classed ("load-nothing", true)
