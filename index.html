@@ -42,6 +42,7 @@
       }
 
       function setupSaved (names) {
+        console.log (names); 
         var savedSelect = d3.select (".saved").selectAll ("li").data (names);
 
         savedSelect.enter ()

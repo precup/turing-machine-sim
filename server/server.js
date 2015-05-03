@@ -37,7 +37,7 @@ gServer.load = function (selected, whileRunning, error_callback, success, done) 
   var get_url = "/api/loadFromSaved.php" + "?name=" + selected;
   d3.xhr (gServer.url_prefix + get_url)
     .header ("Content-Type", "application/json")
-    .get (function(err, res) {
+    .get (function (err, res) {
         if (err) {
           if (typeof error_callback === "function") error (err);
           return;
@@ -87,8 +87,8 @@ gServer.listSubmissions = function (callback) {
         callback (data, err);
 
         // example of accessing values in data:
-        // console.log(data[0]['pset_id']);
-        // console.log(data[0]['problem_id']);
+        // console.log (data[0]['pset_id']);
+        // console.log (data[0]['problem_id']);
       });
 };
 
@@ -103,28 +103,28 @@ gServer.loadSubmission = function (pset, problem, callback) {
     .get (
       function (err, rawData) {
         if (err) callback (err, null);
-        else callback (err, JSON.parse(rawData.response));
+        else callback (err, JSON.parse (rawData.response));
     });
 };
 
-// callback(err, data)
+// callback (err, data)
 gServer.listSaved = function (callback) {
   var listSaved_url = "/api/listSaved.php";
-  d3.xhr(gServer.url_prefix + listSaved_url)
-    .header("Content-Type", "application/json")
-    .get(function(err, data) {
+  d3.xhr (gServer.url_prefix + listSaved_url)
+    .header ("Content-Type", "application/json")
+    .get (function (err, data) {
       if (err) callback (err, null);
-      else callback (err, JSON.parse(data.response));
+      else callback (err, JSON.parse (data.response));
     });
 }
 
-// callback(sunetid)
+// callback (sunetid)
 gServer.getSunetid = function (callback) {
   var getSunetid_url = "/api/getSunetid.php";
-  d3.xhr(gServer.url_prefix + getSunetid_url)
-    .header("Content-Type", "application/json")
-    .get(function(err, data) {
+  d3.xhr (gServer.url_prefix + getSunetid_url)
+    .header ("Content-Type", "application/json")
+    .get (function (err, data) {
       if (err) callback (null)
-      else callback(data.response);
+      else callback (data.response);
     });
 };
