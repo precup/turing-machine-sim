@@ -202,6 +202,7 @@ gModalMenu.save = function (done) {
     if (err) {
       if (typeof err === "string") {
         gErrorMenu.displayModalError ("save", err);
+        gModalMenu.setSaveButton ("Save");
         setTimeout (function () {
           gErrorMenu.clearModalErrors ();
         }, 3000);
