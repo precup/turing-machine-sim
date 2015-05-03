@@ -243,7 +243,7 @@ gEdges.getEdgeLabel = function (transition) {
     } else {
       text = "Σ";
     }
-    if (transitions.indexOf(gEpsilon) != -1) {
+    if (transition.indexOf(gEpsilon) != -1) {
       text += " + " + gEpsilon;
     }
   }
