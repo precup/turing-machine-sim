@@ -31,8 +31,6 @@ d3.xhr (gServer.url_prefix + submit_url)
       }
     });
 */
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
 
 require_once("./db.php");
 $db = new DB();
