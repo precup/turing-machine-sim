@@ -7,6 +7,10 @@
   font-family: "San Francisco", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
+.gRekt {
+  fill: white;
+}
+
 html {
   width: 100%;
   height: 100%;
