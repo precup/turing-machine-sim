@@ -37,6 +37,5 @@ gErrorMenu.displayModalError = function (modal, message) {
 };
 
 gErrorMenu.clearModalErrors = function () {
-  console.log ("test");
   d3.selectAll (".modal-description.error").remove ();
 };
