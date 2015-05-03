@@ -103,10 +103,10 @@ gEdges.removeNode = function (node) {
   gEdges.edges = gEdges.edges.filter (function (edge) {
     return edge.source.id != node.id && edge.target.id != node.id;
   });
-  gEdges.edgeMap.forEach (function (sourceId) {
+  for (var sourceId in gEdges.edgeMap) {
     var index = gEdges.edgeMap[sourceId].indexOf(node.id);
     gEdges.edgeMap[sourceId].splice(index, 1);
-  });
+  };
   delete gEdges.edgeMap[node.id];
 };
 

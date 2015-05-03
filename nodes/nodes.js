@@ -105,7 +105,7 @@ gNodes.setAcceptByIndex = function (index, accept) {
 
 gNodes.removeByIndex = function (index) {
   if (gTape.follow != null && gTape.follow.id == gNodes.nodes[index].id) {
-    gTape.reset ();
+    gTestMenu.end ();
   }
   if (gNodes.initial != null && gNodes.initial.id == gNodes.nodes[index].id) {
     gNodes.initial = null;
