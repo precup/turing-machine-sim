@@ -27,11 +27,15 @@
         d3.select ('.pset')
           .on ("change", changeNumbers)
           .node ().selectedIndex = 0;
-        changeNumbers ();
+        
 
         gServer.listSubmissions (function (submit_names) {
-          console.log (submit_names);
           previous_submissions = submit_names;
+          d3.select (".problem")
+            .append ("li")
+            .classed ("load-nothing", true)
+            .html ("Loading...");
+          changeNumbers ();
         });
 
         gServer.listSaved (setupSaved);
@@ -54,7 +58,7 @@
           d3.select (".saved")
             .append ("li")
             .classed ("load-nothing", true)
-            .html ("<p class='modal-description'>Nothing's been saved yet</p>");
+            .html ("Nothing's been saved yet");
         }
       }
 

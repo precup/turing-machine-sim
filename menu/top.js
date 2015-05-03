@@ -58,6 +58,8 @@ gTopMenu.forcedDirectedLayout = function () {
 
 gTopMenu.loadFromServer = function () {
   gModalMenu.open("load");
+  gModalMenu.setLoadMessage ("Gathering saved automata...");
+  
   gServer.listSaved (function (data) {
     var names = [];
     data.forEach(function(elem, index, arr) {
