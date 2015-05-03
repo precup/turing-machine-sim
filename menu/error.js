@@ -28,4 +28,15 @@ gErrorMenu.displayError = function (message) {
 };
 
 gErrorMenu.displayModalError = function (modal, message) {
+    d3.select ("." + modal)
+      .select (".modal-content")
+      .insert ("p", ":first-child")
+      .classed ("modal-description", true)
+      .classed ("error", true)
+      .text (message);
+};
+
+gErrorMenu.clearModalErrors = function () {
+  console.log ("test");
+  d3.selectAll (".modal-description.error").remove ();
 };

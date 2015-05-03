@@ -5,6 +5,7 @@ var gModalMenu =
   };
 
 gModalMenu.open = function (type) {
+  gErrorMenu.clearModalErrors ();
   gModalMenu.currentType = type;
   d3.select ("." + type).style ('display', 'inline');
   d3.select ('.overlay').style ('display', 'inline');
