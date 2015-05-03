@@ -1,4 +1,4 @@
-// TODO: Get actual text bounding box
+﻿// TODO: Get actual text bounding box
 // TODO: Shorten edges so the triangle isn't cut off
 
 var gEdges =
@@ -169,16 +169,7 @@ gEdges.drawDOMEdges = function (lowerSelection, upperSelection) {
     
   tspans.enter ().append ("tspan");
   
-  tspans.text (function (transition) { 
-      var text = "";
-      transition.forEach (function (symbol) {
-        text += symbol + ", ";
-      });
-      if (text.length != 0) {
-        text = text.substring (0, text.length - 2);
-      }
-      return text;
-    })
+  tspans.text (gEdges.getEdgeLabel)
     .attr ("x", function (d, i2, i1) {
       var actualEdge;
       d3.select (this.parentNode).each (function (edge, i) {
@@ -220,6 +211,32 @@ gEdges.draw = function () {
 gEdges.areConnected = function (sourceId, targetId) {
   return (gEdges.endNode != null && sourceId == gEdges.startNode.id && targetId == gEdges.endNode.id) ||
     (gEdges.edgeMap[sourceId] && gEdges.edgeMap[sourceId].indexOf(targetId) > -1);
+};
+
+gEdges.getEdgeLabel = function (transition) { 
+  var charSet = gGraph.charSet + (gGraph.epsilonEnabled ? gEpsilon : "");
+  var text = "";
+  if (charSet.length / 2 >= transition.length) {
+    transition.forEach (function (symbol) {
+      text += symbol + ", ";
+    });
+    if (text.length != 0) {
+      text = text.substring (0, text.length - 2);
+    }
+  } else {
+    text = "Σ - ";
+    charSet.split ("").forEach (function (symbol) {
+      if (transition.indexOf (symbol) == -1) {
+        text += symbol + ", ";
+      }
+    });
+    if (text.length != 6) {
+      text = text.substring (0, text.length - 2);
+    } else {
+      text = "Σ";
+    }
+  }
+  return text;
 };
 
 gEdges.getEdgeId = function (edge) {

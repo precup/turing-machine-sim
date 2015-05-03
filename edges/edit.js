@@ -46,15 +46,19 @@ gEdges.deleteEditedEdge = function () {
 gEdges.editComplete = function () {
   var chars = removeDuplicates (gModalMenu.getEdgeCharacters ().replace (/[\s,]/g, ""));
   var legal = intersection (gGraph.charSet, chars);
-  if (legal.length != chars.length) {
-    gErrorMenu.displayError ("Ignoring characters that aren't in the alphabet.");
-  }
   chars = legal;
   gModalMenu.setEdgeChars (legal);
   chars += (gModalMenu.getEpsilon () ? gEpsilon : "");
 
+  if (legal.length != chars.length) {
+    if (chars.length == 0) {
+      gErrorMenu.displayModalError ("edgeEntry", "Ignoring characters that aren't in the alphabet.");
+    } else {
+      gErrorMenu.displayError ("Ignoring characters that aren't in the alphabet.");
+    }
+  } 
   if (chars.length == 0) {
-    gErrorMenu.displayError ("Transitions must take at least one character");
+    gErrorMenu.displayModalError ("edgeEntry", "Transitions must take at least one character");
     return;
   }
 
