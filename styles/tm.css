@@ -525,6 +525,10 @@ td {
   opacity: 0.6;
 }
 
+.confirm {
+  display: none;
+}
+
 .submit {
   display: none;
 }
