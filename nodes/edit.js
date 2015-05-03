@@ -1,11 +1,11 @@
 gNodes.editInit = function () {
   gNodes.editedNode = null;
-  
-  gBehaviors.addBehavior ("nodes", "dblclick", 
-    function () { 
+
+  gBehaviors.addBehavior ("nodes", "dblclick",
+    function () {
       return true;
     }, gNodes.editNode);
-  
+
   d3.select (".nodeName")
     .on ("keypress", function () {
       if (d3.event.keyCode == 13) {
@@ -26,10 +26,10 @@ gNodes.editNode = function (node) {
 gNodes.editComplete = function () {
   var name = gModalMenu.getNodeName ();
   if (name.replace (/\s/g, "").length == 0) {
-    gErrorMenu.displayError ("Node name cannot be blank.");
+    gErrorMenu.displayError ("State name cannot be blank.");
     return;
   }
-  
+
   var index = gNodes.getNodeIndexFromName (name);
   if (index == -1 || gNodes.nodes[index].id == gNodes.editedNode.id) {
     gNodes.editedNode.accept = gModalMenu.getAccepting ();
@@ -43,6 +43,6 @@ gNodes.editComplete = function () {
     gModalMenu.close ("nodeEntry");
     gGraph.draw ();
   } else {
-    gErrorMenu.displayError ("Node name \"" + name + "\" is already in use.");
+    gErrorMenu.displayError ("State name \"" + name + "\" is already in use.");
   }
 };
