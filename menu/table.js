@@ -1,16 +1,16 @@
 var gTableMenu =
   {
   };
-  
+
 gTableMenu.updateAll = function () {
   var charSet = gGraph.charSet;
   if (gGraph.epsilonEnabled) {
     charSet += gEpsilon;
   }
   charSet = charSet.split("");
-  
+
   gEdges.edges = [];
-  
+
   var map = [];
   gNodes.nodes.forEach (function (node) {
     gEdges.edgeMap[node.id] = [];
@@ -20,7 +20,7 @@ gTableMenu.updateAll = function () {
     });
     map.push (arr);
   });
-  
+
   var extraNames = false;
   var badNames = false;
   d3.selectAll ("input.gridInput")
@@ -50,7 +50,7 @@ gTableMenu.updateAll = function () {
   if (badNames) {
     gErrorMenu.displayError ("Some nodes entered in the table could not be found, ignoring them");
   }
-    
+
   map.forEach (function (row, i1) {
     row.forEach (function (transitions, i2) {
       if (transitions == "") {
@@ -65,43 +65,44 @@ gTableMenu.updateAll = function () {
     });
   });
 };
-  
+
 gTableMenu.draw = function () {
   var charSet = gGraph.charSet;
   if (gGraph.epsilonEnabled) {
     charSet += gEpsilon;
   }
   charSet = charSet.split("");
-  
+
   d3.select (".tableEditor").selectAll ("tr").remove ();
   var table = d3.select (".tableEditor").selectAll ("tr").data (gNodes.nodes);
   table.enter ().append ("tr");
-    
+
   var rows = table.selectAll ("td").data (charSet);
-  
+
   rows.enter ()
     .append ("td")
     .append ("input")
     .attr ("type", "text")
     .attr ("size", "10")
+    .attr ("placeholder", "go to")
     .classed ("gridInput", true)
     .each (function (character, i2, i1) {
       this.character = character;
       this.i1 = i1;
     });
-    
-    
+
+
   rows.select ("input")
     .attr ("value", function (character, i2, i1) {
       return gTableMenu.getConnections (gNodes.nodes[i1].id, character);
     })
     .on ("blur", function () {
-      gTableMenu.updateAll (); 
+      gTableMenu.updateAll ();
       gTableMenu.draw ();
     });
-    
+
   rows.exit ().remove ();
-  
+
   table.insert ("td", "td")
     .append ("input")
     .attr ("type", "checkbox")
@@ -113,7 +114,7 @@ gTableMenu.draw = function () {
       gNodes.setAcceptByIndex (i, this.checked);
       gGraph.draw ();
     });
-    
+
   table.insert ("td", "td")
     .append ("input")
     .attr ("type", "radio")
@@ -129,12 +130,12 @@ gTableMenu.draw = function () {
       }
       gGraph.draw ();
     });
-    
+
   table.insert ("td", "td")
     .text (function (node) {
       return node.name;
     });
-    
+
   table.append ("td", "td")
     .append ("button")
     .on ("click", function (node, i) {
@@ -142,21 +143,21 @@ gTableMenu.draw = function () {
       gGraph.draw ();
     })
     .text ("X");
-    
+
   table.exit ()
     .remove ();
 
   var header = d3.select (".tableEditor").insert("tr", "tr").selectAll ("td").data (charSet);
-  
+
   header.enter ()
     .append ("td");
-  
+
   header.text (function (inputChar) {
       return inputChar;
     });
-  
+
   header.exit ().remove ();
-  
+
   var headerTr = d3.select (".tableEditor").select("tr");
   headerTr.insert ("td", "td").text ("Accepts");
   headerTr.insert ("td", "td").text ("Initial");

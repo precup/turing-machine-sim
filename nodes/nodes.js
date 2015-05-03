@@ -4,19 +4,13 @@ var gNodes =
     RADIUS: 30,
     INNER_RADIUS: 24,
     STROKE_WIDTH: 2,
-    MIN_NEW_X: 100,
-    MIN_NEW_Y: 100,
-    MAX_NEW_X: 700,
-    MAX_NEW_Y: 300,
+    NEW_BUFFER: 100,
     NEW_INCREMENT: 100
   };
 
 gNodes.init = function () {
   gNodes.lowerG = d3.select ("g.nodesLower");
   gNodes.upperG = d3.select ("g.nodes");
-  
-  gNodes.newNodeX = gNodes.MIN_NEW_X;
-  gNodes.newNodeY = gNodes.MIN_NEW_Y;
   
   gNodes.nextId = 0;
   gNodes.nodes = [];
@@ -53,20 +47,30 @@ gNodes.setRejecting = function (rejecting) {
   });
 };
 
+gNodes.wouldOverlap = function (x, y) {
+  var overlaps = false;
+  gNodes.nodes.forEach (function (node) {
+    overlaps |= dist (x, y, node.x, node.y) <= gNodes.RADIUS * 2;
+  });
+  return overlaps;
+}
+
 gNodes.addNode = function (x, y) {
   var node = {};
   
   if (typeof x === "undefined") {
-    node.x = gNodes.newNodeX;
-    node.y = gNodes.newNodeY;
-    gNodes.newNodeX += gNodes.NEW_INCREMENT;
-    if (gNodes.newNodeX > gNodes.MAX_NEW_X) {
-      gNodes.newNodeX = gNodes.MIN_NEW_X;
-      gNodes.newNodeY += gNodes.NEW_INCREMENT;
-      if (gNodes.newNodeY > gNodes.MAX_NEW_Y) {
-        gNodes.newNodeY = gNodes.MIN_NEW_Y;
+    var foundPosition = false;
+    for (node.y = gNodes.NEW_BUFFER; 
+         node.y <= gGraph.height - gNodes.NEW_BUFFER && !foundPosition; 
+         node.y += gNodes.NEW_INCREMENT) {
+      for (node.x = gNodes.NEW_BUFFER; 
+           node.x <= gGraph.width - gNodes.NEW_BUFFER && !foundPosition; 
+           node.x += gNodes.NEW_INCREMENT) {
+        foundPosition = !gNodes.wouldOverlap (node.x, node.y);
       }
     }
+    node.x -= gNodes.NEW_INCREMENT;
+    node.y -= gNodes.NEW_INCREMENT;
   } else {
     node.x = x;
     node.y = y;
@@ -79,7 +83,8 @@ gNodes.addNode = function (x, y) {
   node.name = "n" + node.id;
   node.accept = false;
   node.reject = false;
-  node.selected = false;
+  node.selected = true;
+  gNodes.deselectAll ();
   
   gNodes.nodes.push (node); 
   

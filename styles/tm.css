@@ -1,10 +1,10 @@
 @font-face {
-    font-family: "San Francisco";
-    src: url("sf.otf");
+  font-family: "San Francisco";
+  src: url("sf.otf");
 }
 
 * {
-  font-family: "San Francisco";
+  font-family: "San Francisco", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 html {
@@ -106,7 +106,7 @@ body {
   float: right;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 3px;
-  transition: .2s background-color ease;
+  transition: .1s ease;
 }
 
 .tape-bar button:hover {
@@ -307,7 +307,7 @@ textarea {
 }
 
 .char-options {
-  padding: 0px 10px;
+  padding: 0px 10px 16px 10px;
 }
 
 .popup {
@@ -349,6 +349,14 @@ body {
   border-bottom: 1px solid rgb(223, 223, 223);
   height: 50px;
   box-sizing: border-box;
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  z-index: 9;
+}
+
+.menu-secondary {
+  top: 50px;
 }
 
 .left {
@@ -386,16 +394,29 @@ body {
   top: 10px;
   text-align: center;
   line-height: 30px;
-  position: absolute;
+  position: fixed;
+  top: 110px;
 }
 
-.error {
+.error, .run-finished {
   text-wrap: none;
   background-color: #A44242;
-  color: #fff;
+  color: #fff !important;
   border-radius: 4px;
   padding: 4px 10px;
   margin: 4px;
+}
+
+.run-finished {
+  background-color: rgb(77, 77, 77);
+}
+
+.accepted {
+  background: rgb(66, 184, 23);
+}
+
+.rejected {
+  background-color: rgb(77, 77, 77);
 }
 
 .menu button, .popup button, .popupRight button {
@@ -430,7 +451,9 @@ button.button-primary:hover {
 }
 
 .marked {
-  background-color: #6fa1cd !important;
+  background-color: #D2E7F5 !important;
+  border: 1px solid #307FB2 !important;
+  color: #307FB2 !important;
 }
 
 #selectedText {
@@ -470,7 +493,7 @@ td {
 
 .modal-content {
   background: rgb(247, 247, 247);
-  max-height: 400px;
+  max-height: 300px;
   overflow: scroll;
 }
 
@@ -522,7 +545,7 @@ td {
   line-height: 20px;
   text-align: center;
   margin: 12px 12px 6px 12px;
-  opacity: 0.6;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .confirm {
@@ -559,4 +582,19 @@ td {
 
 .current-alphabet, .current-mode{
   color: black;
+}
+
+button.button-delete {
+  background-color: rgb(193, 77, 77);
+  color: #fff;
+  border: 0;
+  float: left;
+}
+
+button.button-delete:hover {
+  background-color: rgb(229, 103, 103);
+}
+
+.modal.overlay {
+  background-color: rgba(0, 0, 0, 0.1);
 }

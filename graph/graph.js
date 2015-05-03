@@ -67,6 +67,7 @@ gGraph.init = function (pset, problem, charSet, mode) {
   
   gNodes.addNode ();
   gNodes.addNode ();
+  gNodes.deselectAll ();
   gGraph.draw ();
 }
 
