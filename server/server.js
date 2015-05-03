@@ -127,10 +127,14 @@ gServer.listSaved = function (callback) {
 // callback (sunetid)
 gServer.getSunetid = function (callback) {
   var getSunetid_url = "/api/getSunetid.php";
+  try {
   d3.xhr (gServer.url_prefix + getSunetid_url)
     .header ("Content-Type", "application/json")
     .get (function (err, data) {
       if (err) callback (null)
       else callback (data.response);
     });
+  } catch (err) {
+    console.error ("Could not connect to server");
+  }
 };

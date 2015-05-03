@@ -76,6 +76,7 @@ gEdges.setTempEdgeEnd = function (endNode) {
 };
 
 gEdges.addTempEdge = function (endNode) {
+  gEdges.endNode = null;
   gEdges.backupNode = null;
   gEdges.hideTempEdge ();
   var edge = gEdges.getEdge (gEdges.startNode, endNode);
