@@ -21,6 +21,9 @@ gTopMenu.setState = function (accepting, rejecting) {
 gTopMenu.deleteSelected = function () {
   if (gNodes.selectionIsEmpty () && gEdges.selectionIsEmpty ()) {
     gErrorMenu.displayError ("No states or transitions are selected");
+    setTimeout (function () {
+      gErrorMenu.clearModalErrors ();
+    }, 3000);
   }
   if (gNodes.removeNodes ()) {
     gEdges.deleteSelected ();
@@ -60,12 +63,23 @@ gTopMenu.loadFromServer = function () {
   gModalMenu.open("load");
   gModalMenu.setLoadMessage ("Gathering saved automata...");
   
-  gServer.listSaved (function (data) {
-    var names = [];
-    data.forEach(function(elem, index, arr) {
-      names.push(elem["name"]);
-    });
-    gModalMenu.setLoadNames (names);
+  gServer.listSaved (function (err, data) {
+    if (err) {
+      gErrorMenu.displayModalError ("load", "Load failed");
+      setTimeout (function () {
+        gErrorMenu.clearModalErrors ();
+      }, 3000);
+      d3.select (".load")
+        .selectAll ("li")
+        .remove ();
+    }
+    else {
+      var names = [];
+      data.forEach(function(elem, index, arr) {
+        names.push(elem["name"]);
+      });
+      gModalMenu.setLoadNames (names);
+    }
   });
 };
 

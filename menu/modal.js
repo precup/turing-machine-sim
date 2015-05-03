@@ -85,14 +85,18 @@ gModalMenu.submitToServer = function (done) {
   gServer.submit (automata, pset, problem,
     function (err) {
       if (err) {
-        gModalMenu.setSubmitButton ("Failed");
+        gErrorMenu.displayModalError ("submit", "Failed to submit");
+        setTimeout (function () {
+          gErrorMenu.clearModalErrors ();
+        }, 3000); 
+        return;
       } else {
         gModalMenu.setSubmitButton ("Success!");
-        setTimeout(function () {
-          gModalMenu.setSubmitButton ("Submit");
-          done ();
-        }, 1000);
       }
+      setTimeout(function () {
+        gModalMenu.setSubmitButton ("Submit");
+        done ();
+      }, 1000);
     }
   );
 }
@@ -130,6 +134,14 @@ gModalMenu.initSubmitToServer = function () {
   }
 
   gServer.listSubmissions (function (data, err) {
+    if (err) {
+      gErrorMenu.displayModalError ("submit", "Failed to submit");
+      gModalMenu.setSubmitButton ("Submit");
+      setTimeout (function () {
+        gErrorMenu.clearModalErrors ();
+      }, 3000);
+      return;
+    }
     if (isPreviouslySaved (data, pset, problem)) {
       gModalMenu.close ("submit");
       gModalMenu.open ("confirm");
@@ -145,12 +157,22 @@ gModalMenu.initSave = function () {
   gModalMenu.confirmFlag = "save";
 
   var name = gModalMenu.getSaveName ();
-  gServer.listSaved (function (data) {
+  gServer.listSaved (function (err, data) {
+    console.log ("err:", err);
+    console.log (data);
     function isPreviouslySaved (list, name) {
       var isPreviouslySaved = false;
       return list.some (function (elem, index, arr) {
         return elem["name"] === name;
       });
+    }
+    if (err) {
+      gErrorMenu.displayModalError ("save", "Save failed");
+      setTimeout (function () {
+        gErrorMenu.clearModalErrors ();
+        gModalMenu.setSubmitButton ("Submit");
+      }, 3000);
+      return;
     }
 
     if (isPreviouslySaved (data, name)) {
@@ -175,9 +197,12 @@ gModalMenu.save = function (done) {
   gServer.save (name, function (err, data) {
     if (err) {
       if (typeof err === "string") {
-        gErrorMenu.displayError (err);
+        gErrorMenu.displayModalError ("save", err);
+        setTimeout (function () {
+          gErrorMenu.clearModalErrors ();
+        }, 3000);
       }
-      gModalMenu.setSaveButton ("Failed");
+      return;
     } else {
       gModalMenu.setSaveButton ("Saved!");
     }
@@ -300,7 +325,10 @@ gModalMenu.setLoadButton = function (text) {
 gModalMenu.loadFromModal = function () {
   var name = gModalMenu.getLoadName ();
   if (!name) {
-    gErrorMenu.displayError ("No automaton selected");
+    gErrorMenu.displayModalError ("No automaton selected");
+    setTimeout (function () {
+      gErrorMenu.clearModalErrors ();
+    }, 3000);
     return;
   }
   gServer.load (
@@ -309,7 +337,10 @@ gModalMenu.loadFromModal = function () {
       gModalMenu.setLoadButton ("Loading...");
     },
     function (err) { // error
-      gModalMenu.setLoadButton ("Failed");
+      gErrorMenu.displayModalError ("load", "Failed to load");
+      setTimeout (function () {
+        gErrorMenu.clearModalErrors ();
+      }, 3000);
     },
     function (automata) { // success
       gModalMenu.setLoadButton ("Success!");
