@@ -1,6 +1,8 @@
 var gTestMenu =
   {
-    NUM_CELLS: 250
+    NUM_CELLS: 250,
+    DISPLAY_TIME: 4600,
+    FADE_OUT_TIME: 400
   };
 
 gTestMenu.init = function () {
