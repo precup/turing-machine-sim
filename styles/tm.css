@@ -58,7 +58,7 @@ body {
   border: none;
   width: auto;
   height: 30px;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .tape-char, .tape-char-input {
@@ -597,4 +597,9 @@ button.button-delete:hover {
 
 .modal.overlay {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+button[disabled], button[disabled]:hover, button[disabled]:focus, button[disabled]:active {
+  opacity: 0.3 !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
 }
