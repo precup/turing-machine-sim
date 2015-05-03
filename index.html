@@ -30,7 +30,7 @@
         
 
         gServer.listSubmissions (function (submit_names, err) {
-          if (typeof err == "object") {
+          if (err != null) {
             if (d3.select ("p.error").size () == 0) {
               addError ("Could not connect to server");
             }
@@ -49,7 +49,7 @@
       }
 
       function setupSaved (err, names) {
-        if (typeof err == "object") {
+        if (err != null) {
           if (d3.select ("p.error").size () == 0) {
             addError ("Could not connect to server");
           }
