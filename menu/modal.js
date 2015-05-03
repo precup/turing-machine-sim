@@ -21,6 +21,7 @@ gModalMenu.closeCurrent = function () {
 };
 
 gModalMenu.submit = function (type) {
+  gErrorMenu.clearModalErrors ();
   switch (type) {
     case "edgeEntry":
       gEdges.editComplete ();
@@ -239,6 +240,10 @@ gModalMenu.getAccepting = function () {
 
 gModalMenu.getRejecting = function () {
   return d3.select (".modalNeitherButton").classed ("marked");
+};
+
+gModalMenu.deleteNode = function () {
+  gNodes.deleteEdited ();
 };
 
 gModalMenu.getSaveName = function () {
