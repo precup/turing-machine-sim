@@ -89,9 +89,8 @@ gServer.listSubmissions = function (callback) {
       });
 };
 
-gServer.loadSubmission = function () {
-  var pset = 1; // TODO
-  var problem = 1; // TODO
+// callback (err, data)
+gServer.loadSubmission = function (pset, problem, callback) {
 
   var loadFromSubmissions_url = "/api/loadFromSubmissions.php";
   var full_url = gServer.url_prefix + loadFromSubmissions_url + "?problem=" + problem + "&pset=" + pset;
@@ -100,16 +99,7 @@ gServer.loadSubmission = function () {
     .header ("Content-Type", "application/json")
     .get (
       function (err, rawData) {
-        if (err) {
-        } else {
-
-          var data = JSON.parse(rawData.response);
-
-          var automata = JSON.parse(data[0].automata);
-
-          gGraph.load (automata);
-          gGraph.draw ();
-        }
+        callback (err, JSON.parse(rawData.response));
     });
 };
 
