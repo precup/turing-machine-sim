@@ -60,11 +60,7 @@ gSimulator.runTests = function () {
               return "-";
             } else {
               var correct = !((result.expected === gSimulator.ACCEPT) ^ result.accepted);
-              return "<div style='color: " + 
-                     (correct ? "#00D000" : "red") + 
-                     ";'>" +
-                     (correct ? "Y" : "N") +
-                     "</div>";
+              return correct ? "Y" : "N";
             }
         }
       });
