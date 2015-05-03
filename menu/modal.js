@@ -329,9 +329,7 @@ gModalMenu.initSubmit = function () {
 
 gModalMenu.changeNumbers = function () {
   var psetNum = d3.select ('.pset').node ().selectedIndex;
-  
   var problemSelect = d3.select (".problem").selectAll ("option").data (psets[psetNum].problems);
-  
   problemSelect.enter ().append ("option");
     
   problemSelect.attr ("value", function (problem) { return problem.charSet; })
@@ -361,7 +359,7 @@ gModalMenu.buildRow = function (focus) {
   row.append ("td")
     .append ("input")
     .attr ("type", "text")
-    .classed ("gridInput bulkInput", true)
+    .classed ("bulkInput", true)
     .each (function () {
       if (focus) {
         this.focus ();
