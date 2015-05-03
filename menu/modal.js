@@ -11,7 +11,6 @@ gModalMenu.open = function (type) {
 }
 
 gModalMenu.close = function (type) {
-  gErrorMenu.clearModalErrors ();
   d3.select ("." + type).style ('display', 'none');
   d3.select ('.overlay').style ('display', 'none');
 };
@@ -21,7 +20,6 @@ gModalMenu.closeCurrent = function () {
 };
 
 gModalMenu.submit = function (type) {
-  gErrorMenu.clearModalErrors ();
   switch (type) {
     case "edgeEntry":
       gEdges.editComplete ();
@@ -241,11 +239,6 @@ gModalMenu.getRejecting = function () {
   return d3.select (".modalNeitherButton").classed ("marked");
 };
 
-gModalMenu.deleteNode = function () {
-  gErrorMenu.clearModalErrors ();
-  gNodes.deleteEdited ();
-};
-
 gModalMenu.getSaveName = function () {
   return d3.select (".saveText").node ().value;
 };
@@ -297,6 +290,10 @@ gModalMenu.setLoadButton = function (text) {
 
 gModalMenu.loadFromModal = function () {
   var name = gModalMenu.getLoadName ();
+  if (!name) {
+    gErrorMenu.displayError ("No automaton selected");
+    return;
+  }
   gServer.load (
     name,
     function () { // whileRunning
