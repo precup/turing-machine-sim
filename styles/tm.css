@@ -58,7 +58,8 @@ body {
   border: none;
   width: auto;
   height: 30px;
-  overflow: scroll;
+  overflow-x: scroll;
+  white-space:nowrap;
 }
 
 .tape-char, .tape-char-input {
@@ -494,7 +495,7 @@ td {
 .modal-content {
   background: rgb(247, 247, 247);
   max-height: 300px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .modal-content ul {
