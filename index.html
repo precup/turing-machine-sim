@@ -63,7 +63,7 @@
       }
 
       function loadSubmission (pset, problem) {
-        window.location = getURLParent () + "submit_pset=" + pset + "&submit_problem=" + problem;
+        window.location = getURLParent () + "tm.html?submit_pset=" + pset + "&submit_problem=" + problem;
       }
 
       function changeNumbers () {
@@ -83,24 +83,19 @@
           .on ("click", function (junk, i) {
             createPset (i);
           })
+          .text (function (problem) { return problem.name; })
           .filter (function (junk, i) {
             if (previous_submissions) {
-              var is = isSubmitted (psetNum, i, previous_submissions);
-              console.log (is);
-              return is;
+              return isSubmitted (psetNum, i, previous_submissions);
             }
-            console.log ("false");
             return false;
           })
           .on ("click", function (junk, i) {
             loadSubmission (psetNum, i);
           })
-          .text (function (problem) { return problem.name; })
           .append ("span")
           .classed ("submitted", true)
           .text ("SUBMITTED");
-
-        problemSelect.exit ().remove ();
       }
 
       function createPset (problemNum) {
