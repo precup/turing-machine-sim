@@ -2,18 +2,16 @@ var gServer = {};
 
 gServer.url_prefix = "/class/cs103/cgi-bin/restricted_copy";
 
-gServer.name = "automata";
+gServer.name = "automaton";
 
-gServer.save = function () {
-  var name = gModalMenu.getSaveName();
-
-  if (name.replace (/\s/g, "").length == 0) {
-    gErrorMenu.displayError ("Automaton name cannot be blank");
+// callback (err, data)
+gServer.save = function (name, callback) {
+  if (name.replace (/\s/g, "").length === 0) {
+    callback ("Automaton name cannot be blank", null);
     return;
   }
   gServer.name = name;
   var save_url = "/api/save.php";
-  gModalMenu.setSaveButton ("Saving...");
   var stringGraph = JSON.stringify (gGraph.save ());
 
   var pack = {
@@ -26,15 +24,7 @@ gServer.save = function () {
     .post (
       JSON.stringify (pack),
       function (err, rawData) {
-        if (err) {
-          gModalMenu.setSaveButton ("Failed");
-        } else {
-          gModalMenu.setSaveButton ("Saved!");
-        }
-        window.setTimeout(function () {
-          gModalMenu.setSaveButton ("Save"); // return to original
-          gModalMenu.close("save");
-        }, 1000);
+        callback (err, rawData);
       }
     );
 };
@@ -42,7 +32,6 @@ gServer.save = function () {
 // whileRunning (), error (err), done ()
 gServer.load = function (selected, whileRunning, error_callback, success, done) {
   if (typeof whileRunning === "function") whileRunning ();
-  console.log ("loading", selected);
 
   var get_url = "/api/loadFromSaved.php" + "?name=" + selected;
   d3.xhr (gServer.url_prefix + get_url)
@@ -61,19 +50,16 @@ gServer.load = function (selected, whileRunning, error_callback, success, done) 
       });
 };
 
-gServer.submit = function () {
+// callback (err)
+gServer.submit = function (automata, pset, problem, callback) {
   var submit_url = "/api/submit.php";
-  gModalMenu.setSubmitButton ("Submitting...");
-
-  var automata = JSON.stringify (gGraph.save ());
-  var pset = gModalMenu.getPsetNumber();
-  var problem = gModalMenu.getProblemNumber();
 
   var pack = {
     automata: automata,
     pset: pset,
     problem: problem
   };
+<<<<<<< HEAD
 
   gServer.listSubmissions(function (data) {
     var isOverwrite = false;
@@ -82,55 +68,44 @@ gServer.submit = function () {
         isOverwrite = true;
       }
     });
-
-    if (isOverwrite) {
-      // Check if the user wants to overwrite previous submission.
-    }
+=======
+>>>>>>> a67d98b1e423a9ca7fce5c2e53efd1022ddb69cd
 
 
-    d3.xhr (gServer.url_prefix + submit_url)
-      .header ("Content-Type", "application/json")
-      .post (
-        JSON.stringify (pack),
-        function (err, rawData) {
-          if (err) {
-            gModalMenu.setSubmitButton ("Failed");
-            console.log (err);
-          } else {
-            console.log (rawData);
-            gModalMenu.setSubmitButton ("Success!");
-            setTimeout(function () {
-              gModalMenu.setSubmitButton ("Submit");
-              gModalMenu.close ("submit");
-            }, 1000);
-          }
-        });
-  });
+  var packed = JSON.stringify (pack);
+
+  d3.xhr (gServer.url_prefix + submit_url)
+    .header ("Content-Type", "application/json")
+    .post (
+      packed,
+      function (err, rawData) {
+        callback (err);
+      }
+    );
 };
 
-// callback (data)
+// callback (data, err)
 gServer.listSubmissions = function (callback) {
   var listSubmissions_url = "/api/listSubmissions.php";
-
-  var empty = [];
-  callback (empty);
-  return;
 
   d3.xhr (gServer.url_prefix + listSubmissions_url)
     .header ("Content-Type", "application/json")
     .get (
       function (err, rawData) {
+<<<<<<< HEAD
         if (err) {
           console.log (err);
         } else {
           console.log (rawData);
           var data = JSON.parse (rawData.response);
           callback (data);
+=======
+        callback (JSON.parse (rawData.response), err);
+>>>>>>> a67d98b1e423a9ca7fce5c2e53efd1022ddb69cd
 
-          // example of accessing values in data:
-          // console.log(data[0]['pset_id']);
-          // console.log(data[0]['problem_id']);
-        }
+        // example of accessing values in data:
+        // console.log(data[0]['pset_id']);
+        // console.log(data[0]['problem_id']);
       });
 };
 
@@ -146,9 +121,13 @@ gServer.loadSubmission = function () {
     .get (
       function (err, rawData) {
         if (err) {
+<<<<<<< HEAD
           console.log(err);
         } else {
           console.log(rawData);
+=======
+        } else {
+>>>>>>> a67d98b1e423a9ca7fce5c2e53efd1022ddb69cd
 
           var data = JSON.parse(rawData.response);
 

@@ -1,5 +1,6 @@
 var gModalMenu =
   {
+    confirmFlag: ""
   };
 
 gModalMenu.open = function (type) {
@@ -29,13 +30,17 @@ gModalMenu.submit = function (type) {
       gSimulator.runTests ();
       break;
     case "save":
-      gServer.save ();
+      // gServer.save ();
+      gModalMenu.initSave ();
       break;
     case "load":
       gModalMenu.loadFromModal ();
       break;
     case "submit":
-      gServer.submit ();
+      gModalMenu.initSubmitToServer ();
+      break;
+    case "confirm":
+      gModalMenu.confirm ();
       break;
     default:
       break;
@@ -47,10 +52,131 @@ gModalMenu.cancel = function (type) {
     case "edgeEntry":
       gEdges.editCancelled ();
       break;
+    case "submit":
+      gModalMenu.submitCancelled ();
+    case "save":
+      gModalMenu.saveCancelled ();
     default:
       gModalMenu.close (type);
       break;
   }
+}
+
+gModalMenu.confirm = function () {
+  if (gModalMenu.confirmFlag === "submit") {
+    gModalMenu.close ("confirm");
+    gModalMenu.open ("submit");
+    gModalMenu.submitToServer (function () {
+      gModalMenu.close ("submit");
+    });
+  } else if (gModalMenu.confirmFlag === "save") {
+    gModalMenu.close ("confirm");
+    gModalMenu.open ("save");
+    gModalMenu.save (function () {
+      gModalMenu.close ("save");
+    })
+  }
+}
+
+gModalMenu.submitToServer = function (done) {
+  var automata = JSON.stringify (gGraph.save ());
+  var pset = gModalMenu.getPsetNumber();
+  var problem = gModalMenu.getProblemNumber();
+  gServer.submit (automata, pset, problem,
+    function (err) {
+      if (err) {
+        gModalMenu.setSubmitButton ("Failed");
+      } else {
+        gModalMenu.setSubmitButton ("Success!");
+        setTimeout(function () {
+          gModalMenu.setSubmitButton ("Submit");
+          done ();
+        }, 1000);
+      }
+    }
+  );
+}
+
+gModalMenu.submitCancelled = function () {
+  gModalMenu.close ("confirm");
+}
+
+gModalMenu.initSubmitToServer = function () {
+  gModalMenu.confirmFlag = "submit";
+
+  var automata = JSON.stringify (gGraph.save ());
+  var pset = gModalMenu.getPsetNumber();
+  var problem = gModalMenu.getProblemNumber();
+
+  gModalMenu.setSubmitButton ("Submitting...");
+
+  function isPreviouslySaved (list, pset, problem) {
+    var isPreviouslySaved = false;
+    return list.some (function (elem, index, arr) {
+      var cur_pset_id = parseInt (elem["pset_id"]);
+      var cur_problem_id = parseInt (elem["problem_id"]);
+      return cur_pset_id === pset &&
+        cur_problem_id === problem;
+    });
+  }
+
+  gServer.listSubmissions (function (data, err) {
+    if (isPreviouslySaved (data, pset, problem)) {
+      gModalMenu.close ("submit");
+      gModalMenu.open ("confirm");
+    } else {
+      gModalMenu.submitToServer (function () {
+        gModalMenu.close ("submit");
+      });
+    }
+  });
+}
+
+gModalMenu.initSave = function () {
+  gModalMenu.confirmFlag = "save";
+
+  var name = gModalMenu.getSaveName ();
+  gServer.listSaved (function (data) {
+    function isPreviouslySaved (list, name) {
+      var isPreviouslySaved = false;
+      return list.some (function (elem, index, arr) {
+        return elem["name"] === name;
+      });
+    }
+
+    if (isPreviouslySaved (data, name)) {
+      gModalMenu.close ("save");
+      gModalMenu.open ("confirm");
+    } else {
+      gModalMenu.save (function () {
+        gModalMenu.close ("save");
+      });
+    }
+  })
+}
+
+gModalMenu.saveCancelled = function () {
+  gModalMenu.close ("confirm");
+}
+
+// done ()
+gModalMenu.save = function (done) {
+  var name = gModalMenu.getSaveName ();
+  gModalMenu.setSaveButton ("Saving...");
+  gServer.save (name, function (err, data) {
+    if (err) {
+      if (typeof err === "string") {
+        gErrorMenu.displayError (err);
+      }
+      gModalMenu.setSaveButton ("Failed");
+    } else {
+      gModalMenu.setSaveButton ("Saved!");
+    }
+    window.setTimeout(function () {
+      gModalMenu.setSaveButton ("Save"); // return to original
+      gModalMenu.close("save");
+    }, 1000);
+  });
 }
 
 gModalMenu.getEpsilon = function () {
