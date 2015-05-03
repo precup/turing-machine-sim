@@ -26,7 +26,7 @@ gNodes.editNode = function (node) {
 gNodes.editComplete = function () {
   var name = gModalMenu.getNodeName ();
   if (name.replace (/\s/g, "").length == 0) {
-    gErrorMenu.displayError ("State name cannot be blank.");
+    gErrorMenu.displayModalError ("nodeEntry", "State name cannot be blank.");
     return;
   }
 
@@ -43,6 +43,6 @@ gNodes.editComplete = function () {
     gModalMenu.close ("nodeEntry");
     gGraph.draw ();
   } else {
-    gErrorMenu.displayError ("State name \"" + name + "\" is already in use.");
+    gErrorMenu.displayModalError ("nodeEntry", "State name \"" + name + "\" is already in use.");
   }
 };
