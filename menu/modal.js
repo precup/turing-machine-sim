@@ -93,6 +93,20 @@ gModalMenu.submitToServer = function (done) {
   var automata = JSON.stringify (gGraph.save ());
   var pset = gModalMenu.getPsetNumber();
   var problem = gModalMenu.getProblemNumber();
+  
+  if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "nfa") {
+    gErrorMenu.displayError ("This automaton is an NFA, but the problem requires a DFA.");
+    return;
+  }
+  if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "dfa") {
+    gErrorMenu.displayError ("This automaton is a DFA, but the problem requires an NFA.");
+    return;
+  }
+  if (psets[pset].problems[problem].charSet != gGraph.charSet) {
+    gErrorMenu.displayError ("The alphabet for this automaton doesn't match the alphabet for that problem.");
+    return;
+  }
+  
   gServer.submit (automata, pset, problem,
     function (err) {
       if (err) {
@@ -478,6 +492,7 @@ gModalMenu.setProblemNumber = function (index) {
 
 gModalMenu.setPsetNumber = function (index) {
   d3.select (".pset").node ().selectedIndex = index;
+  gModalMenu.changeNumbers ();
 };
 
 gModalMenu.setSubmitButton = function (text) {
