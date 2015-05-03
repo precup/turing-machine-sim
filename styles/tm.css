@@ -349,6 +349,14 @@ body {
   border-bottom: 1px solid rgb(223, 223, 223);
   height: 50px;
   box-sizing: border-box;
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  z-index: 9;
+}
+
+.menu-secondary {
+  top: 50px;
 }
 
 .left {
