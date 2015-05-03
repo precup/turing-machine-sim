@@ -117,8 +117,10 @@
       <button onclick="gTestMenu.run ()" class="nfa-hide nontable runButton">
         Start
       </button>
-      <div class="tape-field nfa-hide nontableblock">
-        <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
+      <div class="tape-field-wrapper">
+        <div class="tape-field nfa-hide nontableblock">
+          <input type="text" class="tape-char-input" name="tapeChar[]" onblur="gTestMenu.disallowInput ()"/>
+        </div>
       </div>
     </div>
     <div class="modal overlay">
