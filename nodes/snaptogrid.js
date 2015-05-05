@@ -13,7 +13,11 @@ gNodes.snapToGrid = function () {
   }
   
   var nodes = [];
+  var initial = -1;
   gNodes.nodes.forEach (function (node, i) {
+    if (gNodes.initial != null && gNodes.initial.id == node.id) {
+      initial = i;
+    }
     nodes.push ({ x: node.x, y: node.y, i: i });
   });
   

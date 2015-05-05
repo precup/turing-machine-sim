@@ -20,6 +20,10 @@ var gEdges =
     MOUSE_ARROW_OFFSET: 13
   };
   
+if (isIE) {
+  //gEdges.BIDIRECTIONAL_OFFSET = 12;
+}
+  
 gEdges.init = function () {  
   gEdges.lowerG = d3.select ("g.edgesLower");
   gEdges.upperG = d3.select ("g.edges");
@@ -200,6 +204,10 @@ gEdges.destroyDOMEdges = function (lowerSelection, upperSelection) {
 };
 
 gEdges.draw = function () {
+  if (isIE) {
+    gEdges.lowerG.selectAll ("path").remove ();
+    gEdges.upperG.selectAll ("g").remove ();
+  }
   var lowerEdges = gEdges.lowerG.selectAll ("path").data (gEdges.edges, gEdges.getEdgeId);
   var upperEdges = gEdges.upperG.selectAll ("g").data (gEdges.edges, gEdges.getEdgeId);
   
@@ -214,7 +222,7 @@ gEdges.areConnected = function (sourceId, targetId) {
 };
 
 gEdges.getEdgeLabel = function (transition) { 
-  var charSet = gGraph.charSet + (gGraph.epsilonEnabled ? gEpsilon : "");
+  var charSet = gGraph.charSet;
   var text = "";
   if (charSet.length / 2 >= transition.length) {
     transition.forEach (function (symbol) {
@@ -234,6 +242,9 @@ gEdges.getEdgeLabel = function (transition) {
       text = text.substring (0, text.length - 2);
     } else {
       text = "Σ";
+    }
+    if (transition.indexOf(gEpsilon) != -1) {
+      text += " + " + gEpsilon;
     }
   }
   return text;

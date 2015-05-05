@@ -30,16 +30,21 @@ gNodes.moveSelected = function (dx, dy) {
     gNodes.selectionY += dy;
   }
   
-  var upperG = d3.select ("g.nodes").selectAll ("g").filter (nodeIsSelected);
-  var lowerG = d3.select ("g.nodesLower").selectAll ("circle").filter (nodeIsSelected);
-  gNodes.drawDOMNodes (lowerG, upperG);
   
-  upperG = d3.select ("g.edges").selectAll ("g").filter (edgeIsSelected);
-  lowerG = d3.select ("g.edgesLower").selectAll ("path").filter (edgeIsSelected);
-  gEdges.drawDOMEdges (lowerG, upperG);
+  if (isIE) {
+    gGraph.draw ();
+  } else {
+    var upperG = d3.select ("g.nodes").selectAll ("g").filter (nodeIsSelected);
+    var lowerG = d3.select ("g.nodesLower").selectAll ("circle").filter (nodeIsSelected);
+    gNodes.drawDOMNodes (lowerG, upperG);
+    
+    upperG = d3.select ("g.edges").selectAll ("g").filter (edgeIsSelected);
+    lowerG = d3.select ("g.edgesLower").selectAll ("path").filter (edgeIsSelected);
+    gEdges.drawDOMEdges (lowerG, upperG);
   
-  gEdges.drawInitial ();
-  gTape.draw ();
+    gEdges.drawInitial ();
+    gTape.draw ();
+  }
 };
 
 gNodes.movementInit = function () {

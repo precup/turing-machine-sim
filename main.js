@@ -12,7 +12,7 @@ function run () {
     var submit_problem = parseInt (submit_problem);
     gServer.loadSubmission (submit_pset, submit_problem, function (err, data) {
       if (err) {
-        gErrorMenu.displayError ("Could not load submission");
+        gErrorMenu.displayError ("Could not connect to server; load failed", true);
       } else {
         var automata = JSON.parse(data[0]["automata"]);
         reload (automata);
@@ -24,7 +24,10 @@ function run () {
   } else {
     gServer.load (
       saved,
-      null, null,
+      null, 
+      function (err) {
+        gErrorMenu.displayError ("Could not connect to server; load failed", true);
+      },
       function (automata) {
         reload (automata);
       }, null);

@@ -21,6 +21,9 @@ gTopMenu.setState = function (accepting, rejecting) {
 gTopMenu.deleteSelected = function () {
   if (gNodes.selectionIsEmpty () && gEdges.selectionIsEmpty ()) {
     gErrorMenu.displayError ("No states or transitions are selected");
+    setTimeout (function () {
+      gErrorMenu.clearModalErrors ();
+    }, 3000);
   }
   if (gNodes.removeNodes ()) {
     gEdges.deleteSelected ();
@@ -60,12 +63,25 @@ gTopMenu.loadFromServer = function () {
   gModalMenu.open("load");
   gModalMenu.setLoadMessage ("Gathering saved automata...");
   
-  gServer.listSaved (function (data) {
-    var names = [];
-    data.forEach(function(elem, index, arr) {
-      names.push(elem["name"]);
-    });
-    gModalMenu.setLoadNames (names);
+  gServer.listSaved (function (err, data) {
+    if (err) {
+      gErrorMenu.displayModalError ("load", "Could not gather saved automata...");
+      d3.select (".load")
+        .selectAll ("li")
+        .remove ();
+      setTimeout (function () {
+        gErrorMenu.clearModalErrors ();
+      }, 3000);
+      
+      return;
+    }
+    else {
+      var names = [];
+      data.forEach(function(elem, index, arr) {
+        names.push(elem["name"]);
+      });
+      gModalMenu.setLoadNames (names);
+    }
   });
 };
 
@@ -75,11 +91,11 @@ gTopMenu.save = function () {
 };
 
 gTopMenu.submit = function () {
-  if (gGraph.problem != null) {
-    gModalMenu.setProblemNumber (gGraph.problem);
-  }
   if (gGraph.pset != null) {
     gModalMenu.setPsetNumber (gGraph.pset);
+  }
+  if (gGraph.problem != null) {
+    gModalMenu.setProblemNumber (gGraph.problem);
   }
   gModalMenu.open ("submit");
 };

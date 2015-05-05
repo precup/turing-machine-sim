@@ -5,7 +5,8 @@ var gNodes =
     INNER_RADIUS: 24,
     STROKE_WIDTH: 2,
     NEW_BUFFER: 100,
-    NEW_INCREMENT: 100
+    NEW_INCREMENT: 100,
+    IE_TEXT_OFFSET: 5
   };
 
 gNodes.init = function () {
@@ -288,7 +289,7 @@ gNodes.drawDOMNodes = function (lowerSelection, upperSelection) {
   upperSelection.select ("text")
     .text (function (d) { return d.name; })
     .attr ("x", function (d) { return d.x; })
-    .attr ("y", function (d) { return d.y; });
+    .attr ("y", function (d) { return d.y + (isIE ? gNodes.IE_TEXT_OFFSET : 0); });
 };
 
 gNodes.destroyDOMNodes = function (lowerSelection, upperSelection) {
@@ -297,6 +298,11 @@ gNodes.destroyDOMNodes = function (lowerSelection, upperSelection) {
 };
 
 gNodes.draw = function () {
+  if (isIE) {
+    gNodes.lowerG.selectAll ("circle").remove ();
+    gNodes.upperG.selectAll ("g").remove ();
+  }
+  
   var lowerNodes = gNodes.lowerG.selectAll ("circle").data (gNodes.nodes, function (d) { return d.id; });
   var upperNodes = gNodes.upperG.selectAll ("g").data (gNodes.nodes, function (d) { return d.id; });
 
