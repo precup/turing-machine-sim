@@ -148,7 +148,7 @@
           <p class="modal-description">
             NOTE: Saving does not submit.
           </p>
-          <input type="text" class="saveText" maxlength="30"></input>
+          <input type="text" class="saveText" maxlength="30" onkeypress="gModalMenu.submitOnEnter ('save')"></input>
         </div>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
@@ -204,7 +204,7 @@
           <table width="100%">
             <tr>
               <td class="popupLeft">Characters</td>
-              <td class="popupRight"><input type="text" class="edgeChars" size="20"></td>
+              <td class="popupRight"><input type="text" class="edgeChars" size="20" onkeypress="gModalMenu.submitOnEnter ('edgeEntry')"></td>
             </tr>
             <tr>
               <td>
@@ -279,7 +279,7 @@
           <table width="100%">
             <tr>
               <td class="popupLeft">Name</td>
-              <td class="popupRight"><input type="text" class="nodeName" maxlength="5"></td>
+              <td class="popupRight"><input type="text" class="nodeName" maxlength="5" onkeypress="gModalMenu.submitOnEnter ('nodeEntry')"></td>
             </tr>
             <tr>
               <td class="popupLeft">Start state</td>

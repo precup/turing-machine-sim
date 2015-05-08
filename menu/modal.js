@@ -20,7 +20,15 @@ gModalMenu.closeCurrent = function () {
   gModalMenu.cancel (gModalMenu.currentType);
 };
 
+// Commenting this out until we know if it's necessary @135
+gModalMenu.submitOnEnter = function (type) {
+  // if (d3.event.keyCode == 13) {
+    // gModalMenu.submit (type);
+  // }
+};
+
 gModalMenu.submit = function (type) {
+  gErrorMenu.clearModalErrors ();
   switch (type) {
     case "edgeEntry":
       gEdges.editComplete ();

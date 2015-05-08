@@ -28,58 +28,46 @@ gTape.run = function () {
   gTape.draw ();
 };
 
+gTape.drawResult = function (accepted) {
+  if (!gTape.done) {
+    d3.select (".errors")
+      .append ("span")
+      .text ("Run finished, " + (accepted ? "accept" : "reject") + "ing string \"" + gTape.input.join ("") + "\"")
+      .classed ("run-finished", true)
+      .classed ("accepting", accepted)
+      .classed ("rejecting", !accepted)
+      .transition ()
+      .delay (gTestMenu.DISPLAY_TIME)
+      .duration (gTestMenu.FADE_OUT_TIME)
+      .ease ("cubic")
+      .style ("opacity", 0)
+      .remove ();
+    gTape.done = true;
+  }
+};
+
 gTape.draw = function () {
+  var circle = d3.select (".tape").select ("circle");
   if (gTape.follow) {
-    d3.select (".tape")
-      .select ("circle")
+    circle.transition ()
+      .duration (circle.style ("opacity") == 1 ? 100 : 0)
       .attr ("cx", gTape.follow.x)
       .attr ("cy", gTape.follow.y)
       .style ("opacity", 1);
+      
     d3.select (".stepButton").text ("Step").node ().disabled = false;
     if (typeof gTape.current == "undefined" || (gTape.index == gTape.input.length && !gTape.current.accept)) {
-      d3.select (".tape")
-        .select ("circle")
-        .style ("stroke", "red");
+      circle.style ("stroke", "red");
       d3.select (".stepButton").text ("Completed").node ().disabled = true;
-      if (!gTape.done) {
-        d3.select (".errors")
-          .append ("span")
-          .text ("Run finished, rejecting string \"" + gTape.input.join ("") + "\"")
-          .classed ("run-finished", true)
-          .classed ("rejecting", true)
-          .transition ()
-          .delay (gTestMenu.DISPLAY_TIME)
-          .duration (gTestMenu.FADE_OUT_TIME)
-          .ease ("cubic")
-          .style ("opacity", 0)
-          .remove ();
-        gTape.done = true;
-      }
+      gTape.drawResult (false);
     }
     else if (gTape.index == gTape.input.length) {
-      d3.select (".tape")
-        .select ("circle")
-        .style ("stroke", "green");
+      circle.style ("stroke", "green");
       d3.select (".stepButton").text ("Completed").node ().disabled = true;
-      if (!gTape.done) {
-        d3.select (".errors")
-          .append ("span")
-          .text ("Run finished, accepting string \"" + gTape.input.join ("") + "\"")
-          .classed ("run-finished", true)
-          .classed ("accepting", true)
-          .transition ()
-          .delay (gTestMenu.DISPLAY_TIME)
-          .duration (gTestMenu.FADE_OUT_TIME)
-          .ease ("cubic")
-          .style ("opacity", 0)
-          .remove ();
-        gTape.done = true;
-      }
+      gTape.drawResult (true);
     }
   } else {
-    d3.select (".tape")
-      .select ("circle")
-      .style ("opacity", 0);
+    circle.style ("opacity", 0);
   }
   if (gTape.running && gTape.index <= gTape.input.length) {
     d3.selectAll (".tape-char")
