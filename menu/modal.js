@@ -258,6 +258,12 @@ gModalMenu.getEdgeCharacters = function () {
   return d3.select(".edgeChars").node().value;
 }
 
+gModalMenu.deleteEdge = function () {
+  gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
+  gGraph.draw ();
+  gModalMenu.close ("edgeEntry");
+};
+
 gModalMenu.getNodeName = function () {
   return d3.select (".nodeName").node ().value;
 };
