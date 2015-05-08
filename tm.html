@@ -204,13 +204,14 @@
           <table width="100%">
             <tr>
               <td class="popupLeft">Characters</td>
-              <td class="popupRight"><input type="text" class="edgeChars" size="20" onkeypress="gModalMenu.submitOnEnter ('edgeEntry')"></td>
+              <td class="popupRight"><input type="text" class="edgeChars" size="30" onkeypress="gModalMenu.submitOnEnter ('edgeEntry')"></td>
             </tr>
             <tr>
               <td>
               </td>
               <td class="popupRight char-options">
                 <button type="button" onclick="gModalMenu.addAllEdgeChars ()">Add All</button>
+                <button type="button" class="nfa-hide" onclick="gModalMenu.addRemainingEdgeChars ()">Add Remaining</button>
                 <button type="button" onclick="gModalMenu.invertEdgeChars ()">Invert</button>
               </td>
             </tr>
