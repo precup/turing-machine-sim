@@ -47,6 +47,7 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gTestMenu.init ();
   gModalMenu.initBulk ();
   gModalMenu.initSubmit ();
+  gTableMenu.init ();
   gGraph.initDelete ();
   gSimulator.init ();
   
