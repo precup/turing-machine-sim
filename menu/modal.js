@@ -8,7 +8,7 @@ gModalMenu.open = function (type) {
   gModalMenu.currentType = type;
   d3.select ("." + type).style ('display', 'inline');
   d3.select ('.overlay').style ('display', 'inline');
-}
+};
 
 gModalMenu.close = function (type) {
   gErrorMenu.clearModalErrors ();
@@ -20,7 +20,14 @@ gModalMenu.closeCurrent = function () {
   gModalMenu.cancel (gModalMenu.currentType);
 };
 
+gModalMenu.submitOnEnter = function (type) {
+  if (event.keyCode == 13) {
+    gModalMenu.submit (type);
+  }
+};
+
 gModalMenu.submit = function (type) {
+  gErrorMenu.clearModalErrors ();
   switch (type) {
     case "edgeEntry":
       gEdges.editComplete ();
@@ -46,7 +53,7 @@ gModalMenu.submit = function (type) {
     default:
       break;
   }
-}
+};
 
 gModalMenu.cancel = function (type) {
   switch (type) {
@@ -60,7 +67,7 @@ gModalMenu.cancel = function (type) {
       gModalMenu.close (type);
       break;
   }
-}
+};
 
 gModalMenu.confirm = function () {
   if (gModalMenu.confirmFlag === "submit") {
@@ -76,7 +83,7 @@ gModalMenu.confirm = function () {
       gModalMenu.close ("save");
     })
   }
-}
+};
 
 gModalMenu.confirmCancelled = function () {
   if (gModalMenu.confirmFlag === "submit") {
@@ -88,7 +95,7 @@ gModalMenu.confirmCancelled = function () {
     gModalMenu.close ("confirm");
     gModalMenu.setSaveButton ("Save");
   }
-}
+};
 
 gModalMenu.submitToServer = function (done) {
   var automata = JSON.stringify (gGraph.save ());
@@ -126,7 +133,7 @@ gModalMenu.submitToServer = function (done) {
       }, 1000);
     }
   );
-}
+};
 
 gModalMenu.initSubmitToServer = function () {
   gModalMenu.confirmFlag = "submit";
@@ -165,7 +172,7 @@ gModalMenu.initSubmitToServer = function () {
       });
     }
   });
-}
+};
 
 gModalMenu.initSave = function () {
   gModalMenu.confirmFlag = "save";
@@ -196,7 +203,7 @@ gModalMenu.initSave = function () {
       });
     }
   })
-}
+};
 
 // done () - not used right now
 gModalMenu.save = function (done) {
@@ -218,20 +225,20 @@ gModalMenu.save = function (done) {
       gModalMenu.close("save");
     }, 1000);
   });
-}
+};
 
 gModalMenu.getEpsilon = function () {
   return gGraph.mode == gGraph.NFA && d3.select(".epsilon").node().checked;
-}
+};
 
 gModalMenu.setEpsilon = function (included) {
   d3.select(".epsilon").node().checked = included;
-}
+};
 
 gModalMenu.addAllEdgeChars = function () {
   gModalMenu.setEdgeChars (gGraph.charSet);
   gModalMenu.setEpsilon (true);
-}
+};
 
 gModalMenu.invertEdgeChars = function () {
   var chars = gGraph.charSet;
@@ -241,15 +248,33 @@ gModalMenu.invertEdgeChars = function () {
   }
   gModalMenu.setEdgeChars (chars);
   gModalMenu.setEpsilon (!gModalMenu.getEpsilon ());
-}
+};
+
+gModalMenu.addRemainingEdgeChars = function () {
+  var missing = [];
+  var graph = gGraph.save ();
+  var table = gSimulator.convert (graph);
+  for (var character in table[gEdges.editedEdge.source.id]) {
+    if (table[gEdges.editedEdge.source.id][character].length == 0) {
+      missing.push (character);
+    }
+  }
+  gModalMenu.setEdgeChars (gModalMenu.getEdgeCharacters () + missing.join (""));
+};
 
 gModalMenu.setEdgeChars = function (chars) {
   d3.select(".edgeChars").node().value = chars;
-}
+};
 
 gModalMenu.getEdgeCharacters = function () {
   return d3.select(".edgeChars").node().value;
-}
+};
+
+gModalMenu.deleteEdge = function () {
+  gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
+  gGraph.draw ();
+  gModalMenu.close ("edgeEntry");
+};
 
 gModalMenu.getNodeName = function () {
   return d3.select (".nodeName").node ().value;

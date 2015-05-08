@@ -13,7 +13,6 @@ gNodes.init = function () {
   gNodes.lowerG = d3.select ("g.nodesLower");
   gNodes.upperG = d3.select ("g.nodes");
 
-  gNodes.nextId = 0;
   gNodes.nodes = [];
   gNodes.initial = null;
 
@@ -77,10 +76,11 @@ gNodes.addNode = function (x, y) {
     node.y = y;
   }
 
-  while (gNodes.getNodeIndexFromName ("n" + gNodes.nextId) != -1) {
-    gNodes.nextId++;
+  var nextId = 0;
+  while (gNodes.getNodeIndexFromName ("n" + nextId) != -1) {
+    nextId++;
   }
-  node.id = gNodes.nextId++;
+  node.id = nextId;
   node.name = "n" + node.id;
   node.accept = false;
   node.reject = false;

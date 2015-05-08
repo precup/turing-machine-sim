@@ -125,7 +125,7 @@
     </div>
     <div class="modal overlay">
 
-      <div class="load popup">
+      <div class="load popup" onkeypress="gModalMenu.submitOnEnter ('load')">
         <div class="modal-header">
           Load Automaton
         </div>
@@ -140,7 +140,7 @@
         </div>
       </div>
 
-      <div class="save popup">
+      <div class="save popup" onkeypress="gModalMenu.submitOnEnter ('save')">
         <div class="modal-header">
           Save As
         </div>
@@ -148,7 +148,7 @@
           <p class="modal-description">
             NOTE: Saving does not submit.
           </p>
-          <input type="text" class="saveText" maxlength="30"></input>
+          <input type="text" class="saveText" maxlength="30" onkeypress="gModalMenu.submitOnEnter ('save')"></input>
         </div>
         <div class="modal-buttons">
           <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
@@ -156,7 +156,7 @@
         </div>
       </div>
 
-      <div class="confirm popup">
+      <div class="confirm popup" onkeypress="gModalMenu.submitOnEnter ('confirm')">
         <div class="modal-header">
           Confirm
         </div>
@@ -196,7 +196,7 @@
         </div>
       </div>
 
-      <div class="edgeEntry popup">
+      <div class="edgeEntry popup" onkeypress="gModalMenu.submitOnEnter ('edgeEntry')">
         <div class="modal-header">
           Edit Transition
         </div>
@@ -204,13 +204,14 @@
           <table width="100%">
             <tr>
               <td class="popupLeft">Characters</td>
-              <td class="popupRight"><input type="text" class="edgeChars" size="20"></td>
+              <td class="popupRight"><input type="text" class="edgeChars" size="30" onkeypress="gModalMenu.submitOnEnter ('edgeEntry')"></td>
             </tr>
             <tr>
               <td>
               </td>
               <td class="popupRight char-options">
                 <button type="button" onclick="gModalMenu.addAllEdgeChars ()">Add All</button>
+                <button type="button" class="nfa-hide" onclick="gModalMenu.addRemainingEdgeChars ()">Add Remaining</button>
                 <button type="button" onclick="gModalMenu.invertEdgeChars ()">Invert</button>
               </td>
             </tr>
@@ -268,7 +269,7 @@
         </div>
       </div>
 
-      <div class="nodeEntry popup">
+      <div class="nodeEntry popup" onkeypress="gModalMenu.submitOnEnter ('nodeEntry')">
         <div class="modal-header">
           <span>Edit State</span>
         </div>
@@ -279,7 +280,7 @@
           <table width="100%">
             <tr>
               <td class="popupLeft">Name</td>
-              <td class="popupRight"><input type="text" class="nodeName" maxlength="5"></td>
+              <td class="popupRight"><input type="text" class="nodeName" maxlength="5" onkeypress="gModalMenu.submitOnEnter ('nodeEntry')"></td>
             </tr>
             <tr>
               <td class="popupLeft">Start state</td>

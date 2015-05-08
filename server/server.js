@@ -2,7 +2,7 @@ var gServer = {};
 
 gServer.url_prefix = "/class/cs103/cgi-bin/restricted_copy";
 
-gServer.name = "automaton";
+gServer.name = "";
 
 // callback (err, data)
 gServer.save = function (name, callback) {

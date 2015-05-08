@@ -43,7 +43,7 @@ gTableMenu.updateAll = function () {
         }
       });
     });
-   console.log (extraNames);
+    
   if (extraNames) {
     gErrorMenu.displayError ("Multiple transitions defined for one character, ignoring extras");
   }
@@ -66,6 +66,30 @@ gTableMenu.updateAll = function () {
   });
 };
 
+gTableMenu.init = function () {
+  var charSet = gGraph.charSet;
+  if (gGraph.epsilonEnabled) {
+    charSet += gEpsilon;
+  }
+  charSet = charSet.split("");
+  var header = d3.select (".tableEditor").insert("tr").selectAll ("td").data (charSet);
+
+  header.enter ()
+    .append ("td");
+
+  header.text (function (inputChar) {
+      return inputChar;
+    });
+
+  header.exit ().remove ();
+
+  var headerTr = d3.select (".tableEditor").select("tr");
+  headerTr.insert ("td", "td").text ("Accepts");
+  headerTr.insert ("td", "td").text ("Initial");
+  headerTr.insert ("td", "td").text ("");
+  headerTr.append ("td").text ("Delete");
+};
+
 gTableMenu.draw = function () {
   var charSet = gGraph.charSet;
   if (gGraph.epsilonEnabled) {
@@ -73,11 +97,53 @@ gTableMenu.draw = function () {
   }
   charSet = charSet.split("");
 
-  d3.select (".tableEditor").selectAll ("tr").remove ();
-  var table = d3.select (".tableEditor").selectAll ("tr").data (gNodes.nodes);
-  table.enter ().append ("tr");
+  var table = d3.select (".tableEditor")
+    .selectAll ("tr")
+    .filter (function (junk, i) { return i != 0; })
+    .data (gNodes.nodes);
+  var newRows = table.enter ().append ("tr");
 
-  var rows = table.selectAll ("td").data (charSet);
+  newRows.append ("td")
+    .text (function (node) {
+      return node.name;
+    });
+
+  newRows.append ("td")
+    .append ("input")
+    .attr ("type", "radio")
+    .classed ("initialBox", true)
+    .each (function (node) {
+      this.checked = gNodes.initial != null && gNodes.initial.id == node.id;
+    })
+    .on ("change", function (node, i) {
+      if (this.checked) {
+        gNodes.setInitialByIndex (i);
+      } else {
+        gNodes.clearInitial ();
+      }
+      gGraph.draw ();
+    });
+
+  newRows.append ("td")
+    .append ("input")
+    .attr ("type", "checkbox")
+    .classed ("acceptBox", true)
+    .each (function (node) {
+      this.checked = node.accept;
+    })
+    .on ("change", function (node, i) {
+      gNodes.setAcceptByIndex (i, this.checked);
+      gGraph.draw ();
+    });
+  
+  var rows = table.selectAll ("td")
+    .filter (function () {
+      return d3.select (this)
+        .select ("input")
+        .filter (function () { return this.type == "text"; })
+        .node () != null;
+    })
+    .data (charSet);
 
   rows.enter ()
     .append ("td")
@@ -103,40 +169,7 @@ gTableMenu.draw = function () {
 
   rows.exit ().remove ();
 
-  table.insert ("td", "td")
-    .append ("input")
-    .attr ("type", "checkbox")
-    .classed ("acceptBox", true)
-    .each (function (node) {
-      this.checked = node.accept;
-    })
-    .on ("change", function (node, i) {
-      gNodes.setAcceptByIndex (i, this.checked);
-      gGraph.draw ();
-    });
-
-  table.insert ("td", "td")
-    .append ("input")
-    .attr ("type", "radio")
-    .classed ("initialBox", true)
-    .each (function (node) {
-      this.checked = gNodes.initial != null && gNodes.initial.id == node.id;
-    })
-    .on ("change", function (node, i) {
-      if (this.checked) {
-        gNodes.setInitialByIndex (i);
-      } else {
-        gNodes.clearInitial ();
-      }
-      gGraph.draw ();
-    });
-
-  table.insert ("td", "td")
-    .text (function (node) {
-      return node.name;
-    });
-
-  table.append ("td", "td")
+  newRows.append ("td")
     .append ("button")
     .on ("click", function (node, i) {
       gNodes.removeByIndex (i);
@@ -146,23 +179,6 @@ gTableMenu.draw = function () {
 
   table.exit ()
     .remove ();
-
-  var header = d3.select (".tableEditor").insert("tr", "tr").selectAll ("td").data (charSet);
-
-  header.enter ()
-    .append ("td");
-
-  header.text (function (inputChar) {
-      return inputChar;
-    });
-
-  header.exit ().remove ();
-
-  var headerTr = d3.select (".tableEditor").select("tr");
-  headerTr.insert ("td", "td").text ("Accepts");
-  headerTr.insert ("td", "td").text ("Initial");
-  headerTr.insert ("td", "td").text ("");
-  headerTr.append ("td").text ("Delete");
 };
 
 gTableMenu.getConnections = function (source, character) {
