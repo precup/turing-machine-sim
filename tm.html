@@ -125,7 +125,7 @@
     </div>
     <div class="modal overlay">
 
-      <div class="load popup">
+      <div class="load popup" onkeypress="gModalMenu.submitOnEnter ('load')">
         <div class="modal-header">
           Load Automaton
         </div>
@@ -140,7 +140,7 @@
         </div>
       </div>
 
-      <div class="save popup">
+      <div class="save popup" onkeypress="gModalMenu.submitOnEnter ('save')">
         <div class="modal-header">
           Save As
         </div>
@@ -156,7 +156,7 @@
         </div>
       </div>
 
-      <div class="confirm popup">
+      <div class="confirm popup" onkeypress="gModalMenu.submitOnEnter ('confirm')">
         <div class="modal-header">
           Confirm
         </div>
@@ -196,7 +196,7 @@
         </div>
       </div>
 
-      <div class="edgeEntry popup">
+      <div class="edgeEntry popup" onkeypress="gModalMenu.submitOnEnter ('edgeEntry')">
         <div class="modal-header">
           Edit Transition
         </div>
@@ -268,7 +268,7 @@
         </div>
       </div>
 
-      <div class="nodeEntry popup">
+      <div class="nodeEntry popup" onkeypress="gModalMenu.submitOnEnter ('nodeEntry')">
         <div class="modal-header">
           <span>Edit State</span>
         </div>
