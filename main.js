@@ -24,13 +24,14 @@ function run () {
   } else {
     gServer.load (
       saved,
-      null, 
-      function (err) {
-        gErrorMenu.displayError ("Could not connect to server; load failed", true);
-      },
-      function (automata) {
+      null,
+      function (err, automata) {
+        if (err) {
+          gErrorMenu.displayError ("Could not connect to server; load failed", true);
+          return;
+        }
         reload (automata);
-      }, null);
+      });
   }
 }
 
