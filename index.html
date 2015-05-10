@@ -101,7 +101,7 @@
 
         function isSubmitted (pset, problem, previous_submissions) {
           return previous_submissions.some (function (elem, index, arr) {
-            return parseInt(elem.pset_id) === pset && 
+            return parseInt(elem.pset_id) === pset &&
               parseInt(elem.problem_id) === problem;
           });
         }

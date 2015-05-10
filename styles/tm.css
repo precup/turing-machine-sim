@@ -352,6 +352,11 @@ body {
 }
 
 .menu {
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  -o-user-select: none;
+  user-select: none;
   padding: 10px;
   color: rgb(83, 83, 83);
   background-color: #fff;
@@ -582,6 +587,11 @@ td {
 }
 
 .alphabet-bar {
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  -o-user-select: none;
+  user-select: none;
   position: fixed;
   bottom: 60px;
   width: 100%;

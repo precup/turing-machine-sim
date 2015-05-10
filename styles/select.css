@@ -145,7 +145,8 @@ li {
   color: rgb(103, 103, 103);
   list-style: none;
   margin: 0px;
-  padding: 0.8em 1em;
+  line-height: 50px;
+  padding: 0em 1em;
   border-bottom: 1px solid rgb(223, 223, 233);
 }
 
@@ -178,4 +179,5 @@ li:last-child {
 .load-nothing {
   opacity: 0.5;
   text-align: center;
+  pointer-events: none;
 }
