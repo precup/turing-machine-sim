@@ -54,6 +54,8 @@ gModalMenu.submit = function (type) {
   }
 };
 
+
+
 gModalMenu.cancel = function (type) {
   switch (type) {
     case "edgeEntry":
