@@ -178,7 +178,7 @@ gModalMenu.initSubmitToServer = function () {
 gModalMenu.initSave = function () {
   gModalMenu.confirmFlag = "save";
 
-  var name = gModalMenu.getSaveName ();
+  var name = encodeURIComponent(gModalMenu.getSaveName ());
   gServer.listSaved (function (err, data) {
     function isPreviouslySaved (list, name) {
       var isPreviouslySaved = false;
@@ -293,7 +293,7 @@ gModalMenu.getSaveName = function () {
 };
 
 gModalMenu.setSaveName = function (name) {
-  d3.select (".saveText").node ().value = name;
+  d3.select (".saveText").node ().value = decodeURIComponent (name);
 };
 
 gModalMenu.setSaveButton = function (text) {
@@ -330,7 +330,7 @@ gModalMenu.setLoadNames = function (names) {
 
 gModalMenu.getLoadName = function () {  
   var node = d3.select (".loadNames").select ("li.selected").node ();
-  return node == null ? null : d3.select (".loadNames").select ("li.selected").text ();
+  return node == null ? null : encodeURIComponent (d3.select (".loadNames").select ("li.selected").text ());
 };
 
 gModalMenu.setLoadButton = function (text) {
