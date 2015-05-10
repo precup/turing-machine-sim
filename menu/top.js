@@ -31,13 +31,13 @@ gTopMenu.deleteSelected = function () {
   }
 };
 
-gTopMenu.openLoadDialog = function () {
-  if (window.File) {
-    document.getElementById ("fileInput").click ();
-  } else {
-    alert ("Error: your browser doesn't support the File API.");
-  }
-};
+// gTopMenu.openLoadDialog = function () {
+//   if (window.File) {
+//     document.getElementById ("fileInput").click ();
+//   } else {
+//     alert ("Error: your browser doesn't support the File API.");
+//   }
+// };
 
 gTopMenu.setInitial = function () {
   if (gNodes.selectionIsEmpty ()) {
@@ -60,29 +60,8 @@ gTopMenu.forcedDirectedLayout = function () {
 };
 
 gTopMenu.loadFromServer = function () {
-  gModalMenu.open("load");
-  gModalMenu.setLoadMessage ("Gathering saved automata...");
-  
-  gServer.listSaved (function (err, data) {
-    if (err) {
-      gErrorMenu.displayModalError ("load", "Could not gather saved automata...");
-      d3.select (".load")
-        .selectAll ("li")
-        .remove ();
-      setTimeout (function () {
-        gErrorMenu.clearModalErrors ();
-      }, 3000);
-      
-      return;
-    }
-    else {
-      var names = [];
-      data.forEach(function(elem, index, arr) {
-        names.push(elem["name"]);
-      });
-      gModalMenu.setLoadNames (names);
-    }
-  });
+  gModalMenu.open ("load");
+  gModalMenu.load.onOpen ();
 };
 
 gTopMenu.save = function () {
