@@ -1,3 +1,5 @@
+gModalMenu.tmEdge = {};
+
 gModalMenu.tmEdge.focusTmRow = function (index) {
   index = Math.max (index, 0);
   var focused = false;
