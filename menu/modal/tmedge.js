@@ -1,4 +1,4 @@
-gModalMenu.focusTmRow = function (index) {
+gModalMenu.tmEdge.focusTmRow = function (index) {
   index = Math.max (index, 0);
   var focused = false;
   d3.selectAll (".tmEdgeInput")
@@ -9,11 +9,11 @@ gModalMenu.focusTmRow = function (index) {
       }
     });
   if (!focused) {
-    gModalMenu.buildTmRow (true);
+    gModalMenu.tmEdge.buildTmRow (true);
   }
 };
 
-gModalMenu.setTmEdgeStates = function (states) {
+gModalMenu.tmEdge.setTmEdgeStates = function (states) {
   if (states.length == 0) {
     states.push ({
         direction: 1,
@@ -24,7 +24,7 @@ gModalMenu.setTmEdgeStates = function (states) {
   
   var newRows = states.length - d3.selectAll (".tmEdge > tr").size ();
   for (var i = 0; i < newRows; i++) {
-    gModalMenu.buildTmRow (false);
+    gModalMenu.tmEdge.buildTmRow (false);
   }
   
   var rows = d3.select (".tmEdge")
@@ -50,7 +50,7 @@ gModalMenu.setTmEdgeStates = function (states) {
   rows.exit ().remove ();
 };
 
-gModalMenu.getTmEdgeStates = function () {
+gModalMenu.tmEdge.getTmEdgeStates = function () {
   var states = [];
   d3.select (".tmEdge")
     .selectAll ("tr")
@@ -68,7 +68,7 @@ gModalMenu.getTmEdgeStates = function () {
   return states;
 };
 
-gModalMenu.buildTmRow = function (focus) {
+gModalMenu.tmEdge.buildTmRow = function (focus) {
   var row = d3.select (".tmEdge").append ("tr");
   
   // Add Character field
@@ -113,27 +113,27 @@ gModalMenu.buildTmRow = function (focus) {
     .classed ("button-delete", true)
     .text ("X");
     
-  gModalMenu.updateTmDeleteButtons ();
+  gModalMenu.tmEdge.updateTmDeleteButtons ();
     
   d3.selectAll (".edgeLeft")
     .on ("change", function (junk, i) {
-      gModalMenu.clearRight(i);
+      gModalMenu.tmEdge.clearRight(i);
     });
   d3.selectAll (".edgeRight")
     .on ("change", function (junk, i) {
-      gModalMenu.clearLeft(i);
+      gModalMenu.tmEdge.clearLeft(i);
     });
   d3.selectAll (".tmEdgeChars")  
     .on ("keydown", function (junk, i) {
       if (d3.event.keyCode == 13 || d3.event.keyCode == 40) {
-        gModalMenu.focusTmRow (i + 1);
+        gModalMenu.tmEdge.focusTmRow (i + 1);
       } else if (d3.event.keyCode == 38) {
-        gModalMenu.focusTmRow (i - 1);
+        gModalMenu.tmEdge.focusTmRow (i - 1);
       }
     })
 };
 
-gModalMenu.updateTmDeleteButtons = function () {
+gModalMenu.tmEdge.updateTmDeleteButtons = function () {
   d3.selectAll (".button-delete")
     .on ("click", function (junk, i) {
       d3.select (".tmEdge")
@@ -142,15 +142,15 @@ gModalMenu.updateTmDeleteButtons = function () {
           return i == i2;
         })
         .remove ();
-        gModalMenu.updateTmDeleteButtons ();
+        gModalMenu.tmEdge.updateTmDeleteButtons ();
     });
 };
 
-gModalMenu.initTmEdit = function () {
+gModalMenu.tmEdge.initTmEdit = function () {
   d3.select (".modal-content").attr ("max-height", gGraph.height * gModalMenu.MAX_HEIGHT_PERCENT);
 };
 
-gModalMenu.clearLeft = function (index) {
+gModalMenu.tmEdge.clearLeft = function (index) {
   d3.selectAll (".edgeLeft").each (function (junk, i) {
     if (i == index) {
       this.checked = false;
@@ -158,7 +158,7 @@ gModalMenu.clearLeft = function (index) {
   });
 };
 
-gModalMenu.clearRight = function (index) {
+gModalMenu.tmEdge.clearRight = function (index) {
   d3.selectAll (".edgeRight").each (function (junk, i) {
     if (i == index) {
       this.checked = false;
