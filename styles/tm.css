@@ -239,6 +239,7 @@ circle.inner {
 
 .tableEditor tr td {
   margin: 0;
+  text-align: center;
 }
 
 .tableEditor tr:nth-child(odd) {
@@ -510,6 +511,7 @@ td {
   background: rgb(247, 247, 247);
   max-height: 300px;
   overflow-y: scroll;
+  padding: 8px;
 }
 
 .modal-content ul {
@@ -559,7 +561,7 @@ td {
   font-size: 13px;
   line-height: 20px;
   text-align: center;
-  margin: 12px 12px 20px 12px;
+  margin: 8px;
   color: rgba(0, 0, 0, 0.6);
 }
 
@@ -660,4 +662,46 @@ button[disabled], button[disabled]:hover, button[disabled]:focus, button[disable
 
 .tmEdge .button-delete {
   float: none;
+}
+
+.testing td {
+  text-align: center !important;
+  padding: 0px 4px;
+}
+
+.inputs, .results {
+  width: 100%;
+}
+
+.inputs td:nth-child(1) {
+  width: 200px;
+}
+
+.inputs .bulkInput {
+  text-align: center !important;
+  box-sizing: border-box;
+}
+
+.inputs td:nth-child(2), .results td:nth-child(3) {
+  width: 45px;
+}
+
+.results td:nth-child(1) {
+  width: 150px !important;
+}
+
+.results td:nth-child(2), .results td:nth-child(3) {
+  width: 70px !important;
+}
+
+.fixed-table-header {
+  padding: 0px 8px;
+}
+
+.testing .popupLeft, .testing .popupRight {
+  width: 50%;
+}
+
+td {
+  box-sizing: border-box;
 }
