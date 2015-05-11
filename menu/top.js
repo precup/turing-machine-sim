@@ -64,17 +64,16 @@ gTopMenu.loadFromServer = function () {
   gModalMenu.load.onOpen ();
 };
 
-gTopMenu.save = function () {
-  gModalMenu.setSaveName (gServer.name);
-  gModalMenu.open ("save");
+gTopMenu.saveas = function () {
+  gModalMenu.saveas.open ();
 };
 
 gTopMenu.submit = function () {
   if (gGraph.pset != null) {
-    gModalMenu.setPsetNumber (gGraph.pset);
+    gModalMenu.submitModal.setPsetNumber (gGraph.pset);
   }
   if (gGraph.problem != null) {
-    gModalMenu.setProblemNumber (gGraph.problem);
+    gModalMenu.submitModal.setProblemNumber (gGraph.problem);
   }
   gModalMenu.open ("submit");
 };
