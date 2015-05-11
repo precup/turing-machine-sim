@@ -1,13 +1,43 @@
-/* submit.js */
+/*
 
-gModalMenu.initSubmitToServer = function () {
-  gModalMenu.confirmFlag = "submit";
+submit.js
+
+-- elements
+problem set select
+problem select
+submit button
+cancel button
+
+-- events
+init
+(open is handled by default)
+clickSubmitBtn
+clickCancelBtn
+clickConfirmBtn
+clickConfirmCancelBtn
+
+*/
+
+gModalMenu.submitModal = {};
+
+gModalMenu.submitModal.init = function () {
+  var psetSelect = d3.select (".pset").selectAll ("option").data (psets);
+  psetSelect.enter ()
+    .append ("option")
+    .attr ("value", function (pset, i) { return i; })
+    .text (function (pset, i) { return pset.name; });
+  d3.select ('.pset').node ().selectedIndex = 0;
+  gModalMenu.submitModal.changenumbers ();
+};
+
+gModalMenu.submitModal.clickSubmitBtn = function () {
+  gModalMenu.confirm.flag = "submit";
 
   var automata = JSON.stringify (gGraph.save ());
-  var pset = gModalMenu.getPsetNumber();
-  var problem = gModalMenu.getProblemNumber();
+  var pset = gModalMenu.submitModal.getPsetNumber ();
+  var problem = gModalMenu.submitModal.getProblemNumber ();
 
-  gModalMenu.setSubmitButton ("Submitting...");
+  gModalMenu.submitModal.setSubmitButton ("Submitting...");
 
   function isPreviouslySaved (list, pset, problem) {
     var isPreviouslySaved = false;
@@ -22,7 +52,7 @@ gModalMenu.initSubmitToServer = function () {
   gServer.listSubmissions (function (data, err) {
     if (err) {
       gErrorMenu.displayModalError ("submit", "Failed to submit");
-      gModalMenu.setSubmitButton ("Submit");
+      gModalMenu.submitModal.setSubmitButton ("Submit");
       setTimeout (function () {
         gErrorMenu.clearModalErrors ();
       }, 3000);
@@ -30,64 +60,35 @@ gModalMenu.initSubmitToServer = function () {
     }
     if (isPreviouslySaved (data, pset, problem)) {
       gModalMenu.close ("submit");
-      gModalMenu.open ("confirm");
+      gModalMenu.confirm.open ();
     } else {
-      gModalMenu.submitToServer (function () {
+      gModalMenu.submitModal.submit (function () {
         gModalMenu.close ("submit");
       });
     }
   });
 };
 
-gModalMenu.submitToServer = function (done) {
-  var automata = JSON.stringify (gGraph.save ());
-  var pset = gModalMenu.getPsetNumber();
-  var problem = gModalMenu.getProblemNumber();
-  
-  if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "nfa") {
-    gErrorMenu.displayError ("This automaton is an NFA, but the problem requires a DFA.");
-    return;
-  }
-  if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "dfa") {
-    gErrorMenu.displayError ("This automaton is a DFA, but the problem requires an NFA.");
-    return;
-  }
-  if (psets[pset].problems[problem].charSet != gGraph.charSet) {
-    gErrorMenu.displayError ("The alphabet for this automaton doesn't match the alphabet for that problem.");
-    return;
-  }
-  
-  gServer.submit (automata, pset, problem,
-    function (err) {
-      if (err) {
-        gErrorMenu.displayModalError ("submit", "Failed to submit");
-        setTimeout (function () {
-          gErrorMenu.clearModalErrors ();
-        }, 3000);
-        gModalMenu.setSubmitButton ("Submit");
-        return;
-      } else {
-        gModalMenu.setSubmitButton ("Success!");
-      }
-      setTimeout(function () {
-        gModalMenu.setSubmitButton ("Submit");
-        done ();
-      }, 1000);
-    }
-  );
+gModalMenu.submitModal.clickCancelBtn = function () {
+  gModalMenu.cancel ('submit');
+  gErrorMenu.clearModalErrors ();
 };
 
-gModalMenu.initSubmit = function () {
-  var psetSelect = d3.select (".pset").selectAll ("option").data (psets);
-  psetSelect.enter ()
-    .append ("option")
-    .attr ("value", function (pset, i) { return i; })
-    .text (function (pset, i) { return pset.name; });
-  d3.select ('.pset').node ().selectedIndex = 0;
-  gModalMenu.changeNumbers ();
+gModalMenu.submitModal.clickConfirmBtn = function () {
+  gModalMenu.close ("confirm");
+  gModalMenu.open ("submit");
+  gModalMenu.submitModal.submit (function () {
+    gModalMenu.close ("submit");
+  });
 };
 
-gModalMenu.changeNumbers = function () {
+gModalMenu.submitModal.clickConfirmCancelBtn = function () {
+  gModalMenu.close ("confirm");
+  gModalMenu.open ("submit");
+  gModalMenu.submitModal.setSubmitButton ("Submit");
+};
+
+gModalMenu.submitModal.changenumbers = function () {
   var psetNum = d3.select ('.pset').node ().selectedIndex;
   var problemSelect = d3.select (".problem").selectAll ("option").data (psets[psetNum].problems);
   problemSelect.enter ().append ("option");
@@ -99,23 +100,65 @@ gModalMenu.changeNumbers = function () {
   d3.select ('.problem').node ().selectedIndex = 0;
 };
 
-gModalMenu.getProblemNumber = function () {
+gModalMenu.submitModal.submit = function (done) {
+  var automata = JSON.stringify (gGraph.save ());
+  var pset = gModalMenu.submitModal.getPsetNumber();
+  var problem = gModalMenu.submitModal.getProblemNumber();
+  
+  if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "nfa") {
+    gErrorMenu.displayModalError ("submit", "This automaton is an NFA, but the problem requires a DFA.");
+    gModalMenu.submitModal.setSubmitButton ("Submit");
+    return;
+  }
+  if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "dfa") {
+    gErrorMenu.displayModalError ("submit", "This automaton is a DFA, but the problem requires an NFA.");
+    gModalMenu.submitModal.setSubmitButton ("Submit");
+    return;
+  }
+  if (psets[pset].problems[problem].charSet != gGraph.charSet) {
+    gErrorMenu.displayModalError ("submit", "The alphabet for this automaton doesn't match the alphabet for that problem.");
+    gModalMenu.submitModal.setSubmitButton ("Submit");
+
+    return;
+  }
+  
+  gServer.submit (automata, pset, problem,
+    function (err) {
+      if (err) {
+        gErrorMenu.displayModalError ("submit", "Failed to submit");
+        setTimeout (function () {
+          gErrorMenu.clearModalErrors ();
+        }, 3000);
+        gModalMenu.submitModal.setSubmitButton ("Submit");
+        return;
+      } else {
+        gModalMenu.submitModal.setSubmitButton ("Success!");
+      }
+      setTimeout(function () {
+        gModalMenu.submitModal.setSubmitButton ("Submit");
+        done ();
+      }, 1000);
+    }
+  );
+};
+
+gModalMenu.submitModal.getProblemNumber = function () {
   return d3.select (".problem").node ().selectedIndex;
 };
 
-gModalMenu.getPsetNumber = function () {
+gModalMenu.submitModal.getPsetNumber = function () {
   return d3.select (".pset").node ().selectedIndex;
 };
 
-gModalMenu.setProblemNumber = function (index) {
+gModalMenu.submitModal.setProblemNumber = function (index) {
   d3.select (".problem").node ().selectedIndex = index;
 };
 
-gModalMenu.setPsetNumber = function (index) {
+gModalMenu.submitModal.setPsetNumber = function (index) {
   d3.select (".pset").node ().selectedIndex = index;
-  gModalMenu.changeNumbers ();
+  gModalMenu.submitModal.changenumbers ();
 };
 
-gModalMenu.setSubmitButton = function (text) {
+gModalMenu.submitModal.setSubmitButton = function (text) {
   d3.select (".submitButton").text (text);
 };

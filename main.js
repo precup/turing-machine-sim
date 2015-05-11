@@ -30,6 +30,7 @@ function run () {
           gErrorMenu.displayError ("Could not connect to server; load failed", true);
           return;
         }
+        gServer.name = saved;
         reload (automata);
       });
   }

@@ -60,7 +60,7 @@
     <div class="menu">
       <div class="left">
         <button type="button" onclick="gTopMenu.homepage ()">Return to Creation Page</button>
-        <button type="button" onclick="gTopMenu.save ()">Save</button>
+        <button type="button" onclick="gTopMenu.saveas ()">Save</button>
         <button type="button" onclick="gTopMenu.submit ()">Submit</button>
       </div>
       <div class="center">
@@ -151,7 +151,7 @@
         </div>
       </div>
 
-      <div class="save popup" onkeypress="gModalMenu.submitOnEnter ('save')">
+      <div class="saveas popup" onkeypress="gModalMenu.submitOnEnter ('saveas')">
         <div class="modal-header">
           Save As
         </div>
@@ -159,11 +159,11 @@
           <p class="modal-description">
             NOTE: Saving does not submit.
           </p>
-          <input type="text" placeholder="Automaton Name" class="saveText" maxlength="30" onkeypress="gModalMenu.submitOnEnter ('save')"></input>
+          <input type="text" placeholder="Automaton Name" class="saveText" maxlength="30" onkeypress="gModalMenu.submitOnEnter ('saveas')"></input>
         </div>
         <div class="modal-buttons">
-          <button type="button" onclick="gModalMenu.cancel ('save')">Cancel</button>
-          <button type="button" class="button-primary saveButton" onclick="gModalMenu.submit ('save')">Save</button>
+          <button type="button" onclick="gModalMenu.cancel ('saveas')">Cancel</button>
+          <button type="button" class="button-primary saveButton" onclick="gModalMenu.submit ('saveas')">Save</button>
         </div>
       </div>
 
@@ -202,7 +202,7 @@
         </table>
       </div>
         <div class="modal-buttons">
-          <button type="button" onclick="gModalMenu.cancel ('submit')">Cancel</button>
+          <button type="button" onclick="gModalMenu.submitModal.clickCancelBtn ();">Cancel</button>
           <button type="button" class="button-primary submitButton" onclick="gModalMenu.submit ('submit')">Submit</button>
         </div>
       </div>
@@ -253,7 +253,7 @@
             </tr>
           </table>
           <p class="modal-description">
-            <button onclick="gModalMenu.buildTmRow (false)">Add Character</button>
+            <button onclick="gModalMenu.tmEdge.buildTmRow (false)">Add Character</button>
           </p>
         </div>
         <div class="modal-buttons">

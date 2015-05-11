@@ -1,9 +1,18 @@
 /* handles save as functionality */
 
-gModalMenu.initSave = function () {
-  gModalMenu.confirmFlag = "save";
+gModalMenu.saveas = {};
 
-  var name = encodeURIComponent(gModalMenu.getSaveName ());
+gModalMenu.saveas.open = function () {
+  gModalMenu.saveas.setSaveName (gServer.name);
+  gModalMenu.open ("saveas");
+};
+
+gModalMenu.saveas.clickSaveBtn = function () {
+  gModalMenu.confirm.flag = "saveas";
+
+  gModalMenu.saveas.setSaveButton ("Saving...");
+  var name = encodeURIComponent(gModalMenu.saveas.getSaveName ());
+
   gServer.listSaved (function (err, data) {
     function isPreviouslySaved (list, name) {
       var isPreviouslySaved = false;
@@ -12,55 +21,73 @@ gModalMenu.initSave = function () {
       });
     }
     if (err) {
-      gErrorMenu.displayModalError ("save", "Save failed");
+      gErrorMenu.displayModalError ("saveas", "Save failed");
       setTimeout (function () {
         gErrorMenu.clearModalErrors ();
-        gModalMenu.setSubmitButton ("Submit");
+        gModalMenu.saveas.setSaveButton ("Save");
       }, 3000);
       return;
     }
 
     if (isPreviouslySaved (data, name)) {
-      gModalMenu.close ("save");
-      gModalMenu.open ("confirm");
+      gModalMenu.close ("saveas");
+      gModalMenu.confirm.open ();
     } else {
-      gModalMenu.save (function () {
-        gModalMenu.close ("save");
+      gModalMenu.saveas.save (function () {
+        gModalMenu.close ("saveas");
       });
     }
   })
 };
 
+gModalMenu.saveas.clickCancelBtn = function () {
+  gModalMenu.cancel ("saveas");
+};
+
+gModalMenu.saveas.clickConfirmBtn = function () {
+  gModalMenu.close ("confirm");
+  gModalMenu.open ("saveas");
+  gModalMenu.saveas.save (function () {
+    gModalMenu.close ("saveas");
+  });
+};
+
+gModalMenu.saveas.clickConfirmCancelBtn = function () {
+  gModalMenu.close ("saveas");
+  gModalMenu.close ("confirm");
+  gModalMenu.saveas.setSaveButton ("Save");
+};
+
 // done () - not used right now
-gModalMenu.save = function (done) {
-  var name = gModalMenu.getSaveName ();
-  gModalMenu.setSaveButton ("Saving...");
+gModalMenu.saveas.save = function (done) {
+  var name = gModalMenu.saveas.getSaveName ();
   gServer.save (name, function (err, data) {
     if (err) {
-      gErrorMenu.displayModalError ("save", "Failed to save");
+      gErrorMenu.displayModalError ("saveas", "Failed to save");
       setTimeout (function () {
         gErrorMenu.clearModalErrors ();
       }, 3000);
-      gModalMenu.setSaveButton ("Save");
+      gModalMenu.saveas.setSaveButton ("Save");
       return;
     } else {
-      gModalMenu.setSaveButton ("Saved!");
+      gServer.name = name;
+      gModalMenu.saveas.setSaveButton ("Saved!");
     }
-    window.setTimeout(function () {
-      gModalMenu.setSaveButton ("Save"); // return to original
-      gModalMenu.close("save");
+    window.setTimeout (function () {
+      gModalMenu.saveas.setSaveButton ("Save"); // return to original
+      gModalMenu.close("saveas");
     }, 1000);
   });
 };
 
-gModalMenu.getSaveName = function () {
+gModalMenu.saveas.getSaveName = function () {
   return d3.select (".saveText").node ().value;
 };
 
-gModalMenu.setSaveName = function (name) {
+gModalMenu.saveas.setSaveName = function (name) {
   d3.select (".saveText").node ().value = decodeURIComponent (name);
 };
 
-gModalMenu.setSaveButton = function (text) {
+gModalMenu.saveas.setSaveButton = function (text) {
   d3.select (".saveButton").text (text);
 };

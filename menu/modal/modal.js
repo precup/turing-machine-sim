@@ -1,6 +1,5 @@
 var gModalMenu =
   {
-    confirmFlag: "",
     MAX_HEIGHT_PERCENT: 0.62
   };
 
@@ -40,17 +39,17 @@ gModalMenu.submit = function (type) {
     case "testing":
       gSimulator.runTests ();
       break;
-    case "save":
-      gModalMenu.initSave ();
+    case "saveas":
+      gModalMenu.saveas.clickSaveBtn ();
       break;
     case "load":
       gModalMenu.load.onClickLoadBtn ();
       break;
     case "submit":
-      gModalMenu.initSubmitToServer ();
+      gModalMenu.submitModal.clickSubmitBtn ();
       break;
     case "confirm":
-      gModalMenu.confirm ();
+      gModalMenu.confirm.clickConfirmBtn ();
       break;
     default:
       break;
@@ -63,38 +62,11 @@ gModalMenu.cancel = function (type) {
       gEdges.editCancelled ();
       break;
     case "confirm":
-      gModalMenu.confirmCancelled ();
+      gModalMenu.confirm.clickCancelBtn ();
       break;
+    case "saveas": 
     default:
       gModalMenu.close (type);
       break;
-  }
-};
-
-gModalMenu.confirm = function () {
-  if (gModalMenu.confirmFlag === "submit") {
-    gModalMenu.close ("confirm");
-    gModalMenu.open ("submit");
-    gModalMenu.submitToServer (function () {
-      gModalMenu.close ("submit");
-    });
-  } else if (gModalMenu.confirmFlag === "save") {
-    gModalMenu.close ("confirm");
-    gModalMenu.open ("save");
-    gModalMenu.save (function () {
-      gModalMenu.close ("save");
-    })
-  }
-};
-
-gModalMenu.confirmCancelled = function () {
-  if (gModalMenu.confirmFlag === "submit") {
-    gModalMenu.close ("confirm");
-    gModalMenu.close ("submit");
-    gModalMenu.setSubmitButton ("Submit");
-  } else if (gModalMenu.confirmFlag === "save") {
-    gModalMenu.close ("save");
-    gModalMenu.close ("confirm");
-    gModalMenu.setSaveButton ("Save");
   }
 };

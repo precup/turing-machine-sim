@@ -50,8 +50,8 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gTape.init ();
   gTestMenu.init ();
   gModalMenu.initBulk ();
-  gModalMenu.initSubmit ();
-  gModalMenu.initTmEdit ();
+  gModalMenu.submitModal.init ();
+  gModalMenu.tmEdge.initTmEdit ();
   gTableMenu.init ();
   gGraph.initDelete ();
   gSimulator.init ();

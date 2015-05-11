@@ -272,7 +272,7 @@ textarea {
   display: none;
 }
 
-.save {
+.saveas {
   display: none;
 }
 
@@ -530,7 +530,7 @@ td {
   color: #fff;
 }
 
-.save input[type="text"], .confirm input[type="text"] {
+.saveas input[type="text"], .confirm input[type="text"] {
   width: 380px;
   margin: 0px auto;
   -webkit-appearance: none;
