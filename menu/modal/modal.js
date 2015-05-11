@@ -27,7 +27,6 @@ gModalMenu.submitOnEnter = function (type) {
 };
 
 gModalMenu.submit = function (type) {
-  gErrorMenu.clearModalErrors ();
   switch (type) {
     case "edgeEntry":
       gEdges.editComplete ();
@@ -42,7 +41,7 @@ gModalMenu.submit = function (type) {
       gModalMenu.initSave ();
       break;
     case "load":
-      gModalMenu.loadFromModal ();
+      gModalMenu.load.onClickLoadBtn ();
       break;
     case "submit":
       gModalMenu.initSubmitToServer ();
@@ -177,7 +176,7 @@ gModalMenu.initSubmitToServer = function () {
 gModalMenu.initSave = function () {
   gModalMenu.confirmFlag = "save";
 
-  var name = gModalMenu.getSaveName ();
+  var name = encodeURIComponent(gModalMenu.getSaveName ());
   gServer.listSaved (function (err, data) {
     function isPreviouslySaved (list, name) {
       var isPreviouslySaved = false;
@@ -310,103 +309,13 @@ gModalMenu.getSaveName = function () {
 };
 
 gModalMenu.setSaveName = function (name) {
-  d3.select (".saveText").node ().value = name;
+  d3.select (".saveText").node ().value = decodeURIComponent (name);
 };
 
 gModalMenu.setSaveButton = function (text) {
   d3.select (".saveButton").text (text);
 };
 
-gModalMenu.setLoadNames = function (names) {
-  var lis = d3.select (".loadNames")
-    .selectAll ("li")
-    .data (names);
-    
-  lis.enter ().append ("li");
-  lis.classed ("selected", false)
-    .classed ("load-nothing", false)
-    .text (function (name) {
-      return name;
-     })
-    .on ("click", function () {
-      d3.select (".loadNames").selectAll ("li").classed ("selected", false);
-      d3.select (this).classed ("selected", true);
-    })
-    .style ("cursor", "pointer");
-  lis.exit ().remove ();
-  
-  if (names.length == 0) {
-    d3.select (".loadNames")
-      .append ("li")
-      .classed ("load-nothing", true)
-      .append ("p")
-      .classed ("modal-description", true)
-      .text ("Nothing's been saved yet");
-  }
-};
-
-gModalMenu.getLoadName = function () {  
-  var node = d3.select (".loadNames").select ("li.selected").node ();
-  return node == null ? null : d3.select (".loadNames").select ("li.selected").text ();
-};
-
-gModalMenu.setLoadButton = function (text) {
-  d3.select ('.loadButton').text (text);
-};
-
-gModalMenu.loadFromModal = function () {
-  gErrorMenu.clearModalErrors ();
-  var name = gModalMenu.getLoadName ();
-  if (!name) {
-    gErrorMenu.displayModalError ("load", "No automaton selected");
-    setTimeout (function () {
-      gErrorMenu.clearModalErrors ();
-    }, 3000);
-    return;
-  }
-  gServer.load (
-    name,
-    function () { // whileRunning
-      gModalMenu.setLoadButton ("Loading...");
-    },
-    function (err) { // error
-      gErrorMenu.displayModalError ("load", "Failed to load");
-      setTimeout (function () {
-        gErrorMenu.clearModalErrors ();
-      }, 3000);
-      gModalMenu.setLoadButton ("Load");
-    },
-    function (automata) { // success
-      gModalMenu.setLoadButton ("Success!");
-      gGraph.charSet = automata.meta.charSet;
-      gGraph.pset = automata.meta.pset;
-      gGraph.problem = automata.meta.problem;
-      var mode = automata.meta.mode;
-      if (mode != gGraph.mode) {
-        window.location.href = getURLParent () + "tm.html?saved=" + name;
-      }
-      gGraph.load (automata);
-      gGraph.draw ();
-    },
-    function () { // callback
-      setTimeout (function () {
-        gModalMenu.setLoadButton ("Load");
-        gModalMenu.close ("load");
-      }, 300);
-    });
-}
-
-gModalMenu.setLoadMessage = function (message) {
-  d3.select (".loadNames")
-    .selectAll ("li")
-    .remove ();
-  d3.select (".loadNames")
-    .append ("li")
-    .classed ("load-nothing", true)
-    .append ("p")
-    .classed ("modal-description", true)
-    .text (message);
-}
 
 gModalMenu.initSubmit = function () {
   var psetSelect = d3.select (".pset").selectAll ("option").data (psets);

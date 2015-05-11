@@ -30,26 +30,18 @@ gServer.save = function (name, callback) {
     );
 };
 
-// whileRunning (), error (err), done ()
-gServer.load = function (selected, whileRunning, error_callback, success, done) {
+// selected is the name of the automaton to load
+// whileRunning (), callback (err, res)
+gServer.load = function (selected, whileRunning, callback) {
   if (typeof whileRunning === "function") whileRunning ();
 
   var get_url = "/api/loadFromSaved.php" + "?name=" + selected;
   d3.xhr (gServer.url_prefix + get_url)
     .header ("Content-Type", "application/json")
     .get (function (err, res) {
-        if (err) {
-          if (typeof error_callback === "function") error_callback (err);
-          return;
-        } else {
-          if (success) {
-            gServer.name = selected;
-            var json_data = JSON.parse (res.response);
-            success (JSON.parse (json_data[0]["automata"]));
-          }
-        }
-        if (done) done ();
-      });
+      var json_data = JSON.parse (res.response);
+      callback (err, JSON.parse (json_data[0]["automata"]));
+    });
 };
 
 // callback (err)
