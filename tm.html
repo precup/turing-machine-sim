@@ -274,30 +274,46 @@
         <div class="modal-header">
           <span>Run Tests</span>
         </div>
-        <div class="modal-content bulkContent">
+        <div class="modal-content fixed-table-header">
           <p class="modal-description">
             Enter one test input per line. Enter one test input per line. Select "A" or "R" for Accept and Reject to give an expected result.
           </p>
           <table class="layout">
             <tr>
-              <td class="popupLeft" width="50%">
-                <table class="testingHeader">
-                  <tr>
-                    <td>Input</td>
-                    <td>A</td>
-                    <td>R</td>
-                  </tr>
+              <td class="popupLeft">
+                <table class="inputs">
+                  <thead>
+                    <tr>
+                      <td>Input</td>
+                      <td>A</td>
+                      <td>R</td>
+                    </tr>
+                  </thead>
                 </table>
               </td>
-              <td class="popupRight" style="vertical-align: top;" width="50%">
-                <table class="testingHeader" width="100%" height="20px">
-                  <tr>
-                    <td>Input</td>
-                    <td>Result</td>
-                    <td>Matches</td>
-                  </tr>
+              <td class="popupRight">
+                <table class="results">
+                  <thead>
+                    <tr>
+                      <td>Input</td>
+                      <td>Result</td>
+                      <td>Matches</td>
+                    </tr>
+                  </thead>
                 </table>
-                <table class="testingResults" width="100%">
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-content bulkContent">
+          <table class="layout">
+            <tr>
+              <td class="popupLeft">
+                <table class="inputs testingHeader">
+                </table>
+              </td>
+              <td class="popupRight" style="vertical-align: top;">
+                <table class="testingResults results" width="100%">
                 </table>
               </td>
             </tr>
