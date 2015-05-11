@@ -6,10 +6,7 @@ gServer.name = "";
 
 // callback (err, data)
 gServer.save = function (name, callback) {
-  if (name.replace (/\s/g, "").length === 0) {
-    callback ("Automaton name cannot be blank", null);
-    return;
-  }
+  
   gServer.name = name;
   var save_url = "/api/save.php";
   var stringGraph = JSON.stringify (gGraph.save ());

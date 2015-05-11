@@ -11,8 +11,15 @@ gModalMenu.saveas.clickSaveBtn = function () {
   gModalMenu.confirm.flag = "saveas";
 
   gModalMenu.saveas.setSaveButton ("Saving...");
-  var name = encodeURIComponent(gModalMenu.saveas.getSaveName ());
+  var rawName = gModalMenu.saveas.getSaveName ();
+  if (rawName.replace (/\s/g, "").length === 0) {
+    gErrorMenu.displayModalError ("saveas", "Automaton name cannot be blank");
+    gModalMenu.saveas.setSaveButton ("Save");
+    return;
+  }
 
+  var name = encodeURIComponent(rawName);
+  
   gServer.listSaved (function (err, data) {
     function isPreviouslySaved (list, name) {
       var isPreviouslySaved = false;
@@ -21,11 +28,11 @@ gModalMenu.saveas.clickSaveBtn = function () {
       });
     }
     if (err) {
-      gErrorMenu.displayModalError ("saveas", "Save failed");
+      gErrorMenu.displayModalError ("saveas", "Save failed: couldn't connect to server.");
       setTimeout (function () {
         gErrorMenu.clearModalErrors ();
-        gModalMenu.saveas.setSaveButton ("Save");
       }, 3000);
+      gModalMenu.saveas.setSaveButton ("Save");
       return;
     }
 
@@ -63,7 +70,7 @@ gModalMenu.saveas.save = function (done) {
   var name = gModalMenu.saveas.getSaveName ();
   gServer.save (name, function (err, data) {
     if (err) {
-      gErrorMenu.displayModalError ("saveas", "Failed to save");
+      gErrorMenu.displayModalError ("saveas", "Save failed: couldn't connect to server.");
       setTimeout (function () {
         gErrorMenu.clearModalErrors ();
       }, 3000);
