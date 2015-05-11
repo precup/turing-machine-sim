@@ -35,6 +35,13 @@ gTMSimulator.step = function (graph, initial, input, index) {
 
 gTMSimulator.stepState = function (table, state) {
   var transition = table[state.initial][state.input[state.index]];
+  if (transition == undefined) {
+    return {
+      initial: undefined,
+      input: state.input,
+      index: state.index
+    };
+  }
   var result = {
       initial: transition.target,
       index: state.index + transition.direction

@@ -111,5 +111,5 @@ gTopMenu.draw = function () {
 
   d3.select(".acceptButton").classed("marked", gNodes.selectionIsAccepting ());
   d3.select(".rejectButton").classed("marked", gNodes.selectionIsRejecting ());
-  d3.select(".neitherButton").classed("marked", gNodes.selectionIsNeither ());
+  d3.selectAll(".neitherButton").classed("marked", gNodes.selectionIsNeither ());
 };

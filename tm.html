@@ -89,7 +89,9 @@
         <button class="nontable" type="button" onclick="gTopMenu.deleteSelected ()">Delete Selected</button>
         <button class="nontable" type="button" onclick="gTopMenu.setInitial ()">&#x2192; Set as Start</button>
         <button type="button" class="acceptButton nontable" onclick="gTopMenu.setState(true, false)">&#x2713; Accepting</button>
-        <button type="button" class="neitherButton nontable" onclick="gTopMenu.setState(false, false)">&#x2717; Rejecting</button>
+        <button type="button" class="neitherButton nontable tm-hide" onclick="gTopMenu.setState(false, false)">&#x2717; Rejecting</button>
+        <button type="button" class="neitherButton nontable dfa-hide nfa-hide" onclick="gTopMenu.setState(false, false)"> Neither</button>
+        <button type="button" class="rejectButton nontable dfa-hide nfa-hide" onclick="gTopMenu.setState(false, true)">&#x2717; Rejecting</button>
       </div>
     </div>
     <div class="gui">
