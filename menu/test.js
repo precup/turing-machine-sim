@@ -50,8 +50,8 @@ gTestMenu.allowInput = function () {
     .each (function () { this.focus (); });
 };
 
-gTestMenu.disallowInput = function () {
-  gTestMenu.text = d3.select (".tape-char-input").node ().value;
+gTestMenu.disallowInput = function (text) {
+  gTestMenu.text = text == undefined ? d3.select (".tape-char-input").node ().value : text;
   var legal = intersection (gTestMenu.text, gGraph.charSet);
   if (gTestMenu.text.length != legal.length) {
     gTestMenu.text = legal;

@@ -31,6 +31,9 @@ gTape.run = function () {
 gTape.drawResult = function (accepted) {
   if (!gTape.done) {
     var message = "Run finished, " + (accepted ? "accept" : "reject") + "ing string \"" + gTape.input.join ("") + "\"";
+    if (gTape.follow && !gTape.follow.accept && !gTape.follow.reject) {
+      message += " because of a missing transition";
+    }
     gErrorMenu.displayMessage (message, false, accepted ? "accepting run-finished" : "rejecting run-finished");
     gTape.done = true;
   }
@@ -122,6 +125,7 @@ gTape.step = function () {
       gTape.current = gNodes.nodes[gNodes.getNodeIndex (next.initial)];
       gTape.input = next.input;
       gTape.index = next.index;
+      gTestMenu.disallowInput (gTape.input);
     }
     if (typeof gTape.current != "undefined") {
       gTape.follow = gTape.current;

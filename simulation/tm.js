@@ -66,6 +66,9 @@ gTMSimulator.run = function (graph, input) {
   };
   var transitionTable = gTMSimulator.convert (graph);
   for (var i = 0; i < gTMSimulator.MAX_ITER; i++) {
+    if (state.initial == undefined) {
+      return false;
+    }
     var current = graph.nodes.nodes[gNodes.getNodeIndex (state.initial)];
     if (current.accept) {
       return true;

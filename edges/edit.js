@@ -62,6 +62,26 @@ gEdges.deleteEditedEdge = function () {
 
 gEdges.tmEditComplete = function () {
   var states = gModalMenu.tmEdge.getTmEdgeStates ();
+  for (var i = 0; i < states.length; i++) {
+    console.log (states[i]);
+    if (states[i].to == "" && states[i].from == "") {
+      states.splice (i--, 1);
+      continue;
+    }
+    if (states[i].to == "" || states[i].from == "") {
+      gErrorMenu.displayModalError ("tmEdgeEntry", "Character and Write must be non-empty");
+      return;
+    }
+    if (intersection (states[i].to, gGraph.charSet).length != 1 ||
+        intersection (states[i].from, gGraph.charSet).length != 1) {
+      gErrorMenu.displayModalError ("tmEdgeEntry", "Please only use characters in the character set");
+      return;
+    }
+  }
+  if (states.length == 0) {
+    gErrorMenu.displayModalError ("tmEdgeEntry", "You must define at least one transition");
+    return;
+  }
   gEdges.editedEdge.transitions[0] = states;
   gEdges.editedEdge = null;
   gModalMenu.close ("tmEdgeEntry");
