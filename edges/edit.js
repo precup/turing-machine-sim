@@ -18,6 +18,7 @@ gEdges.populateTMEdgeModal = function (edge) {
   d3.select (".tmEdgeEntry")
     .select (".modal-header")
     .text ("Edit Transition " + edge.source.name + " " + String.fromCharCode(0x2192) + " " + edge.target.name);
+  gModalMenu.setTmEdgeStates (gEdges.editedEdge.transitions[0]);
 };
 
 gEdges.populateEdgeModal = function (edge) {
@@ -60,9 +61,12 @@ gEdges.deleteEditedEdge = function () {
 };
 
 gEdges.tmEditComplete = function () {
+  var states = gModalMenu.getTmEdgeStates ();
+  gEdges.editedEdge.transitions[0] = states;
   gEdges.editedEdge = null;
   gModalMenu.close ("tmEdgeEntry");
   gGraph.draw ();
+  gGraph.draw (); //Fixes rendering issue
 };
 
 gEdges.editComplete = function () {

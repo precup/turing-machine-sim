@@ -13,6 +13,61 @@ gModalMenu.focusTmRow = function (index) {
   }
 };
 
+gModalMenu.setTmEdgeStates = function (states) {
+  if (states.length == 0) {
+    states.push ({
+        direction: 1,
+        to: "",
+        from: ""
+      });
+  }
+  
+  var newRows = states.length - d3.selectAll (".tmEdge > tr").size ();
+  for (var i = 0; i < newRows; i++) {
+    gModalMenu.buildTmRow (false);
+  }
+  
+  var rows = d3.select (".tmEdge")
+    .selectAll ("tr")
+    .filter (function (junk, i) {
+      return i != 0;
+    })
+    .data (states);
+    
+  rows.select ("td > .edgeLeft")
+    .each (function (state) {
+      this.checked = state.direction == -1;
+    });
+  rows.select ("td > .edgeRight")
+    .each (function (state) {
+      this.checked = state.direction == 1;
+    });
+  rows.selectAll ("td > .tmEdgeChars")
+    .each (function (junk, i2, i1) {
+      this.value = i2 == 1 ? states[i1].to : states[i1].from;
+    });
+    
+  rows.exit ().remove ();
+};
+
+gModalMenu.getTmEdgeStates = function () {
+  var states = [];
+  d3.select (".tmEdge")
+    .selectAll ("tr")
+    .filter (function (junk, i) {
+      return i != 0;
+    })
+    .each (function () {
+      var state = {};
+      var row = d3.select (this);
+      state.direction = row.select ("td > .edgeLeft").node ().checked ? -1 : 1;
+      state.from = row.selectAll ("td > .tmEdgeChars")[0][0].value;
+      state.to = row.selectAll ("td > .tmEdgeChars")[0][1].value;
+      states.push (state);
+    });
+  return states;
+};
+
 gModalMenu.buildTmRow = function (focus) {
   var row = d3.select (".tmEdge").append ("tr");
   
@@ -21,6 +76,7 @@ gModalMenu.buildTmRow = function (focus) {
     .append ("input")
     .attr ("type", "text")
     .attr ("size", 2)
+    .attr ("maxlength", 1)
     .classed ("tmEdgeChars", true)
     .each (function () {
       if (focus) {
@@ -33,6 +89,7 @@ gModalMenu.buildTmRow = function (focus) {
     .append ("input")
     .attr ("type", "text")
     .attr ("size", 2)
+    .attr ("maxlength", 1)
     .classed ("tmEdgeChars", true);
     
   // Add radio col
@@ -40,11 +97,14 @@ gModalMenu.buildTmRow = function (focus) {
     
   radioTd.append ("input")
     .attr ("type", "radio")
-    .classed ("edgeLeft", true)
+    .classed ("edgeLeft", true);
+  radioTd.append ("label")
     .text (" L ");
   radioTd.append ("input")
     .attr ("type", "radio")
-    .classed ("edgeRight", true)
+    .attr ("checked", true)
+    .classed ("edgeRight", true);
+  radioTd.append ("label")
     .text (" R ");
     
   // Add delete col
@@ -52,6 +112,8 @@ gModalMenu.buildTmRow = function (focus) {
     .append ("button")
     .classed ("button-delete", true)
     .text ("X");
+    
+  gModalMenu.updateTmDeleteButtons ();
     
   d3.selectAll (".edgeLeft")
     .on ("change", function (junk, i) {
@@ -71,9 +133,20 @@ gModalMenu.buildTmRow = function (focus) {
     })
 };
 
+gModalMenu.updateTmDeleteButtons = function () {
+  d3.selectAll (".button-delete")
+    .on ("click", function (junk, i) {
+      d3.select (".tmEdge")
+        .selectAll ("tr")
+        .filter (function (junk2, i2) {
+          return i == i2;
+        })
+        .remove ();
+        gModalMenu.updateTmDeleteButtons ();
+    });
+};
+
 gModalMenu.initTmEdit = function () {
-  gModalMenu.buildTmRow (false);
-  gModalMenu.buildTmRow (false);
   d3.select (".modal-content").attr ("max-height", gGraph.height * gModalMenu.MAX_HEIGHT_PERCENT);
 };
 
