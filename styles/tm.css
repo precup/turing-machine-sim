@@ -239,6 +239,7 @@ circle.inner {
 
 .tableEditor tr td {
   margin: 0;
+  text-align: center;
 }
 
 .tableEditor tr:nth-child(odd) {
