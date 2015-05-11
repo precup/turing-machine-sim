@@ -12,6 +12,7 @@ gModalMenu.saveas.clickSaveBtn = function () {
 
   gModalMenu.saveas.setSaveButton ("Saving...");
   var name = encodeURIComponent(gModalMenu.saveas.getSaveName ());
+
   gServer.listSaved (function (err, data) {
     function isPreviouslySaved (list, name) {
       var isPreviouslySaved = false;

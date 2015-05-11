@@ -36,6 +36,10 @@
     <script src="menu/modal/submit.js"></script>
     <script src="menu/modal/load.js"></script>
     <script src="menu/modal/confirm.js"></script>
+    <script src="menu/modal/edge.js"></script>
+    <script src="menu/modal/testing.js"></script>
+    <script src="menu/modal/node.js"></script>
+    <script src="menu/modal/tmedge.js"></script>
     <script src="menu/table.js"></script>
     <script src="menu/tabletop.js"></script>
     <script src="menu/test.js"></script>
@@ -43,6 +47,7 @@
 
     <script src="simulation/dfa.js"></script>
     <script src="simulation/nfa.js"></script>
+    <script src="simulation/tm.js"></script>
     <script src="simulation/sim.js"></script>
     <script src="simulation/bulk.js"></script>
     <script src="simulation/tape.js"></script>
@@ -235,7 +240,6 @@
 
       <div class="tmEdgeEntry popup" onkeypress="gModalMenu.submitOnEnter ('edgeEntry')">
         <div class="modal-header">
-          Edit Transition {{fromNode}} &#x2192; {{toNode}}
         </div>
         <div class="modal-content">
           <table width="100%" class="tmEdge">
@@ -245,28 +249,16 @@
               <th>Move tape head</th>
               <th>Delete</th>
             </tr>
-            <tr>
-              <td><input type="text" class="edgeChars" size="2"></td>
-              <td><input type="text" class="edgeChars" size="2"></td>
-              <td><input type="radio"> L <input type="radio"> R <input type="radio"> Stay</td>
-              <td><button class="button-delete">X</button></td>
-            </tr>
-            <tr>
-              <td><input type="text" class="edgeChars" size="2"></td>
-              <td><input type="text" class="edgeChars" size="2"></td>
-              <td><input type="radio"> L <input type="radio"> R <input type="radio"> Stay</td>
-              <td><button class="button-delete">X</button></td>
-            </tr>
           </table>
           <p class="modal-description">
-            <button>Add Character</button>
+            <button onclick="gModalMenu.buildTmRow (false)">Add Character</button>
           </p>
         </div>
         <div class="modal-buttons">
           <p class="murica">MURICA!!!</p>
           <button type="button" class="button-delete" onclick="gModalMenu.deleteEdge ()">Delete Transition</button>
           <button type="button" onclick="gModalMenu.cancel ('edgeEntry')">Cancel</button>
-          <button type="button" class="button-primary" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
+          <button type="button" class="button-primary" onclick="gModalMenu.submit ('tmEdgeEntry')">Update</button>
         </div>
       </div>
 

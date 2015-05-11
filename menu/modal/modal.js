@@ -27,6 +27,9 @@ gModalMenu.submitOnEnter = function (type) {
 
 gModalMenu.submit = function (type) {
   switch (type) {
+    case "tmEdgeEntry":
+      gEdges.tmEditComplete ();
+      break;
     case "edgeEntry":
       gEdges.editComplete ();
       break;

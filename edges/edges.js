@@ -1,5 +1,4 @@
-﻿// TODO: Get actual text bounding box
-// TODO: Shorten edges so the triangle isn't cut off
+﻿// TODO: Shorten edges so the triangle isn't cut off
 
 var gEdges =
   {
@@ -10,6 +9,7 @@ var gEdges =
     LOOP_TEXT_OFFSET: 70,
     TEXT_OFFSET: 10,
     TRANSITION_DY: 20,
+    TSPAN_HEIGHT: 10,
     // The below constant is also set in tm.css, change it there, too (in path.lower)
     SELECTABLE_WIDTH: 25,
     // Marker Constants
@@ -169,7 +169,7 @@ gEdges.drawDOMEdges = function (lowerSelection, upperSelection) {
     
   var tspans = upperSelection.select ("text")
     .selectAll ("tspan")
-    .data (function (edge) { return edge.transitions; });
+    .data (function (edge) { return gGraph.mode == gGraph.TM ? edge.transitions[0] : edge.transitions; });
     
   tspans.enter ().append ("tspan");
   
@@ -190,10 +190,13 @@ gEdges.drawDOMEdges = function (lowerSelection, upperSelection) {
                                      edge.target, 
                                      this.getBoundingClientRect ()).x; 
     }).attr("y", function (edge) {
+      var tspanCount = d3.select (this).selectAll ("tspan").size () - 1;
       return gEdges.getTextPosition (edge.source, 
                                      edge.target, 
-                                     this.getBoundingClientRect ()).y; 
+                                     this.getBoundingClientRect ()).y + tspanCount * gEdges.TSPAN_HEIGHT; 
     });
+    
+  tspans.exit ().remove ();
     
   gEdges.drawInitial ();
 };
@@ -222,6 +225,14 @@ gEdges.areConnected = function (sourceId, targetId) {
 };
 
 gEdges.getEdgeLabel = function (transition) { 
+  if (gGraph.mode == gGraph.TM) {
+    return transition.from + String.fromCharCode(0x2192) + transition.to + ", " + (transition.direction == 1 ? "R" : "L");
+  } else {
+    return gEdges.reduceLabel (transition);
+  }
+};
+
+gEdges.reduceLabel = function (transition) {
   var charSet = gGraph.charSet;
   var text = "";
   if (charSet.length / 2 >= transition.length) {

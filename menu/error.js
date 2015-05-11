@@ -5,11 +5,11 @@ var gErrorMenu =
     MAX_ERRORS: 3
   };
   
-gErrorMenu.displayError = function (message, persistent) {
+gErrorMenu.displayMessage = function (message, persistent, className) {
   var selection = d3.select (".errors")
     .append ("span")
     .text (message)
-    .classed ("error", true);
+    .classed (className, true);
     
   if (persistent != true) {
     selection.transition ()
@@ -28,6 +28,10 @@ gErrorMenu.displayError = function (message, persistent) {
       return i < errors - gErrorMenu.MAX_ERRORS;
     })
     .remove ();
+};
+  
+gErrorMenu.displayError = function (message, persistent) {
+  gErrorMenu.displayMessage (message, persistent, "error");
 };
 
 gErrorMenu.displayModalError = function (modal, message) {

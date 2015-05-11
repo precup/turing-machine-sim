@@ -84,7 +84,7 @@ gModalMenu.submitModal.clickConfirmBtn = function () {
 
 gModalMenu.submitModal.clickConfirmCancelBtn = function () {
   gModalMenu.close ("confirm");
-  gModalMenu.close ("submit");
+  gModalMenu.open ("submit");
   gModalMenu.submitModal.setSubmitButton ("Submit");
 };
 
@@ -106,18 +106,19 @@ gModalMenu.submitModal.submit = function (done) {
   var problem = gModalMenu.submitModal.getProblemNumber();
   
   if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "nfa") {
-    gErrorMenu.displayModalError ("This automaton is an NFA, but the problem requires a DFA.");
+    gErrorMenu.displayModalError ("submit", "This automaton is an NFA, but the problem requires a DFA.");
     gModalMenu.submitModal.setSubmitButton ("Submit");
     return;
   }
   if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "dfa") {
-    gErrorMenu.displayModalError ("This automaton is a DFA, but the problem requires an NFA.");
+    gErrorMenu.displayModalError ("submit", "This automaton is a DFA, but the problem requires an NFA.");
     gModalMenu.submitModal.setSubmitButton ("Submit");
     return;
   }
   if (psets[pset].problems[problem].charSet != gGraph.charSet) {
-    gErrorMenu.displayModalError ("The alphabet for this automaton doesn't match the alphabet for that problem.");
+    gErrorMenu.displayModalError ("submit", "The alphabet for this automaton doesn't match the alphabet for that problem.");
     gModalMenu.submitModal.setSubmitButton ("Submit");
+
     return;
   }
   
@@ -140,7 +141,6 @@ gModalMenu.submitModal.submit = function (done) {
     }
   );
 };
-
 
 gModalMenu.submitModal.getProblemNumber = function () {
   return d3.select (".problem").node ().selectedIndex;

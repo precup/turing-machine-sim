@@ -1,9 +1,12 @@
 var gSimulator = 
   {
+    TIMEOUT: "timeout"
   };
 
 gSimulator.init = function () {
-  var simulator = gGraph.mode == gGraph.DFA ? gDFASimulator : gNFASimulator;
+  var simulator = gGraph.mode == gGraph.DFA ? gDFASimulator : 
+                  gGraph.mode == gGraph.NFA ? gNFASimulator :
+                                              gTMSimulator;
   gSimulator.run = simulator.run;
   gSimulator.step = simulator.step;
 };  

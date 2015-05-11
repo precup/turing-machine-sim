@@ -14,8 +14,14 @@ gEdges.initEditing = function () {
     });
 };
 
-gEdges.editEdge = function (edge) {
-  gEdges.editedEdge = edge;
+gEdges.populateTMEdgeModal = function (edge) {
+  d3.select (".tmEdgeEntry")
+    .select (".modal-header")
+    .text ("Edit Transition " + edge.source.name + " " + String.fromCharCode(0x2192) + " " + edge.target.name);
+  gModalMenu.setTmEdgeStates (gEdges.editedEdge.transitions[0]);
+};
+
+gEdges.populateEdgeModal = function (edge) {
   var chars = edge.transitions[0].join ("");
   var epsilon = chars.length > 0 && chars[chars.length - 1] == gEpsilon;
   if (epsilon) {
@@ -23,7 +29,18 @@ gEdges.editEdge = function (edge) {
   }
   gModalMenu.setEdgeChars (chars);
   gModalMenu.setEpsilon (epsilon);
-  gModalMenu.open ("edgeEntry");
+};
+
+gEdges.editEdge = function (edge) {
+  gEdges.editedEdge = edge;
+  if (gGraph.mode == gGraph.TM) {
+    gEdges.populateTMEdgeModal (edge);
+    gModalMenu.open ("tmEdgeEntry");
+  } else {
+    gEdges.populateEdgeModal (edge);
+    gModalMenu.open ("edgeEntry");
+  }
+  gModalMenu.open (gGraph.mode == gGraph.TM ? "tmEdgeEntry" : "edgeEntry");
   d3.event.stopPropagation ();
 };
 
@@ -32,15 +49,24 @@ gEdges.editCancelled = function () {
     gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
   }
   gEdges.editedEdge = null;
-  gModalMenu.close ("edgeEntry");
+  gModalMenu.close (gGraph.mode == gGraph.TM ? "tmEdgeEntry" : "edgeEntry");
   gGraph.draw ();
 };
 
 gEdges.deleteEditedEdge = function () {
   gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
   gEdges.editedEdge = null;
-  gModalMenu.close ("edgeEntry");
+  gModalMenu.close (gGraph.mode == gGraph.TM ? "tmEdgeEntry" : "edgeEntry");
   gGraph.draw ();
+};
+
+gEdges.tmEditComplete = function () {
+  var states = gModalMenu.getTmEdgeStates ();
+  gEdges.editedEdge.transitions[0] = states;
+  gEdges.editedEdge = null;
+  gModalMenu.close ("tmEdgeEntry");
+  gGraph.draw ();
+  gGraph.draw (); //Fixes rendering issue
 };
 
 gEdges.editComplete = function () {
