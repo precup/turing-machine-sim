@@ -559,7 +559,7 @@ td {
   font-size: 13px;
   line-height: 20px;
   text-align: center;
-  margin: 12px 12px 6px 12px;
+  margin: 12px 12px 20px 12px;
   color: rgba(0, 0, 0, 0.6);
 }
 
@@ -634,4 +634,30 @@ button[disabled], button[disabled]:hover, button[disabled]:focus, button[disable
   text-align: center;
   pointer-events: none;
   bottom: 4px;
+}
+
+.tmEdgeEntry {
+  display: none;
+}
+
+.tmEdge {
+  padding: 10px;
+}
+
+.tmEdge th {
+  text-transform: uppercase;
+  font-size: 11px;
+  padding: 4px;
+}
+
+.tmEdge td, .tmEdge th {
+  text-align: center;
+}
+
+.tmEdge td {
+  padding: 4px;
+}
+
+.tmEdge .button-delete {
+  float: none;
 }

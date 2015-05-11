@@ -233,6 +233,43 @@
         </div>
       </div>
 
+      <div class="tmEdgeEntry popup" onkeypress="gModalMenu.submitOnEnter ('edgeEntry')">
+        <div class="modal-header">
+          Edit Transition {{fromNode}} &#x2192; {{toNode}}
+        </div>
+        <div class="modal-content">
+          <table width="100%" class="tmEdge">
+            <tr>
+              <th>Character</th>
+              <th>Write</th>
+              <th>Move tape head</th>
+              <th>Delete</th>
+            </tr>
+            <tr>
+              <td><input type="text" class="edgeChars" size="2"></td>
+              <td><input type="text" class="edgeChars" size="2"></td>
+              <td><input type="radio"> L <input type="radio"> R <input type="radio"> Stay</td>
+              <td><button class="button-delete">X</button></td>
+            </tr>
+            <tr>
+              <td><input type="text" class="edgeChars" size="2"></td>
+              <td><input type="text" class="edgeChars" size="2"></td>
+              <td><input type="radio"> L <input type="radio"> R <input type="radio"> Stay</td>
+              <td><button class="button-delete">X</button></td>
+            </tr>
+          </table>
+          <p class="modal-description">
+            <button>Add Character</button>
+          </p>
+        </div>
+        <div class="modal-buttons">
+          <p class="murica">MURICA!!!</p>
+          <button type="button" class="button-delete" onclick="gModalMenu.deleteEdge ()">Delete Transition</button>
+          <button type="button" onclick="gModalMenu.cancel ('edgeEntry')">Cancel</button>
+          <button type="button" class="button-primary" onclick="gModalMenu.submit ('edgeEntry')">Update</button>
+        </div>
+      </div>
+
       <div class="testing popup">
         <div class="modal-header">
           <span>Run Tests</span>
