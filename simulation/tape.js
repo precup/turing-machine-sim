@@ -30,18 +30,8 @@ gTape.run = function () {
 
 gTape.drawResult = function (accepted) {
   if (!gTape.done) {
-    d3.select (".errors")
-      .append ("span")
-      .text ("Run finished, " + (accepted ? "accept" : "reject") + "ing string \"" + gTape.input.join ("") + "\"")
-      .classed ("run-finished", true)
-      .classed ("accepting", accepted)
-      .classed ("rejecting", !accepted)
-      .transition ()
-      .delay (gTestMenu.DISPLAY_TIME)
-      .duration (gTestMenu.FADE_OUT_TIME)
-      .ease ("cubic")
-      .style ("opacity", 0)
-      .remove ();
+    var message = "Run finished, " + (accepted ? "accept" : "reject") + "ing string \"" + gTape.input.join ("") + "\"";
+    gErrorMenu.displayMessage (message, false, accepted ? "accepting run-finished" : "rejecting run-finished");
     gTape.done = true;
   }
 };

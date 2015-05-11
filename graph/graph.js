@@ -20,7 +20,7 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gGraph.problem = problem;
   gGraph.pset = pset;
   gGraph.mode = mode;
-  if (gGraph.mode != gGraph.NFA) {
+  if (gGraph.mode != gGraph.NFA && gGraph.mode != gGraph.TM) {
     gGraph.mode = gGraph.DFA;
   }
   if (charSetParam == null) {
@@ -48,6 +48,7 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gTestMenu.init ();
   gModalMenu.initBulk ();
   gModalMenu.initSubmit ();
+  gModalMenu.initTmEdit ();
   gTableMenu.init ();
   gGraph.initDelete ();
   gSimulator.init ();

@@ -250,7 +250,7 @@ circle.inner {
   width: 10%;
 }
 
-.gridInput, .edgeChars, .nodeName, .bulkInput {
+.gridInput, .edgeChars, .nodeName, .bulkInput, .tmEdgeChars {
   -webkit-appearance:none;
   border:1px solid rgb(229, 229, 229);
   padding:6px;
