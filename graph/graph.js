@@ -36,8 +36,15 @@ gGraph.init = function (pset, problem, charSet, mode) {
   if (gGraph.mode == gGraph.DFA) {
     d3.selectAll (".dfa-hide")
       .style ("display", "none");
+    d3.selectAll (".tm-hide")
+      .style ("display", "none");
   } else if (gGraph.mode == gGraph.NFA) {
     d3.selectAll (".nfa-hide")
+      .style ("display", "none");
+    d3.selectAll (".tm-hide")
+      .style ("display", "none");
+  } else {
+    d3.selectAll (".dfa-hide")
       .style ("display", "none");
   }
   

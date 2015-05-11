@@ -46,12 +46,12 @@ gTape.draw = function () {
       .style ("opacity", 1);
       
     d3.select (".stepButton").text ("Step").node ().disabled = false;
-    if (typeof gTape.current == "undefined" || (gTape.index == gTape.input.length && !gTape.current.accept)) {
+    if (gTape.isRejecting ()) {
       circle.style ("stroke", "red");
       d3.select (".stepButton").text ("Completed").node ().disabled = true;
       gTape.drawResult (false);
     }
-    else if (gTape.index == gTape.input.length) {
+    else if (gTape.isAccepting ()) {
       circle.style ("stroke", "green");
       d3.select (".stepButton").text ("Completed").node ().disabled = true;
       gTape.drawResult (true);
@@ -69,6 +69,26 @@ gTape.draw = function () {
         return gTape.index == i;
       });
     
+  }
+};
+
+gTape.isAccepting = function () {
+  if (gGraph.mode == gGraph.DFA) {
+    return typeof gTape.current != "undefined" && 
+      gTape.current.accept &&
+      gTape.index == gTape.input.length;
+  } else {
+    return typeof gTape.current != "undefined" && 
+      gTape.current.accept;
+  }
+};
+
+gTape.isRejecting = function () {
+  if (gGraph.mode == gGraph.DFA) {
+    return typeof gTape.current == "undefined" || 
+      (!gTape.current.accept && gTape.index == gTape.input.length);
+  } else {
+    return typeof gTape.current == "undefined" || gTape.current.reject;
   }
 };
 
@@ -93,9 +113,16 @@ gTape.step = function () {
     gTape.run ();
     return;
   }
-  if (typeof gTape.current != "undefined" && gTape.index != gTape.input.length) {
-    var next = gDFASimulator.step (gGraph.save (), gTape.current.id,  gTape.input,  gTape.index++);
-    gTape.current = gNodes.nodes[gNodes.getNodeIndex (next)];
+  if (!gTape.isRejecting () && !gTape.isAccepting ()) {
+    if (gGraph.mode == gGraph.DFA) {
+      var next = gDFASimulator.step (gGraph.save (), gTape.current.id,  gTape.input,  gTape.index++);
+      gTape.current = gNodes.nodes[gNodes.getNodeIndex (next)];
+    } else {
+      var next = gTMSimulator.step (gGraph.save (), gTape.current.id,  gTape.input,  gTape.index);
+      gTape.current = gNodes.nodes[gNodes.getNodeIndex (next.initial)];
+      gTape.input = next.input;
+      gTape.index = next.index;
+    }
     if (typeof gTape.current != "undefined") {
       gTape.follow = gTape.current;
     }

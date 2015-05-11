@@ -99,8 +99,11 @@ gTopMenu.draw = function () {
   if (selected.length > gTopMenu.MAX_DISPLAYED_STATES) {
     selectedText += "...";
   }
-
-  d3.select (".current-mode").text (gGraph.mode == gGraph.DFA ? "DFA" : "NFA");
+  var mode = gGraph.mode.toUpperCase ();
+  if (mode == "TM") {
+    mode = "Turing Machine";
+  }
+  d3.select (".current-mode").text (mode);
   d3.select (".current-alphabet").text (gGraph.charSet);
 
   d3.select ("#selectedText").text (gTopMenu.SELECTED_TEXT + selectedText);

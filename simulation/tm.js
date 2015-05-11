@@ -15,9 +15,9 @@ gTMSimulator.convert = function (graph) {
     }
   });
   graph.edges.edges.forEach (function (edge) {
-    edge.transitions.forEach (function (input) {
-      transitionTable[edge.source][input.character] = JSON.parse (JSON.stringify (input));
-      transitionTable[edge.source][input.character].target = edge.target;
+    edge.transitions[0].forEach (function (input) {
+      transitionTable[edge.source][input.from] = JSON.parse (JSON.stringify (input));
+      transitionTable[edge.source][input.from].target = edge.target;
     });
   });
   return transitionTable;
@@ -36,10 +36,11 @@ gTMSimulator.step = function (graph, initial, input, index) {
 gTMSimulator.stepState = function (table, state) {
   var transition = table[state.initial][state.input[state.index]];
   var result = {
-      initial: transition.target.id,
-      input: state.input.substr(0, index) + transition.result + state.input.substr(index + 1),
+      initial: transition.target,
       index: state.index + transition.direction
     };
+  result.input = JSON.parse (JSON.stringify (state.input));
+  result.input[state.index] = transition.to;
   if (result.index < 0) {
     result.index = 0;
     result.input = gBlank + result.input;
