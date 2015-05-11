@@ -125,7 +125,7 @@ gTape.step = function () {
       gTape.current = gNodes.nodes[gNodes.getNodeIndex (next.initial)];
       gTape.input = next.input;
       gTape.index = next.index;
-      gTestMenu.disallowInput (gTape.input);
+      gTestMenu.disallowInput (gTape.input.join (""));
     }
     if (typeof gTape.current != "undefined") {
       gTape.follow = gTape.current;

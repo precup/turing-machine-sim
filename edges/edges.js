@@ -226,7 +226,9 @@ gEdges.areConnected = function (sourceId, targetId) {
 
 gEdges.getEdgeLabel = function (transition) { 
   if (gGraph.mode == gGraph.TM) {
-    return transition.from + String.fromCharCode(0x2192) + transition.to + ", " + (transition.direction == 1 ? "R" : "L");
+    var from = transition.from == ' ' ? gSquare : transition.from;
+    var to = transition.to == ' ' ? gSquare : transition.to;
+    return from + String.fromCharCode(0x2192) + to + ", " + (transition.direction == 1 ? "R" : "L");
   } else {
     return gEdges.reduceLabel (transition);
   }

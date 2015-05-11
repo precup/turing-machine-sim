@@ -3,7 +3,8 @@ var gTMSimulator =
     MAX_ITER: 100000
   };
   
-var gBlank = '\x25A1';
+var gBlank = ' ';
+var gSquare = String.fromCharCode(0x25A1);
   
 gTMSimulator.convert = function (graph) {
   var transitionTable = {};
@@ -34,11 +35,15 @@ gTMSimulator.step = function (graph, initial, input, index) {
 };
 
 gTMSimulator.stepState = function (table, state) {
-  var transition = table[state.initial][state.input[state.index]];
+  var input = state.input;
+  if (input.length == 0) {
+    input = [" "];
+  }
+  var transition = table[state.initial][input[state.index]];
   if (transition == undefined) {
     return {
       initial: undefined,
-      input: state.input,
+      input: input,
       index: state.index
     };
   }
@@ -46,14 +51,14 @@ gTMSimulator.stepState = function (table, state) {
       initial: transition.target,
       index: state.index + transition.direction
     };
-  result.input = JSON.parse (JSON.stringify (state.input));
+  result.input = input;
   result.input[state.index] = transition.to;
-  if (result.index < 0) {
-    result.index = 0;
-    result.input = gBlank + result.input;
+  while (result.index < 0) {
+    result.index++;
+    result.input.splice (0, 0, gBlank);
   }
-  else if (result.index >= result.input) {
-    result.input += gBlank;
+  while (result.index >= result.input) {
+    result.input.push (gBlank);
   }
   return result;
 };

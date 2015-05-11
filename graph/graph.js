@@ -42,6 +42,7 @@ gGraph.init = function (pset, problem, charSet, mode) {
   } else {
     d3.selectAll (".tm-hide")
       .style ("display", "none");
+    gGraph.charSet += ' ';
   }
   
   gNodes.init ();

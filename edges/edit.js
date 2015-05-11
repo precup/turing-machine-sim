@@ -45,7 +45,7 @@ gEdges.editEdge = function (edge) {
 };
 
 gEdges.editCancelled = function () {
-  if (gEdges.editedEdge.transitions[0].length == 0) {
+  if (gEdges.tmPruneEmpty (gEdges.editedEdge.transitions[0]).length == 0) {
     gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
   }
   gEdges.editedEdge = null;
@@ -60,14 +60,21 @@ gEdges.deleteEditedEdge = function () {
   gGraph.draw ();
 };
 
-gEdges.tmEditComplete = function () {
-  var states = gModalMenu.tmEdge.getTmEdgeStates ();
-  for (var i = 0; i < states.length; i++) {
-    console.log (states[i]);
-    if (states[i].to == "" && states[i].from == "") {
-      states.splice (i--, 1);
-      continue;
+gEdges.tmPruneEmpty = function (transitions) {
+  if (gGraph.mode == gGraph.TM) {
+    for (var i = 0; i < transitions.length; i++) {
+      if (transitions[i].to == "" && transitions[i].from == "") {
+        transitions.splice (i--, 1);
+        continue;
+      }
     }
+  }
+  return transitions;
+};
+
+gEdges.tmEditComplete = function () {
+  var states = gEdges.tmPruneEmpty (gModalMenu.tmEdge.getTmEdgeStates ());
+  for (var i = 0; i < states.length; i++) {
     if (states[i].to == "" || states[i].from == "") {
       gErrorMenu.displayModalError ("tmEdgeEntry", "Character and Write must be non-empty");
       return;
@@ -81,6 +88,21 @@ gEdges.tmEditComplete = function () {
   if (states.length == 0) {
     gErrorMenu.displayModalError ("tmEdgeEntry", "You must define at least one transition");
     return;
+  }
+  for (var i = 0; i < gEdges.edges.length; i++) {
+    var edge = gEdges.edges[i];
+    if (edge.source.id == gEdges.editedEdge.source.id) {
+      for (var k = 0; k < states.length; k++) {
+        for (var j = 0; j < edge.transitions[0].length; j++) {
+          if (states[k].from == edge.transitions[0][j].from) {
+            edge.transitions[0].splice (j--, 1);
+          }
+        }
+      }
+      if (edge.transitions[0].length == 0) {
+        gEdges.removeEdge (edge.source, edge.target);
+      }
+    }
   }
   gEdges.editedEdge.transitions[0] = states;
   gEdges.editedEdge = null;
