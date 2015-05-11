@@ -195,6 +195,8 @@ gEdges.drawDOMEdges = function (lowerSelection, upperSelection) {
                                      this.getBoundingClientRect ()).y; 
     });
     
+  tspans.exit ().remove ();
+    
   gEdges.drawInitial ();
 };
 
@@ -222,6 +224,13 @@ gEdges.areConnected = function (sourceId, targetId) {
 };
 
 gEdges.getEdgeLabel = function (transition) { 
+  if (gGraph.mode == gGraph.TM) {
+  } else {
+    return gEdges.reduceLabel (transition);
+  }
+};
+
+gEdges.reduceLabel = function (transition) {
   var charSet = gGraph.charSet;
   var text = "";
   if (charSet.length / 2 >= transition.length) {

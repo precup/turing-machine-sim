@@ -5,7 +5,8 @@ var gGraph =
     HEIGHT_OFFSET: 5,
     BUFFER: 100,
     DFA: "dfa",
-    NFA: "nfa"
+    NFA: "nfa",
+    TM: "tm"
   };
   
 gGraph.init = function (pset, problem, charSet, mode) {

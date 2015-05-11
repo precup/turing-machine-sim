@@ -123,11 +123,7 @@ gTopMenu.draw = function () {
   }
 
   d3.select (".current-mode").text (gGraph.mode == gGraph.DFA ? "DFA" : "NFA");
-  var charSet = gGraph.charSet;
-  if (gGraph.epsilonEnabled) {
-    charSet += gEpsilon;
-  }
-  d3.select (".current-alphabet").text (charSet);
+  d3.select (".current-alphabet").text (gGraph.charSet);
 
   d3.select ("#selectedText").text (gTopMenu.SELECTED_TEXT + selectedText);
 
