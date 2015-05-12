@@ -345,7 +345,9 @@
               <td class="popupLeft">Decide to</td>
               <td class="popupRight">
                 <button type="button" class="modalAcceptButton" onclick="gModalMenu.setState(true, false)">&#x2713; Accept</button>
-                <button type="button" class="modalNeitherButton" onclick="gModalMenu.setState(false, false)">&#x2717; Reject</button>
+                <button type="button" class="modalNeitherButton tm-hide" onclick="gModalMenu.setState(false, true)">&#x2717; Reject</button>
+                <button type="button" class="modalNeitherButton dfa-hide nfa-hide" onclick="gModalMenu.setState(false, false)">Neither</button>
+                <button type="button" class="modalRejectButton dfa-hide nfa-hide" onclick="gModalMenu.setState(false, true)">&#x2717; Reject</button>
               </td>
             </tr>
           </table>

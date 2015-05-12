@@ -15,8 +15,9 @@ gModalMenu.getInitial = function () {
 };
 
 gModalMenu.setState = function (accept, reject) {
-  d3.select (".modalAcceptButton").classed ("marked", accept);
-  d3.select (".modalNeitherButton").classed ("marked", !accept);
+  d3.selectAll (".modalAcceptButton").classed ("marked", accept);
+  d3.selectAll (".modalNeitherButton").classed ("marked", !accept && !reject);
+  d3.selectAll (".modalRejectButton").classed ("marked", reject);
 };
 
 gModalMenu.getAccepting = function () {
@@ -24,5 +25,9 @@ gModalMenu.getAccepting = function () {
 };
 
 gModalMenu.getRejecting = function () {
-  return d3.select (".modalNeitherButton").classed ("marked");
+  return d3.select (".modalRejectButton").classed ("marked");
+};
+
+gModalMenu.deleteNode = function () {
+  gNodes.deleteEdited ();
 };
