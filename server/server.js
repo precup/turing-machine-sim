@@ -4,10 +4,15 @@ gServer.url_prefix = "/class/cs103/cgi-bin/restricted_copy";
 
 gServer.name = "";
 
+gServer.changeName = function (name) {
+  var new_url = setURLParam ("saved", name, window.location.href);
+  window.history.pushState ({}, "", new_url);
+  gServer.name = name;
+};
+
 // callback (err, data)
 gServer.save = function (name, callback) {
-  
-  gServer.name = name;
+  gServer.changeName (name);
   var save_url = "/api/save.php";
   var stringGraph = JSON.stringify (gGraph.save ());
 
