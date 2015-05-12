@@ -12,7 +12,7 @@ gModalMenu.saveas.clickSaveBtn = function () {
 
   gModalMenu.saveas.setSaveButton ("Saving...");
   var rawName = gModalMenu.saveas.getSaveName ();
-  if (rawName.replace (/\s/g, "").length === 0) {
+  if (gModalMenu.saveas.isInvalidName (rawName)) {
     gErrorMenu.displayModalError ("saveas", "Automaton name cannot be blank");
     gModalMenu.saveas.setSaveButton ("Save");
     return;
@@ -65,8 +65,7 @@ gModalMenu.saveas.clickConfirmCancelBtn = function () {
   gModalMenu.saveas.setSaveButton ("Save");
 };
 
-// done () - not used right now
-gModalMenu.saveas.save = function (done) {
+gModalMenu.saveas.save = function () {
   var name = gModalMenu.saveas.getSaveName ();
   gServer.save (name, function (err, data) {
     if (err) {
@@ -76,16 +75,19 @@ gModalMenu.saveas.save = function (done) {
       }, 3000);
       gModalMenu.saveas.setSaveButton ("Save");
       return;
-    } else {
-      gServer.name = name;
-      gModalMenu.saveas.setSaveButton ("Saved!");
     }
+    gServer.changeName (name);
+    gModalMenu.saveas.setSaveButton ("Saved!");
     window.setTimeout (function () {
       gModalMenu.saveas.setSaveButton ("Save"); // return to original
       gModalMenu.close("saveas");
     }, 1000);
   });
 };
+
+gModalMenu.saveas.isInvalidName = function (name) {
+  return name.replace (/\s/g, "").length === 0
+}
 
 gModalMenu.saveas.getSaveName = function () {
   return d3.select (".saveText").node ().value;

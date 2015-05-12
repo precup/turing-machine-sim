@@ -64,6 +64,33 @@ gTopMenu.loadFromServer = function () {
   gModalMenu.load.onOpen ();
 };
 
+gTopMenu.save = function () {
+  var BUTTON_TIMEOUT = 2000;
+  var name = gServer.name;
+  gTopMenu.setSaveButton ("Saving...");
+  if (!gModalMenu.saveas.isInvalidName (name) && name) {
+    // save
+    gServer.save (name,
+      function (err, data) {
+        if (err) {
+          gTopMenu.setSaveButton ("Failed");
+          gErrorMenu.displayError ("Save failed: couldn't connect to server.");
+        } else {
+          gTopMenu.setSaveButton ("Saved!");
+        }
+        setTimeout (function () {
+          gTopMenu.setSaveButton ("Save");
+        }, BUTTON_TIMEOUT);
+      });
+  } else if (!name) {
+  // name is null, hasn't been saved
+    gErrorMenu.displayError ("Please first use \"Save As\" to give your automaton a name")
+  } else {
+    // show error message
+    gErrorMenu.displayError ("Saving to invalid name, use \"Save As\" to change name");
+  }
+};
+
 gTopMenu.saveas = function () {
   gModalMenu.saveas.open ();
 };
@@ -111,4 +138,8 @@ gTopMenu.draw = function () {
   d3.select(".acceptButton").classed("marked", gNodes.selectionIsAccepting ());
   d3.select(".rejectButton").classed("marked", gNodes.selectionIsRejecting ());
   d3.selectAll(".neitherButton").classed("marked", gNodes.selectionIsNeither ());
+};
+
+gTopMenu.setSaveButton = function (text) {
+  d3.select (".saveTopButton").text (text);
 };

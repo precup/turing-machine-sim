@@ -7,6 +7,17 @@ function getURLParam (name, url) {
   return results == null ? null : results[1];
 }
 
+function setURLParam (key, value, url) {
+  var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+  var separator = url.indexOf('?') !== -1 ? "&" : "?";
+  if (url.match(re)) {
+    return url.replace(re, '$1' + key + "=" + value + '$2');
+  }
+  else {
+    return url + separator + key + "=" + value;
+  }
+}
+
 Math.bound = function (value, min, max) {
   var mod = max - min;
   while (value < min) value += mod;

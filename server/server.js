@@ -4,10 +4,15 @@ gServer.url_prefix = "/class/cs103/cgi-bin/restricted_copy";
 
 gServer.name = "";
 
+gServer.changeName = function (name) {
+  var new_url = setURLParam ("saved", name, window.location.href);
+  window.history.pushState ({}, "", new_url);
+  gServer.name = name;
+};
+
 // callback (err, data)
 gServer.save = function (name, callback) {
-  
-  gServer.name = name;
+  // gServer.changeName (name);
   var save_url = "/api/save.php";
   var stringGraph = JSON.stringify (gGraph.save ());
 
@@ -28,9 +33,8 @@ gServer.save = function (name, callback) {
 };
 
 // selected is the name of the automaton to load
-// whileRunning (), callback (err, res)
-gServer.load = function (selected, whileRunning, callback) {
-  if (typeof whileRunning === "function") whileRunning ();
+// callback (err, res)
+gServer.load = function (selected, callback) {
 
   var get_url = "/api/loadFromSaved.php" + "?name=" + selected;
   d3.xhr (gServer.url_prefix + get_url)
@@ -50,7 +54,6 @@ gServer.submit = function (automata, pset, problem, callback) {
     pset: pset,
     problem: problem
   };
-
 
   var packed = JSON.stringify (pack);
 
