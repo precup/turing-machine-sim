@@ -140,7 +140,8 @@
       }
 
       function createOther () {
-        var type = d3.select ('.dfa-radio').node ().checked ? "dfa" : "nfa";
+        var type = d3.select ('.dfa-radio').node ().checked ? "dfa" :
+                   d3.select ('.nfa-radio').node ().checked ? "nfa" : "tm";
         var charSet = d3.select ('.language').node ().value;
         window.location = getURLParent () + "tm.html?type=" + type + "&charset=" + charSet;
       }
@@ -172,7 +173,8 @@
         <div class="custom-field">
           <form>
             <label><input type="radio" name="type" checked="checked" class="dfa-radio">DFA</label>
-            <label><input type="radio" name="type">NFA</label>
+            <label><input type="radio" name="type" class="nfa-radio">NFA</label>
+            <label><input type="radio" name="type" class="ym-radio">TM</label>
             <input type="text" placeholder="Alphabet" class="language"></input>
             <button type="button" onclick="createOther()">Go</button>
           </form>
