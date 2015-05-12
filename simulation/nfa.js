@@ -3,6 +3,7 @@ var gNFASimulator =
   };
 
 gNFASimulator.run = function (graph, input) {
+  gSimulator.output = input;
   var transitionTable = gSimulator.convert (graph);
   var queue = new Queue ();
   var used = {};

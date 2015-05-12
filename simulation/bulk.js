@@ -34,8 +34,8 @@ gSimulator.runTests = function () {
   var graph = gGraph.save ();
   inputs.forEach (function (input) {
     results.push ({
-        input: input.testCase,
         accepted: gSimulator.run (graph, input.testCase),
+        input: gSimulator.output,
         expected: input.expected
       });
   });

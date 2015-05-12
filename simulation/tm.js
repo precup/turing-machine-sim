@@ -37,7 +37,7 @@ gTMSimulator.step = function (graph, initial, input, index) {
 gTMSimulator.stepState = function (table, state) {
   var input = state.input;
   if (input.length == 0) {
-    input = [" "];
+    input = " ";
   }
   var transition = table[state.initial][input[state.index]];
   if (transition == undefined) {
@@ -51,8 +51,7 @@ gTMSimulator.stepState = function (table, state) {
       initial: transition.target,
       index: state.index + transition.direction
     };
-  result.input = input;
-  result.input[state.index] = transition.to;
+  result.input = input.substring (0, state.index) + transition.to + input.substring (state.index + 1);
   while (result.index < 0) {
     result.index++;
     result.input.splice (0, 0, gBlank);
@@ -72,18 +71,22 @@ gTMSimulator.run = function (graph, input) {
   var transitionTable = gTMSimulator.convert (graph);
   for (var i = 0; i < gTMSimulator.MAX_ITER; i++) {
     if (state.initial == undefined) {
+      gSimulator.output = state.input;
       return false;
     }
     var current = graph.nodes.nodes[gNodes.getNodeIndex (state.initial)];
     if (current.accept) {
+      gSimulator.output = state.input;
       return true;
     }
     if (current.reject) {
+      gSimulator.output = state.input;
       return false;
     }
     if (i < gTMSimulator.MAX_ITER - 1) {
       state = gTMSimulator.stepState (transitionTable, state);
     }
   }
+  gSimulator.output = state.input;
   return gSimulator.TIMEOUT;
 };

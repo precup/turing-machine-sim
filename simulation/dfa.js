@@ -8,6 +8,7 @@ gDFASimulator.step = function (graph, initial, input, index) {
 };
 
 gDFASimulator.run = function (graph, input) {
+  gSimulator.output = input;
   var transitionTable = gSimulator.convert (graph);
   var current = graph.nodes.initial;
   for (var i = 0; i < input.length; i++) {

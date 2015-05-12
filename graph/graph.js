@@ -56,6 +56,7 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gModalMenu.tmEdge.initTmEdit ();
   gTableMenu.init ();
   gGraph.initDelete ();
+  gGraph.initCookie ();
   gSimulator.init ();
   
   d3.selectAll (".popup")
