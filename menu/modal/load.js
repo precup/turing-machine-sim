@@ -54,12 +54,9 @@ gModalMenu.load.onClickLoadBtn = function () {
     }, 3000);
     return;
   }
-
+  gModalMenu.load.setLoadButton ("Loading...");
   gServer.load (
     name,
-    function () { // whileRunning
-      gModalMenu.load.setLoadButton ("Loading...");
-    },
     function (err, automata) {
       if (err) {
         if (typeof error_callback === "function") {

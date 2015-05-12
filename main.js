@@ -24,7 +24,6 @@ function run () {
   } else {
     gServer.load (
       saved,
-      null,
       function (err, automata) {
         if (err) {
           gErrorMenu.displayError ("Could not connect to server; load failed", true);
