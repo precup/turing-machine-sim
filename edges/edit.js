@@ -91,7 +91,7 @@ gEdges.tmEditComplete = function () {
   }
   for (var i = 0; i < gEdges.edges.length; i++) {
     var edge = gEdges.edges[i];
-    if (edge.source.id == gEdges.editedEdge.source.id) {
+    if (edge.source.id == gEdges.editedEdge.source.id && edge.target.id != gEdges.editedEdge.target.id) {
       for (var k = 0; k < states.length; k++) {
         for (var j = 0; j < edge.transitions[0].length; j++) {
           if (states[k].from == edge.transitions[0][j].from) {
