@@ -303,6 +303,19 @@ gNodes.draw = function () {
     gNodes.upperG.selectAll ("g").remove ();
   }
   
+  gNodes.upperG.select (".empty-text").remove ();
+  if (gNodes.nodes.length == 0) {
+    var text = gNodes.upperG.append ("text")
+      .classed ("empty-text", true)
+      .style ("font-size", 20)
+      .style ("font-family", '"San Francisco", "Helvetica Neue", "Helvetica", "Arial", sans-serif')
+      .style ("fill", "rgba(0, 0, 0, 0.4)")
+      .style ("stroke", "none")
+      .attr ("x", gGraph.width / 2)
+      .attr ("y", gGraph.height / 2)
+      .text ("Double-click to create your first node.");
+  }
+  
   var lowerNodes = gNodes.lowerG.selectAll ("circle").data (gNodes.nodes, function (d) { return d.id; });
   var upperNodes = gNodes.upperG.selectAll ("g").data (gNodes.nodes, function (d) { return d.id; });
 
