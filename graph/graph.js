@@ -15,6 +15,7 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
   gGraph.height -= d3.select (".tape-bar").node ().getBoundingClientRect ().height;
   svg.attr ("height", gGraph.height);
+  console.log(gGraph.width);
   
   var charSetParam = charSet;
   gGraph.problem = problem;
@@ -55,6 +56,7 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gModalMenu.tmEdge.initTmEdit ();
   gTableMenu.init ();
   gGraph.initDelete ();
+  gGraph.initCookie ();
   gSimulator.init ();
   
   d3.selectAll (".popup")
@@ -72,10 +74,6 @@ gGraph.init = function (pset, problem, charSet, mode) {
   gBehaviors.apply ("page", d3.select("body"));
   gBehaviors.apply ("background", d3.select("div.gui"));
 
-  
-  gNodes.addNode ();
-  gNodes.addNode ();
-  gNodes.deselectAll ();
   gGraph.draw ();
 }
 
@@ -108,6 +106,7 @@ gGraph.load = function (saveData) {
 };
 
 gGraph.draw = function () {
+  gGraph.width = d3.select ("svg").node ().getBoundingClientRect ().width;
   gNodes.draw ();
   gEdges.draw ();
   gTopMenu.draw ();

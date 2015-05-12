@@ -15,6 +15,7 @@
 
     <script src="graph/graph.js"></script>
     <script src="graph/delete.js"></script>
+    <script src="cookie.js"></script>
 
     <script src="edges/edges.js"></script>
     <script src="edges/initial.js"></script>
@@ -294,7 +295,8 @@
                 <table class="results">
                   <thead>
                     <tr>
-                      <td>Input</td>
+                      <td class="tm-hide">Input</td>
+                      <td class="dfa-hide nfa-hide">Output</td>
                       <td>Result</td>
                       <td>Matches</td>
                     </tr>
@@ -346,7 +348,9 @@
               <td class="popupLeft">Decide to</td>
               <td class="popupRight">
                 <button type="button" class="modalAcceptButton" onclick="gModalMenu.setState(true, false)">&#x2713; Accept</button>
-                <button type="button" class="modalNeitherButton" onclick="gModalMenu.setState(false, false)">&#x2717; Reject</button>
+                <button type="button" class="modalNeitherButton tm-hide" onclick="gModalMenu.setState(false, true)">&#x2717; Reject</button>
+                <button type="button" class="modalNeitherButton dfa-hide nfa-hide" onclick="gModalMenu.setState(false, false)">Neither</button>
+                <button type="button" class="modalRejectButton dfa-hide nfa-hide" onclick="gModalMenu.setState(false, true)">&#x2717; Reject</button>
               </td>
             </tr>
           </table>

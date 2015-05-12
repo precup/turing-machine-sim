@@ -42,8 +42,9 @@ gTape.drawResult = function (accepted) {
 gTape.draw = function () {
   var circle = d3.select (".tape").select ("circle");
   if (gTape.follow) {
+    var duration = gTape.follow != gTape.prev && circle.style ("opacity") == 1 ? 100 : 0;
     circle.transition ()
-      .duration (circle.style ("opacity") == 1 ? 100 : 0)
+      .duration (duration)
       .attr ("cx", gTape.follow.x)
       .attr ("cy", gTape.follow.y)
       .style ("opacity", 1);
@@ -73,6 +74,7 @@ gTape.draw = function () {
       });
     
   }
+  gTape.prev = gTape.follow;
 };
 
 gTape.isAccepting = function () {

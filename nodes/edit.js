@@ -33,6 +33,7 @@ gNodes.editComplete = function () {
   var index = gNodes.getNodeIndexFromName (name);
   if (index == -1 || gNodes.nodes[index].id == gNodes.editedNode.id) {
     gNodes.editedNode.accept = gModalMenu.getAccepting ();
+    gNodes.editedNode.reject = gModalMenu.getRejecting ();
     if (gModalMenu.getInitial ()) {
       gNodes.initial = gNodes.editedNode;
     } else if (gNodes.initial != null && gNodes.editedNode.id == gNodes.initial.id) {
