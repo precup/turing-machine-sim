@@ -105,12 +105,12 @@ gServer.loadSubmission = function (pset, problem, callback) {
 gServer.listSaved = function (callback) {
   var listSaved_url = "/api/listSaved.php";
   try {
-  d3.xhr (gServer.url_prefix + listSaved_url)
-    .header ("Content-Type", "application/json")
-    .get (function (err, data) {
-      if (err) callback (err, null);
-      else callback (err, JSON.parse (data.response));
-    });
+    d3.xhr (gServer.url_prefix + listSaved_url)
+      .header ("Content-Type", "application/json")
+      .get (function (err, data) {
+        if (err) callback (err, null);
+        else callback (err, JSON.parse (data.response));
+      });
   } catch (err) {
     console.error ("Could not connect to server");
   }
