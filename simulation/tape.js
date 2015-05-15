@@ -63,10 +63,11 @@ gTape.draw = function () {
   } else {
     circle.style ("opacity", 0);
   }
+  var currentTapeClass = gGraph.mode == gGraph.TM ? "current-tape-char-solid" : "current-tape-char";
   if (gTape.running && gTape.index <= gTape.input.length) {
     d3.selectAll (".tape-char")
-      .classed ("current-tape-char", function (junk, i) {
-        if (!d3.select (this).classed ("current-tape-char") && gTape.index == i) {
+      .classed (currentTapeClass, function (junk, i) {
+        if (!d3.select (this).classed (currentTapeClass) && gTape.index == i) {
           this.focus ();
           this.blur ();
         }
@@ -123,9 +124,9 @@ gTape.step = function () {
       var next = gDFASimulator.step (gGraph.save (), gTape.current.id,  gTape.input,  gTape.index++);
       gTape.current = gNodes.nodes[gNodes.getNodeIndex (next)];
     } else {
-      var next = gTMSimulator.step (gGraph.save (), gTape.current.id,  gTape.input,  gTape.index);
+      var next = gTMSimulator.step (gGraph.save (), gTape.current.id,  gTape.input.join (""),  gTape.index);
       gTape.current = gNodes.nodes[gNodes.getNodeIndex (next.initial)];
-      gTape.input = next.input;
+      gTape.input = next.input.split ("");
       gTape.index = next.index;
       gTestMenu.disallowInput (gTape.input.join (""));
     }

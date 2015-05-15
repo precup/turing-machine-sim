@@ -6,8 +6,9 @@ var gTestMenu =
   };
 
 gTestMenu.init = function () {
-  gTestMenu.setRunning (false);
+  gTestMenu.reset ();
   gTestMenu.text = "";
+  gTestMenu.backupText = "";
   var tape = d3.select (".tape-field");
   for (var i = 0; i < gTestMenu.NUM_CELLS; i++) {
     tape.append ("input")
@@ -32,15 +33,18 @@ gTestMenu.init = function () {
 
 gTestMenu.reset = function () {
   gTestMenu.setRunning (false);
-  d3.select (".tape-char-input").node ().value = "";
+  d3.select (".tape-char-input").node ().value = gTestMenu.backupText || "";
   d3.selectAll (".current-tape-char")
     .classed ("current-tape-char", false);
+  d3.selectAll (".current-tape-char-solid")
+    .classed ("current-tape-char-solid", false);
   gTestMenu.disallowInput ();
+  gTape.reset ();
 };
 
 gTestMenu.allowInput = function () {
-  gTestMenu.setRunning (false);
-  d3.select (".tape-char-input").node ().value = gTestMenu.text;
+  gTestMenu.reset ();
+  d3.select (".tape-char-input").node ().value = gTestMenu.backupText;
 
   d3.selectAll (".tape-char")
     .style ("display", "none");
@@ -51,6 +55,7 @@ gTestMenu.allowInput = function () {
 };
 
 gTestMenu.disallowInput = function (text) {
+  gTestMenu.backupText = d3.select (".tape-char-input").node ().value;
   gTestMenu.text = text == undefined ? d3.select (".tape-char-input").node ().value : text;
   var legal = intersection (gTestMenu.text, gGraph.charSet);
   if (gTestMenu.text.length != legal.length) {
@@ -110,6 +115,7 @@ gTestMenu.setRunning = function (running) {
 };
 
 gTestMenu.run = function () {
+  gTestMenu.reset ();
   var unset = gTestMenu.unsetTransitions ();
   if (gNodes.initial == null) {
     gErrorMenu.displayError ("This automaton doesn't have a start state.");
@@ -126,6 +132,8 @@ gTestMenu.end = function () {
   gTestMenu.setRunning (false);
   d3.selectAll (".current-tape-char")
     .classed ("current-tape-char", false);
+  d3.selectAll (".current-tape-char-solid")
+    .classed ("current-tape-char-solid", false);
   gTestMenu.disallowInput ();
   gTape.hide ();
 };
