@@ -51,8 +51,13 @@ gTestMenu.allowInput = function () {
 };
 
 gTestMenu.disallowInput = function (text) {
-  gTestMenu.backupText = d3.select (".tape-char-input").node ().value;
-  gTestMenu.text = text == undefined ? d3.select (".tape-char-input").node ().value : text;
+  if (gTestMenu.backupText != d3.select (".tape-char-input").node ().value) {
+    gTestMenu.backupText = d3.select (".tape-char-input").node ().value;
+    gTestMenu.text = d3.select (".tape-char-input").node ().value;
+  }
+  if (text != undefined) {
+    gTestMenu.text = text;
+  }
   var legal = intersection (gTestMenu.text, gGraph.charSet);
   if (gTestMenu.text.length != legal.length) {
     gTestMenu.text = legal;
