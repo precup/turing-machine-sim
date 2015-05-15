@@ -123,9 +123,9 @@ gTape.step = function () {
       var next = gDFASimulator.step (gGraph.save (), gTape.current.id,  gTape.input,  gTape.index++);
       gTape.current = gNodes.nodes[gNodes.getNodeIndex (next)];
     } else {
-      var next = gTMSimulator.step (gGraph.save (), gTape.current.id,  gTape.input,  gTape.index);
+      var next = gTMSimulator.step (gGraph.save (), gTape.current.id,  gTape.input.join (""),  gTape.index);
       gTape.current = gNodes.nodes[gNodes.getNodeIndex (next.initial)];
-      gTape.input = next.input;
+      gTape.input = next.input.split ("");
       gTape.index = next.index;
       gTestMenu.disallowInput (gTape.input.join (""));
     }
