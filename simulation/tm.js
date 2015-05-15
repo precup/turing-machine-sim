@@ -54,10 +54,10 @@ gTMSimulator.stepState = function (table, state) {
   result.input = input.substring (0, state.index) + transition.to + input.substring (state.index + 1);
   while (result.index < 0) {
     result.index++;
-    result.input.splice (0, 0, gBlank);
+    result.input = gBlank + result.input;
   }
   while (result.index >= result.input) {
-    result.input.push (gBlank);
+    result.input += (gBlank);
   }
   return result;
 };
