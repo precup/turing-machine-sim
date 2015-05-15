@@ -36,8 +36,8 @@ gTMSimulator.step = function (graph, initial, input, index) {
 
 gTMSimulator.stepState = function (table, state) {
   var input = state.input;
-  if (input.length == 0) {
-    input = " ";
+  if (input.length == state.index) {
+    input += gBlank;
   }
   var transition = table[state.initial][input[state.index]];
   if (transition == undefined) {
@@ -56,7 +56,7 @@ gTMSimulator.stepState = function (table, state) {
     result.index++;
     result.input = gBlank + result.input;
   }
-  while (result.index >= result.input) {
+  while (result.index >= result.input.length) {
     result.input += (gBlank);
   }
   return result;
