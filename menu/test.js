@@ -36,6 +36,8 @@ gTestMenu.reset = function () {
   d3.select (".tape-char-input").node ().value = gTestMenu.backupText || "";
   d3.selectAll (".current-tape-char")
     .classed ("current-tape-char", false);
+  d3.selectAll (".current-tape-char-solid")
+    .classed ("current-tape-char-solid", false);
   gTestMenu.disallowInput ();
   gTape.reset ();
 };
@@ -130,6 +132,8 @@ gTestMenu.end = function () {
   gTestMenu.setRunning (false);
   d3.selectAll (".current-tape-char")
     .classed ("current-tape-char", false);
+  d3.selectAll (".current-tape-char-solid")
+    .classed ("current-tape-char-solid", false);
   gTestMenu.disallowInput ();
   gTape.hide ();
 };
