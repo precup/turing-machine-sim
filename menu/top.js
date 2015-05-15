@@ -83,11 +83,13 @@ gTopMenu.save = function () {
         }, BUTTON_TIMEOUT);
       });
   } else if (!name) {
-  // name is null, hasn't been saved
+    // name is null, hasn't been saved
     gErrorMenu.displayError ("Please first use \"Save As\" to give your automaton a name")
+    gTopMenu.setSaveButton ("Save");
   } else {
     // show error message
     gErrorMenu.displayError ("Saving to invalid name, use \"Save As\" to change name");
+    gTopMenu.setSaveButton ("Save");
   }
 };
 
