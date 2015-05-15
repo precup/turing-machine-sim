@@ -60,11 +60,14 @@ gSimulator.runTests = function () {
       d3.select (this).selectAll ("td").text (function (junk, i) {
         switch (i) {
           case 0:
-            return result.input;
+            return result.accepted == gSimulator.TIMEOUT ? "Timed out" : result.input;
           case 1:
+            if (result.accepted == gSimulator.TIMEOUT) {
+              return "-";
+            }
             return result.accepted ? "A" : "R";
           case 2:
-            if (result.expected === gSimulator.NEITHER) {
+            if (result.expected === gSimulator.NEITHER || result.accepted == gSimulator.TIMEOUT) {
               return "-";
             } else {
               var correct = !((result.expected === gSimulator.ACCEPT) ^ result.accepted);
