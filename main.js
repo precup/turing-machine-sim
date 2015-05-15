@@ -18,20 +18,34 @@ function run () {
         reload (automata);
       }
     });
-  }
-  else if (saved == null) {
+  } else if (saved == null) {
     buildGraph (pset, problem, charSet, mode);
   } else {
-    gServer.load (
-      saved,
-      function (err, automata) {
-        if (err) {
-          gErrorMenu.displayError ("Could not connect to server; load failed", true);
-          return;
+    gServer.listSaved (function (err, data) {
+      var found = false;
+      data.forEach (function (elem, index, arr) {
+        if (elem["name"] === saved) {
+          found = true;
         }
-        gServer.name = saved;
-        reload (automata);
       });
+
+      if (found) {
+        gServer.load (
+          saved,
+          function (err, automata) {
+            // console.log ("responded!");
+            // console.log (err, automata);
+            if (err) {
+              gErrorMenu.displayError ("Could not connect to server; load failed", true);
+              return;
+            }
+            gServer.name = saved;
+            reload (automata);
+          });
+      } else {
+        gErrorMenu.displayError ("Could not connect to server; load failed", true);
+      }
+    });
   }
 }
 
