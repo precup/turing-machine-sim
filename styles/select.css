@@ -87,10 +87,10 @@ h3 {
 }
 
 .custom-field {
-  float: right;
+  line-height: 50px;
 }
 
-.custom input[type="text"]{
+.custom-field input[type="text"]{
   font-size: 13px;
   border-radius: 4px;
   width: 140px;
@@ -180,4 +180,14 @@ li:last-child {
   opacity: 0.5;
   text-align: center;
   pointer-events: none;
+}
+
+.right {
+  position: absolute;
+  right: 0px;
+  bottom: -6px;
+}
+
+.custom-field form {
+  position: relative;
 }
