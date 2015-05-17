@@ -55,13 +55,15 @@ gTestMenu.allowInput = function () {
 };
 
 gTestMenu.disallowInput = function (text) {
-  gTestMenu.backupText = intersection (d3.select (".tape-char-input").node ().value, gGraph.charSet);
-  gTestMenu.text = text == undefined ? d3.select (".tape-char-input").node ().value : text;
-  var legal = intersection (gTestMenu.text, gGraph.charSet);
-  if (gTestMenu.text.length != legal.length) {
-    gTestMenu.text = legal;
-    gErrorMenu.displayError ("Removing characters that aren't in the alphabet.");
+  if (gTestMenu.backupText != intersection (d3.select (".tape-char-input").node ().value, gGraph.charSet)) {
+     gTestMenu.backupText = d3.select (".tape-char-input").node ().value;
+     var legal = intersection (gTestMenu.backupText, gGraph.charSet)
+    if (gTestMenu.backupText.length != legal.length) {
+      gErrorMenu.displayError ("Removing characters that aren't in the alphabet.");
+    }
+    gTestMenu.backupText = legal;
   }
+  gTestMenu.text = text == undefined ? gTestMenu.backupText : text;
 
   d3.selectAll (".tape-char")
     .style ("display", "inline")
