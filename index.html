@@ -168,18 +168,23 @@
         </div>
       </div>
       <ul class="problem"></ul>
-      <div class="custom standalone">
+      <div class="custom">
         I'm doing my own thing.
-        <div class="custom-field">
-          <form>
-            <label><input type="radio" name="type" checked="checked" class="dfa-radio">DFA</label>
-            <label><input type="radio" name="type" class="nfa-radio">NFA</label>
-            <label><input type="radio" name="type" class="ym-radio">TM</label>
-            <input type="text" placeholder="Alphabet" class="language"></input>
-            <button type="button" onclick="createOther()">Go</button>
-          </form>
-        </div>
       </div>
+      <ul class="custom-field">
+        <li>
+            <form>
+              <label><input type="radio" name="type" checked="checked" class="dfa-radio">DFA</label>
+              <label><input type="radio" name="type" class="nfa-radio">NFA</label>
+              <label><input type="radio" name="type" class="ym-radio">TM</label>
+              <span class="right">
+              <input type="text" placeholder="Alphabet" class="language"></input>
+              <input type="text" placeholder="Machine Alphabet" class="language"></input>
+              <button type="button" onclick="createOther()">Go</button>
+              </span>
+            </form>
+        </li>
+      </ul>
       <div class="custom">
         I'm loading something I've saved.
       </div>
