@@ -134,16 +134,20 @@
         var charSet = psets[psetNum].problems[problemNum].charSet;
         var type = psets[psetNum].problems[problemNum].type;
         window.location = getURLParent () + "tm.html?type=" + type +
-                          "&charset=" + charSet +
-                          "&pset=" + psetNum +
-                          "&problem=" + problemNum;
+                            "&charset=" + charSet +
+                            "&pset=" + psetNum +
+                            "&problem=" + problemNum +
+                            ((type === "tm") ? "&tapeset=" + tapeSet : "");
       }
 
       function createOther () {
         var type = d3.select ('.dfa-radio').node ().checked ? "dfa" :
                    d3.select ('.nfa-radio').node ().checked ? "nfa" : "tm";
         var charSet = d3.select ('.language').node ().value;
-        window.location = getURLParent () + "tm.html?type=" + type + "&charset=" + charSet;
+        var tapeSet = d3.select ('.tape-language').node ().value;
+        window.location = getURLParent () + "tm.html?type=" + type +
+                          "&charset=" + charSet +
+                          ((type === "tm") ? "&tapeSet=" + tapeSet : "");
       }
       
       function addError (message) {
@@ -151,6 +155,16 @@
           .insert ("p", ".select-problems")
           .classed ("error", true)
           .text (message);
+      }
+
+      function tmSelected () {
+        d3.select (".tape-language")
+          .style ("display", "inline");
+      }
+
+      function tmUnselected () {
+        d3.select (".tape-language")
+          .style ("display", "none");
       }
     </script>
   </head>
@@ -171,10 +185,11 @@
       <div class="custom standalone">
         I'm doing my own thing.
         <div class="custom-field">
-          <form>
-            <label><input type="radio" name="type" checked="checked" class="dfa-radio">DFA</label>
-            <label><input type="radio" name="type" class="nfa-radio">NFA</label>
-            <label><input type="radio" name="type" class="ym-radio">TM</label>
+          <form class="custom-form">
+            <label><input type="radio" name="type" checked="checked" class="dfa-radio"  onclick="tmUnselected ()">DFA</label>
+            <label><input type="radio" name="type" class="nfa-radio" onclick="tmUnselected ()">NFA</label>
+            <label><input type="radio" name="type" class="tm-radio" onclick="tmSelected ()">TM</label>
+            <input type="text" placeholder="Tape Alphabet" class="tape-language" style="display:none;"></input>
             <input type="text" placeholder="Alphabet" class="language"></input>
             <button type="button" onclick="createOther()">Go</button>
           </form>

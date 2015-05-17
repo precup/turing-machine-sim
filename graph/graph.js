@@ -9,7 +9,7 @@ var gGraph =
     TM: "tm"
   };
   
-gGraph.init = function (pset, problem, charSet, mode) {
+gGraph.init = function (pset, problem, charSet, mode, tapeSet) {
   var svg = d3.select ("svg");
   gGraph.width = svg.node ().getBoundingClientRect ().width;
   gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
@@ -28,6 +28,9 @@ gGraph.init = function (pset, problem, charSet, mode) {
     window.location = getURLParent () + "index.html";
   }
   gGraph.charSet = sortString (removeDuplicates (charSetParam));
+  if (mode === "tm") {
+    gGraph.tapeSet = sortString (removeDuplicates (tapeSet + " "));
+  }
   gGraph.epsilonEnabled = gGraph.mode == gGraph.NFA;
   
   gServer.getSunetid (function (sunetid) {
@@ -93,7 +96,8 @@ gGraph.save = function () {
         charSet: gGraph.charSet,
         pset: gGraph.pset,
         problem: gGraph.problem,
-        mode: gGraph.mode
+        mode: gGraph.mode,
+        tapeSet: gGraph.tapeSet
       }
     };
 };

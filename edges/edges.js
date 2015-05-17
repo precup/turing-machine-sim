@@ -235,7 +235,7 @@ gEdges.getEdgeLabel = function (transition) {
 };
 
 gEdges.reduceLabel = function (transition) {
-  var charSet = gGraph.charSet;
+  var charSet = gGraph.tapeSet;
   var text = "";
   if (charSet.length / 2 >= transition.length) {
     transition.forEach (function (symbol) {

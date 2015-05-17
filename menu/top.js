@@ -138,6 +138,13 @@ gTopMenu.draw = function () {
     .text (pset + problem);
   d3.select (".current-mode").text (mode);
   d3.select (".current-alphabet").text (gGraph.charSet);
+  if (gGraph.mode === "tm" && gGraph.tapeSet && 
+    sortString (gGraph.tapeSet) !== sortString (gGraph.charSet)) 
+  {
+    d3.select (".current-tape-set")
+      .style ("display", "inline");
+    d3.select (".current-tape-set-inner").text (gGraph.tapeSet);
+  }
 
   d3.select ("#selectedText").text (gTopMenu.SELECTED_TEXT + selectedText);
 

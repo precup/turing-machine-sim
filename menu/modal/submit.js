@@ -121,6 +121,12 @@ gModalMenu.submitModal.submit = function (done) {
 
     return;
   }
+  if (gGraph.mode === "tm" && psets[pset].problems[problem].tapeSet != gGraph.tapeSet) {
+    gErrorMenu.displayModalError ("submit", "The tape alphabet for this turing machine doesn't match the tape alphabet for that problem.");
+    gModalMenu.submitModal.setSubmitButton ("Submit");
+
+    return;
+  }
   
   gServer.submit (automata, pset, problem,
     function (err) {

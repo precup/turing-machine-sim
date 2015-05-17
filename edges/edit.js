@@ -90,8 +90,8 @@ gEdges.tmEditComplete = function () {
       return;
     }
     charsUsed += states[i].from;
-    if (intersection (states[i].to, gGraph.charSet).length != 1 ||
-        intersection (states[i].from, gGraph.charSet).length != 1) {
+    if (intersection (states[i].to, gGraph.tapeSet).length != 1 ||
+        intersection (states[i].from, gGraph.tapeSet).length != 1) {
       gErrorMenu.displayModalError ("tmEdgeEntry", "Please only use characters in the character set");
       return;
     }
@@ -124,7 +124,7 @@ gEdges.tmEditComplete = function () {
 
 gEdges.editComplete = function () {
   var chars = removeDuplicates (gModalMenu.getEdgeCharacters ().replace (/[\s,]/g, ""));
-  var legal = intersection (gGraph.charSet, chars);
+  var legal = intersection (gGraph.tapeSet, chars);
   var oldChars = chars;
   chars = legal;
   gModalMenu.setEdgeChars (legal);
