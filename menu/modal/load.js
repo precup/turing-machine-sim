@@ -73,6 +73,9 @@ gModalMenu.load.onClickLoadBtn = function () {
       gGraph.charSet = automata.meta.charSet;
       gGraph.pset = automata.meta.pset;
       gGraph.problem = automata.meta.problem;
+      if (mode === "tm") {
+        gGraph.tapeSet = automata.meta.tapeSet;
+      }
       var mode = automata.meta.mode;
       if (mode != gGraph.mode) {
         window.location.href = getURLParent () + "tm.html?saved=" + name;

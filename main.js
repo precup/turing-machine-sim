@@ -6,6 +6,7 @@ function run () {
   var problem = getURLParam ("problem");
   var charSet = getURLParam ("charset");
   var mode = getURLParam ("type");
+  var tapeSet = getURLParam ("tapeSet");
   if (submit_pset && submit_pset) {
     // load previous submission
     var submit_pset = parseInt (submit_pset);
@@ -19,7 +20,7 @@ function run () {
       }
     });
   } else if (saved == null) {
-    buildGraph (pset, problem, charSet, mode);
+    buildGraph (pset, problem, charSet, mode, tapeSet);
   } else {
     gServer.listSaved (function (err, data) {
       var found = false;
@@ -33,8 +34,6 @@ function run () {
         gServer.load (
           saved,
           function (err, automata) {
-            // console.log ("responded!");
-            // console.log (err, automata);
             if (err) {
               gErrorMenu.displayError ("Could not connect to server; load failed", true);
               return;
@@ -55,12 +54,13 @@ function reload (automata) {
   var loadedPset = automata.meta.pset;
   var loadedProblem = automata.meta.problem;
   var loadedMode = automata.meta.mode;
-  buildGraph (loadedPset, loadedProblem, loadedCharSet, loadedMode);
+  var loadedTapeSet = automata.meta.tapeSet;
+  buildGraph (loadedPset, loadedProblem, loadedCharSet, loadedMode, loadedTapeSet);
   gGraph.load (automata);
   gGraph.draw ();
 }
 
-function buildGraph (pset, problem, charSet, mode) {
+function buildGraph (pset, problem, charSet, mode, tapeSet) {
   gBehaviors.init ();
-  gGraph.init (pset, problem, charSet, mode);
+  gGraph.init (pset, problem, charSet, mode, tapeSet);
 }

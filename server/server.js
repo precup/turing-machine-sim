@@ -1,6 +1,6 @@
 var gServer = {};
 
-gServer.url_prefix = "/class/cs103/cgi-bin/restricted_copy";
+gServer.url_prefix = "/class/cs103/cgi-bin/restricted";
 
 gServer.name = "";
 

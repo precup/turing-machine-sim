@@ -606,7 +606,7 @@ td {
   color: rgba(0,0,0,0.5);
 }
 
-.current-alphabet, .current-mode{
+.current-alphabet, .current-mode, .current-tape-set-inner {
   color: black;
 }
 
