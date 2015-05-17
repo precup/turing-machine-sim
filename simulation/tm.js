@@ -8,7 +8,7 @@ var gSquare = String.fromCharCode(0x25A1);
   
 gTMSimulator.convert = function (graph) {
   var transitionTable = {};
-  var charSet = gGraph.charSet + (gGraph.epsilonEnabled ? gEpsilon : "");
+  var charSet = gGraph.tapeSet;
   graph.nodes.nodes.forEach (function (node) {
     transitionTable[node.id] = {};
     for (var i = 0; i < charSet.length; i++) {

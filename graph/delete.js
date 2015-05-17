@@ -1,9 +1,9 @@
 gGraph.initDelete = function () {
   gBehaviors.addBehavior ("page", "keydown",
-    function () {
+    function () { 
       return (d3.event.keyCode == 46 || d3.event.keyCode == 8) && 
         d3.select (".overlay").style ("display") === "none" &&
-        !d3.select (".tape-char-input").node ().focus;
+        d3.select (".tape-char-input").node () !== document.activeElement;
     },
     function () {
       d3.event.preventDefault ();
