@@ -18,7 +18,16 @@ gEdges.populateTMEdgeModal = function (edge) {
   d3.select (".tmEdgeEntry")
     .select (".modal-header")
     .text ("Edit Transition " + edge.source.name + " " + String.fromCharCode(0x2192) + " " + edge.target.name);
-  gModalMenu.tmEdge.setTmEdgeStates (gEdges.editedEdge.transitions[0]);
+  var states = JSON.parse (JSON.stringify (gEdges.editedEdge.transitions[0]));
+  for (var i = 0; i < states.length; i++) {
+    if (states[i].from == " ") {
+      states[i].from = "";
+    }
+    if (states[i].to == " ") {
+      states[i].to = "";
+    }
+  }
+  gModalMenu.tmEdge.setTmEdgeStates (states);
 };
 
 gEdges.populateEdgeModal = function (edge) {
@@ -45,7 +54,7 @@ gEdges.editEdge = function (edge) {
 };
 
 gEdges.editCancelled = function () {
-  if (gEdges.tmPruneEmpty (gEdges.editedEdge.transitions[0]).length == 0) {
+  if (gEdges.editedEdge.transitions[0].length == 0) {
     gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
   }
   gEdges.editedEdge = null;
@@ -60,25 +69,27 @@ gEdges.deleteEditedEdge = function () {
   gGraph.draw ();
 };
 
-gEdges.tmPruneEmpty = function (transitions) {
-  if (gGraph.mode == gGraph.TM) {
-    for (var i = 0; i < transitions.length; i++) {
-      if (transitions[i].to == "" && transitions[i].from == "") {
-        transitions.splice (i--, 1);
-        continue;
-      }
-    }
-  }
-  return transitions;
-};
-
 gEdges.tmEditComplete = function () {
-  var states = gEdges.tmPruneEmpty (gModalMenu.tmEdge.getTmEdgeStates ());
+  var states = gModalMenu.tmEdge.getTmEdgeStates ();
+  var charsUsed = "";
+  var emptyUsed = false;
   for (var i = 0; i < states.length; i++) {
-    if (states[i].to == "" || states[i].from == "") {
-      gErrorMenu.displayModalError ("tmEdgeEntry", "Character and Write must be non-empty");
+    if (states[i].to == "") {
+      states[i].to = " ";
+    }
+    if (states[i].from == "") {
+      states[i].from = " ";
+      if (emptyUsed) {
+        gErrorMenu.displayModalError ("tmEdgeEntry", "Only one transition can be defined for blank");
+        return;
+      } else {
+        emptyUsed = true;
+      }
+    } else if (charsUsed.indexOf (states[i].from) != -1) {
+      gErrorMenu.displayModalError ("tmEdgeEntry", "Only one transition can be defined for character " + states[i].from);
       return;
     }
+    charsUsed += states[i].from;
     if (intersection (states[i].to, gGraph.charSet).length != 1 ||
         intersection (states[i].from, gGraph.charSet).length != 1) {
       gErrorMenu.displayModalError ("tmEdgeEntry", "Please only use characters in the character set");
