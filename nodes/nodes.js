@@ -309,6 +309,8 @@ gNodes.draw = function () {
   
   gNodes.upperG.select (".empty-text").remove ();
   if (gNodes.nodes.length == 0) {
+    var emptyText = isSafari ? "Click Add New State to create your first node." :
+                               "Double-click to create your first node.";
     var text = gNodes.upperG.append ("text")
       .classed ("empty-text", true)
       .style ("font-size", 20)
@@ -317,7 +319,7 @@ gNodes.draw = function () {
       .style ("stroke", "none")
       .attr ("x", gGraph.width / 2)
       .attr ("y", gGraph.height / 2)
-      .text ("Double-click to create your first node.");
+      .text (emptyText);
   }
   
   var lowerNodes = gNodes.lowerG.selectAll ("circle").data (gNodes.nodes, function (d) { return d.id; });
