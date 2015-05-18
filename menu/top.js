@@ -132,8 +132,8 @@ gTopMenu.draw = function () {
   if (mode == "TM") {
     mode = "Turing Machine";
   }
-  var pset = gGraph.pset == null ? "" : "Problem Set " + gGraph.pset + ", ";
-  var problem = gGraph.problem == null ? "" : "Problem " + gGraph.problem + ", ";
+  var pset = gGraph.pset == null ? "" : psets[gGraph.pset].name;
+  var problem = (gGraph.problem == null && gGraph.pset == null) ? "" : psets[gGraph.pset].problems[gGraph.problem].name;
   d3.select (".current-pset-problem")
     .text (pset + problem);
   d3.select (".current-mode").text (mode);

@@ -1,4 +1,9 @@
+var gCookiesActive = false;
+
 gGraph.initCookie = function () {
+  if (!gCookiesActive) {
+    return;
+  }
   gBehaviors.addBehavior ("page", "keydown",
     function () {
       return d3.event.keyCode == 76 && d3.select (".overlay").style ("display") === "none";
