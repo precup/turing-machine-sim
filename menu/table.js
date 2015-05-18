@@ -149,6 +149,7 @@ gTableMenu.init = function () {
   header.exit ().remove ();
 
   var headerTr = d3.select (".tableEditor").select("tr");
+  headerTr.insert ("td", "td").text ("Rejects");
   headerTr.insert ("td", "td").text ("Accepts");
   headerTr.insert ("td", "td").text ("Initial");
   headerTr.insert ("td", "td").text ("");
@@ -199,12 +200,33 @@ gTableMenu.draw = function () {
     .append ("input")
     .attr ("type", "checkbox")
     .classed ("acceptBox", true)
-    .each (function (node) {
-      this.checked = node.accept;
-    })
     .on ("change", function (node, i) {
       gNodes.setAcceptByIndex (i, this.checked);
+      if (this.checked) {
+        gNodes.setRejectByIndex (i, false);
+      }
       gGraph.draw ();
+    });
+    
+  newRows.append ("td")
+    .append ("input")
+    .attr ("type", "checkbox")
+    .classed ("rejectBox", true)
+    .on ("change", function (node, i) {
+      gNodes.setRejectByIndex (i, this.checked);
+      if (this.checked) {
+        gNodes.setAcceptByIndex (i, false);
+      }
+      gGraph.draw ();
+    });
+    
+  d3.selectAll (".acceptBox")
+    .each (function (junk, i) {
+      this.checked = gNodes.nodes[i].accept;
+    });
+  d3.selectAll (".rejectBox")
+    .each (function (junk, i) {
+      this.checked = gNodes.nodes[i].reject;
     });
   
   var rows = table.selectAll ("td")
@@ -277,7 +299,10 @@ gTableMenu.draw = function () {
           this.value = gTableMenu.getConnections (gNodes.nodes[this.i1].id, character);
           break;
         case 1:
-          this.value = gTableMenu.getResult (gNodes.nodes[this.i1].id, character);
+          var result = gTableMenu.getResult (gNodes.nodes[this.i1].id, character);
+          if (result != null) {
+            this.value = result;
+          }
           break;
         case 2:
           var direction = gTableMenu.getDirection (gNodes.nodes[this.i1].id, character);
@@ -343,7 +368,7 @@ gTableMenu.getDirection = function (source, character) {
 
 
 gTableMenu.getResult = function (source, character) {
-  var result = "";
+  var result = null;
   gEdges.edges.forEach (function (edge) {
     edge.transitions[0].forEach (function (state) {
       if (edge.source.id == source && state.from == character) {

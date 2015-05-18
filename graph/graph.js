@@ -15,7 +15,6 @@ gGraph.init = function (pset, problem, charSet, mode, tapeSet) {
   gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
   gGraph.height -= d3.select (".tape-bar").node ().getBoundingClientRect ().height;
   svg.attr ("height", gGraph.height);
-  console.log(gGraph.width);
   
   var charSetParam = charSet;
   gGraph.problem = problem;
@@ -110,7 +109,6 @@ gGraph.load = function (saveData) {
 };
 
 gGraph.draw = function () {
-  gGraph.width = d3.select ("svg").node ().getBoundingClientRect ().width;
   gNodes.draw ();
   gEdges.draw ();
   gTopMenu.draw ();
@@ -122,9 +120,9 @@ gGraph.draw = function () {
 // TODO: Find a non-kludgey way for the svg to have 100% height
 gGraph.resize = function () {
   var svg = d3.select ("svg");
-  //gGraph.width = svg.node ().getBoundingClientRect ().width;
-  //gGraph.height = svg.node ().getBoundingClientRect ().height;
-  //d3.select (".background").attr ("width", gGraph.width);
-  //d3.select (".background").attr ("height", gGraph.height);
+  gGraph.width = svg.node ().getBoundingClientRect ().width;
+  gGraph.height = svg.node ().getBoundingClientRect ().height;
+  d3.select (".background").attr ("width", gGraph.width);
+  d3.select (".background").attr ("height", gGraph.height);
   d3.select (".modal-content").attr ("max-height", gGraph.height * gModalMenu.MAX_HEIGHT_PERCENT);
 };

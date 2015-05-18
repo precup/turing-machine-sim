@@ -104,6 +104,10 @@ gNodes.setAcceptByIndex = function (index, accept) {
   gNodes.nodes[index].accept = accept;
 };
 
+gNodes.setRejectByIndex = function (index, reject) {
+  gNodes.nodes[index].reject = reject;
+};
+
 gNodes.removeByIndex = function (index) {
   if (gTape.follow != null && gTape.follow.id == gNodes.nodes[index].id) {
     gTestMenu.end ();
