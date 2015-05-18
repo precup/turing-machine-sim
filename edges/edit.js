@@ -124,7 +124,7 @@ gEdges.tmEditComplete = function () {
 
 gEdges.editComplete = function () {
   var chars = removeDuplicates (gModalMenu.getEdgeCharacters ().replace (/[\s,]/g, ""));
-  var legal = intersection (gGraph.tapeSet, chars);
+  var legal = intersection (gGraph.charSet, chars);
   var oldChars = chars;
   chars = legal;
   gModalMenu.setEdgeChars (legal);
