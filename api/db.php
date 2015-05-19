@@ -39,9 +39,19 @@ class DB
   {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
-    $query_string = "select * from users where sunetid=\"$sunetid\"";
-    $result = $db->query($query_string);
-    return $result->num_rows > 0;
+    $result;
+    $query_string = "select sunetid from users where sunetid=?";
+    if ($stmt = $db->prepare($query_string)) {
+      $stmt->bind_param("s", $sunetid);
+      $stmt->execute();
+      $stmt->bind_result($result);
+      $stmt->fetch();
+      echo json_encode($result);
+      return $result->num_rows > 0;
+    } else {
+      header("HTTP/1.1 500 Internal Server Error");
+      echo "problems";
+    }
   }
 
   public function addUser($sunetid, $isTA)
