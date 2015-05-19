@@ -27,9 +27,6 @@ gModalMenu.load.onOpen = function () {
       d3.select (".load")
         .selectAll ("li")
         .remove ();
-      setTimeout (function () {
-        gErrorMenu.clearModalErrors ();
-      }, 3000);
       
       return;
     }
@@ -49,9 +46,6 @@ gModalMenu.load.onClickLoadBtn = function () {
 
   if (!name) {
     gErrorMenu.displayModalError ("load", "No automaton selected");
-    setTimeout (function () {
-      gErrorMenu.clearModalErrors ();
-    }, 3000);
     return;
   }
   gModalMenu.load.setLoadButton ("Loading...");
@@ -59,13 +53,8 @@ gModalMenu.load.onClickLoadBtn = function () {
     name,
     function (err, automata) {
       if (err) {
-        if (typeof error_callback === "function") {
-          gErrorMenu.displayModalError ("load", "Failed to load");
-          setTimeout (function () {
-            gErrorMenu.clearModalErrors ();
-          }, 3000); // TODO: don't set timeout
-          gModalMenu.load.setLoadButton ("Load");
-        }
+        gErrorMenu.displayModalError ("load", "Failed to load");
+        gModalMenu.load.setLoadButton ("Load");
         return;
       }
       gServer.changeName (name);
@@ -87,6 +76,11 @@ gModalMenu.load.onClickLoadBtn = function () {
         gModalMenu.close ("load");
       }, 300);
     });
+}
+
+gModalMenu.load.clickCancelBtn = function () {
+  gErrorMenu.clearModalErrors ();
+  gModalMenu.close ("load");
 }
 
 /* helper functions */

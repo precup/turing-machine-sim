@@ -53,9 +53,6 @@ gModalMenu.submitModal.clickSubmitBtn = function () {
     if (err) {
       gErrorMenu.displayModalError ("submit", "Failed to submit");
       gModalMenu.submitModal.setSubmitButton ("Submit");
-      setTimeout (function () {
-        gErrorMenu.clearModalErrors ();
-      }, 3000);
       return;
     }
     if (isPreviouslySaved (data, pset, problem)) {
@@ -132,9 +129,6 @@ gModalMenu.submitModal.submit = function (done) {
     function (err) {
       if (err) {
         gErrorMenu.displayModalError ("submit", "Failed to submit");
-        setTimeout (function () {
-          gErrorMenu.clearModalErrors ();
-        }, 3000);
         gModalMenu.submitModal.setSubmitButton ("Submit");
         return;
       } else {
