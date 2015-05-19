@@ -1,6 +1,11 @@
 var gTape =
   {
-    SELECT_RADIUS: 50
+    SELECT_RADIUS: 50,
+    BUBBLE_OFFSET: 55,
+    BUBBLE_WIDTH: 12,
+    BUBBLE_HEIGHT: 2,
+    TEXT_OFFSET: 12,
+    ARROW_OFFSET: 20
   };
 
 gTape.init = function () {
@@ -9,6 +14,21 @@ gTape.init = function () {
     .style ("fill", "none")
     .style ("stroke", "blue")
     .attr ("r", gTape.SELECT_RADIUS);
+  d3.select (".tape")
+    .append ("rect")
+    .style ("fill", "blue")
+    .style ("stroke", "none")
+    .attr ("rx", 4)
+    .attr ("ry", 4);
+  d3.select (".tape")
+    .append ("polygon")
+    .attr ("points", "-6,0 6,0 0,4")
+    .style ("fill", "blue")
+    .style ("stroke", "none");
+  d3.select (".tape")
+    .append ("text")
+    .style ("stroke", "none")
+    .style ("fill", "white");
   gTape.hide ();
   gTape.done = true;
   gTape.running = false;
@@ -21,6 +41,12 @@ gTape.run = function () {
   d3.select (".tape")
     .select ("circle")
     .style ("stroke", "blue");
+  d3.select (".tape")
+    .select ("rect")
+    .style ("fill", "blue");
+  d3.select (".tape")
+    .select ("polygon")
+    .style ("fill", "blue");
     
   gTape.input = input.split ("");
   gTape.index = 0;
@@ -31,7 +57,9 @@ gTape.run = function () {
 gTape.drawResult = function (accepted) {
   if (!gTape.done) {
     var message = "Run finished, " + (accepted ? "accept" : "reject") + "ing string \"" + gTape.input.join ("") + "\"";
-    if (gTape.follow && !gTape.follow.accept && !gTape.follow.reject) {
+    if (gGraph.mode == gGraph.TM && gTape.follow && !gTape.follow.accept && !gTape.follow.reject) {
+      message += " because of a missing transition";
+    } else if (gGraph.mode != gGraph.TM && gTape.follow && !gTape.follow.accept && gTape.input.length > gTape.index) {
       message += " because of a missing transition";
     }
     gErrorMenu.displayMessage (message, false, accepted ? "accepting run-finished" : "rejecting run-finished");
@@ -41,27 +69,57 @@ gTape.drawResult = function (accepted) {
 
 gTape.draw = function () {
   var circle = d3.select (".tape").select ("circle");
+  var rect = d3.select (".tape").select ("rect");
+  var poly = d3.select (".tape").select ("polygon");
+  var text = d3.select (".tape").select ("text");
   if (gTape.follow) {
     var duration = gTape.follow != gTape.prev && circle.style ("opacity") == 1 ? 100 : 0;
+    text.text ("CURRENT STATE");
     circle.transition ()
       .duration (duration)
       .attr ("cx", gTape.follow.x)
       .attr ("cy", gTape.follow.y)
       .style ("opacity", 1);
+    var textSize;
+    text.each (function () { textSize = this.getBoundingClientRect (); });
+    var rectY = gTape.follow.y - gTape.BUBBLE_OFFSET - textSize.height - gTape.BUBBLE_HEIGHT;
+    rect.transition ()
+      .attr ("width", textSize.width + gTape.BUBBLE_WIDTH)
+      .attr ("height", textSize.height + gTape.BUBBLE_HEIGHT)
+      .duration (duration)
+      .attr ("x", gTape.follow.x - (textSize.width + gTape.BUBBLE_WIDTH) / 2)
+      .attr ("y", rectY)
+      .style ("opacity", 1);
+    poly.transition ()
+      .duration (duration)
+      .attr ("transform", "translate(" + gTape.follow.x + "," + (rectY + gTape.ARROW_OFFSET) + ")")
+      .style ("opacity", 1);
+    text.transition ()
+      .duration (duration)
+      .attr ("x", gTape.follow.x)
+      .attr ("y", rectY + textSize.height / 2 + gTape.BUBBLE_HEIGHT + (isIE ? gNodes.IE_TEXT_OFFSET : 0))
+      .style ("opacity", 1);
       
     d3.select (".stepButton").text ("Step").node ().disabled = false;
     if (gTape.isRejecting ()) {
       circle.style ("stroke", "red");
+      rect.style ("fill", "red");
+      poly.style ("fill", "red");
       d3.select (".stepButton").text ("Completed").node ().disabled = true;
       gTape.drawResult (false);
     }
     else if (gTape.isAccepting ()) {
       circle.style ("stroke", "green");
+      rect.style ("fill", "green");
+      poly.style ("fill", "green");
       d3.select (".stepButton").text ("Completed").node ().disabled = true;
       gTape.drawResult (true);
     }
   } else {
     circle.style ("opacity", 0);
+    rect.style ("opacity", 0);
+    poly.style ("opacity", 0);
+    text.style ("opacity", 0);
   }
   var currentTapeClass = gGraph.mode == gGraph.TM ? "current-tape-char-solid" : "current-tape-char";
   if (gTape.running && gTape.index <= gTape.input.length) {
