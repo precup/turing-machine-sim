@@ -9,6 +9,8 @@ module.exports = function(grunt) {
         files : {
           'tm.min.js' : [
             '*.js',
+            'brush/*.js',
+            'graph/*.js',
             'edges/*.js',
             'nodes/*.js',
             'menu/*.js',
