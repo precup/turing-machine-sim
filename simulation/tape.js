@@ -57,7 +57,9 @@ gTape.run = function () {
 gTape.drawResult = function (accepted) {
   if (!gTape.done) {
     var message = "Run finished, " + (accepted ? "accept" : "reject") + "ing string \"" + gTape.input.join ("") + "\"";
-    if (gTape.follow && !gTape.follow.accept && !gTape.follow.reject) {
+    if (gGraph.mode == gGraph.TM && gTape.follow && !gTape.follow.accept && !gTape.follow.reject) {
+      message += " because of a missing transition";
+    } else if (gGraph.mode != gGraph.TM && gTape.follow && !gTape.follow.accept && gTape.input.length > gTape.index) {
       message += " because of a missing transition";
     }
     gErrorMenu.displayMessage (message, false, accepted ? "accepting run-finished" : "rejecting run-finished");
