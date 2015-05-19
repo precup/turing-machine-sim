@@ -1,0 +1,25 @@
+{
+  "name": "turing-machine-sim",
+  "version": "1.0.0",
+  "description": "a simple automata designer",
+  "main": "main.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-uglify": "^0.9.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/precup/turing-machine-sim.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/precup/turing-machine-sim/issues"
+  },
+  "homepage": "https://github.com/precup/turing-machine-sim"
+}
