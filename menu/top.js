@@ -21,9 +21,6 @@ gTopMenu.setState = function (accepting, rejecting) {
 gTopMenu.deleteSelected = function () {
   if (gNodes.selectionIsEmpty () && gEdges.selectionIsEmpty ()) {
     gErrorMenu.displayError ("No states or transitions are selected");
-    setTimeout (function () {
-      gErrorMenu.clearModalErrors ();
-    }, 3000);
   }
   if (gNodes.removeNodes ()) {
     gEdges.deleteSelected ();

@@ -29,9 +29,6 @@ gModalMenu.saveas.clickSaveBtn = function () {
     }
     if (err) {
       gErrorMenu.displayModalError ("saveas", "Save failed: couldn't connect to server.");
-      setTimeout (function () {
-        gErrorMenu.clearModalErrors ();
-      }, 3000);
       gModalMenu.saveas.setSaveButton ("Save");
       return;
     }
@@ -48,7 +45,8 @@ gModalMenu.saveas.clickSaveBtn = function () {
 };
 
 gModalMenu.saveas.clickCancelBtn = function () {
-  gModalMenu.cancel ("saveas");
+  gErrorMenu.clearModalErrors ();
+  gModalMenu.close ("saveas");
 };
 
 gModalMenu.saveas.clickConfirmBtn = function () {
@@ -70,9 +68,6 @@ gModalMenu.saveas.save = function () {
   gServer.save (name, function (err, data) {
     if (err) {
       gErrorMenu.displayModalError ("saveas", "Save failed: couldn't connect to server.");
-      setTimeout (function () {
-        gErrorMenu.clearModalErrors ();
-      }, 3000);
       gModalMenu.saveas.setSaveButton ("Save");
       return;
     }

@@ -66,6 +66,11 @@ gModalMenu.cancel = function (type) {
       gModalMenu.confirm.clickCancelBtn ();
       break;
     case "saveas": 
+      gModalMenu.saveas.clickCancelBtn ();
+      break;
+    case "load":
+      gModalMenu.load.clickCancelBtn ();
+      break;
     default:
       gModalMenu.close (type);
       break;
