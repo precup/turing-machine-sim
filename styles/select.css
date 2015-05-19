@@ -185,7 +185,6 @@ li:last-child {
 .right {
   position: absolute;
   right: 0px;
-  bottom: -6px;
 }
 
 .custom-field form {
