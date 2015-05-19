@@ -9,7 +9,12 @@ module.exports = function(grunt) {
         },
         files : {
           'tm.min.js' : [
-            '*.js',
+            'main.js',
+            'behaviors.js',
+            'util.js',
+            'queue.js',
+            'psets.js',
+            'cookies.js',
             'brush/*.js',
             'graph/*.js',
             'edges/*.js',
