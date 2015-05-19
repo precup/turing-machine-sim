@@ -2,3 +2,4 @@
 *.secret
 *.htaccess
 .*.sw*
+node_modules/*
