@@ -95,7 +95,7 @@ gTape.draw = function () {
     text.transition ()
       .duration (duration)
       .attr ("x", gTape.follow.x)
-      .attr ("y", rectY + textSize.height / 2 + gTape.BUBBLE_HEIGHT)
+      .attr ("y", rectY + textSize.height / 2 + gTape.BUBBLE_HEIGHT + (isIE ? gNodes.IE_TEXT_OFFSET : 0))
       .style ("opacity", 1);
       
     d3.select (".stepButton").text ("Step").node ().disabled = false;
