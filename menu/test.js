@@ -10,6 +10,7 @@ gTestMenu.init = function () {
   gTestMenu.text = "";
   gTestMenu.backupText = "";
   var tape = d3.select (".tape-field");
+  gTestMenu.showPlaceholder = true;
   for (var i = 0; i < gTestMenu.NUM_CELLS; i++) {
     tape.append ("input")
       .attr ("type", "text")
@@ -43,6 +44,7 @@ gTestMenu.reset = function () {
 };
 
 gTestMenu.allowInput = function () {
+  gTestMenu.showPlaceholder = false;
   gTestMenu.reset ();
   d3.select (".tape-char-input").node ().value = gTestMenu.backupText;
 
@@ -64,11 +66,14 @@ gTestMenu.disallowInput = function (text) {
     gTestMenu.backupText = legal;
   }
   gTestMenu.text = text == undefined ? gTestMenu.backupText : text;
-
+  
+  var displayString = "Click to enter a test";
   d3.selectAll (".tape-char")
     .style ("display", "inline")
+    .style ("color", gTestMenu.showPlaceholder ? "#bbb" : "#fff")
     .each (function (junk, i) {
-      this.value = i < gTestMenu.text.length ? gTestMenu.text[i] : "";
+      var text = gTestMenu.showPlaceholder ? displayString : gTestMenu.text;
+      this.value = i < text.length ? text[i] : "";
     });
 
   d3.select (".tape-char-input")
