@@ -12,9 +12,9 @@ gEdges.initInitial = function () {
 
 gEdges.drawInitial = function () {
   var initialNode = gNodes.initial;
-  if (initialNode == null) {
-    d3.select ("path.initial").style ("opacity", 0);
-  } else {
+  d3.select ("path.initial").remove ();
+  if (initialNode != null) {
+    gEdges.initInitial ();
     var yOffset = 0;
     var xOffset = gEdges.INITIAL_EDGE_LENGTH;
     gEdges.edges.forEach (function (edge) {
