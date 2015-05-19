@@ -185,9 +185,14 @@ li:last-child {
 .right {
   position: absolute;
   right: 0px;
-  bottom: -6px;
 }
 
 .custom-field form {
   position: relative;
+}
+
+.custom-machine {
+  border-radius: 6px;
+  border-bottom: 1px solid rgb(229, 229, 229);
+  padding-bottom: 0.4em;
 }
