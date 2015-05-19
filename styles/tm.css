@@ -413,17 +413,17 @@ body {
   margin: 0 auto;
   top: 10px;
   text-align: center;
-  line-height: 30px;
+  line-height: 26px;
   position: fixed;
   top: 110px;
 }
 
 .error, .run-finished {
-  text-wrap: none;
+  display: inline-block;
   background-color: #A44242;
   color: #fff !important;
   border-radius: 4px;
-  padding: 4px 10px;
+  padding: 0px 8px; 
   margin: 4px;
 }
 
@@ -478,6 +478,7 @@ button.button-primary:hover {
 
 #selectedText {
   font-size: 14px;
+  display: inline;
   padding: 6px;
   color: rgba(0, 0, 0, 0.5);
 }
