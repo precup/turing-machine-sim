@@ -104,6 +104,10 @@ gEdges.addNode = function (node) {
 };
 
 gEdges.removeNode = function (node) {
+  if (node.id == gEdges.startNode.id) {
+    gEdges.startNode = null;
+    gEdges.hideTempEdge ();
+  }
   gEdges.edges = gEdges.edges.filter (function (edge) {
     return edge.source.id != node.id && edge.target.id != node.id;
   });
