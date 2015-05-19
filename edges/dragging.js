@@ -124,8 +124,10 @@ gEdges.drawTempEdge = function () {
   gEdges.initialEdge = d3.select (".miscEdges")
     .append ("path")
     .classed ("temp", true)
+    .style ("opacity", 1)
     .style ('marker-end', 'url(#mouse-arrow)')
     .attr ("fill", "none")
+    .attr ("stroke", "black")
     .attr ("d", function () {
       if (gEdges.endNode != null) {
         return gEdges.customPathFunction (gEdges.startNode, gEdges.endNode);

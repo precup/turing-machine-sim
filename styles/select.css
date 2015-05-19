@@ -96,16 +96,8 @@ h3 {
   width: 140px;
   border: 1px solid rgb(229, 229, 229);
   padding: 4px;
+  line-height: 18px;
   box-sizing: border-box;
-  /*
-  font-size: 13px;
-  border-radius: 4px;
-  height: 24px;
-  box-sizing: border-box;
-  width: 140px;
-  padding: 4px;
-  border: 1px solid rgb(229, 229, 229);
-  */
   display: inline-block;
   vertical-align: middle;
 }
@@ -117,7 +109,7 @@ button {
   border-radius: 4px;
   border: none;
   background-color: rgb(0,146,238);
-  padding: 4px;
+  padding: 4px 8px;
   color: #fff;
   line-height:20px;
   /*
