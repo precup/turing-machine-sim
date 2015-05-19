@@ -40,8 +40,11 @@ gServer.load = function (selected, callback) {
   d3.xhr (gServer.url_prefix + get_url)
     .header ("Content-Type", "application/json")
     .get (function (err, res) {
-      var json_data = JSON.parse (res.response);
-      callback (err, JSON.parse (json_data[0]["automata"]));
+      var json_data = null;
+      if (!err && res.response) {
+        json_data = JSON.parse (res.response);
+      }
+      callback (err, json_data ? JSON.parse (json_data[0]["automata"]) : null);
     });
 };
 
@@ -62,6 +65,7 @@ gServer.submit = function (automata, pset, problem, callback) {
     .post (
       packed,
       function (err, rawData) {
+        console.log(err, rawData);
         callback (err);
       }
     );
@@ -75,6 +79,7 @@ gServer.listSubmissions = function (callback) {
       .header ("Content-Type", "application/json")
       .get (
         function (err, rawData) {
+          console.log(err, rawData);
           var data = rawData ? JSON.parse (rawData.response) : null;
           callback (data, err);
 
@@ -96,6 +101,7 @@ gServer.loadSubmission = function (pset, problem, callback) {
     .header ("Content-Type", "application/json")
     .get (
       function (err, rawData) {
+        console.log (rawData);
         if (err) callback (err, null);
         else callback (err, JSON.parse (rawData.response));
     });

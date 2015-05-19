@@ -1,4 +1,5 @@
-drop table user_submissions;
 drop table submissions;
+drop table problems;
+drop table psets;
 drop table automatas;
 drop table users;

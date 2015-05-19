@@ -4,13 +4,10 @@
     <title>Hephaestus - Create New</title>
     <link href="styles/select.css" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-    <!--
     <script src="psets.js"></script>
     <script src="util.js"></script>
     <script src="server/server.js"></script>
     <script src="server/mock.js"></script>
-    -->
-    <script src="select.min.js"></script>
     <script>
 
       var previous_submissions;
@@ -33,6 +30,7 @@
         
 
         gServer.listSubmissions (function (submit_names, err) {
+          console.log (submit_names);
           if (err != null) {
             if (d3.select ("p.error").size () == 0) {
               addError ("Could not connect to server");
@@ -94,6 +92,10 @@
       }
 
       function loadSubmission (pset, problem) {
+        alarm (pset, problem);
+        return;
+        // var indexed_problem = psets[pset].problems[problem].id;
+        // var indexed_pset = psets[pset].id;
         window.location = getURLParent () + "tm.html?submit_pset=" + pset + "&submit_problem=" + problem;
       }
 
@@ -104,8 +106,10 @@
 
         function isSubmitted (pset, problem, previous_submissions) {
           return previous_submissions.some (function (elem, index, arr) {
-            return parseInt(elem.pset_id) === pset &&
-              parseInt(elem.problem_id) === problem;
+            var indexed_problem = psets[pset].problems[problem].id;
+            var indexed_pset = psets[pset].id;
+            return parseInt(elem.pset_id) === indexed_pset &&
+              parseInt(elem.problem_number) === indexed_problem;
           });
         }
 
@@ -136,6 +140,7 @@
         var psetNum = d3.select ('.pset').node ().selectedIndex;
         var charSet = psets[psetNum].problems[problemNum].charSet;
         var type = psets[psetNum].problems[problemNum].type;
+
         window.location = getURLParent () + "tm.html?type=" + type +
                             "&charset=" + charSet +
                             "&pset=" + psetNum +

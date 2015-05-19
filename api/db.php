@@ -91,13 +91,52 @@ class DB
   }
 
   public function addSubmission($sunetid, $automata, $pset, $problem) {
+    echo $pset;
+    echo $problem;
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
     $automata = $db->real_escape_string($automata);
-    $query_string =
-      "insert into submissions (user_id, pset_id, problem_id, automata)
-      values (\"$sunetid\", $pset, $problem, \"$automata\")
+    # get the problem id which matches the pset and problem combination
+    $query_string_prob_id = 
+      "select id
+      from problems
+      where pset_id=$pset and problem_number = $problem;";
+    $result = $db->query($query_string_prob_id);
+    if ($result === False) exit();
+    $problem_id = $this->fetchAll($result)[0]["id"];
+    $query_string = 
+      "insert into submissions (user_id, problem_id, automata)
+      values (\"$sunetid\", $problem_id, \"$automata\")
       on duplicate key update automata=\"$automata\";";
+    $result = $db->query($query_string);
+    if ($result === False) {
+      echo "exiting";
+      exit();
+    }
+  }
+
+  public function addPset($pset) {
+    if(gettype($pset) !== "integer") {
+      echo "pset not integer";
+      exit();
+    }
+    $db = $this->db;
+    $query_string = 
+      "insert into psets (id)
+      values ($pset);";
+    $result = $db->query ($query_string);
+    if ($result === False) exit();
+  }
+
+  public function addProblem($pset, $problem) {
+    if(gettype($pset) !== "integer" || gettype($problem) !== "integer") {
+      echo "pset or problem not integer";
+      exit();
+    }
+    $db = $this->db;
+    $query_string =
+      "insert into problems (pset_id, problem_number)
+      values ($pset, $problem);";
     $result = $db->query($query_string);
     if ($result === False) exit();
   }
@@ -106,7 +145,11 @@ class DB
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
 
-    $query_string = "select pset_id, problem_id from submissions where user_id=\"$sunetid\";";
+    $query_string =
+      "select problems.pset_id, problems.problem_number
+      from submissions
+      join (problems) on (problems.id=submissions.problem_id)
+      where submissions.user_id=\"$sunetid\";";
     $result = $db->query($query_string);
     if ($result === False) exit();
     return $this->fetchAll($result); 
@@ -119,7 +162,13 @@ class DB
       echo "pset or problem not integers";
       exit();
     }
-    $query_string = "select automata from submissions where user_id=\"$sunetid\" and pset_id=\"$pset\" and problem_id=\"$problem\";";
+    $query_string =
+      "select submissions.automata
+      from submissions
+      join (problems) on (problems.id=submissions.problem_id)
+      where submissions.user_id=\"$sunetid\" and 
+        problems.pset_id=$pset and 
+        problems.problem_number=$problem;";
     $result = $db->query($query_string);
     if ($result === False) {
       echo "Internal Server Error";

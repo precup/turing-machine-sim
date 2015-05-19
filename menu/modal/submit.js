@@ -37,6 +37,13 @@ gModalMenu.submitModal.clickSubmitBtn = function () {
   var pset = gModalMenu.submitModal.getPsetNumber ();
   var problem = gModalMenu.submitModal.getProblemNumber ();
 
+  console.log (pset, problem);
+
+  problem = psets[pset].problems[problem].id;
+  pset = psets[pset].id;
+
+  console.log (pset, problem);
+
   gModalMenu.submitModal.setSubmitButton ("Submitting...");
 
   function isPreviouslySaved (list, pset, problem) {
@@ -101,6 +108,9 @@ gModalMenu.submitModal.submit = function (done) {
   var automata = JSON.stringify (gGraph.save ());
   var pset = gModalMenu.submitModal.getPsetNumber();
   var problem = gModalMenu.submitModal.getProblemNumber();
+
+  var indexed_problem = psets[pset].problems[problem].id;
+  var indexed_pset = psets[pset].id;
   
   if (psets[pset].problems[problem].type != gGraph.mode && gGraph.mode == "nfa") {
     gErrorMenu.displayModalError ("submit", "This automaton is an NFA, but the problem requires a DFA.");
@@ -125,7 +135,7 @@ gModalMenu.submitModal.submit = function (done) {
     return;
   }
   
-  gServer.submit (automata, pset, problem,
+  gServer.submit (automata, indexed_pset, indexed_problem,
     function (err) {
       if (err) {
         gErrorMenu.displayModalError ("submit", "Failed to submit");
