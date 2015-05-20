@@ -313,8 +313,8 @@ gNodes.draw = function () {
   
   gNodes.upperG.select (".empty-text").remove ();
   if (gNodes.nodes.length == 0) {
-    var emptyText = isSafari ? "Click Add New State to create your first node." :
-                               "Double-click to create your first node.";
+    var emptyText = isSafari || isFirefox ? "Click Add New State to create your first node." :
+                                            "Double-click to create your first node.";
     var text = gNodes.upperG.append ("text")
       .classed ("empty-text", true)
       .style ("font-size", 20)

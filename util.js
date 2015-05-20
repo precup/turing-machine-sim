@@ -94,3 +94,7 @@ var isSafari = function detectSafari () {
   var uagent = navigator.userAgent.toLowerCase();
   return /safari/.test(uagent) && !/chrome/.test(uagent);
 } ();
+
+var isFirefox = function detectFirefox () {
+  return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+} ();
