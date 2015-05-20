@@ -76,12 +76,16 @@ gNodes.addNode = function (x, y) {
     node.y = y;
   }
 
+  var nextNameId = 0;
+  while (gNodes.getNodeIndexFromName ("n" + nextNameId) != -1) {
+    nextNameId++;
+  }
   var nextId = 0;
-  while (gNodes.getNodeIndexFromName ("n" + nextId) != -1) {
+  while (gNodes.getNodeIndex (nextId) != -1) {
     nextId++;
   }
   node.id = nextId;
-  node.name = "n" + node.id;
+  node.name = "n" + nextNameId;
   node.accept = false;
   node.reject = false;
   node.selected = true;
