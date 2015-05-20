@@ -33,13 +33,20 @@ d3.xhr (gServer.url_prefix + submit_url)
 */
 
 require_once("./db.php");
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
 $db = new DB();
-$data = json_decode(file_get_contents('php://input'));
+$contents = file_get_contents('php://input');
+$data = json_decode($contents);
 $automata = $data->automata;
 $pset = intval($data->pset);
 $problem = intval($data->problem);
 $user = $_ENV['WEBAUTH_USER'];
 if (!$db->checkUserExists($user)) {
-  $db->addUser($user);
+  $db->addUser($user, False);
 }
 $db->addSubmission($user, $automata, $pset, $problem);
+mail ("cs103.submit@gmail.com",
+  $user + " submission",
+  "Pset #: $pset. Problem #: $problem. User: $user. Automata: $contents.",
+  "From: maxwang7@stanford.edu");

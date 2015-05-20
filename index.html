@@ -7,7 +7,7 @@
     <script src="psets.js"></script>
     <script src="util.js"></script>
     <script src="server/server.js"></script>
-    <script src="server/mock.js"></script>
+    <!--<script src="server/mock.js"></script>-->
     <script>
 
       var previous_submissions;
@@ -30,6 +30,7 @@
         
 
         gServer.listSubmissions (function (submit_names, err) {
+          console.log (submit_names);
           if (err != null) {
             if (d3.select ("p.error").size () == 0) {
               addError ("Could not connect to server");
@@ -91,6 +92,10 @@
       }
 
       function loadSubmission (pset, problem) {
+        alarm (pset, problem);
+        return;
+        // var indexed_problem = psets[pset].problems[problem].id;
+        // var indexed_pset = psets[pset].id;
         window.location = getURLParent () + "tm.html?submit_pset=" + pset + "&submit_problem=" + problem;
       }
 
@@ -101,8 +106,10 @@
 
         function isSubmitted (pset, problem, previous_submissions) {
           return previous_submissions.some (function (elem, index, arr) {
-            return parseInt(elem.pset_id) === pset &&
-              parseInt(elem.problem_id) === problem;
+            var indexed_problem = psets[pset].problems[problem].id;
+            var indexed_pset = psets[pset].id;
+            return parseInt(elem.pset_id) === indexed_pset &&
+              parseInt(elem.problem_number) === indexed_problem;
           });
         }
 
@@ -131,8 +138,11 @@
 
       function createPset (problemNum) {
         var psetNum = d3.select ('.pset').node ().selectedIndex;
-        var charSet = psets[psetNum].problems[problemNum].charSet;
-        var type = psets[psetNum].problems[problemNum].type;
+        var prob = psets[psetNum].problems[problemNum]
+        var charSet = prob.charSet;
+        var type = prob.type;
+        var tapeSet = prob.tapeSet
+
         window.location = getURLParent () + "tm.html?type=" + type +
                             "&charset=" + charSet +
                             "&pset=" + psetNum +
@@ -190,8 +200,8 @@
             <label><input type="radio" name="type" class="nfa-radio" onclick="tmUnselected ()">NFA</label>
             <label><input type="radio" name="type" class="tm-radio" onclick="tmSelected ()">TM</label>
             <span class="right">
-              <input type="text" placeholder="Machine Alphabet" class="tape-language" style="display:none;"></input>
-              <input type="text" placeholder="Alphabet" class="language"></input>
+              <input type="text" placeholder="Tape Alphabet" class="tape-language" style="display:none;"></input>
+              <input type="text" placeholder="Input Alphabet" class="language"></input>
               <button type="button" onclick="createOther()">Go</button>
             </span>
           </form>

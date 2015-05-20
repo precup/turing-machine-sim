@@ -17,6 +17,9 @@ gGraph.init = function (pset, problem, charSet, mode, tapeSet) {
   svg.attr ("height", gGraph.height);
   
   var charSetParam = charSet;
+  console.log (pset, problem);
+  var indexed_problem = psets[pset].problems[problem].id;
+  var indexed_pset = psets[pset].id;
   gGraph.problem = problem;
   gGraph.pset = pset;
   gGraph.mode = mode;

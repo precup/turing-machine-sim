@@ -6,12 +6,15 @@ function run () {
   var problem = getURLParam ("problem");
   var charSet = getURLParam ("charset");
   var mode = getURLParam ("type");
-  var tapeSet = getURLParam ("tapeSet");
+  var tapeSet = getURLParam ("tapeset");
+  console.log(tapeSet);
   if (submit_pset && submit_pset) {
     // load previous submission
     var submit_pset = parseInt (submit_pset);
     var submit_problem = parseInt (submit_problem);
-    gServer.loadSubmission (submit_pset, submit_problem, function (err, data) {
+    var indexed_problem = psets[submit_pset].problems[submit_problem].id;
+    var indexed_pset = psets[submit_pset].id;
+    gServer.loadSubmission (indexed_pset, indexed_problem, function (err, data) {
       if (err) {
         gErrorMenu.displayError ("Could not connect to server; load failed", true);
       } else {
