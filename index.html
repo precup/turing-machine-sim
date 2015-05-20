@@ -7,7 +7,7 @@
     <script src="psets.js"></script>
     <script src="util.js"></script>
     <script src="server/server.js"></script>
-    <script src="server/mock.js"></script>
+    <!--<script src="server/mock.js"></script>-->
     <script>
 
       var previous_submissions;
@@ -138,8 +138,10 @@
 
       function createPset (problemNum) {
         var psetNum = d3.select ('.pset').node ().selectedIndex;
-        var charSet = psets[psetNum].problems[problemNum].charSet;
-        var type = psets[psetNum].problems[problemNum].type;
+        var prob = psets[psetNum].problems[problemNum]
+        var charSet = prob.charSet;
+        var type = prob.type;
+        var tapeSet = prob.tapeSet
 
         window.location = getURLParent () + "tm.html?type=" + type +
                             "&charset=" + charSet +
