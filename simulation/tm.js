@@ -5,7 +5,43 @@ var gTMSimulator =
   
 var gBlank = ' ';
 var gSquare = String.fromCharCode(0x25A1);
-  
+
+var subroutines = { // this is a horrible hack if ever there was one
+  'half': function(state){
+    var input = state.input;
+    var onesCount = 0;
+    for(var i=state.index; i<input.length && input[i] == '1'; ++i) {
+      ++onesCount;
+    }
+    var replacement = '';
+    for(var i=0; i<onesCount; ++i) {
+      replacement += (i < onesCount / 2) ? '1' : ' ';
+    }
+    console.log(onesCount);
+    console.log(replacement);
+    input = input.substring(0, state.index) + replacement + input.substring(state.index + onesCount);
+    state.input = input;
+    return state;
+  },
+  'trip': function(state){
+    var input = state.input;
+    var onesCount = 0;
+    for(var i=state.index; i<input.length && input[i] == '1'; ++i) {
+      ++onesCount;
+    }
+    var replacement = '';
+    for(var i=0; i<3*onesCount; ++i) {
+      replacement += '1';
+    }
+    console.log(onesCount);
+    console.log(replacement);
+    input = input.substring(0, state.index) + replacement + input.substring(state.index + 3*onesCount);
+    state.input = input;
+    return state;
+  }
+};
+
+
 gTMSimulator.convert = function (graph) {
   var transitionTable = {};
   var charSet = gGraph.tapeSet + (gGraph.epsilonEnabled ? gEpsilon : "");
@@ -27,39 +63,56 @@ gTMSimulator.convert = function (graph) {
 gTMSimulator.step = function (graph, initial, input, index) {
   var transitionTable = gTMSimulator.convert (graph);
   var transition = transitionTable[initial][input[index]];
-  return gTMSimulator.stepState (transitionTable, {
+  return gTMSimulator.stepState (graph, transitionTable, {
       initial: initial,
       input: input,
       index: index
     });
 };
 
-gTMSimulator.stepState = function (table, state) {
-  var input = state.input;
-  if (input.length == state.index) {
-    input += gBlank;
+gTMSimulator.stepState = function (graph, table, state) {
+  var current = graph.nodes.nodes[gNodes.getNodeIndex (state.initial)];
+  if (subroutines.hasOwnProperty(current.name)) {
+    var exit = gNodes.getNodeIndexFromName (current.name + '_');
+    if (exit == -1) {
+      gErrorMenu.displayError ("Missing subroutine exit point.");
+      return {
+        initial: undefined,
+        input: state.input,
+        index: state.index
+      };
+    }
+    var result = subroutines[current.name] (state);
+    result.initial = exit;
+    return result;
   }
-  var transition = table[state.initial][input[state.index]];
-  if (transition == undefined) {
-    return {
-      initial: undefined,
-      input: input,
-      index: state.index
-    };
+  else {
+    var input = state.input;
+    if (input.length == state.index) {
+      input += gBlank;
+    }
+    var transition = table[state.initial][input[state.index]];
+    if (transition == undefined) {
+      return {
+        initial: undefined,
+        input: input,
+        index: state.index
+      };
+    }
+    var result = {
+        initial: transition.target,
+        index: state.index + transition.direction
+      };
+    result.input = input.substring (0, state.index) + transition.to + input.substring (state.index + 1);
+    while (result.index < 0) {
+      result.index++;
+      result.input = gBlank + result.input;
+    }
+    while (result.index >= result.input.length) {
+      result.input += (gBlank);
+    }
+    return result;
   }
-  var result = {
-      initial: transition.target,
-      index: state.index + transition.direction
-    };
-  result.input = input.substring (0, state.index) + transition.to + input.substring (state.index + 1);
-  while (result.index < 0) {
-    result.index++;
-    result.input = gBlank + result.input;
-  }
-  while (result.index >= result.input.length) {
-    result.input += (gBlank);
-  }
-  return result;
 };
 
 gTMSimulator.run = function (graph, input) {
@@ -84,7 +137,7 @@ gTMSimulator.run = function (graph, input) {
       return false;
     }
     if (i < gTMSimulator.MAX_ITER - 1) {
-      state = gTMSimulator.stepState (transitionTable, state);
+      state = gTMSimulator.stepState (graph, transitionTable, state);
     }
   }
   gSimulator.output = state.input;
