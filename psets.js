@@ -25,9 +25,9 @@ var psets =
       id: 5,
       name: "Problem Set 5",
         problems: [
-        { id: 3, name: "Problem 3: Chuck shank", charSet: "0123", type: "turing" },
-        { id: 4, name: "Problem 4: Chicken boudin", charSet: "0123", type: "turing" },
-        { id: 5, name: "Problem 5: Corned beef", charSet: "0123", type: "turing" }
+        { id: 3, name: "Problem 3: Chuck shank", charSet: "0123", type: "tm" },
+        { id: 4, name: "Problem 4: Chicken boudin", charSet: "0123", type: "tm" },
+        { id: 5, name: "Problem 5: Corned beef", charSet: "0123", type: "tm" }
       ]
     }
   ]
