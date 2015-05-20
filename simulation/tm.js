@@ -17,8 +17,6 @@ var subroutines = { // this is a horrible hack if ever there was one
     for(var i=0; i<onesCount; ++i) {
       replacement += (i < onesCount / 2) ? '1' : ' ';
     }
-    console.log(onesCount);
-    console.log(replacement);
     input = input.substring(0, state.index) + replacement + input.substring(state.index + onesCount);
     state.input = input;
     return state;
@@ -33,8 +31,6 @@ var subroutines = { // this is a horrible hack if ever there was one
     for(var i=0; i<3*onesCount; ++i) {
       replacement += '1';
     }
-    console.log(onesCount);
-    console.log(replacement);
     input = input.substring(0, state.index) + replacement + input.substring(state.index + 3*onesCount);
     state.input = input;
     return state;

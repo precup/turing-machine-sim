@@ -65,7 +65,6 @@ gServer.submit = function (automata, pset, problem, callback) {
     .post (
       packed,
       function (err, rawData) {
-        console.log(err, rawData);
         callback (err);
       }
     );
@@ -79,7 +78,6 @@ gServer.listSubmissions = function (callback) {
       .header ("Content-Type", "application/json")
       .get (
         function (err, rawData) {
-          console.log(err, rawData);
           var data = rawData ? JSON.parse (rawData.response) : null;
           callback (data, err);
 
@@ -88,7 +86,6 @@ gServer.listSubmissions = function (callback) {
           // console.log (data[0]['problem_id']);
         });
   } catch (err) {
-    console.error ("Could not connect to server");
   }
 };
 
@@ -101,7 +98,6 @@ gServer.loadSubmission = function (pset, problem, callback) {
     .header ("Content-Type", "application/json")
     .get (
       function (err, rawData) {
-        console.log (rawData);
         if (err) callback (err, null);
         else callback (err, JSON.parse (rawData.response));
     });
@@ -118,7 +114,6 @@ gServer.listSaved = function (callback) {
         else callback (err, JSON.parse (data.response));
       });
   } catch (err) {
-    console.error ("Could not connect to server");
   }
 }
 
@@ -133,6 +128,5 @@ gServer.getSunetid = function (callback) {
       else callback (data.response);
     });
   } catch (err) {
-    console.error ("Could not connect to server");
   }
 };
