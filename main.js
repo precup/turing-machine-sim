@@ -6,8 +6,7 @@ function run () {
   var problem = getURLParam ("problem");
   var charSet = getURLParam ("charset");
   var mode = getURLParam ("type");
-  var tapeSet = getURLParam ("tapeset");
-  console.log(tapeSet);
+  var tapeSet = getURLParam ("tapeSet");
   if (submit_pset && submit_pset) {
     // load previous submission
     var submit_pset = parseInt (submit_pset);

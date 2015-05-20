@@ -20,7 +20,7 @@ gModalMenu.closeCurrent = function () {
 };
 
 gModalMenu.submitOnEnter = function (type) {
-  if (event.keyCode == 13) {
+  if (!isFirefox && event.keyCode == 13) {
     gModalMenu.submit (type);
   }
 };
