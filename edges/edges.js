@@ -103,10 +103,10 @@ gEdges.addNode = function (node) {
   gEdges.edgeMap[node.id] = [];
 };
 
-gEdges.removeNode = function (node) {
-  if (node.id == gEdges.startNode.id) {
+gEdges.removeNode = function (node, ignoreBackup) {
+  if (gEdges.startNode != null && node.id == gEdges.startNode.id) {
     gEdges.startNode = null;
-    gEdges.hideTempEdge ();
+    gEdges.hideTempEdge (ignoreBackup);
   }
   gEdges.edges = gEdges.edges.filter (function (edge) {
     return edge.source.id != node.id && edge.target.id != node.id;

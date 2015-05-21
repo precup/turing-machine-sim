@@ -58,6 +58,7 @@ gTableMenu.updateAll = function () {
       } else {
         var to = this.value;
         if (intersection (to, gGraph.tapeSet).length != to.length) {
+          this.value = intersection (to, gGraph.tapeSet);
           badChars = true;
           return;
         }
@@ -173,6 +174,9 @@ gTableMenu.draw = function () {
     .selectAll ("tr")
     .filter (function (junk, i) { return i != 0; })
     .data (gNodes.nodes);
+
+  table.exit ().remove ();
+  
   var newRows = table.enter ().append ("tr");
 
   newRows.append ("td")
@@ -229,6 +233,11 @@ gTableMenu.draw = function () {
       this.checked = gNodes.nodes[i].reject;
     });
   
+  table.select ("td")
+    .text (function (node) {
+      return node.name;
+    });
+    
   var rows = table.selectAll ("td")
     .filter (function () {
       return d3.select (this)
@@ -332,9 +341,6 @@ gTableMenu.draw = function () {
       gGraph.draw ();
     })
     .text ("X");
-
-  table.exit ()
-    .remove ();
 };
 
 gTableMenu.getConnections = function (source, character) {
