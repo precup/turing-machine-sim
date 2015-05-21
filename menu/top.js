@@ -18,11 +18,11 @@ gTopMenu.setState = function (accepting, rejecting) {
   gGraph.draw ();
 };
 
-gTopMenu.deleteSelected = function () {
+gTopMenu.deleteSelected = function (ignoreBackup) {
   if (gNodes.selectionIsEmpty () && gEdges.selectionIsEmpty ()) {
     gErrorMenu.displayError ("No states or transitions are selected");
   }
-  if (gNodes.removeNodes ()) {
+  if (gNodes.removeNodes (ignoreBackup)) {
     gEdges.deleteSelected ();
     gGraph.draw ();
   }

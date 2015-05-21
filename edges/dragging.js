@@ -92,14 +92,14 @@ gEdges.startDragging = function () {
   gEdges.dragging = true;
 };
 
-gEdges.hideTempEdge = function () {
-  var mouse = d3.mouse(d3.select("svg").node());
+gEdges.hideTempEdge = function (ignoreBackup) {
+  var mouse = ignoreBackup ? [0, 0] : d3.mouse (d3.select ("svg").node ());
   var dist = gNodes.SELECTABLE_RADIUS + 1;
   if (gEdges.backupNode != null) {
     dist = Math.sqrt (Math.pow (mouse[0] - gEdges.backupNode.x, 2) + 
       Math.pow (mouse[1] - gEdges.backupNode.y, 2));
   }
-  if (gEdges.backupNode == null || dist > gNodes.SELECTABLE_RADIUS) {
+  if (ignoreBackup || gEdges.backupNode == null || dist > gNodes.SELECTABLE_RADIUS) {
     d3.select ("path.temp").remove ();  
     gEdges.dragging = false;
     gEdges.tempVisible = false;

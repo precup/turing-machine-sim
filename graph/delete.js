@@ -8,7 +8,7 @@ gGraph.initDelete = function () {
     },
     function () {
       d3.event.preventDefault ();
-      if (gNodes.removeNodes ()) {
+      if (gNodes.removeNodes (true)) {
         gEdges.deleteSelected ();
         gGraph.draw ();
       }

@@ -119,11 +119,11 @@ gNodes.removeByIndex = function (index) {
   if (gNodes.initial != null && gNodes.initial.id == gNodes.nodes[index].id) {
     gNodes.initial = null;
   }
-  gEdges.removeNode (gNodes.nodes[index]);
+  gEdges.removeNode (gNodes.nodes[index], true);
   gNodes.nodes.splice (index, 1);
 };
 
-gNodes.removeNodes = function () {
+gNodes.removeNodes = function (ignoreBackup) {
   if (gTape.follow != null && gTape.follow.selected) {
     if (gTape.done) {
       gTestMenu.end ();
@@ -137,7 +137,7 @@ gNodes.removeNodes = function () {
       if (gNodes.initial != null && gNodes.initial.id == gNodes.nodes[i].id) {
         gNodes.initial = null;
       }
-      gEdges.removeNode (gNodes.nodes[i]);
+      gEdges.removeNode (gNodes.nodes[i], ignoreBackup);
       gNodes.nodes.splice (i--, 1);
     }
   }
