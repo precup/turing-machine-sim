@@ -648,6 +648,10 @@ button[disabled], button[disabled]:hover, button[disabled]:focus, button[disable
   display: none;
 }
 
+.contactUs {
+  display: none;
+}
+
 .tmEdge {
   padding: 10px;
 }

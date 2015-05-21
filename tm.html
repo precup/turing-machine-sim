@@ -73,6 +73,7 @@
         <button type="button" onclick="gTopMenu.loadFromServer ()">Load</button>
         <button class="nontable" type="button" onclick="gTopMenu.snapToGrid ()">Snap to Grid</button>
         <button class="nontable" type="button" onclick="gTopMenu.forcedDirectedLayout ()">Force Directed Layout</button>
+        <button type="button" onclick="gModalMenu.open ('contactUs')">Contact Us</button>
       </div>
       <!--
         Not needed until Turing Machines
@@ -267,6 +268,18 @@
           <button type="button" class="button-delete" onclick="gModalMenu.deleteEdge ()">Delete Transition</button>
           <button type="button" onclick="gModalMenu.cancel ('edgeEntry')">Cancel</button>
           <button type="button" class="button-primary" onclick="gModalMenu.submit ('tmEdgeEntry')">Update</button>
+        </div>
+      </div>
+
+      <div class="contactUs popup"">
+        <div class="modal-header">
+          Contact Us
+        </div>
+        <p class="modal-description">
+          Contact us at mprecup@stanford.edu or kgibb@stanford.edu to report any issues.
+        </p>
+        <div class="modal-buttons">
+          <button type="button" onclick="gModalMenu.cancel ('contactUs')">Close</button>
         </div>
       </div>
 
