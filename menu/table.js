@@ -189,6 +189,7 @@ gTableMenu.draw = function () {
     .attr ("type", "radio")
     .classed ("initialBox", true)
     .each (function (node) {
+      this.id = node.id;
       this.checked = gNodes.initial != null && gNodes.initial.id == node.id;
     })
     .on ("change", function (node, i) {
@@ -337,10 +338,18 @@ gTableMenu.draw = function () {
   newRows.append ("td")
     .append ("button")
     .on ("click", function (node, i) {
-      gNodes.removeByIndex (i);
+      gNodes.removeByIndex (i);      
+      d3.select (".tableEditor")
+        .selectAll ("tr")
+        .filter (function (junk, i) { return i != 0; })
+        .remove ();
       gGraph.draw ();
     })
     .text ("X");
+    
+  d3.selectAll (".initialBox").each (function () {
+      this.checked = gNodes.initial != null && gNodes.initial.id == this.id;
+    });
 };
 
 gTableMenu.getConnections = function (source, character) {
