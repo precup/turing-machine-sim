@@ -32,12 +32,12 @@ var psets =
     // },
     {
       id: 7,
-      name: "Problem Set 7",
+      name: "Problem Set 6",
       problems: [
         { id: 1, name: "Problem One: Binary Sorting", charSet: "01", tapeSet: "01", type: "tm"},
         { id: 2, name: "Problem Two i: The Collatz Conjecture", charSet: "1", tapeSet: "1", type: "tm" },
-        { id: 3, name: "Problem Two ii: The Collatz Conjection", charSet: "1", tapeSet: "1", type: "tm" },
-        { id: 4, name: "Problem Two iii: The Collatz Conjection", charSet: "1", tapeSet: "1", type: "tm" }
+        { id: 3, name: "Problem Two ii: The Collatz Conjecture", charSet: "1", tapeSet: "1", type: "tm" },
+        { id: 4, name: "Problem Two iii: The Collatz Conjecture", charSet: "1", tapeSet: "1", type: "tm" }
       ]
     }
   ]

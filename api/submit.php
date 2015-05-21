@@ -46,9 +46,9 @@ if (!$db->checkUserExists($user)) {
   $db->addUser($user, False);
 }
 $db->addSubmission($user, $automata, $pset, $problem);
-$dt = new DateTime("now", new DateTimeZone('America/New York'));
+// $dt = new DateTime("now", new DateTimeZone('America/New York'));
 
-$date_time $dt->format('m/d/Y, H:i:s');
+// $date_time $dt->format('m/d/Y, H:i:s');
 
 mail ("cs103.submit@gmail.com, $user@stanford.edu",
   $user + " submission",
