@@ -28,7 +28,7 @@ var subroutines = { // this is a horrible hack if ever there was one
       ++onesCount;
     }
     var replacement = '';
-    for(var i=0; i<3*onesCount; ++i) {
+    for(var i=0; i<3*onesCount+1; ++i) {
       replacement += '1';
     }
     input = input.substring(0, state.index) + replacement + input.substring(state.index + 3*onesCount);

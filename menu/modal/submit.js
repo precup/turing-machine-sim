@@ -122,13 +122,13 @@ gModalMenu.submitModal.submit = function (done) {
     gModalMenu.submitModal.setSubmitButton ("Submit");
     return;
   }
-  if (psets[pset].problems[problem].charSet != gGraph.charSet) {
+  if (psets[pset].problems[problem].charSet != gGraph.charSet.split (" ").join ("")) { // charSet with spaces removed
     gErrorMenu.displayModalError ("submit", "The alphabet for this automaton doesn't match the alphabet for that problem.");
     gModalMenu.submitModal.setSubmitButton ("Submit");
 
     return;
   }
-  if (gGraph.mode === "tm" && psets[pset].problems[problem].tapeSet != gGraph.tapeSet) {
+  if (gGraph.mode === "tm" && psets[pset].problems[problem].tapeSet != gGraph.tapeSet.split (" ").join ("")) { // tapeSet with spaces removed
     gErrorMenu.displayModalError ("submit", "The tape alphabet for this turing machine doesn't match the tape alphabet for that problem.");
     gModalMenu.submitModal.setSubmitButton ("Submit");
 

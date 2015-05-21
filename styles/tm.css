@@ -644,6 +644,10 @@ button[disabled], button[disabled]:hover, button[disabled]:focus, button[disable
   bottom: 4px;
 }
 
+.contactUs {
+  display: none;
+}
+
 .tmEdgeEntry {
   display: none;
 }

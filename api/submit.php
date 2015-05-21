@@ -46,7 +46,11 @@ if (!$db->checkUserExists($user)) {
   $db->addUser($user, False);
 }
 $db->addSubmission($user, $automata, $pset, $problem);
-mail ("cs103.submit@gmail.com",
+// $dt = new DateTime("now", new DateTimeZone('America/New York'));
+
+// $date_time $dt->format('m/d/Y, H:i:s');
+
+mail ("cs103.submit@gmail.com, $user@stanford.edu",
   $user + " submission",
-  "Pset #: $pset. Problem #: $problem. User: $user. Automata: $contents.",
+  "Congrats! You submit on $date_time for problem set #$pset, problem #$problem. You submit with SunetID $user. Your submission data is: $contents. Note that you may resubmit any time for the deadline and overwrite your previous submission.",
   "From: maxwang7@stanford.edu");
