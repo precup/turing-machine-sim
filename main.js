@@ -1,5 +1,5 @@
 function run () {
-  var saved = decodeURIComponent (getURLParam ("saved"));
+  var saved = raw_saved ? decodeURIComponent (getURLParam ("saved")) : raw_saved;
   var submit_pset = getURLParam ("submit_pset");
   var submit_problem = getURLParam ("submit_problem");
   var pset = getURLParam ("pset");
@@ -7,6 +7,7 @@ function run () {
   var charSet = getURLParam ("charset");
   var mode = getURLParam ("type");
   var tapeSet = getURLParam ("tapeSet");
+
   if (submit_pset && submit_pset) {
     // load previous submission
     var submit_pset = parseInt (submit_pset);
