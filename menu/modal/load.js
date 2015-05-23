@@ -57,7 +57,7 @@ gModalMenu.load.onClickLoadBtn = function () {
         gModalMenu.load.setLoadButton ("Load");
         return;
       }
-      gServer.changeName (name);
+      gServer.changeName (decodeURIComponent (name));
       gModalMenu.load.setLoadButton ("Success!");
       gGraph.charSet = automata.meta.charSet;
       gGraph.pset = automata.meta.pset;
