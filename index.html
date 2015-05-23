@@ -30,7 +30,6 @@
         
 
         gServer.listSubmissions (function (submit_names, err) {
-          console.log (submit_names);
           if (err != null) {
             if (d3.select ("p.error").size () == 0) {
               addError ("Could not connect to server");
@@ -88,7 +87,7 @@
       }
 
       function loadSaved (name) {
-        window.location = getURLParent () + "tm.html?saved=" + name;
+        window.location = getURLParent () + "tm.html?saved=" + encodeURIComponent (name);
       }
 
       function loadSubmission (pset, problem) {

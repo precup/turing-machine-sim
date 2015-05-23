@@ -1,5 +1,5 @@
 function run () {
-  var saved = getURLParam ("saved");
+  var saved = decodeURIComponent (getURLParam ("saved"));
   var submit_pset = getURLParam ("submit_pset");
   var submit_problem = getURLParam ("submit_problem");
   var pset = getURLParam ("pset");
@@ -26,26 +26,15 @@ function run () {
   } else {
     gServer.listSaved (function (err, data) {
       var found = false;
+      var automata;
       data.forEach (function (elem, index, arr) {
         if (elem["name"] === saved) {
           found = true;
+          automata = JSON.parse (elem["automata"]);
         }
       });
 
-      if (found) {
-        gServer.load (
-          saved,
-          function (err, automata) {
-            if (err) {
-              gErrorMenu.displayError ("Could not connect to server; load failed", true);
-              return;
-            }
-            gServer.name = saved;
-            reload (automata);
-          });
-      } else {
-        gErrorMenu.displayError ("Could not connect to server; load failed", true);
-      }
+      reload (automata);
     });
   }
 }

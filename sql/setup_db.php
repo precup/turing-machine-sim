@@ -1,6 +1,10 @@
+<?php
+require_once ("db_prefix.php");
+
+echo "
 use c_cs103_db;
 
-create table users (
+create table " . $prefix . "users (
   sunetid char(30) not null,
   isTA boolean not null,
   primary key (sunetid)
@@ -40,3 +44,4 @@ create table submissions (
   foreign key (user_id) references users(sunetid),
   unique (problem_id, user_id)
 );
+";
