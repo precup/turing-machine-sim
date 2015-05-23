@@ -1,0 +1,2 @@
+<?php
+$prefix = "test_";
