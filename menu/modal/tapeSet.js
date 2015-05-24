@@ -5,6 +5,7 @@ gModalMenu.tapeSet.clickConfirmBtn = function () {
   var newChars = gModalMenu.tapeSet.getNewCharacters ();
   gGraph.tapeSet = sortString (removeDuplicates (curTapeSet + newChars));
   gTopMenu.draw ();
+  gModalMenu.close ('tape-set');
 };
 
 gModalMenu.tapeSet.getNewCharacters = function () {
