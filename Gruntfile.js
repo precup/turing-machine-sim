@@ -35,6 +35,7 @@ module.exports = function(grunt) {
             'nodes/forcedirected.js', 
 
             'menu/top.js', 
+            'menu/modal/tapeSet.js',
             'menu/modal/modal.js', 
             'menu/modal/saveas.js', 
             'menu/modal/submit.js', 
