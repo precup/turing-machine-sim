@@ -79,7 +79,7 @@ gTMSimulator.stepState = function (graph, table, state) {
       };
     }
     var result = subroutines[current.name] (state);
-    result.initial = exit;
+    result.initial = gNodes.nodes[exit].id
     return result;
   }
   else {
