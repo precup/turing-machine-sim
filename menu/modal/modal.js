@@ -52,6 +52,9 @@ gModalMenu.submit = function (type) {
     case "confirm":
       gModalMenu.confirm.clickConfirmBtn ();
       break;
+    case "tape-set":
+      gModalMenu.tapeSet.clickConfirmBtn ();
+      break;
     default:
       break;
   }

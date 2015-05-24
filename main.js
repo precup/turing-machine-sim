@@ -1,4 +1,5 @@
 function run () {
+  var raw_saved = getURLParam ("saved");
   var saved = raw_saved ? decodeURIComponent (getURLParam ("saved")) : raw_saved;
   var submit_pset = getURLParam ("submit_pset");
   var submit_problem = getURLParam ("submit_problem");

@@ -33,6 +33,7 @@
 
     <script src="menu/top.js"></script>
     <script src="menu/modal/modal.js"></script>
+    <script src="menu/modal/tapeSet.js"></script>
     <script src="menu/modal/saveas.js"></script>
     <script src="menu/modal/submit.js"></script>
     <script src="menu/modal/load.js"></script>
@@ -55,7 +56,7 @@
 
     <script src="server/server.js"></script>
     <script src="server/mock.js"></script>
-    <script src="tm.min.js"></script>
+    <!--<script src="tm.min.js"></script>-->
 
   </head>
   <body onload="run()" onresize="gGraph.resize()">
@@ -117,7 +118,7 @@
       <span class="current-pset-problem">Problem Set Problem </span>
       Current Alphabet: <span class="current-alphabet"></span>,
       Current Mode: <span class="current-mode">DFA</span>
-      <span class="current-tape-set" style="display:none;">, Current Tape Set: <span class="current-tape-set-inner"></span></span>
+      <span class="current-tape-set" style="display:none;">, Current Tape Set: <span class="current-tape-set-inner"></span></span> — <span class="edit-tape-set" onclick="gTopMenu.editTapeSet ()";>Edit Tape Set<span>
     </div>
     <div class="tape-bar">
       <button onclick="gTestMenu.runTests ()">
@@ -139,6 +140,18 @@
       </div>
     </div>
     <div class="modal overlay">
+      <div class="tape-set popup" onkeypress="gModalMenu.submitOnEnter ('tape-set');">
+        <div class="modal-header">
+          Edit Tape Set
+        </div>
+        <div class="modal-content">
+          <input type="text" placeholder="Add Characters" class="tape-set-text" />
+        </div>
+        <div class="modal-buttons">
+          <button type="button" onclick="gModalMenu.cancel ('load')">Cancel</button>
+          <button type="button" class="button-primary loadButton" onclick="gModalMenu.submit ('tape-set')">Submit</button>
+        </div>
+      </div>
 
       <div class="load popup" onkeypress="gModalMenu.submitOnEnter ('load')">
         <div class="modal-header">

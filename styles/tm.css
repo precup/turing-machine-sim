@@ -536,7 +536,7 @@ td {
   color: #fff;
 }
 
-.saveas input[type="text"], .confirm input[type="text"] {
+.saveas input[type="text"], .confirm input[type="text"], .tape-set input[type="text"] {
   width: 100%;
   margin: 0px auto;
   -webkit-appearance: none;
@@ -611,6 +611,17 @@ td {
 .current-alphabet, .current-mode, .current-tape-set-inner {
   color: black;
 }
+
+.edit-tape-set {
+  color: blue;
+}
+
+.edit-tape-set:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
 
 button.button-delete {
   background-color: rgb(193, 77, 77);
