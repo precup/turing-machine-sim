@@ -61,6 +61,10 @@ gTopMenu.loadFromServer = function () {
   gModalMenu.load.onOpen ();
 };
 
+gTopMenu.editTapeSet = function () {
+  gModalMenu.open ("tape-set");
+};
+
 gTopMenu.save = function () {
   var BUTTON_TIMEOUT = 2000;
   var name = gServer.name;

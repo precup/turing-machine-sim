@@ -128,11 +128,11 @@ gModalMenu.submitModal.submit = function (done) {
 
     return;
   }
-  if (gGraph.mode === "tm" && psets[pset].problems[problem].tapeSet != gGraph.tapeSet.split (" ").join ("")) { // tapeSet with spaces removed
-    gErrorMenu.displayModalError ("submit", "The tape alphabet for this turing machine doesn't match the tape alphabet for that problem.");
+ if (gGraph.mode === "tm" && psets[pset].problems[problem].tapeSet != gGraph.tapeSet.split (" ").join ("")) { // tapeSet with spaces removed
+    gErrorMenu.displayModalError ("submit", "WARNING: The tape alphabet for this turing machine doesn't match the tape alphabet for that problem, but we'll still let you submit.");
     gModalMenu.submitModal.setSubmitButton ("Submit");
 
-    return;
+    // return;
   }
   
   gServer.submit (automata, indexed_pset, indexed_problem,
