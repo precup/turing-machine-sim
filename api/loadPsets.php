@@ -6,7 +6,7 @@ $json = json_decode ('
   [
     {
       "id": 7,
-      "name": "Problem Set 6",
+      "name": "Problem Set 7",
       "problems": [
         { "id": 1, "name": "Problem One: Binary Sorting", "charSet": "01", "type": "tm"},
         { "id": 2, "name": "Problem Two i: The Collatz Conjecture", "charSet": "1", "type": "tm" },
