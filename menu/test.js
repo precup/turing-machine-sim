@@ -122,13 +122,14 @@ gTestMenu.setRunning = function (running) {
 };
 
 gTestMenu.run = function () {
-  gTestMenu.reset ();
   var unset = gTestMenu.unsetTransitions ();
   if (gNodes.initial == null) {
     gErrorMenu.displayError ("This automaton doesn't have a start state.");
   } else if (unset.length != 0) {
     gErrorMenu.displayError ("The following states have undefined transitions: " + unset.join (", "));
   } else {
+    gTestMenu.showPlaceholder = false;
+    gTestMenu.reset ();
     gTestMenu.setRunning (true);
     gTape.show ();
     gTape.run ();
