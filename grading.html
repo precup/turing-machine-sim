@@ -2,7 +2,57 @@
 <html>
   <head>
     <title>Turing Machine Designer - Create New</title>
-    <link href="styles/grading.css" rel="stylesheet" type="text/css">
+    <link href="styles/grading.css" rel="stylesheet" type="text/css"><script src="main.js"></script>
+    <script src="behaviors.js"></script>
+    <script src="util.js"></script>
+    <script src="queue.js"></script>
+    <script src="psets.js"></script>
+
+    <script src="brush/brush.js"></script>
+
+    <script src="graph/graph.js"></script>
+    <script src="graph/delete.js"></script>
+    <script src="cookie.js"></script>
+
+    <script src="edges/edges.js"></script>
+    <script src="edges/initial.js"></script>
+    <script src="edges/selection.js"></script>
+    <script src="edges/dragging.js"></script>
+    <script src="edges/edit.js"></script>
+
+    <script src="nodes/nodes.js"></script>
+    <script src="nodes/edit.js"></script>
+    <script src="nodes/movement.js"></script>
+    <script src="nodes/selection.js"></script>
+    <script src="nodes/doubleclicking.js"></script>
+    <script src="nodes/snaptogrid.js"></script>
+    <script src="nodes/forcedirected.js"></script>
+
+    <script src="menu/top.js"></script>
+    <script src="menu/modal/modal.js"></script>
+    <script src="menu/modal/tapeSet.js"></script>
+    <script src="menu/modal/saveas.js"></script>
+    <script src="menu/modal/submit.js"></script>
+    <script src="menu/modal/load.js"></script>
+    <script src="menu/modal/confirm.js"></script>
+    <script src="menu/modal/edge.js"></script>
+    <script src="menu/modal/testing.js"></script>
+    <script src="menu/modal/node.js"></script>
+    <script src="menu/modal/tmedge.js"></script>
+    <script src="menu/table.js"></script>
+    <script src="menu/tabletop.js"></script>
+    <script src="menu/test.js"></script>
+    <script src="menu/error.js"></script>
+
+    <script src="simulation/dfa.js"></script>
+    <script src="simulation/nfa.js"></script>
+    <script src="simulation/tm.js"></script>
+    <script src="simulation/sim.js"></script>
+    <script src="simulation/bulk.js"></script>
+    <script src="simulation/tape.js"></script>
+    
+    <script src="grading/grading.js"></script>
+    <script src="server/server.js"></script>
   </head>
 <body>
   <div class="sidebar">
@@ -13,9 +63,9 @@
 
     <div class="search">
       <textarea class="search-text" placeholder="Enter SUNet IDs (one per line)"></textarea>
-      <button class="search-button">Search SUNet IDs</button>
-      <button class="search-button">Load Tests</button>
-      <button class="search-button">Run Tests</button>
+      <button class="search-button" onclick="loadSunets ()">Search SUNet IDs</button>
+      <button class="search-button" onclick="loadTests ()">Load Tests</button>
+      <button class="search-button" onclick="runTests ()">Run Tests</button>
     </div>
 
     <div class="students">

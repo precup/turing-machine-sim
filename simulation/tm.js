@@ -79,6 +79,7 @@ gTMSimulator.stepState = function (graph, table, state) {
       };
     }
     var result = subroutines[current.name] (state);
+    gTMSimulator.subCalls[current.name]++;
     result.initial = gNodes.nodes[exit].id;
     return result;
   }
@@ -112,6 +113,13 @@ gTMSimulator.stepState = function (graph, table, state) {
 };
 
 gTMSimulator.run = function (graph, input) {
+  gTMSimulator.subCalls = {};
+  for (var name in subroutines) {
+    if (subroutines.hasOwnProperty(name)) {
+      gTMSimulator.subCalls[name] = 0;
+    }
+  }
+  
   var state = {
     initial: graph.nodes.initial,
     input: input,
@@ -120,15 +128,21 @@ gTMSimulator.run = function (graph, input) {
   var transitionTable = gTMSimulator.convert (graph);
   for (var i = 0; i < gTMSimulator.MAX_ITER; i++) {
     if (state.initial == undefined) {
+      gSimulator.subCalls = JSON.parse (JSON.stringify (gTMSimulator.subCalls));
+      gSimulator.index = state.index;
       gSimulator.output = state.input;
       return false;
     }
     var current = graph.nodes.nodes[gNodes.getNodeIndex (state.initial)];
     if (current.accept) {
+      gSimulator.subCalls = JSON.parse (JSON.stringify (gTMSimulator.subCalls));
+      gSimulator.index = state.index;
       gSimulator.output = state.input;
       return true;
     }
     if (current.reject) {
+      gSimulator.subCalls = JSON.parse (JSON.stringify (gTMSimulator.subCalls));
+      gSimulator.index = state.index;
       gSimulator.output = state.input;
       return false;
     }
@@ -136,6 +150,8 @@ gTMSimulator.run = function (graph, input) {
       state = gTMSimulator.stepState (graph, transitionTable, state);
     }
   }
+  gSimulator.subCalls = JSON.parse (JSON.stringify (gTMSimulator.subCalls));
+  gSimulator.index = state.index;
   gSimulator.output = state.input;
   return gSimulator.TIMEOUT;
 };
