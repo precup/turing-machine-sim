@@ -130,3 +130,24 @@ gServer.getSunetid = function (callback) {
   } catch (err) {
   }
 };
+
+/*
+students is an array of sunetIDs: ["maxwang7", "mprecup"]
+callback (err, data), where data has the format:
+[
+  {
+    user_id: <sunetid>,
+    problem_id: <database problem id, probably not used>,
+    problem_number: <problem number in the pset, matches to "id" in the problems array in psets>,
+    pset_id: <pset id, matches to "id" in psets>,
+    automata: <automata as JSON string>
+  }
+]
+*/
+gServer.getStudentSubmissions = function (students, callback) {
+  var getStudentSubmissions_url = "api/TAGetStudentSubmissions.php";
+  d3.xhr(getStudentSubmissions_url)
+    .post(JSON.stringify(students), function (err, data) {
+      callback (err, data.response);
+    });
+}

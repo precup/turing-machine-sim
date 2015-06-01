@@ -183,4 +183,71 @@ class DB
     }
     return $this->fetchAll($result); 
   }
+
+  public function addTA($sunetid) {
+    $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
+    $query_string = 
+      "insert into users (sunetid, isTA)
+      values (\"$sunetid\", 1)
+      on duplicate key update isTA=1;
+      ";
+    $result = $db->query($query_string);
+    if ($result === False) {
+      echo "Internal Server Error";
+      exit ();
+    }
+  }
+
+  public function userIsTA($sunetid) {
+    $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
+    $query_string =
+      "
+      select isTA
+      from users
+      where sunetid=\"$sunetid\";
+      ";
+    $result = $db->query($query_string);
+    if ($result === False) {
+      header("HTTP/1.1 500 Internal Server Error");
+      echo "Internal Server Error";
+      exit ();
+    }
+    return intval ($this->fetchAll($result) [0]["isTA"]) === 1
+      ? True : False;
+  }
+
+  public function getStudentSubmissions($sunetids_) {
+    $db = $this->db;
+    $sunetids = []; // escaped sunetids
+    foreach ($sunetids_ as $sunetid) {
+      array_push ($sunetids, $db->real_escape_string($sunetid));
+    }
+    $sunetids_as_string = "";
+    $first = True;
+    foreach ($sunetids as $sunetid) {
+      if ($first === True) {
+        $sunetids_as_string .= "user_id=\"$sunetid\" ";
+        $first = False;
+        continue;
+      }
+      $sunetids_as_string .= " or user_id=\"$sunetid\" ";
+    }
+    $query_string =
+      "
+      select submissions.user_id, submissions.problem_id, 
+        problems.problem_number, problems.pset_id, submissions.automata
+      from submissions
+      join (problems) on (problems.id=submissions.problem_id)
+      where $sunetids_as_string;
+      ";
+    $result = $db->query ($query_string);
+    if ($result === False) {
+      header("HTTP/1.1 500 Internal Server Error");
+      echo "Internal Server Error";
+      exit ();
+    }
+    return $this->fetchAll($result);
+  }
 }
