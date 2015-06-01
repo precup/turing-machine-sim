@@ -13,6 +13,7 @@ body, html {
   height: 100%;
   margin: 0px;
   padding: 0px;
+  background-color: rgb(250, 250, 250);
 }
 
 .sidebar {
@@ -21,6 +22,7 @@ body, html {
   height: 100%;
   overflow-y: scroll;
   width: 320px;
+  background-color: #ffffff;
   box-sizing: border-box;
   border-right: 1px solid #d7d7d7;
 }
@@ -119,6 +121,7 @@ body, html {
   box-sizing: border-box;
   border-radius: 8px;
   border: 1px solid #d7d7d7;
+  background-color: #ffffff;
   margin-bottom: 20px;
 }
 
@@ -166,5 +169,11 @@ body, html {
 .test-score {
   font-size: 16px;
   margin-top: 6px;
-  color: rgb(161, 161, 161)
+  color: rgb(161, 161, 161);
+}
+
+.reason {
+  margin-top: 6px;
+  color: rgb(161, 161, 161);
+  font-size: 12px;
 }
