@@ -44,7 +44,7 @@ body, html {
   top: 44px;
   position: absolute;
   width: 320px;
-  height: 160px;
+  height: 230px;
   box-sizing: border-box;
   padding: 10px;
   border-bottom: 1px solid #d7d7d7;
@@ -82,7 +82,7 @@ button {
 
 .students {
   position: absolute;
-  top: 204px;
+  top: 274px;
   width: 320px;
   overflow: scroll;
   bottom: 0px;
