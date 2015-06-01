@@ -44,7 +44,7 @@ body, html {
   top: 44px;
   position: absolute;
   width: 320px;
-  height: 230px;
+  height: 160px;
   box-sizing: border-box;
   padding: 10px;
   border-bottom: 1px solid #d7d7d7;
@@ -74,10 +74,23 @@ button {
   color: #ffffff;
 }
 
-.search-button {
+.search button {
   margin-top: 4px;
-  width: 100%;
+  float: left;
+  width: 96px;
+  margin-right: 6px;
   height: 30px;
+  line-height: 15px;
+}
+
+.test-button {
+  background-color: #ffffff;
+  color: rgb(140, 140, 140);
+  border: 1px solid rgb(221, 221, 221);
+}
+
+.search-button {
+  margin-right: 0 !important;
 }
 
 .students {
@@ -129,12 +142,14 @@ button {
   margin-bottom: 20px;
 }
 
-.problem-name {
+.problem-info {
   padding: 16px;
   float: left;
   width: 30%;
   text-align: right;
   font-size: 24px;
+  position: relative;
+  height: 100%;
   box-sizing: border-box;
 }
 
@@ -176,7 +191,6 @@ button {
   color: rgb(161, 161, 161);
 }
 
-
 .input input[type="text"]{
   font-size: 13px;
   vertical-align: middle;
@@ -206,4 +220,28 @@ button {
   margin-top: 6px;
   color: rgb(161, 161, 161);
   font-size: 12px;
+}
+
+.grades h1 {
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  padding: 0px;
+  font-size: 20px;
+}
+
+.problem-info a {
+  text-decoration: none;
+  font-size: 13px;
+  color: #0092EE;
+  display: block;
+  margin-top: 8px;
+}
+
+.problem-info a:hover {
+  text-decoration: underline;
+}
+
+.problem-info .name {
+  display: block;
 }

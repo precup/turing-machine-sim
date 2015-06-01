@@ -51,7 +51,7 @@
     <script src="simulation/sim.js"></script>
     <script src="simulation/bulk.js"></script>
     <script src="simulation/tape.js"></script>
-    
+
     <script src="grading/grading.js"></script>
     <script src="server/server.js"></script>
   </head>
@@ -64,9 +64,9 @@
 
     <div class="search">
       <textarea class="search-text" placeholder="Enter SUNet IDs (one per line)"></textarea>
-      <button class="search-button" onclick="loadSunets ()">Search SUNet IDs</button>
-      <button class="search-button" onclick="loadTests ()">Load Tests</button>
-      <button class="search-button" onclick="runTests ()">Run Tests</button>
+      <button class="test-button" onclick="loadTests ()">Load Tests</button>
+      <button class="test-button" onclick="runTests ()">Run Tests</button>
+      <button class="search-button" onclick="loadSunets ()">Search IDs</button>
     </div>
 
     <div class="students">
@@ -75,27 +75,33 @@
   </div>
 
   <div class="grades">
+
+    <h1>
+      Test Results for jaymoon
+    </h1>
+
     <div class="problem">
-      <div class="problem-name">
-        Problem 1a
+      <div class="problem-info">
+        <span class="name">Problem 1a</span>
         <div class="test-score">
           Tests passed: 2/3
         </div>
+        <a href="#">View Problem</a>
       </div>
       <div class="problem-tests">
         <div class="problem-test">
-          This is a test
+          <span class="test">This is a test</span>
           <span class="passed result">Passed</span>
         </div>
         <div class="problem-test">
-          This is another test
+          <span class="test">This is another test</span>
           <span class="failed result">Failed</span>
           <div class="reason">
             Expected: 01011100. Returned: 01011101.
           </div>
         </div>
         <div class="problem-test">
-          yet another
+          <span class="test">yet another</span>
           <span class="passed result">Passed</span>
         </div>
       </div>
