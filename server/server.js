@@ -151,3 +151,24 @@ gServer.getStudentSubmissions = function (students, callback) {
       callback (err, data.response);
     });
 }
+
+if (gradingMock) {
+  gServer.getStudentSubmissions = function (students, callback) {
+    var problems = [
+        {
+          problem_number: 1,
+          pset_id: 7,
+          automata: "{\"nodes\":{\"nodes\":[{\"y\":301.6520597553689,\"x\":384,\"id\":0,\"name\":\"n0\",\"accept\":false,\"reject\":false,\"selected\":false,\"previouslySelected\":false},{\"y\":100,\"x\":625,\"id\":3,\"name\":\"n3\",\"accept\":false,\"reject\":false,\"selected\":false,\"previouslySelected\":false},{\"y\":103.39863022059609,\"x\":836,\"id\":4,\"name\":\"n4\",\"accept\":false,\"reject\":false,\"selected\":false,\"previouslySelected\":false},{\"y\":596.2000122070312,\"x\":712,\"id\":5,\"name\":\"n5\",\"accept\":true,\"reject\":false,\"selected\":false,\"previouslySelected\":false},{\"y\":299.38630627497145,\"x\":627,\"id\":1,\"name\":\"n1\",\"accept\":false,\"reject\":false,\"selected\":false,\"previouslySelected\":false},{\"y\":497.6397358097442,\"x\":389,\"id\":2,\"name\":\"n2\",\"accept\":false,\"reject\":false,\"selected\":false,\"previouslySelected\":false}],\"initial\":0},\"edges\":{\"edgeMap\":{\"0\":[],\"1\":[3],\"2\":[1],\"3\":[],\"4\":[],\"5\":[]},\"edges\":[{\"source\":0,\"target\":1,\"transitions\":[[{\"direction\":1,\"from\":\"1\",\"to\":\"1\"}]],\"selected\":false},{\"source\":0,\"target\":2,\"transitions\":[[{\"direction\":1,\"from\":\"0\",\"to\":\"0\"}]],\"selected\":false},{\"source\":1,\"target\":3,\"transitions\":[[{\"direction\":-1,\"from\":\"0\",\"to\":\"1\"}]],\"selected\":false},{\"source\":3,\"target\":4,\"transitions\":[[{\"direction\":-1,\"from\":\"1\",\"to\":\"0\"}]],\"selected\":false},{\"source\":2,\"target\":1,\"transitions\":[[{\"direction\":1,\"from\":\"1\",\"to\":\"1\"}]],\"selected\":false},{\"source\":2,\"target\":2,\"transitions\":[[{\"direction\":1,\"from\":\"0\",\"to\":\"0\"}]],\"selected\":false},{\"source\":1,\"target\":1,\"transitions\":[[{\"direction\":1,\"from\":\"1\",\"to\":\"1\"}]],\"selected\":false},{\"source\":4,\"target\":4,\"transitions\":[[{\"direction\":1,\"from\":\"0\",\"to\":\"0\"},{\"direction\":1,\"from\":\" \",\"to\":\" \"}]],\"selected\":false},{\"source\":4,\"target\":1,\"transitions\":[[{\"direction\":1,\"from\":\"1\",\"to\":\"1\"}]],\"selected\":false},{\"source\":1,\"target\":5,\"transitions\":[[{\"direction\":1,\"from\":\" \",\"to\":\" \"}]],\"selected\":false},{\"source\":2,\"target\":5,\"transitions\":[[{\"direction\":1,\"from\":\" \",\"to\":\" \"}]],\"selected\":false}]},\"meta\":{\"charSet\":\" 01 \",\"pset\":\"0\",\"problem\":\"0\",\"mode\":\"tm\",\"tapeSet\":\" 01\"}}"
+        }
+      ];
+    var data = [];
+    for (var i = 0; i < students.length; i++) {
+      for (var j = 0; j < problems.length; j++) {
+        var submission = JSON.parse (JSON.stringify (problems[j]));
+        submission.user_id = students[i];
+        data.push (submission);
+      }        
+    }
+    callback (null, data);
+  }
+}
