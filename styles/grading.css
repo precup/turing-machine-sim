@@ -61,11 +61,9 @@ body, html {
   resize: none;
 }
 
-.search-button {
-  margin-top: 4px;
+button {
   box-sizing: border-box;
   height: 30px;
-  width: 100%;
   display: table-cell;
   vertical-align: middle;
   font-size: 16px;
@@ -74,6 +72,12 @@ body, html {
   border-radius: 4px;
   background-color: #0092EE;
   color: #ffffff;
+}
+
+.search-button {
+  margin-top: 4px;
+  width: 100%;
+  height: 30px;
 }
 
 .students {
@@ -170,6 +174,32 @@ body, html {
   font-size: 16px;
   margin-top: 6px;
   color: rgb(161, 161, 161);
+}
+
+
+.input input[type="text"]{
+  font-size: 13px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 6px;
+  height: 30px;
+  border: 1px solid #d7d7d7;
+  border-radius: 4px;
+  resize: none;
+}
+
+.input span {
+  display: block;
+  overflow: hidden;
+  padding-right: 10px;
+}
+
+.input button {
+  float: right;
+  height: 30px;
+  font-size: 13px;
+  vertical-align: middle;
 }
 
 .reason {
