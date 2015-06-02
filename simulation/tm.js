@@ -155,7 +155,7 @@ gTMSimulator.run = function (graph, input, standalone) {
     index: 0
   };
   var transitionTable = gTMSimulator.convert (graph);
-  for (var i = 0; i < gTMSimulator.MAX_ITER; i++) {
+  for (var i = 0; i < gTMSimulator.MAX_ITER && state.input.length < 100000; i++) {
     if (state.initial == undefined) {
       gSimulator.subCalls = JSON.parse (JSON.stringify (gTMSimulator.subCalls));
       gSimulator.index = state.index;
