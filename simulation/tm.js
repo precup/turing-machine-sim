@@ -142,6 +142,13 @@ gTMSimulator.run = function (graph, input, standalone) {
     }
   }
   
+  if (graph.nodes.initial == null) {
+    gSimulator.subCalls = JSON.parse (JSON.stringify (gTMSimulator.subCalls));
+    gSimulator.index = 0;
+    gSimulator.output = input;
+    return false;
+  }
+  
   var state = {
     initial: graph.nodes.initial,
     input: input,

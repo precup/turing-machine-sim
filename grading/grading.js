@@ -93,6 +93,7 @@ function runTests () {
       if (automata == null) continue;
       automata.results = [];
       for (var k = 0; k < gTests[problem.name].length; k++) {
+        console.log ("Testing " + problem.name);
         var test = gTests[problem.name][k];
         gGraph.tapeSet = automata.meta.tapeSet;
         var success = gTMSimulator.run (automata, test.input, true);
