@@ -1,6 +1,7 @@
 function run () {
   var raw_saved = getURLParam ("saved");
   var saved = raw_saved ? decodeURIComponent (getURLParam ("saved")) : raw_saved;
+  var student = getURLParam ("student");
   var submit_pset = getURLParam ("submit_pset");
   var submit_problem = getURLParam ("submit_problem");
   var pset = getURLParam ("pset");
@@ -9,7 +10,19 @@ function run () {
   var mode = getURLParam ("type");
   var tapeSet = getURLParam ("tapeSet");
 
-  if (submit_pset && submit_pset) {
+  if (student) {
+    var submit_pset = parseInt (submit_pset);
+    var submit_problem = parseInt (submit_problem);
+    var indexed_problem = psets[submit_pset].problems[submit_problem].id;
+    var indexed_pset = psets[submit_pset].id;
+    gServer.getStudentSubmissions ([student], function (err, data) {
+      data.forEach (function (elem, idx, arr) {
+        if (elem.pset_id === indexed_pset && elem.problem_id === indexed_problem) {
+          reload (JSON.parse (elem.automata));
+        }
+      });
+    });
+  } else if (submit_pset && submit_pset) {
     // load previous submission
     var submit_pset = parseInt (submit_pset);
     var submit_problem = parseInt (submit_problem);

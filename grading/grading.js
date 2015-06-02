@@ -28,21 +28,21 @@ function loadSunets () {
     gStudents[i] = gStudents[i].trim ();
   }
   gServer.getStudentSubmissions (gStudents, function (err, data) {
-      data.forEach (function (json) {
-        if (json.pset_id != gPset.id) return;
-        if (!gAutomata.hasOwnProperty (json.user_id)) {
-          gAutomata[json.user_id] = new Array (maxId + 1);
-          for (var i = 0; i <= maxId; i++) {
-            gAutomata[json.user_id][i] = null;
-          }
+    data.forEach (function (json) {
+      if (json.pset_id != gPset.id) return;
+      if (!gAutomata.hasOwnProperty (json.user_id)) {
+        gAutomata[json.user_id] = new Array (maxId + 1);
+        for (var i = 0; i <= maxId; i++) {
+          gAutomata[json.user_id][i] = null;
         }
-        json.automata = JSON.parse (json.automata);
-        json.automata.passed = -1;
-        json.automata.results = [];
-        gAutomata[json.user_id][json.problem_number] = json.automata;
-      });
-      draw ();
+      }
+      json.automata = JSON.parse (json.automata);
+      json.automata.passed = -1;
+      json.automata.results = [];
+      gAutomata[json.user_id][json.problem_number] = json.automata;
     });
+    draw ();
+  });
   setSelected (-1);
 }
 
@@ -219,8 +219,34 @@ function draw () {
   info.append ("div")
     .classed ("test-score", true);
   info.append ("a")
-    .attr ("href", "#")
-    .text ("View Problem");
+    // .attr ("href", function (problem, idx) { 
+    //   var str = gServer.url_prefix + 
+    //     "/tm.html?student=" + selectedStudent +
+    //     "&submit_pset=7&" + 
+    //     "&submit_problem=" + idx;
+    //   console.log (str);
+    //   return str;
+    // })
+    .text ("View Problem")
+    .on ("click", function (problem, idx) {
+      if (selectedStudent !== -1) {
+        window.location.href = gServer.url_prefix + 
+          "/tm.html?student=" + gStudents[selectedStudent] +
+          "&submit_pset=0" + 
+          "&submit_problem=" + idx;
+      } else {
+        alert ("No student selected");
+      }
+
+
+      // console.log (this);
+      // d3.select (this)
+      //   .attr ("href", function (problem, idx) {
+      //     var str = 
+      //     console.log (str);
+      //     return str;
+      //   });
+    });
     
   testDisplay.select (".problem-info")
     .select (".test-score")
