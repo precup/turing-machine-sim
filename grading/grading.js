@@ -1,6 +1,7 @@
 var gPset = psets[0];
 var gTests = {};
 var maxId = 0;
+var gradingMock = false;
 var selectedStudent = -1;
 
 for (var i = 0; i < gPset.problems.length; i++) {
@@ -46,7 +47,9 @@ function loadSunets () {
       });
       gStudents = ngStudents;
       draw ();
-    });
+     });
+    draw ();
+  });
   setSelected (-1);
 }
 
@@ -97,7 +100,6 @@ function runTests () {
       if (automata == null) continue;
       automata.results = [];
       for (var k = 0; k < gTests[problem.name].length; k++) {
-        console.log ("Testing " + problem.name);
         var test = gTests[problem.name][k];
         gGraph.tapeSet = automata.meta.tapeSet;
         var success = gTMSimulator.run (automata, test.input, true);
@@ -225,8 +227,17 @@ function draw () {
   info.append ("div")
     .classed ("test-score", true);
   info.append ("a")
-    .attr ("href", "#")
-    .text ("View Problem");
+    .text ("View Problem")
+    .on ("click", function (problem, idx) {
+      if (selectedStudent !== -1) {
+        window.location.href = gServer.url_prefix + 
+          "/tm.html?student=" + gStudents[selectedStudent] +
+          "&submit_pset=0" + 
+          "&submit_problem=" + idx;
+      } else {
+        alert ("No student selected");
+      }
+    });
     
   testDisplay.select (".problem-info")
     .select (".test-score")
