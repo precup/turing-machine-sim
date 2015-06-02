@@ -195,7 +195,6 @@ function draw () {
       var passed = 0;
       for (var i = 0; i < gPset.problems.length; i++) {
         var automata = gAutomata[name][gPset.problems[i].id];
-        console.log (name);
         if (automata != null) {
           if (automata.passed == -1 || passed == -1) {
             passed = -1;
@@ -223,17 +222,28 @@ function draw () {
     .text (function (problem) {
       return problem.name;
     });
+    
   info.append ("div")
     .classed ("test-score", true);
   info.append ("a")
-    .text ("View Problem")
-    .on ("click", function (problem, idx) {
+    .text ("View Problem");
+    
+  testDisplay.select (".problem-info")
+    .select ("a")
+    .attr ("target", function () {
+      return selectedStudent === -1 ? "" : "_blank";
+    })
+    .attr ("href", function (problem, i) {
       if (selectedStudent !== -1) {
-        window.location.href = gServer.url_prefix + 
-          "/tm.html?student=" + gStudents[selectedStudent] +
+        return "tm.html?student=" + gStudents[selectedStudent] +
           "&submit_pset=0" + 
-          "&submit_problem=" + idx;
+          "&submit_problem=" + i;
       } else {
+        return "#";
+      }
+    })
+    .on ("click", function () {
+      if (selectedStudent === -1) {
         alert ("No student selected");
       }
     });
