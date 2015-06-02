@@ -29,6 +29,10 @@ function loadSunets () {
   }
 
   gServer.getStudentSubmissions (ngStudents, function (err, data) {
+      if (err != null) {
+        alert ("Name not found");
+        return;
+      }
       data.forEach (function (json) {
         if (json.pset_id != gPset.id) return;
         if (!gAutomata.hasOwnProperty (json.user_id)) {
