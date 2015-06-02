@@ -55,7 +55,24 @@
     <script src="grading/grading.js"></script>
     <script src="server/server.js"></script>
   </head>
-<body>
+<body onload="draw()">    
+  <div class="gui" style="display: none;">
+    <div class="errors">
+    </div>
+    <svg height="100%" width="100%">
+      <g class="brush" />
+      <g class="nodesLower" />
+      <g class="edgesLower" />
+      <g class="edges" />
+      <g class="miscEdges" />
+      <g class="nodes" />
+      <g class="tape" />
+    </svg>
+    <div class="tableWrapper">
+      <table class="tableEditor">
+      </table>
+    </div>
+  </div>
   <div class="sidebar">
 
     <div class="sidebar-header">
@@ -64,7 +81,8 @@
 
     <div class="search">
       <textarea class="search-text" placeholder="Enter SUNet IDs (one per line)"></textarea>
-      <button class="test-button" onclick="loadTests ()">Load Tests</button>
+      <button class="test-button" onclick="openLoad ()">Load Tests</button>
+      <input class="fileInput" id="fileInput" type="file" onchange="loadTests ();">
       <button class="test-button" onclick="runTests ()">Run Tests</button>
       <button class="search-button" onclick="loadSunets ()">Search IDs</button>
     </div>
@@ -75,37 +93,9 @@
   </div>
 
   <div class="grades">
-
     <h1>
-      Test Results for jaymoon
+      No Student Selected
     </h1>
-
-    <div class="problem">
-      <div class="problem-info">
-        <span class="name">Problem 1a</span>
-        <div class="test-score">
-          Tests passed: 2/3
-        </div>
-        <a href="#">View Problem</a>
-      </div>
-      <div class="problem-tests">
-        <div class="problem-test">
-          <span class="test">This is a test</span>
-          <span class="passed result">Passed</span>
-        </div>
-        <div class="problem-test">
-          <span class="test">This is another test</span>
-          <span class="failed result">Failed</span>
-          <div class="reason">
-            Expected: 01011100. Returned: 01011101.
-          </div>
-        </div>
-        <div class="problem-test">
-          <span class="test">yet another</span>
-          <span class="passed result">Passed</span>
-        </div>
-      </div>
-    </div>
   </div>
 </body>
 </html>

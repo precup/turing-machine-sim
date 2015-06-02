@@ -66,12 +66,14 @@ gTMSimulator.step = function (graph, initial, input, index) {
     });
 };
 
-gTMSimulator.stepState = function (graph, table, state) {
-  var current = graph.nodes.nodes[gNodes.getNodeIndex (state.initial)];
+gTMSimulator.stepState = function (graph, table, state, standalone) {
+  var current = graph.nodes.nodes[gTMSimulator.getNodeIndex (graph, state.initial)];
   if (subroutines.hasOwnProperty(current.name)) {
-    var exit = gNodes.getNodeIndexFromName (current.name + '_');
+    var exit = gTMSimulator.getNodeIndexFromName (graph, current.name + '_');
     if (exit == -1) {
-      gErrorMenu.displayError ("Missing subroutine exit point.");
+      if (standalone !== true) {
+        gErrorMenu.displayError ("Missing subroutine exit point.");
+      }
       return {
         initial: undefined,
         input: state.input,
@@ -80,7 +82,7 @@ gTMSimulator.stepState = function (graph, table, state) {
     }
     var result = subroutines[current.name] (state);
     gTMSimulator.subCalls[current.name]++;
-    result.initial = gNodes.nodes[exit].id;
+    result.initial = graph.nodes.nodes[exit].id;
     return result;
   }
   else {
@@ -112,7 +114,27 @@ gTMSimulator.stepState = function (graph, table, state) {
   }
 };
 
-gTMSimulator.run = function (graph, input) {
+gTMSimulator.getNodeIndex = function (graph, id) {
+  var index = -1;
+  graph.nodes.nodes.forEach (function (node, i) {
+    if (node.id == id) {
+      index = i;
+    }
+  });
+  return index;
+}
+
+gTMSimulator.getNodeIndexFromName = function (graph, name) {
+  var index = -1;
+  graph.nodes.nodes.forEach (function (node, i) {
+    if (node.name === name) {
+      index = i;
+    }
+  });
+  return index;
+}
+
+gTMSimulator.run = function (graph, input, standalone) {
   gTMSimulator.subCalls = {};
   for (var name in subroutines) {
     if (subroutines.hasOwnProperty(name)) {
@@ -133,7 +155,7 @@ gTMSimulator.run = function (graph, input) {
       gSimulator.output = state.input;
       return false;
     }
-    var current = graph.nodes.nodes[gNodes.getNodeIndex (state.initial)];
+    var current = graph.nodes.nodes[gTMSimulator.getNodeIndex (graph, state.initial)];
     if (current.accept) {
       gSimulator.subCalls = JSON.parse (JSON.stringify (gTMSimulator.subCalls));
       gSimulator.index = state.index;
@@ -147,7 +169,7 @@ gTMSimulator.run = function (graph, input) {
       return false;
     }
     if (i < gTMSimulator.MAX_ITER - 1) {
-      state = gTMSimulator.stepState (graph, transitionTable, state);
+      state = gTMSimulator.stepState (graph, transitionTable, state, standalone);
     }
   }
   gSimulator.subCalls = JSON.parse (JSON.stringify (gTMSimulator.subCalls));

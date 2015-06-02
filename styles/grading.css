@@ -20,7 +20,6 @@ body, html {
   margin: 0px;
   float: left;
   height: 100%;
-  overflow-y: scroll;
   width: 320px;
   background-color: #ffffff;
   box-sizing: border-box;
@@ -74,6 +73,10 @@ button {
   color: #ffffff;
 }
 
+.fileInput {
+  display: none;
+}
+
 .search button {
   margin-top: 4px;
   float: left;
@@ -95,7 +98,7 @@ button {
 
 .students {
   position: absolute;
-  top: 274px;
+  top: 204px;
   width: 320px;
   overflow: scroll;
   bottom: 0px;
