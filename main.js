@@ -17,7 +17,10 @@ function run () {
     var indexed_pset = psets[submit_pset].id;
     gServer.getStudentSubmissions ([student], function (err, data) {
       data.forEach (function (elem, idx, arr) {
-        if (elem.pset_id === indexed_pset && elem.problem_id === indexed_problem) {
+        console.log (elem);
+        console.log (submit_pset, submit_problem);
+        console.log (indexed_pset, indexed_problem);
+        if (elem.pset_id === indexed_pset && elem.problem_number === indexed_problem) {
           reload (JSON.parse (elem.automata));
         }
       });
