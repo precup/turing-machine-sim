@@ -27,6 +27,7 @@ function loadSunets () {
   for (var i = 0; i < ngStudents.length; i++) {
     ngStudents[i] = ngStudents[i].trim ();
   }
+
   gServer.getStudentSubmissions (ngStudents, function (err, data) {
       data.forEach (function (json) {
         if (json.pset_id != gPset.id) return;
@@ -43,8 +44,6 @@ function loadSunets () {
       });
       gStudents = ngStudents;
       draw ();
-     });
-    draw ();
   });
   setSelected (-1);
 }

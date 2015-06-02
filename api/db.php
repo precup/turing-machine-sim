@@ -250,4 +250,25 @@ class DB
     }
     return $this->fetchAll($result);
   }
+
+  public function userExists($sunetid) {
+    $db = $this->db;
+    $sunetid = $db->real_escape_string($sunetid);
+    $query_string = 
+    "
+      select *
+      from users
+      where sunetid=\"$sunetid\";
+    ";
+    $result = $db->query ($query_string);
+    if ($result === False) {
+      header("HTTP/1.1 500 Internal Server Error");
+      echo "Internal Server Error";
+      exit ();
+    }
+    if ($result->num_rows === 0) {
+      return False;
+    }
+    return True;
+  }
 }
