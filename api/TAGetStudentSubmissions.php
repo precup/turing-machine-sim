@@ -34,12 +34,12 @@ if (!$db->userIsTA($user)) {
   exit;
 }
 $students = json_decode(file_get_contents("php://input"), True);
-foreach ($students as $student) {
-  if (!$db->userExists ($student)) {
-    header("HTTP/1.1 404 Not Found");
-    echo $student;
-    exit;
-  }
-}
+// foreach ($students as $student) {
+//   if (!$db->userExists ($student)) {
+//     header("HTTP/1.1 404 Not Found");
+//     echo $student;
+//     exit;
+//   }
+// }
 $result = $db->getStudentSubmissions ($students);
 echo json_encode ($result);

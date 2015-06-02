@@ -167,16 +167,18 @@ gServer.getStudentSubmissions = function (students, callback) {
 }
 
 if (gradingMock) {
-  gServer.getStudentSubmissions = function (students, callback) {
-    var problems = [];
-    var data = [];
-    for (var i = 0; i < students.length; i++) {
-      for (var j = 0; j < problems.length; j++) {
-        var submission = JSON.parse (JSON.stringify (problems[j]));
-        submission.user_id = students[i];
-        data.push (submission);
+  try {
+    gServer.getStudentSubmissions = function (students, callback) {
+      var problems = [];
+      var data = [];
+      for (var i = 0; i < students.length; i++) {
+        for (var j = 0; j < problems.length; j++) {
+          var submission = JSON.parse (JSON.stringify (problems[j]));
+          submission.user_id = students[i];
+          data.push (submission);
+        }
+        callback (null, data);
       }
-      callback (null, data);
     }
   } catch (e) {
     callback (e, null);
