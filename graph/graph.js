@@ -1,5 +1,6 @@
 ﻿var gShiftKey = false;
 var gEpsilon = "Ɛ";
+var gradingMock = false;
 var gGraph = 
   {
     HEIGHT_OFFSET: 5,

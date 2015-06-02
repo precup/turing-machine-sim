@@ -1,7 +1,6 @@
 var gPset = psets[0];
 var gTests = {};
 var maxId = 0;
-var gradingMock = false;
 var selectedStudent = -1;
 
 for (var i = 0; i < gPset.problems.length; i++) {
