@@ -22,11 +22,11 @@ function idToName (id) {
 
 function loadSunets () {
   var text = d3.select (".search-text").node ().value;
-  gStudents = text.split ("\n");
-  for (var i = 0; i < gStudents.length; i++) {
-    gStudents[i] = gStudents[i].trim ();
+  var ngStudents = text.split ("\n");
+  for (var i = 0; i < ngStudents.length; i++) {
+    ngStudents[i] = ngStudents[i].trim ();
   }
-  gServer.getStudentSubmissions (gStudents, function (err, data) {
+  gServer.getStudentSubmissions (ngStudents, function (err, data) {
       data.forEach (function (json) {
         if (json.pset_id != gPset.id) return;
         if (!gAutomata.hasOwnProperty (json.user_id)) {
@@ -40,6 +40,7 @@ function loadSunets () {
         json.automata.results = [];
         gAutomata[json.user_id][json.problem_number] = json.automata;
       });
+      gStudents = ngStudents;
       draw ();
     });
   setSelected (-1);
@@ -189,6 +190,7 @@ function draw () {
       var passed = 0;
       for (var i = 0; i < gPset.problems.length; i++) {
         var automata = gAutomata[name][gPset.problems[i].id];
+        console.log (name);
         if (automata != null) {
           if (automata.passed == -1 || passed == -1) {
             passed = -1;
