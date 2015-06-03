@@ -26,7 +26,14 @@ function loadSunets () {
   var ngStudents = text.split ("\n");
   for (var i = 0; i < ngStudents.length; i++) {
     ngStudents[i] = ngStudents[i].trim ();
+    if (!gAutomata.hasOwnProperty (ngStudents[i])) {
+      gAutomata[ngStudents[i]] = new Array (maxId + 1);
+      for (var j = 0; j <= maxId; j++) {
+        gAutomata[ngStudents[i]][j] = null;
+      }
+    }
   }
+  gStudents = ngStudents;
 
   gServer.getStudentSubmissions (ngStudents, function (err, data) {
       if (err != null) {
@@ -35,18 +42,11 @@ function loadSunets () {
       }
       data.forEach (function (json) {
         if (json.pset_id != gPset.id) return;
-        if (!gAutomata.hasOwnProperty (json.user_id)) {
-          gAutomata[json.user_id] = new Array (maxId + 1);
-          for (var i = 0; i <= maxId; i++) {
-            gAutomata[json.user_id][i] = null;
-          }
-        }
-        json.automata = JSON.parse (json.automata);
-        json.automata.passed = -1;
-        json.automata.results = [];
-        gAutomata[json.user_id][json.problem_number] = json.automata;
+        var automata = JSON.parse (json.automata);
+        automata.passed = -1;
+        automata.results = [];
+        gAutomata[json.user_id][json.problem_number] = automata;
       });
-      gStudents = ngStudents;
       draw ();
   });
   setSelected (-1);
