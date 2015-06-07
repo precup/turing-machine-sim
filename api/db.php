@@ -26,8 +26,11 @@ require_once("stanford.app.php");
 
 class DB
 {
+  /* The db object, which has the same interface as Mysqli. */
   private $db;
 
+  /* Class construction. Sets up a connection with the database.
+  If connection setup fails, exits. */
   public function __construct()
   {
     try {
@@ -44,6 +47,14 @@ class DB
     }
   }
 
+  /* Used as a helper function over Mysqli's result's fetch_assoc() method.
+  Pushes all results into an array, and returns the resulting associative
+  array.
+
+  $result = a Mysqli query result object 
+
+  return value: an associative array of the query results, with the first
+  element in the array representing the first row. */
   public function fetchAll($result) 
   {
     $all = array();
@@ -53,6 +64,7 @@ class DB
     return $all;
   }
 
+  /* Returns true if the user is in the database. False otherwise. */
   public function checkUserExists($sunetid)
   {
     $db = $this->db;
@@ -62,15 +74,26 @@ class DB
     return $result->num_rows > 0;
   }
 
+  /* Adds a user to the database.
+  $sunetid = string, sunetid of the user
+  $isTA = bool, true if the user should be marked as a TA
+
+  No return value. */
   public function addUser($sunetid, $isTA)
   {
     $db = $this->db;
-    $isTA = $isTA ? 1 : 0;
+    $isTA = $isTA ? 1 : 0; // the isTA column is a tinyInt, and so booleans must be converted to integer values
     $query_string = "insert into users (sunetid, isTA) values(\"$sunetid\",$isTA)";
     $result = $db->query($query_string);
     if ($result === False) exit(); 
   }
 
+  /* Adds an automaton to the database with name $name and associated with $sunetid.
+  $sunetid = string, sunetid of the user
+  $automata = string, JSON string representing the automata
+  $name = string, the name of the automata
+
+  No return value. */
   public function addAutomata($sunetid, $automata, $name) {
     $db = $this->db;
     $automata = $db->real_escape_string($automata);
@@ -83,6 +106,11 @@ class DB
     if ($result === False) exit();
   }
 
+  /* Returns all automata of $sunetid.
+  $sunetid = string, sunetid of the user
+
+  Returns an associative array, where the index of the element corresponds to the row of the
+  MySQL result. */
   public function getAllAutomataOfUser($sunetid) {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
