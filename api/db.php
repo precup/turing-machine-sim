@@ -1,7 +1,25 @@
 <?php
 
 /*
-Handles all errors by exiting.
+file: api/db.php
+class: DB
+
+Used as an abstraction layer for all interaction with the database.
+DB builds on top of the StanfordApp() class, which has the same interface
+as provided by Mysqli.
+
+Documentation for StanfordApp() can be found here:
+https://web.stanford.edu/dept/its/communications/webservices/wiki/index.php/How_to_configure_and_access_MySQL_using_the_Stanford_Web_Application_Toolkit
+
+Documentation for Mysqli can be found here: 
+http://php.net/manual/en/book.mysqli.php
+
+The pattern used in most functions is:
+- escape user-variables
+- perform a query
+- check the $db object for errors
+- If no errors, return. Otherwise, exit.
+
 */
 
 require_once("stanford.app.php");
