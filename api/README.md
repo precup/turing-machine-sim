@@ -14,7 +14,6 @@ Files:
 
 * listSaved.php
 * listSubmissions.php
-* loadPsets.php
 * save.php
 * getSunetid.php
 * loadFromSaved.php
@@ -41,5 +40,6 @@ Files:
 
 * addTAs.php
 * TAs.json
+* loadPsets.php
 
-The addTAs.php script is used to initialize the database with the TAs listed in TAs.json. The remaining database setup scripts are in the sql/ directory.
+The addTAs.php script is used to initialize the database with the TAs listed in TAs.json. The loadPsets.php script loads the psets in /psets.json into the database. The remaining database setup scripts are in the sql/ directory.

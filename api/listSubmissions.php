@@ -5,6 +5,16 @@
 GET request
 No parameters required
 
+Responds with a JSON array of objects that contains all submitted automata of 
+the authenticated user. Ex:
+
+[
+  {
+    pset_id: <Pset ID>,
+    problem_id: <Problem ID, NOT the problem number>
+  }
+]
+
 Sample client-side code:
 
 var url_prefix = "/class/cs103/cgi-bin/restricted";

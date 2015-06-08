@@ -4,13 +4,16 @@
 /api/listSaved.php
 GET request
 
-responds with a JSON array of objects. Ex:
+
+
+responds with a JSON array of objects that contains all saved automata of 
+the authenticated user. Ex:
 [
   {
-    "id": "15",
-    "user_id": "maxwang7",
+    "id": <automaton ID>,
+    "user_id": <sunetID>,
     "automata": "<string>",
-    "name": "name"
+    "name": <automaton name>
   }
 ]
 

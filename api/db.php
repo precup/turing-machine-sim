@@ -48,12 +48,12 @@ class DB
   }
 
   /* Used as a helper function over Mysqli's result's fetch_assoc() method.
-  Pushes all results into an array, and returns the resulting associative
+  Pushes all results into an array, and returns the resulting indexed
   array.
 
   $result = a Mysqli query result object 
 
-  return value: an associative array of the query results, with the first
+  return value: an indexed array of the query results, with the first
   element in the array representing the first row. */
   public function fetchAll($result) 
   {
@@ -90,7 +90,7 @@ class DB
 
   /* Adds an automaton to the database with name $name and associated with $sunetid.
   $sunetid = string, sunetid of the user
-  $automata = string, JSON string representing the automata
+  $automata = string, escaped JSON string (with JS's JSON.stringify() ) representing the automaton
   $name = string, the name of the automata
 
   No return value. */
@@ -109,7 +109,7 @@ class DB
   /* Returns all automata of $sunetid.
   $sunetid = string, sunetid of the user
 
-  Returns an associative array, where the index of the element corresponds to the row of the
+  Returns an indexed array, where the index of the element corresponds to the row of the
   MySQL result. */
   public function getAllAutomataOfUser($sunetid) {
     $db = $this->db;
@@ -121,6 +121,12 @@ class DB
     return $this->fetchAll($result);
   }
 
+  /* Returns the specific automata with name $automata_name belonging to $sunetid.
+
+  $sunetid = string, sunetid of the user
+  $automata_name = string, name of the automaton
+  Returns an indexed array, where the index of the element corresponds to the row of the
+  MySQL result. */
   public function getAutomataOfUser($sunetid, $automata_name) {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
@@ -136,6 +142,15 @@ class DB
     return $this->fetchAll($result); 
   }
 
+  /* Adds a new submission belonging to $sunetid with the given $automata. The automaton
+  is associated with the specified $pset and $problem. 
+
+  $sunetid = string, sunetid of the user
+  $automata = string, JSON string representing the automata
+  $pset = Integer, pset id (which should also be the pset #)
+  $problem = Integer, problem number (not the same as problem ID)
+  No return value.
+  */
   public function addSubmission($sunetid, $automata, $pset, $problem) {
     echo $pset;
     echo $problem;
@@ -161,6 +176,12 @@ class DB
     }
   }
 
+  /* Adds a new pset to the database. The pset ID is the same as the assignment number,
+  and so must be unique.
+
+  $pset = Integer, the assignment number, which is the same as the pset ID
+  No return value.
+  */
   public function addPset($pset) {
     if(gettype($pset) !== "integer") {
       echo "pset not integer";
@@ -174,6 +195,14 @@ class DB
     if ($result === False) exit();
   }
 
+  /* Creates a new problem with problem number $problem. Note that unlike psets,
+  the problem ID is NOT the same as the problem number, and thus the problem
+  number is not unique.
+
+  $pset = Integer, the pset ID / assignment number
+  $problem = Integer, the problem number
+  No return value.
+  */
   public function addProblem($pset, $problem) {
     if(gettype($pset) !== "integer" || gettype($problem) !== "integer") {
       echo "pset or problem not integer";
@@ -187,6 +216,11 @@ class DB
     if ($result === False) exit();
   }
 
+  /* Returns a list of all submissions of $sunetid. 
+
+  $sunetid = string, sunetid of the user 
+  Returns an indexed array, where the index of the element corresponds to the row of the
+  MySQL result. */
   public function getSubmissionsOfUser($sunetid) {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
@@ -201,6 +235,14 @@ class DB
     return $this->fetchAll($result); 
   }
 
+  /* Fetches a specific submitted automaton, with pset ID $pset and problem ID
+  $problem, belonging to $sunetid.
+
+  $sunetid = string, sunetid of the user 
+  $pset = Integer, the pset ID (also the pset number)
+  $problem = Integer, the problem ID (not the problem number)
+  Returns an indexed array, where the index of the element corresponds to the row of the
+  MySQL result. */
   public function getAutomataOfSubmission($sunetid, $pset, $problem) {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
@@ -230,6 +272,10 @@ class DB
     return $this->fetchAll($result); 
   }
 
+  /* Adds a new user, $sunetid, to the database that's a TA.
+
+  $sunetid = string, sunetid of the user
+  No return value. */
   public function addTA($sunetid) {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
@@ -245,6 +291,10 @@ class DB
     }
   }
 
+  /* Checks if $sunetid is a TA.
+
+  $sunetid = string, sunetid of the user
+  Returns true if $sunetid is a TA. False otherwise. */
   public function userIsTA($sunetid) {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);
@@ -264,6 +314,10 @@ class DB
       ? True : False;
   }
 
+  /*
+  $sunetids_ = Indexed array of string sunetIDs. 
+  Returns an indexed array of automatons, with the matching sunetID, problem ID,
+  problem number, and pset ID. If the user is not found, fails silently. */
   public function getStudentSubmissions($sunetids_) {
     $db = $this->db;
     $sunetids = []; // escaped sunetids
@@ -297,6 +351,9 @@ class DB
     return $this->fetchAll($result);
   }
 
+  /*
+  $sunetid = string, sunetid of the user
+  Return true if $sunetid belongs to a user in the database. False otherwise.*/
   public function userExists($sunetid) {
     $db = $this->db;
     $sunetid = $db->real_escape_string($sunetid);

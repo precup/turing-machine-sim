@@ -3,7 +3,12 @@
 /*
 /api/loadFromSubmissions.php
 GET request
-Params: "pset", "problem"
+Params:
+- pset = Integer, Pset ID
+- problem = Integer, Problem ID
+(implicitly obtains the sunetID from WebAuth)
+
+Example client-side code:
 
 var pset = 1;
 var problem = 1;

@@ -7,6 +7,12 @@ POST request
   "problem": <Integer, problem number>
   "pset": <Integer, pset>
 }
+Adds an automata to the "submissions" table, which is the table of submitted
+automata. The automata is associated with the WebAuth sunetID, problem, and
+pset. Note that this API accepts the problem number, not the problem ID. Once
+the submission is complete, the client sends an email to the sunetID and 
+cs103.submit@gmail.com.
+
 Sample client-side code:
 var gServer.url_prefix = "/class/cs103/cgi-bin/restricted";
 var submit_url = "/api/submit.php";
@@ -46,9 +52,6 @@ if (!$db->checkUserExists($user)) {
   $db->addUser($user, False);
 }
 $db->addSubmission($user, $automata, $pset, $problem);
-// $dt = new DateTime("now", new DateTimeZone('America/New York'));
-
-// $date_time $dt->format('m/d/Y, H:i:s');
 
 mail ("cs103.submit@gmail.com, $user@stanford.edu",
   $user + " submission",

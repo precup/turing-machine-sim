@@ -4,7 +4,9 @@
 /* 
 /api/load.php
 GET request
-should contain the parameter "name"
+Parameters:
+- name = string that is the automaton's name
+(sunetID is an implicit parameter of the logged in user)
 */
 
 require_once("./db.php");

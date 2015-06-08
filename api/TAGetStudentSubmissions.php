@@ -10,6 +10,9 @@ body should be array of SunetIDs:
   "maxwang7",
   "mprecup"
 ]
+Responds with an array of every single submission belonging to the listed
+sunetIDs. If a sunetID isn't in the database, fails silently.
+
 Responds with a JSON array of submissions.
 [
   {
@@ -34,6 +37,8 @@ if (!$db->userIsTA($user)) {
   exit;
 }
 $students = json_decode(file_get_contents("php://input"), True);
+
+/* Checks if each student exists. If not, responds with a 404.*/
 // foreach ($students as $student) {
 //   if (!$db->userExists ($student)) {
 //     header("HTTP/1.1 404 Not Found");

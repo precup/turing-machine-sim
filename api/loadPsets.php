@@ -1,5 +1,14 @@
 <?php
 
+/*
+This file is, admittedly, the worst designed code in the server, because it
+duplicates the code in psets.json. It should/will be refactored at some point
+in the future to use only one source for the psets data.
+
+The file takes the string data, which should be in JSON format, and pre-loads the
+database 
+*/
+
 require_once("./db.php");
 
 $json = json_decode ('

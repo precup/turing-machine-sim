@@ -8,6 +8,9 @@ body should contain JSON:
   "automata": <String represention of JSON graph>,
   "name": <String, name of automata, length < 30>,
 }
+Adds an automata to the "automatas" table, which is the table of saved
+automata. The automata is associated with the WebAuth sunetID and given
+a name.
 
 Sample client-side code:
 
