@@ -157,3 +157,8 @@ gTestMenu.step = function () {
     gTape.step ();
   }
 };
+
+gTestMenu.animate = function () {
+  gTestMenu.run ();
+  gTestMenu.setRunning (false);
+};

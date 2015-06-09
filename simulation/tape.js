@@ -32,6 +32,7 @@ gTape.init = function () {
   gTape.hide ();
   gTape.done = true;
   gTape.running = false;
+  gTape.animating = false;
 };
 
 gTape.run = function () {
@@ -172,6 +173,11 @@ gTape.hide = function () {
   d3.select (".tape").style ("opacity", 0);
 };
 
+gTape.animate = function () {
+  gTape.animating = true;
+  gTape.step ();
+};
+
 gTape.step = function () {
   if (!gTape.running) {
     gTape.run ();
@@ -191,6 +197,11 @@ gTape.step = function () {
     if (typeof gTape.current != "undefined") {
       gTape.follow = gTape.current;
     }
+  } else {
+    gTape.animating = false;
   }
   gTape.draw ();
+  if (gTape.animating) {
+    setTimeout (gTape.step, 1000 / 3);
+  }
 };
