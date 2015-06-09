@@ -202,6 +202,6 @@ gTape.step = function () {
   }
   gTape.draw ();
   if (gTape.animating) {
-    setTimeout (gTape.step, 1000 / 3);
+    setTimeout (gTestMenu.step, 1000 / 3);
   }
 };
