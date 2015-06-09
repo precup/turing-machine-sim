@@ -1,5 +1,7 @@
+/* This file handles edge selection. */
 gEdges.SELECTED_COLOR = "blue";
 
+/* Sets up a handler for click events on edges. */
 gEdges.initSelection = function () {
   gEdges.buildMarker('sel-arrow', gEdges.END_ARROW_OFFSET, gEdges.SELECTED_COLOR);
   
@@ -17,6 +19,7 @@ gEdges.initSelection = function () {
     });
 };
 
+/* Deletes every edge that is selected. */
 gEdges.deleteSelected = function () {
   var selected = [];
   gEdges.edges.forEach (function (edge) {
@@ -29,6 +32,7 @@ gEdges.deleteSelected = function () {
   });
 };
 
+/* Clears the edge selection. */
 gEdges.deselectAll = function () {
   gEdges.edges.forEach (function (edge) {
     edge.selected = false;
