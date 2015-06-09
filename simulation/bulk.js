@@ -2,10 +2,12 @@ gSimulator.ACCEPT = "ACCEPT";
 gSimulator.REJECT = "REJECT";
 gSimulator.NEITHER = "NEITHER";
 
+/* Handles running tests on the bulk testing modal. */
 gSimulator.runTests = function () {
   var inputs = [];
   var illegalsExist = false;
   
+  // Sets up the inputs and checks for illegal characters
   d3.selectAll (".bulkInput").each (function () {
     var test = intersection (this.value, gGraph.charSet);
     illegalsExist |= test.length != this.value.length;
@@ -30,6 +32,7 @@ gSimulator.runTests = function () {
     gErrorMenu.displayModalError ("testing", "Removing characters not in alphabet");
   }
   
+  // Runs all the tests
   var results = [];
   var graph = gGraph.save ();
   inputs.forEach (function (input) {
@@ -40,6 +43,7 @@ gSimulator.runTests = function () {
       });
   });
   
+  // Displays the results
   var rows = d3.select (".testingResults")
     .selectAll ("tr")
     .data (results);

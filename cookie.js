@@ -1,9 +1,17 @@
+/* This file is meant for debugging purposes only. When gCookiesActive is
+ * set to false, it does nothing. If set to true, it listens for presses
+ * to 's' and 'l', which respectively save and load the current automata to/from
+ * a cookie.
+ */
+
 var gCookiesActive = false;
 
 gGraph.initCookie = function () {
   if (!gCookiesActive) {
     return;
   }
+  
+  // Loading
   gBehaviors.addBehavior ("page", "keydown",
     function () {
       return d3.event.keyCode == 76 && d3.select (".overlay").style ("display") === "none";
@@ -18,6 +26,8 @@ gGraph.initCookie = function () {
       }
       gGraph.draw ();
     });
+    
+  // Saving
   gBehaviors.addBehavior ("page", "keydown",
     function () {
       return d3.event.keyCode == 83 && d3.select (".overlay").style ("display") === "none";

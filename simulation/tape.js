@@ -1,5 +1,10 @@
+/* The gTape is the object in charge of all the
+ * drawing for the step by step simulation of the
+ * automaton. */
+
 var gTape =
   {
+    // Constants for the circle around the current state
     SELECT_RADIUS: 50,
     BUBBLE_OFFSET: 55,
     BUBBLE_WIDTH: 12,
@@ -8,6 +13,7 @@ var gTape =
     ARROW_OFFSET: 20
   };
 
+/* Initializes all the relevant DOM elements. */
 gTape.init = function () {
   d3.select (".tape")
     .append ("circle")
@@ -34,6 +40,8 @@ gTape.init = function () {
   gTape.running = false;
 };
 
+/* Starts up the display with the current graph
+ * state as the initial state. */
 gTape.run = function () {
   var input = gTestMenu.text;
   gTape.done = false;
@@ -54,6 +62,8 @@ gTape.run = function () {
   gTape.draw ();
 };
 
+/* Draws the result of a simulation. @accepted specifies
+ * whether the run ended on an accept state or not. */
 gTape.drawResult = function (accepted) {
   if (!gTape.done) {
     var message = "Run finished, " + (accepted ? "accept" : "reject") + "ing string \"" + gTape.input.join ("") + "\"";
@@ -67,12 +77,16 @@ gTape.drawResult = function (accepted) {
   }
 };
 
+/* Draws everything related to the step by step simulation
+ * based on the current state. */
 gTape.draw = function () {
+  // The four elements of the currently selected display
   var circle = d3.select (".tape").select ("circle");
   var rect = d3.select (".tape").select ("rect");
   var poly = d3.select (".tape").select ("polygon");
   var text = d3.select (".tape").select ("text");
   if (gTape.follow) {
+    // All the below is to draw the currently selected display
     var duration = gTape.follow != gTape.prev && circle.style ("opacity") == 1 ? 100 : 0;
     text.text ("CURRENT STATE");
     circle.transition ()
@@ -121,6 +135,8 @@ gTape.draw = function () {
     poly.style ("opacity", 0);
     text.style ("opacity", 0);
   }
+  
+  // Selects the appropriate cell on the tape
   var currentTapeClass = gGraph.mode == gGraph.TM ? "current-tape-char-solid" : "current-tape-char";
   if (gTape.running && gTape.index <= gTape.input.length) {
     d3.selectAll (".tape-char")
@@ -136,6 +152,8 @@ gTape.draw = function () {
   gTape.prev = gTape.follow;
 };
 
+/* Returns whether or not the current state should be
+ * treated as a simulation ending in acceptance. */
 gTape.isAccepting = function () {
   if (gGraph.mode == gGraph.DFA) {
     return typeof gTape.current != "undefined" && 
@@ -147,7 +165,11 @@ gTape.isAccepting = function () {
   }
 };
 
+/* Returns whether or not the current state should be
+ * treated as a simulation ending in rejection. */
 gTape.isRejecting = function () {
+  // The checks are for undefined transitions and going off the
+  // end of the input.
   if (gGraph.mode == gGraph.DFA) {
     return typeof gTape.current == "undefined" || 
       (!gTape.current.accept && gTape.index == gTape.input.length);
@@ -156,10 +178,14 @@ gTape.isRejecting = function () {
   }
 };
 
+/* Shows all elements associated with this class. The 
+ * opposite of hide. */
 gTape.show = function () {
   d3.select (".tape").style ("opacity", 1);
 };
 
+/* Resets the internal state of gTape so it's clean
+ * for future runs. */
 gTape.reset = function () {
   gTape.done = true;
   gTape.running = false;
@@ -167,11 +193,14 @@ gTape.reset = function () {
   gTape.draw ();
 };
 
+/* Hides all elements associated with this class. The 
+ * opposite of show. */
 gTape.hide = function () {
   gTape.reset ();
   d3.select (".tape").style ("opacity", 0);
 };
 
+/* Steps the current display, if it's running, or aliases run otherwise. */
 gTape.step = function () {
   if (!gTape.running) {
     gTape.run ();
