@@ -1,3 +1,10 @@
+/*
+FILE: server/mock.js
+
+A fake server used to replace gServer, used for testing. The interface provided
+matches the functions in server.js.
+*/
+
 var gServerMock = {};
 
 gServerMock.url_prefix = "/class/cs103/cgi-bin/restricted";

@@ -1,20 +1,38 @@
+/*
+FILE: server/server.js
+
+The gServer object contains helper functions for interacting with the database.
+All functions that work with the server have a callback as the last parameter,
+which takes two parameters: error and data.
+
+To change the server's URL, change the property url_prefix.
+*/
+
 var gServer = {};
 
-gServer.url_prefix = "/class/cs103/cgi-bin/turing";
+gServer.url_prefix = "/class/cs103/cgi-bin/turing"; /* The prefix for all server calls. */
 
-gServer.name = "";
+gServer.name = ""; /* Name of the current automaton. */
 
+/*
+A helper function to change the URL's name parameter, pushing the new URL to the history state.
+*/
 gServer.changeName = function (name) {
   var new_url = setURLParam ("saved", name, window.location.href);
   window.history.pushState ({}, "", new_url);
   gServer.name = name;
 };
 
+/*
+Saves the current automaton with the given name. Callback data should be unused.
+The current user is authenticated through WebAuth, and so the automaton is 
+associated with the current user.
+*/
 // callback (err, data)
 gServer.save = function (name, callback) {
   // gServer.changeName (name);
   var save_url = "/api/save.php";
-  var stringGraph = JSON.stringify (gGraph.save ());
+  var stringGraph = JSON.stringify (gGraph.save ()); /* Use the global automaton */
 
   var pack = {
     automata: stringGraph,
@@ -32,6 +50,12 @@ gServer.save = function (name, callback) {
     );
 };
 
+/*
+Loads the automaton with the name in the variable "selected". Responds with
+an automaton in the callback.
+The current user is authenticated through WebAuth, and so the automaton belongs
+to the authenticated user.
+*/
 // selected is the name of the automaton to load
 // callback (err, res)
 gServer.load = function (selected, callback) {
@@ -48,6 +72,10 @@ gServer.load = function (selected, callback) {
     });
 };
 
+/*
+Submits an automaton, automata, with the pset number, pset, and problem
+number, problem. 
+*/
 // callback (err)
 gServer.submit = function (automata, pset, problem, callback) {
   var submit_url = "/api/submit.php";
@@ -70,6 +98,22 @@ gServer.submit = function (automata, pset, problem, callback) {
     );
 };
 
+/*
+WARNING: The callback order is mixed up. data is the first 
+parameter, err is the second parameter.
+
+Returns an array of all submissions that the currently
+authenticated user has made. Each object has a pset ID
+and problem ID (not problem number).
+
+Format of the returned data:
+[
+  {
+    "pset_id": <Pset ID>,
+    "problem_id": <Problem ID>
+  }
+]
+*/
 // callback (data, err)
 gServer.listSubmissions = function (callback) {
   var listSubmissions_url = "/api/listSubmissions.php";
@@ -89,6 +133,11 @@ gServer.listSubmissions = function (callback) {
   }
 };
 
+/*
+Loads the submission belonging to the authenticated user.
+
+The data is an automaton object.
+*/
 // callback (err, data)
 gServer.loadSubmission = function (pset, problem, callback) {
   var loadFromSubmissions_url = "/api/loadFromSubmissions.php";
@@ -103,6 +152,18 @@ gServer.loadSubmission = function (pset, problem, callback) {
     });
 };
 
+/*
+Lists all automata saved by the authenticated user with the format:
+
+[
+  {
+    "id": <automaton ID>,
+    "user_id": <sunetID>,
+    "automata": "<string>",
+    "name": <automaton name>
+  }
+]
+*/
 // callback (err, data)
 gServer.listSaved = function (callback) {
   var listSaved_url = "/api/listSaved.php";
@@ -117,6 +178,9 @@ gServer.listSaved = function (callback) {
   }
 }
 
+/*
+callback is given a string, the sunetID of the authenticated user.
+*/
 // callback (sunetid)
 gServer.getSunetid = function (callback) {
   var getSunetid_url = "/api/getSunetid.php";
@@ -133,6 +197,10 @@ gServer.getSunetid = function (callback) {
 
 /*
 students is an array of sunetIDs: ["maxwang7", "mprecup"]
+callback's data is an array of user submissions belonging to the sunetIDs listed.
+If a sunetID doesn't have any submissions (or the sunetID doesn't exist), there are no 
+submissions returned for the given sunetID. No error message is given for this case.
+
 callback (err, data), where data has the format:
 [
   {
@@ -166,6 +234,9 @@ gServer.getStudentSubmissions = function (students, callback) {
   }
 }
 
+/*
+gradingMock is set in grading/grading.js.
+*/
 if (gradingMock) {
   gServer.getStudentSubmissions = function (students, callback) {
     var data = [];

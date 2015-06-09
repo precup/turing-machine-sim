@@ -1,4 +1,11 @@
 <?php
+/*
+Sets up the database tables, using the prefix in db_prefix.php.
+
+Visit https://web.stanford.edu/class/cs103/cgi-bin/turing/sql/setup_db.php
+to run this script.
+*/
+
 require_once ("db_prefix.php");
 
 echo "
