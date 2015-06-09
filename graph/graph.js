@@ -1,6 +1,6 @@
-﻿var gShiftKey = false;
+﻿var gShiftKey = false; // Whether or not the Shift key is held down
 var gEpsilon = "Ɛ";
-var gradingMock = false;
+var gradingMock = false; // Whether or not to use the mock server
 var gGraph = 
   {
     HEIGHT_OFFSET: 5,
@@ -10,13 +10,17 @@ var gGraph =
     TM: "tm"
   };
   
+/* Sets up everything. Takes in @pset, @problem, @charSet, @mode, and @tapeSet,
+ * which are an integer, an integer, a string, a string, and a string, respectively. */
 gGraph.init = function (pset, problem, charSet, mode, tapeSet) {
+  // Set up the svg size
   var svg = d3.select ("svg");
   gGraph.width = svg.node ().getBoundingClientRect ().width;
   gGraph.height = svg.node ().getBoundingClientRect ().height - gGraph.HEIGHT_OFFSET;
   gGraph.height -= d3.select (".tape-bar").node ().getBoundingClientRect ().height;
   svg.attr ("height", gGraph.height);
   
+  // Set up all the meta information
   var charSetParam = charSet;
   gGraph.problem = problem;
   gGraph.pset = pset;
@@ -37,6 +41,7 @@ gGraph.init = function (pset, problem, charSet, mode, tapeSet) {
     gGraph.sunetid = sunetid;
   });
   
+  // Hide the elements not in use for this mode
   if (gGraph.mode == gGraph.DFA) {
     d3.selectAll (".dfa-hide")
       .style ("display", "none");
@@ -62,6 +67,7 @@ gGraph.init = function (pset, problem, charSet, mode, tapeSet) {
   gGraph.initCookie ();
   gSimulator.init ();
   
+  // Prevent click events from going through popups
   d3.selectAll (".popup")
     .on ("click", function () {
       d3.event.stopPropagation ();
@@ -80,14 +86,19 @@ gGraph.init = function (pset, problem, charSet, mode, tapeSet) {
   gGraph.draw ();
 }
 
+/* Updates whether or not the Shift key is held down. */
 gGraph.keydown = function () {
   gShiftKey = d3.event.shiftKey || d3.event.metaKey;
 };
 
+/* Updates whether or not the Shift key is held down. */
 gGraph.keyup = function () {
   gShiftKey = d3.event.shiftKey || d3.event.metaKey;
 };
 
+/* Saves the current graph to an object. The format is pretty
+ * obvious from the function, if there are any non-obvious
+ * changes in the future, please add a note in this comment. */
 gGraph.save = function () {
   return {
       nodes: gNodes.save (),
@@ -102,6 +113,7 @@ gGraph.save = function () {
     };
 };
 
+/* Loads @saveData with the same format as returned by save. */
 gGraph.load = function (saveData) {
   gNodes.load (saveData.nodes);
   gEdges.load (saveData.edges);
@@ -109,6 +121,7 @@ gGraph.load = function (saveData) {
   gTestMenu.reset ();
 };
 
+/* Draws everything. Not even kidding, everything. */
 gGraph.draw = function () {
   gNodes.draw ();
   gEdges.draw ();
@@ -119,6 +132,7 @@ gGraph.draw = function () {
 
 // TODO: Make the resizing more useful
 // TODO: Find a non-kludgey way for the svg to have 100% height
+/* This is essentially not used, as d3 brushes have issues with resizing. */
 gGraph.resize = function () {
   var svg = d3.select ("svg");
   gGraph.width = svg.node ().getBoundingClientRect ().width;

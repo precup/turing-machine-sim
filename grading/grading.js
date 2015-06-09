@@ -1,6 +1,11 @@
+/* This handles literally everything for the grading. 
+ * This should probably be broken up in the future... */
+
+// Set the pset here (high tech UI!)
 var gPset = psets[0];
 var gTests = {};
 var maxId = 0;
+// Set to true to use a mock server
 var gradingMock = false;
 var selectedStudent = -1;
 
@@ -12,6 +17,7 @@ for (var i = 0; i < gPset.problems.length; i++) {
 var gStudents = [];
 var gAutomata = {};
 
+// Returns the problem name associated with @id, or '' if not found
 function idToName (id) {
   for (var i = 0; i < gPset.problems.length; i++) {
     if (gPset.problems[i].id == id) {
@@ -21,6 +27,8 @@ function idToName (id) {
   return "";
 }
 
+// Loads all the student submissions associated with
+// the SUNETs in the text box
 function loadSunets () {
   var text = d3.select (".search-text").node ().value;
   var ngStudents = text.split ("\n");
@@ -52,6 +60,7 @@ function loadSunets () {
   setSelected (-1);
 }
 
+// Opens the file dialog
 function openLoad () { 
   if (window.File) {
     document.getElementById ("fileInput").click ();
@@ -60,6 +69,7 @@ function openLoad () {
   }
 }
 
+// Converts the CSV file into the appropriate format for gTests
 function loadTests () {
   var files = document.getElementById ("fileInput").files;
   if (files.length < 1) return;
@@ -88,6 +98,7 @@ function loadTests () {
   reader.readAsText (file);
 }
 
+// Runs all the tests in gTests on all the submissions
 function runTests () {
   gGraph.epsilonEnabled = false;
   for (var i = 0; i < gStudents.length; i++) {
@@ -114,6 +125,8 @@ function runTests () {
           result.index--;
         }
         
+        // This figures out why it failed. On any failure, it will give a message,
+        // so accept vs reject is checked by just checking the length of the error
         var reason = "";
         if (test.output != "-" && result.output.trim () != test.output) {
           reason += "Output was \"" + result.output.trim () + "\", expected \"" + test.output + "\". ";
@@ -153,6 +166,7 @@ function runTests () {
   draw ();
 }
 
+// Sets which student is selected and draws the main frame appropriately
 function setSelected (i) {
   selectedStudent = i;
   d3.select ("h1")
@@ -164,12 +178,14 @@ function setSelected (i) {
   draw ();
 }
 
+// Draws everything. This is some heavy d3.
 function draw () {
   var testCount = 0;
   for (var i = 0; i < gPset.problems.length; i++) {
     testCount += gTests[gPset.problems[i].name].length;
   }
   
+  // Draws the sidebar
   var sidebar = d3.select (".students")
     .selectAll (".student")
     .data (gStudents);
@@ -208,6 +224,7 @@ function draw () {
     
   sidebar.exit ().remove ();
   
+  // Draws all of the main display
   var testDisplay = d3.select (".grades")
     .selectAll (".problem")
     .data (gPset.problems);
