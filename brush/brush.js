@@ -1,7 +1,13 @@
+/* This is the file that handles dragging to select
+ * multiple nodes. It's called a brush because it 
+ * uses a d3 brush to work. */
 var gBrush = 
   {
   };
   
+/* Initialized the code for the brush. Due to 
+ * the way d3 is written, the size set here will be the maximum
+ * size for the rest of time. */
 gBrush.init = function () {
   var brushG = d3.select ("g.brush");
   var brush = d3.svg.brush ()

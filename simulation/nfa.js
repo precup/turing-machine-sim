@@ -1,7 +1,14 @@
+/* The gNFASimulator simulates an NFA, surprisingly.
+ * Allows only running. */
+ 
 var gNFASimulator = 
   {
   };
 
+/* Runs a full simulation on a @graph saved from gGraph.
+ * Given an input string @input, returns true for accept
+ * and false for reject. Performs the simulation via a 
+ * BFS looking for any path that will accept. */
 gNFASimulator.run = function (graph, input) {
   gSimulator.output = input;
   var transitionTable = gSimulator.convert (graph);

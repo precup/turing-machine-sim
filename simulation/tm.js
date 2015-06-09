@@ -1,12 +1,25 @@
+/* The gTMSimulator simulates a Turing Machine, surprisingly.
+ * Allows both stepping and running. */
+
 var gTMSimulator = 
   {
+    // The number of iterations to run on the 
+    // simulator before terminating
     MAX_ITER: 100000
   };
   
 var gBlank = ' ';
 var gSquare = String.fromCharCode(0x25A1);
 
-var subroutines = { // this is a horrible hack if ever there was one
+/* The subroutines that are recognized. Defined as a map
+ * from name to function (state), where state is the same as
+ * in stepState. The function must return a state with the
+ * appropriately modified input and index. Changes to initial will
+ * be overwritten. 
+ *
+ * TODO: Replace Kevin's code with something that meshes more neatly
+ * with the codebase. */
+var subroutines = {
   'half': function(state){
     var input = state.input;
     var onesCount = 0;
@@ -37,7 +50,11 @@ var subroutines = { // this is a horrible hack if ever there was one
   }
 };
 
-
+/* Given a graph saved from gGraph @graph, returns a table for simpler
+ * simulation. The table has two dimensions, initial node id and input
+ * character, and each entry is set to either null, if no transition
+ * is defined, or the associated transition object. If not null, the
+ * object has the target node added as 'target'. */
 gTMSimulator.convert = function (graph) {
   var transitionTable = {};
   var charSet = gGraph.tapeSet + (gGraph.epsilonEnabled ? gEpsilon : "");
@@ -56,6 +73,9 @@ gTMSimulator.convert = function (graph) {
   return transitionTable;
 };
   
+/* Given a @graph saved from gGraph, and initial node id,
+ * an input string, and the index where the cursor is,
+ * returns the a state object with the same format as stepState. */
 gTMSimulator.step = function (graph, initial, input, index) {
   var transitionTable = gTMSimulator.convert (graph);
   var transition = transitionTable[initial][input[index]];
@@ -66,9 +86,16 @@ gTMSimulator.step = function (graph, initial, input, index) {
     });
 };
 
+/* Given a @graph saved from gGraph, the associated table from convert,
+ * and a state, computes the next state. State format is an object 
+ * containing three fields, 'input', 'index', and 'initial', which are
+ * the tape, the cursor position on the tape, and the current node's index,
+ * respectively. @standalone specifies whether or not this is currently 
+ * connected to the full app so it knows whether or not to display errors. */
 gTMSimulator.stepState = function (graph, table, state, standalone) {
   var current = graph.nodes.nodes[gTMSimulator.getNodeIndex (graph, state.initial)];
   if (subroutines.hasOwnProperty(current.name)) {
+    // Find and run the subroutine
     var exit = gTMSimulator.getNodeIndexFromName (graph, current.name + '_');
     if (exit == -1) {
       if (standalone !== true) {
@@ -86,6 +113,7 @@ gTMSimulator.stepState = function (graph, table, state, standalone) {
     return result;
   }
   else {
+    // Simulate normally
     var input = state.input;
     if (input.length == state.index) {
       input += gBlank;
@@ -114,6 +142,11 @@ gTMSimulator.stepState = function (graph, table, state, standalone) {
   }
 };
 
+/* Given a graph saved from gGraph @graph, finds and returns
+ * the index of the node with the specified @id. Returns 
+ * -1 if not found. Identical to the one in nodes.js, copied
+ * here because the grading page shouldn't have the full
+ * interface loaded, but needs gTMSimulator. */
 gTMSimulator.getNodeIndex = function (graph, id) {
   var index = -1;
   graph.nodes.nodes.forEach (function (node, i) {
@@ -124,6 +157,11 @@ gTMSimulator.getNodeIndex = function (graph, id) {
   return index;
 }
 
+/* Given a graph saved from gGraph @graph, finds and returns
+ * the index of the node with the specified @name. Returns 
+ * -1 if not found. Identical to the one in nodes.js, copied
+ * here because the grading page shouldn't have the full
+ * interface loaded, but needs gTMSimulator. */
 gTMSimulator.getNodeIndexFromName = function (graph, name) {
   var index = -1;
   graph.nodes.nodes.forEach (function (node, i) {
@@ -134,6 +172,14 @@ gTMSimulator.getNodeIndexFromName = function (graph, name) {
   return index;
 }
 
+/* Given a graph saved from gGraph @graph, runs the input
+ * string @input and returns the result. @standalone specifies
+ * whether or not this is currently connected to the full app
+ * so it knows whether or not to display errors. Returns true
+ * for accept, false for reject, and gSimulator.TIMEOUT on
+ * timeout. Sets gSimulator.index to the ending index, 
+ * gSimulator.output to the ending tape, and gSimulator.subCalls
+ * to a map from subroutine name to number of calls. */
 gTMSimulator.run = function (graph, input, standalone) {
   gTMSimulator.subCalls = {};
   for (var name in subroutines) {

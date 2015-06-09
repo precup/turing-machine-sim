@@ -1,3 +1,9 @@
+/* Modify the below variable to change what problem sets 
+ * this tool is valid for. Please leave the commented out
+ * portion as an example of how to do so. @id must be
+ * unique across psets, and, for problems, within a pset. 
+ * Spaces are treated as blanks, do not use them as part
+ * of a problem charSet. */
 var psets =
   [
     // {
