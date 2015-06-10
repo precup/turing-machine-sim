@@ -1,11 +1,14 @@
-// TODO: Clean up this file
+/* This file takes care of everything related to the dragging
+ * of new edges. */
 
+/* Sets up everything related to dragging. */
 gEdges.initDragging = function () {    
   gEdges.dragging = false;
   gEdges.startNode = null;
   gEdges.backupNode = null;
   gEdges.endNode = null;
   
+  // This handles the behaviors for the lowerNodes themselves
   var always = function () { return true; };
   gBehaviors.addBehavior ("lowerNodes", "mouseover", function () {
       return !gNodes.dragging;
@@ -24,6 +27,10 @@ gEdges.initDragging = function () {
       return dist <= gNodes.SELECTABLE_RADIUS && dist > gNodes.RADIUS;
   }, gEdges.startDragging);
   
+  // These are the behaviors for hiding or drawing the edge
+  // The first few handle when the edge needs to snap to a node
+  // The rest are for hiding and drawing, depending on whether 
+  // the user is currently dragging.
   gBehaviors.addBehavior ("nodes", "mouseover", function () {
       return !gEdges.dragging && gEdges.tempVisible;
     }, gEdges.hideTempEdge);
@@ -63,18 +70,22 @@ gEdges.initDragging = function () {
     }, gEdges.addTempEdge);
 };
 
-gEdges.unsetTempEdgeEnd = function (endNode) {
+/* Unsnaps the drag edge from any node it is snapped to, if any. */
+gEdges.unsetTempEdgeEnd = function () {
   if (gEdges.endNode != null) {
     gEdges.endNode = null;
     gGraph.draw ();
   }
 };
 
+/* Snaps the edge to the specified node @endNode. */
 gEdges.setTempEdgeEnd = function (endNode) {
   gEdges.endNode = endNode;
   gGraph.draw ();
 };
 
+/* Turns the currently dragged edge into an actual 
+ * edge that terminates at node @endNode. */
 gEdges.addTempEdge = function (endNode) {
   gEdges.endNode = null;
   gEdges.backupNode = null;
@@ -88,10 +99,14 @@ gEdges.addTempEdge = function (endNode) {
   gEdges.editEdge (edge);
 };
 
+/* Call this to begin dragging an edge. */
 gEdges.startDragging = function () {
   gEdges.dragging = true;
 };
 
+/* Hides the currently drawn temp edge. If it's dragging, near a node
+ * that is not the startNode, and ignoreBackup is false, it will fall
+ * back to drawing a new temp edge on the nearby node. */
 gEdges.hideTempEdge = function (ignoreBackup) {
   var mouse = ignoreBackup ? [0, 0] : d3.mouse (d3.select ("svg").node ());
   var dist = gNodes.SELECTABLE_RADIUS + 1;
@@ -110,6 +125,7 @@ gEdges.hideTempEdge = function (ignoreBackup) {
   }
 };
 
+/* Draws the temp edge based on the current internal state. */
 gEdges.drawTempEdge = function () {
   if (gEdges.startNode == null) return;
   if (gNodes.dragging) {
@@ -139,6 +155,7 @@ gEdges.drawTempEdge = function () {
     });
 };
 
+/* Shows a temp edge that starts at node @startNode. */
 gEdges.showTempEdge = function (startNode) {
   if (!gNodes.dragging) {
     if (!gEdges.dragging) {

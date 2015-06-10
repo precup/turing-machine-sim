@@ -1,3 +1,7 @@
+/* This file deals with editing edges. This does not handle the
+ * modal itself, but does everything else. */
+
+/* Sets up everything related to edge editing. */
 gEdges.initEditing = function () {
   gEdges.editedEdge = null;
 
@@ -14,11 +18,13 @@ gEdges.initEditing = function () {
     });
 };
 
+/* Sets up the fields appropriately on the modal for a given TM edge @edge. */ 
 gEdges.populateTMEdgeModal = function (edge) {
   d3.select (".tmEdgeEntry")
     .select (".modal-header")
     .text ("Edit Transition " + edge.source.name + " " + String.fromCharCode(0x2192) + " " + edge.target.name);
   var states = JSON.parse (JSON.stringify (gEdges.editedEdge.transitions[0]));
+  // Strip out blanks
   for (var i = 0; i < states.length; i++) {
     if (states[i].from == " ") {
       states[i].from = "";
@@ -30,6 +36,7 @@ gEdges.populateTMEdgeModal = function (edge) {
   gModalMenu.tmEdge.setTmEdgeStates (states);
 };
 
+/* Sets up the fields appropriately on the modal for a given edge @edge. */ 
 gEdges.populateEdgeModal = function (edge) {
   var chars = edge.transitions[0].join ("");
   var epsilon = chars.length > 0 && chars[chars.length - 1] == gEpsilon;
@@ -40,6 +47,7 @@ gEdges.populateEdgeModal = function (edge) {
   gModalMenu.setEpsilon (epsilon);
 };
 
+/* Edits the edge @edge. The type of @edge should match the graph mode. */
 gEdges.editEdge = function (edge) {
   gEdges.editedEdge = edge;
   if (gGraph.mode == gGraph.TM) {
@@ -53,6 +61,8 @@ gEdges.editEdge = function (edge) {
   d3.event.stopPropagation ();
 };
 
+/* Handles the cancelling of edits. Closes the modal and deletes the edge
+ * if it has no transitions (if you were editing a new edge). */
 gEdges.editCancelled = function () {
   if (gEdges.editedEdge.transitions[0].length == 0) {
     gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
@@ -62,6 +72,7 @@ gEdges.editCancelled = function () {
   gGraph.draw ();
 };
 
+/* Deletes the edge that is currently being edited and closes the modal. */
 gEdges.deleteEditedEdge = function () {
   gEdges.removeEdge (gEdges.editedEdge.source, gEdges.editedEdge.target);
   gEdges.editedEdge = null;
@@ -69,6 +80,8 @@ gEdges.deleteEditedEdge = function () {
   gGraph.draw ();
 };
 
+/* Grabs all the state from the modal and updates the edited edge 
+ * appropriately. This is the version for Turing Machines. */
 gEdges.tmEditComplete = function () {
   var states = gModalMenu.tmEdge.getTmEdgeStates ();
   var charsUsed = "";
@@ -122,6 +135,8 @@ gEdges.tmEditComplete = function () {
   gGraph.draw (); //Fixes rendering issue
 };
 
+/* Grabs all the state from the modal and updates the edited edge 
+ * appropriately. This is the version for everything but Turing Machines. */
 gEdges.editComplete = function () {
   var chars = removeDuplicates (gModalMenu.getEdgeCharacters ().replace (/[\s,]/g, ""));
   var legal = intersection (gGraph.charSet, chars);

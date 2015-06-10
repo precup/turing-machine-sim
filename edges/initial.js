@@ -1,7 +1,11 @@
+/* The initial edge is the arrow pointing to the initial state.
+ * This file handles everything related to that. */
+
 gEdges.INITIAL_EDGE_LENGTH = 60;
 gEdges.INITIAL_OVERLAP_RANGE = 7;
 gEdges.INITIAL_OVERLAP_ANGLE = 20;
 
+/* Sets up the initial edge by adding it to the svg. */
 gEdges.initInitial = function () {
   d3.select (".miscEdges")
     .append ("path")
@@ -10,13 +14,18 @@ gEdges.initInitial = function () {
     .attr ("fill", "none");
 };
 
+/* Draws the initial edge in the appropriate position. */
 gEdges.drawInitial = function () {
   var initialNode = gNodes.initial;
+  // Thanks to issues with non-webkit browsers, the edge is removed
+  // and readded every draw call. Not optimal, once more of the market
+  // share has good svg support, it should simply be updated.
   d3.select ("path.initial").remove ();
   if (initialNode != null) {
     gEdges.initInitial ();
     var yOffset = 0;
     var xOffset = gEdges.INITIAL_EDGE_LENGTH;
+    // Checks if any edges are obscuring the initial one
     gEdges.edges.forEach (function (edge) {
       var lx = Math.min (edge.source.x, edge.target.x);
       var rx = Math.max (edge.source.x, edge.target.x);
@@ -45,6 +54,8 @@ gEdges.drawInitial = function () {
   }
 };
 
+/* IE was especially bad. This replaces the above code with something
+ * it can handle. */
 if (isIE) {
   gEdges.initInitial = function () {};
 
