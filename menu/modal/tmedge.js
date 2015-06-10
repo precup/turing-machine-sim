@@ -1,5 +1,31 @@
+/*
+FILE: menu/modal/tmedge.js
+
+Manages logic for the TM edges modal.
+
+-- Elements
+For each row:
+  Character from, character to write, direction to move 
+  the tape head, and a delete button
+Add characters button, which adds a new row to the editor.
+Delete edges button
+Cancel editing button
+Update editing button
+
+-- Events
+Delete row
+Delete edge
+Cancel editing
+Update editing
+
+*/
+
+/* Constants go here */
 gModalMenu.tmEdge = {};
 
+/* Focuses on the index of the row to focus on.
+@param (index : number)
+No return value. */
 gModalMenu.tmEdge.focusTmRow = function (index) {
   index = Math.max (index, 0);
   var focused = false;
@@ -15,6 +41,9 @@ gModalMenu.tmEdge.focusTmRow = function (index) {
   }
 };
 
+/* Set the edge state by pushing a new set of transitions.
+@param (states : array of objects of {direction, to, from})
+No return value. */
 gModalMenu.tmEdge.setTmEdgeStates = function (states) {
   if (states.length == 0) {
     states.push ({
@@ -52,6 +81,8 @@ gModalMenu.tmEdge.setTmEdgeStates = function (states) {
   rows.exit ().remove ();
 };
 
+/* Returns an array of states: [{direction: <number>, from: <string>, to: <string of length 1>}].
+No return value. */
 gModalMenu.tmEdge.getTmEdgeStates = function () {
   var states = [];
   d3.select (".tmEdge")
@@ -70,6 +101,10 @@ gModalMenu.tmEdge.getTmEdgeStates = function () {
   return states;
 };
 
+/* Adds a new row for adding a character.
+@param (focus : boolean) focuses on the new row if true.
+No return value.
+*/
 gModalMenu.tmEdge.buildTmRow = function (focus) {
   var row = d3.select (".tmEdge").append ("tr");
   
@@ -135,6 +170,10 @@ gModalMenu.tmEdge.buildTmRow = function (focus) {
     })
 };
 
+/* Adds a click event handler to all of the delete buttons. The
+event handler will remove the row if the button is clicked.
+No return value.
+*/
 gModalMenu.tmEdge.updateTmDeleteButtons = function () {
   d3.selectAll (".button-delete")
     .on ("click", function (junk, i) {
@@ -148,10 +187,17 @@ gModalMenu.tmEdge.updateTmDeleteButtons = function () {
     });
 };
 
+/* Initialize the modal edge editor by sizing the modal correctly.
+No return value.
+*/
 gModalMenu.tmEdge.initTmEdit = function () {
   d3.select (".modal-content").attr ("max-height", gGraph.height * gModalMenu.MAX_HEIGHT_PERCENT);
 };
 
+/* Clears the "Tape Head" left radio button of the row at "index".
+@param (index : number) The index of the row to clear the left radio button
+No return value.
+*/
 gModalMenu.tmEdge.clearLeft = function (index) {
   d3.selectAll (".edgeLeft").each (function (junk, i) {
     if (i == index) {
@@ -160,6 +206,10 @@ gModalMenu.tmEdge.clearLeft = function (index) {
   });
 };
 
+/* Clears the "Tape Head" right radio button of the row at "index".
+@param (index : number) The index of the row to clear the radio radio button
+No return value.
+*/
 gModalMenu.tmEdge.clearRight = function (index) {
   d3.selectAll (".edgeRight").each (function (junk, i) {
     if (i == index) {
