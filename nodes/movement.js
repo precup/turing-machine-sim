@@ -1,3 +1,10 @@
+/* Moves all selected nodes by dx in the x direction and
+ * dy in the y direction. This ended up being quite complicated
+ * because of the possibility of dragging nodes out of bounds. 
+ * Currently, this emulates the OS X behavior of handling that
+ * by capping movement such that no part of the selection can move 
+ * out of bounds, and if you drag 100 px out of bounds, you must 
+ * drag 100 px back before you can drag again. */
 gNodes.moveSelected = function (dx, dy) {
   dx += gNodes.selectionX;
   dy += gNodes.selectionY;
@@ -47,6 +54,7 @@ gNodes.moveSelected = function (dx, dy) {
   }
 };
 
+/* Sets up nodes dragging behavior. */
 gNodes.movementInit = function () {
   gBehaviors.addBehavior ("nodes", "drag", 
     function (node) { 

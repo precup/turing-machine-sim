@@ -1,5 +1,9 @@
+/* This file handles everything needed to maintain the state of 
+ * gNodes. */
+
 var gNodes =
   {
+    // The radius of the area preview edges appear over
     SELECTABLE_RADIUS: 50,
     RADIUS: 30,
     INNER_RADIUS: 24,
@@ -9,6 +13,7 @@ var gNodes =
     IE_TEXT_OFFSET: 5
   };
 
+/* Sets up gNodes to be in a coherent initial state. */
 gNodes.init = function () {
   gNodes.lowerG = d3.select ("g.nodesLower");
   gNodes.upperG = d3.select ("g.nodes");
@@ -22,6 +27,9 @@ gNodes.init = function () {
   gNodes.editInit ();
 };
 
+/* Sets the currently selected node to be the initial node.
+ * If multiple nodes are selected, the one earliest in the
+ * DOM is used. */
 gNodes.setInitial = function () {
   var selected = gNodes.nodes.filter (function (node) {
     return node.selected;
@@ -31,6 +39,8 @@ gNodes.setInitial = function () {
   }
 };
 
+/* Sets all currently selected nodes accept attribute
+ * to the boolean @accepting. */
 gNodes.setAccepting = function (accepting) {
   gNodes.nodes.filter (function (node) {
     return node.selected;
@@ -39,6 +49,8 @@ gNodes.setAccepting = function (accepting) {
   });
 };
 
+/* Sets all currently selected nodes reject attribute
+ * to the boolean @rejecting. */
 gNodes.setRejecting = function (rejecting) {
   gNodes.nodes.filter (function (node) {
     return node.selected;
@@ -47,6 +59,8 @@ gNodes.setRejecting = function (rejecting) {
   });
 };
 
+/* Returns a boolean indicating whether or not a node placed
+ * at (x, y) would come too close to existing nodes. */
 gNodes.wouldOverlap = function (x, y) {
   var overlaps = false;
   gNodes.nodes.forEach (function (node) {
@@ -55,6 +69,9 @@ gNodes.wouldOverlap = function (x, y) {
   return overlaps;
 }
 
+/* Adds a new node at location (@x, @y). If @x and @y aren't 
+ * passed in, adds a new node at the first open position it
+ * can find. */
 gNodes.addNode = function (x, y) {
   var node = {};
 
@@ -96,18 +113,22 @@ gNodes.addNode = function (x, y) {
   gEdges.addNode (node);
 };
 
+/* Sets the node with index @index to be the initial node. */
 gNodes.setInitialByIndex = function (index) {
   gNodes.initial = gNodes.nodes[index];
 };
 
+/* Sets that there is no initial node. */
 gNodes.clearInitial = function () {
   gNodes.initial = null;
 };
 
+/* Sets the accept property of the node with index @index to @accept. */
 gNodes.setAcceptByIndex = function (index, accept) {
   gNodes.nodes[index].accept = accept;
 };
 
+/* Sets the reject property of the node with index @index to @reject. */
 gNodes.setRejectByIndex = function (index, reject) {
   gNodes.nodes[index].reject = reject;
 };

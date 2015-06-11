@@ -1,3 +1,5 @@
+/* This sets up everything related to double clicking to
+ * create a node. */
 gNodes.doubleClickInit = function () {
   gBehaviors.addBehavior ("background", "dblclick", 
     function () { 

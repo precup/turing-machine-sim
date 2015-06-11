@@ -1,8 +1,14 @@
+/* This is responsible for the menu bar that appears when in table view.
+ * It mostly uses the same bar as the other display, so this file only
+ * handles changing things that are different, as opposed to completely
+ * redefining the menu bar. */
+
 var gTableTopMenu =
   {
     active: false
   };
   
+/* Swaps between table view and editor view. */
 gTableTopMenu.swap = function () {
   if (gTableTopMenu.active) {
     d3.select ("svg") .style ("display", "inline");

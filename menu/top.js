@@ -1,14 +1,24 @@
+/* This handles everything related to the menu bar at the top, and
+ * the text at the bottom of the svg. */
+
 var gTopMenu =
   {
     MAX_DISPLAYED_STATES: 5,
     SELECTED_TEXT: "Selected states: "
   };
 
+/* Adds a new node to the svg at the first open position. */
 gTopMenu.addNode = function () {
   gNodes.addNode ();
   gGraph.draw ();
 };
 
+/* Sets whether or not the currently selected nodes accept and/or reject.
+ * If @accept, all selected nodes are marked as accepting. If @reject,
+ * all selected nodes are marked as rejecting. If both are false, all
+ * selected nodes are marked as neither accepting or rejecting. Do not
+ * call with both arguments set to true. Produces an error if there is no
+ * selection. */
 gTopMenu.setState = function (accepting, rejecting) {
   if (gNodes.selectionIsEmpty ()) {
     gErrorMenu.displayError ("No states are selected");
@@ -18,6 +28,9 @@ gTopMenu.setState = function (accepting, rejecting) {
   gGraph.draw ();
 };
 
+/* Deletes all selected nodes and edges. Produces an error and deletes nothing
+ * if there are no selected elements or the current node in a running simulation 
+ * is deleted. */
 gTopMenu.deleteSelected = function (ignoreBackup) {
   if (gNodes.selectionIsEmpty () && gEdges.selectionIsEmpty ()) {
     gErrorMenu.displayError ("No states or transitions are selected");
@@ -28,14 +41,8 @@ gTopMenu.deleteSelected = function (ignoreBackup) {
   }
 };
 
-// gTopMenu.openLoadDialog = function () {
-//   if (window.File) {
-//     document.getElementById ("fileInput").click ();
-//   } else {
-//     alert ("Error: your browser doesn't support the File API.");
-//   }
-// };
-
+/* Sets the currently selected node to be the initial node. 
+ * Produces an error if there is not exactly one node selected. */
 gTopMenu.setInitial = function () {
   if (gNodes.selectionIsEmpty ()) {
     gErrorMenu.displayError ("No states are selected");
@@ -46,25 +53,33 @@ gTopMenu.setInitial = function () {
   gGraph.draw ();
 };
 
+/* Rearranges the nodes on the svg so that they're all
+ * on points of a grid, while attempting to keep the layout
+ * as close as possible to the original. */
 gTopMenu.snapToGrid = function () {
   gNodes.snapToGrid ();
   gGraph.draw ();
 };
 
+/* Rearranges the nodes on the svg based on d3's internal
+ * force directed layout algorithm. */
 gTopMenu.forcedDirectedLayout = function () {
   gNodes.forcedDirectedLayout ();
   gGraph.draw ();
 };
 
+/* Opens the load modal. */
 gTopMenu.loadFromServer = function () {
   gModalMenu.open ("load");
   gModalMenu.load.onOpen ();
 };
 
+/* Opens the tape-set modal. */
 gTopMenu.editTapeSet = function () {
   gModalMenu.open ("tape-set");
 };
 
+/* Attempts to save the current automata. */
 gTopMenu.save = function () {
   var BUTTON_TIMEOUT = 2000;
   var name = gServer.name;
@@ -94,10 +109,12 @@ gTopMenu.save = function () {
   }
 };
 
+/* Opens the saveas modal. */
 gTopMenu.saveas = function () {
   gModalMenu.saveas.open ();
 };
 
+/* Opens the submit modal. */
 gTopMenu.submit = function () {
   if (gGraph.pset != null) {
     gModalMenu.submitModal.setPsetNumber (gGraph.pset);
@@ -108,10 +125,13 @@ gTopMenu.submit = function () {
   gModalMenu.open ("submit");
 };
 
+/* Returns the URL of the homepage for this installation. */
 gTopMenu.homepage = function () {
   window.location.href = getURLParent () + "index.html";
 };
 
+/* Draws the information about selected states, and the text running along the bottom
+ * of the svg. */
 gTopMenu.draw = function () {
   var selectedText = "";
   var selected = gNodes.getSelected ();
@@ -154,6 +174,7 @@ gTopMenu.draw = function () {
   d3.selectAll(".neitherButton").classed("marked", gNodes.selectionIsNeither ());
 };
 
+/* Sets the save button's text to the string @text. */
 gTopMenu.setSaveButton = function (text) {
   d3.select (".saveTopButton").text (text);
 };

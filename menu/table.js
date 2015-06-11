@@ -1,7 +1,12 @@
+/* This file handles all interactions with and the
+ * drawing of the table view. */
+
 var gTableMenu =
   {
   };
 
+/* Updates the nodes based on the information that appears
+ * to be complete in the table. */
 gTableMenu.updateAll = function () {
   var charSet = gGraph.charSet;
   if (gGraph.epsilonEnabled) {
@@ -157,6 +162,9 @@ gTableMenu.init = function () {
   headerTr.append ("td").text ("Delete");
 };
 
+/* This is a giant cluster of d3 code. I'll add inline comments
+ * breaking it up, but it basically just draws the table based on the
+ * current node state. */
 gTableMenu.draw = function () {
   if (!gTableTopMenu.active) {
     return;
@@ -170,6 +178,7 @@ gTableMenu.draw = function () {
   }
   charSet = charSet.split("");
 
+  // Trim out the header row
   var table = d3.select (".tableEditor")
     .selectAll ("tr")
     .filter (function (junk, i) { return i != 0; })
@@ -177,6 +186,7 @@ gTableMenu.draw = function () {
 
   table.exit ().remove ();
   
+  // Set up new rows appropriately
   var newRows = table.enter ().append ("tr");
 
   newRows.append ("td")
@@ -184,6 +194,7 @@ gTableMenu.draw = function () {
       return node.name;
     });
 
+  // Add initial radio button
   newRows.append ("td")
     .append ("input")
     .attr ("type", "radio")
@@ -201,6 +212,7 @@ gTableMenu.draw = function () {
       gGraph.draw ();
     });
 
+  // Add accept and reject checkboxes
   newRows.append ("td")
     .append ("input")
     .attr ("type", "checkbox")
@@ -234,11 +246,13 @@ gTableMenu.draw = function () {
       this.checked = gNodes.nodes[i].reject;
     });
   
+  // Set up the name column
   table.select ("td")
     .text (function (node) {
       return node.name;
     });
     
+  // Set up the text inputs
   var rows = table.selectAll ("td")
     .filter (function () {
       return d3.select (this)
@@ -301,7 +315,7 @@ gTableMenu.draw = function () {
   form.append ("label")
     .text ("R");
 
-
+  // Fill the text inputs
   rows.selectAll ("input")
     .each (function (character, i2) {
       switch (i2) {
@@ -352,6 +366,9 @@ gTableMenu.draw = function () {
     });
 };
 
+/* Returns a string containing the node names for every possible node to 
+ * transition to given the node id @source of the current node and the
+ * character @character currently under the cursor. Returns "" if not found. */
 gTableMenu.getConnections = function (source, character) {
   var nodes = [];
   gEdges.edges.forEach (function (edge) {
@@ -369,6 +386,9 @@ gTableMenu.getConnections = function (source, character) {
 };
 
 
+/* Returns the direction to move the cursor in if the character 
+ * @character occurs while the current node has the node id @source. 
+ * Returns 0 if not found. */
 gTableMenu.getDirection = function (source, character) {
   var direction = 0;
   gEdges.edges.forEach (function (edge) {
@@ -381,7 +401,9 @@ gTableMenu.getDirection = function (source, character) {
   return direction;
 };
 
-
+/* Returns the character to change the character @character to
+ * if it occurs while the current node has the node id @source. 
+ * Returns null if not found. */
 gTableMenu.getResult = function (source, character) {
   var result = null;
   gEdges.edges.forEach (function (edge) {

@@ -1,6 +1,13 @@
+/* This file handles everything related to snapping the
+ * nodes to a grid pattern. */
+
 gNodes.GRID_SPACING = 150;
 
+/* Rearranges all the nodes to be at points on a lattice
+ * while attempting to maintain the original position
+ * as closely as it cheaply can. */
 gNodes.snapToGrid = function () {
+  // Computes all lattice points
   var points = [];
   for (var x = gNodes.GRID_SPACING; 
        x <= gGraph.width - gNodes.GRID_SPACING; 
@@ -12,6 +19,7 @@ gNodes.snapToGrid = function () {
     }
   }
   
+  // Finds all nodes
   var nodes = [];
   var initial = -1;
   gNodes.nodes.forEach (function (node, i) {
@@ -21,10 +29,13 @@ gNodes.snapToGrid = function () {
     nodes.push ({ x: node.x, y: node.y, i: i });
   });
   
+  // Don't bother if the screen isn't big enough
   if (points.length < nodes.length) {
     return;
   }
   
+  // Greedily match the best node-lattice point pair
+  // until all nodes have been matched
   while (nodes.length > 0 && points.length > 0) {
     var bestDist = -1;
     var bestPoint = -1;
