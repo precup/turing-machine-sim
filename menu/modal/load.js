@@ -1,5 +1,5 @@
 /*
--- load.js
+FILE: menu/modal/load.js
 
 -- elements
 list of previously saved automata
@@ -15,8 +15,12 @@ onClickLoadBtn
 
 gModalMenu.load = {};
 
-/* Event handlers */
+/*--- Event handlers ---*/
 
+/* Event handler for opening the modal menu. Loads all saved
+automaton from the database for the currently authenticated user.
+No return value.
+*/
 gModalMenu.load.onOpen = function () {
   gModalMenu.open("load");
   gModalMenu.load.setLoadMessage ("Gathering saved automata...");
@@ -40,6 +44,11 @@ gModalMenu.load.onOpen = function () {
   });
 }
 
+/* Event handler for when the load button is clicked. Makes a 
+request to the server for the selected automaton. Displays an
+error message if no automaton is selected.
+No return value.
+*/
 gModalMenu.load.onClickLoadBtn = function () {
   gErrorMenu.clearModalErrors ();
   var name = gModalMenu.load.getLoadName ();
@@ -78,6 +87,10 @@ gModalMenu.load.onClickLoadBtn = function () {
     });
 }
 
+/* Event handler for clicking the cancel button.
+Clears all modal errors and closes the load modal.
+No return value.
+*/
 gModalMenu.load.clickCancelBtn = function () {
   gErrorMenu.clearModalErrors ();
   gModalMenu.close ("load");
@@ -85,7 +98,7 @@ gModalMenu.load.clickCancelBtn = function () {
 
 /* helper functions */
 
-/* setter for the list of automata to load */
+/* Sets for the list of automata to load */
 gModalMenu.load.setLoadNames = function (names) {
   var lis = d3.select (".loadNames")
     .selectAll ("li")
@@ -114,16 +127,24 @@ gModalMenu.load.setLoadNames = function (names) {
   }
 };
 
-/* Get the selected node name. null if none selected */
+/* Returns the selected load name; null if none selected. */
 gModalMenu.load.getLoadName = function () {  
   var node = d3.select (".loadNames").select ("li.selected").node ();
   return node == null ? null : encodeURIComponent (d3.select (".loadNames").select ("li.selected").text ());
 };
 
+/* Changes the text in the load button to "text".
+@param (text : string) Text to display
+No return value.
+*/
 gModalMenu.load.setLoadButton = function (text) {
   d3.select ('.loadButton').text (text);
 };
 
+/* Sets a message, "message", in the area where automata will 
+be displayed.
+No return value.
+*/
 gModalMenu.load.setLoadMessage = function (message) {
   d3.select (".loadNames")
     .selectAll ("li")

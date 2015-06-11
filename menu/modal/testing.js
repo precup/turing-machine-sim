@@ -1,3 +1,12 @@
+/*
+FILE: menu/modall/testing.js
+
+Handles the bulk testing modal.
+*/
+
+/* Focuses on the row "index".
+@param (index : integer) the index of the row that should be set to focused
+No return value. */
 gModalMenu.focusRow = function (index) {
   index = Math.max (index, 0);
   var focused = false;
@@ -13,6 +22,10 @@ gModalMenu.focusRow = function (index) {
   }
 };
 
+/* Builds one new testing row. 
+@param (focus : boolean) True if the newly built row should be focused. False otherwise.
+No return value.
+*/
 gModalMenu.buildRow = function (focus) {
   var row = d3.select (".testingHeader").append ("tr");
   row.append ("td")
@@ -51,11 +64,18 @@ gModalMenu.buildRow = function (focus) {
     })
 };
 
+/* Event handler for when the bulk testing modal is first opened.
+Builds one testing row.
+No return value.
+*/
 gModalMenu.initBulk = function () {
   gModalMenu.buildRow (false);
   d3.select (".modal-content").attr ("max-height", gGraph.height * gModalMenu.MAX_HEIGHT_PERCENT);
 };
 
+/* Unchecks the reject radio button with "index" index.
+@param (index : number)
+No return value. */
 gModalMenu.clearReject = function (index) {
   d3.selectAll (".bulkReject").each (function (junk, i) {
     if (i == index) {
@@ -64,6 +84,9 @@ gModalMenu.clearReject = function (index) {
   });
 };
 
+/* Unchecks the accept radio button for the row with "index" index.
+@param (index : number)
+No return value. */
 gModalMenu.clearAccept = function (index) {
   d3.selectAll (".bulkAccept").each (function (junk, i) {
     if (i == index) {

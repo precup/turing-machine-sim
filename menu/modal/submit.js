@@ -1,6 +1,6 @@
 /*
 
-submit.js
+FILE: menu/modal/submit.js
 
 -- elements
 problem set select
@@ -18,8 +18,12 @@ clickConfirmCancelBtn
 
 */
 
+/* Put constants into the submitModal object here. */
 gModalMenu.submitModal = {};
 
+/* Initializes the Submit Modal by loading the select lists with 
+the psets and problem numbers.
+No return value. */
 gModalMenu.submitModal.init = function () {
   var psetSelect = d3.select (".pset").selectAll ("option").data (psets);
   psetSelect.enter ()
@@ -30,6 +34,11 @@ gModalMenu.submitModal.init = function () {
   gModalMenu.submitModal.changenumbers ();
 };
 
+/* Event handler for clicking the submit button.
+Checks if the submission has been previously submitted to the database.
+If not, goes ahead with submission. Otherwise, opens the confirm menu
+and waits for user confirmation.
+No return value. */
 gModalMenu.submitModal.clickSubmitBtn = function () {
   gModalMenu.confirm.flag = "submit";
 
@@ -37,12 +46,8 @@ gModalMenu.submitModal.clickSubmitBtn = function () {
   var pset = gModalMenu.submitModal.getPsetNumber ();
   var problem = gModalMenu.submitModal.getProblemNumber ();
 
-  console.log (pset, problem);
-
   problem = psets[pset].problems[problem].id;
   pset = psets[pset].id;
-
-  console.log (pset, problem);
 
   gModalMenu.submitModal.setSubmitButton ("Submitting...");
 
@@ -73,11 +78,16 @@ gModalMenu.submitModal.clickSubmitBtn = function () {
   });
 };
 
+/* Event handler for clicking the cancel button. Closes the
+submit modal and clears modal errors. */
 gModalMenu.submitModal.clickCancelBtn = function () {
   gModalMenu.cancel ('submit');
   gErrorMenu.clearModalErrors ();
 };
 
+/* Event handler for the user confirming to overwrite a 
+previous submission. Goes ahead and submits the automaton, then
+closes the submission on success. */
 gModalMenu.submitModal.clickConfirmBtn = function () {
   gModalMenu.close ("confirm");
   gModalMenu.open ("submit");
@@ -86,24 +96,18 @@ gModalMenu.submitModal.clickConfirmBtn = function () {
   });
 };
 
+/* Event handler for the user clicking cancel in the modal menu.
+Closes the confirm modal and opens the submit modal. */
 gModalMenu.submitModal.clickConfirmCancelBtn = function () {
   gModalMenu.close ("confirm");
   gModalMenu.open ("submit");
   gModalMenu.submitModal.setSubmitButton ("Submit");
 };
 
-gModalMenu.submitModal.changenumbers = function () {
-  var psetNum = d3.select ('.pset').node ().selectedIndex;
-  var problemSelect = d3.select (".problem").selectAll ("option").data (psets[psetNum].problems);
-  problemSelect.enter ().append ("option");
-    
-  problemSelect.attr ("value", function (problem) { return problem.charSet; })
-    .text (function (problem) { return problem.name; });
-    
-  problemSelect.exit ().remove ();
-  d3.select ('.problem').node ().selectedIndex = 0;
-};
-
+/* Actually submits the automaton to the server. There are error checks in place
+to confirm that the user doesn't submit an automaton of the wrong type.
+@param (done : function) callback that's passed no arguments
+No return value. */
 gModalMenu.submitModal.submit = function (done) {
   var automata = JSON.stringify (gGraph.save ());
   var pset = gModalMenu.submitModal.getPsetNumber();
@@ -154,23 +158,45 @@ gModalMenu.submitModal.submit = function (done) {
   );
 };
 
+/*--- Helper functions ---*/
+
+/* Updates the problem numbers based on the currently selected pset. Selected index
+is set to 0.
+No return value. */
+gModalMenu.submitModal.changenumbers = function () {
+  var psetNum = d3.select ('.pset').node ().selectedIndex;
+  var problemSelect = d3.select (".problem").selectAll ("option").data (psets[psetNum].problems);
+  problemSelect.enter ().append ("option");
+    
+  problemSelect.attr ("value", function (problem) { return problem.charSet; })
+    .text (function (problem) { return problem.name; });
+    
+  problemSelect.exit ().remove ();
+  d3.select ('.problem').node ().selectedIndex = 0;
+};
+
+/*  */
 gModalMenu.submitModal.getProblemNumber = function () {
   return d3.select (".problem").node ().selectedIndex;
 };
 
+/* */
 gModalMenu.submitModal.getPsetNumber = function () {
   return d3.select (".pset").node ().selectedIndex;
 };
 
+/* */
 gModalMenu.submitModal.setProblemNumber = function (index) {
   d3.select (".problem").node ().selectedIndex = index;
 };
 
+/* */
 gModalMenu.submitModal.setPsetNumber = function (index) {
   d3.select (".pset").node ().selectedIndex = index;
   gModalMenu.submitModal.changenumbers ();
 };
 
+/* */
 gModalMenu.submitModal.setSubmitButton = function (text) {
   d3.select (".submitButton").text (text);
 };
